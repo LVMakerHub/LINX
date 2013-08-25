@@ -6,6 +6,9 @@
 
 </Property>
 	<Item Name="Private" Type="Folder">
+		<Item Name="Device" Type="Folder">
+			<Item Name="Packetize.vi" Type="VI" URL="../Private/Device/Packetize.vi"/>
+		</Item>
 		<Item Name="Target Management" Type="Folder">
 			<Item Name="Get Platform.vi" Type="VI" URL="../Private/Target Management/Get Platform.vi"/>
 		</Item>
@@ -23,6 +26,8 @@
 			<Item Name="Close Device.vi" Type="VI" URL="../Public/Device/Close Device.vi"/>
 			<Item Name="Initialize Device.vi" Type="VI" URL="../Public/Device/Initialize Device.vi"/>
 		</Item>
+		<Item Name="Peripherals" Type="Folder"/>
+		<Item Name="Sensors" Type="Folder"/>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
