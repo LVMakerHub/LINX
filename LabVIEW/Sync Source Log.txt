@@ -1,8 +1,13 @@
-#### Starting Mass Compile: Sat, Aug 24, 2013 9:03:36 AM
+#### Starting Mass Compile: Sun, Aug 25, 2013 12:17:13 PM
   Directory: "C:\github\labviewhacker\LVH-LINX\LabVIEW"
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\POC\Diagram Disable Auto Enable\DD Enabler.vi
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\POC\Diagram Disable Auto Enable\DD Test Subject.vi
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\POC\Serial and TCP Benchmarking\Serial\LINX Serial Benchmark.vi
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\POC\Serial and TCP Benchmarking\TCP\LINX TCP Benchmark.vi
+CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\Test Apps\Connection Test App.vi
+  ### Bad VI:    "LVH-LINX.lvlib:Initialize.vi"	Path="C:\github\labviewhacker\LVH-LINX\LabVIEW\vi.lib\LabVIEW Hacker\LINX\Public\Initialize.vi"
+  ### Bad VI:    "LVH-LINX.lvlib:Initialize.vi"	Path="C:\github\labviewhacker\LVH-LINX\LabVIEW\vi.lib\LabVIEW Hacker\LINX\Public\Initialize.vi"
   ### Bad VI:    "DD Test Subject.vi"	Path="C:\github\labviewhacker\LVH-LINX\LabVIEW\vi.lib\LabVIEW Hacker\LINX\POC\Diagram Disable Auto Enable\DD Test Subject.vi"
-#### Finished Mass Compile: Sat, Aug 24, 2013 9:03:36 AM
+  ### Bad VI:    "LVH-LINX.lvlib:Initialize.vi"	Path="C:\github\labviewhacker\LVH-LINX\LabVIEW\vi.lib\LabVIEW Hacker\LINX\Public\Initialize.vi"
+  ### Bad subVI: "Connection Test App.vi"	Path="C:\github\labviewhacker\LVH-LINX\LabVIEW\vi.lib\LabVIEW Hacker\LINX\Test Apps\Connection Test App.vi"
+#### Finished Mass Compile: Sun, Aug 25, 2013 12:17:13 PM
