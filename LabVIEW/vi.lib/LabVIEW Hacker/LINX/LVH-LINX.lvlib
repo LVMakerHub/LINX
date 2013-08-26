@@ -7,12 +7,16 @@
 </Property>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Device" Type="Folder">
+			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Device/Generate Error.vi"/>
 			<Item Name="Packetize.vi" Type="VI" URL="../Private/Device/Packetize.vi"/>
+			<Item Name="Wait For Bytes.vi" Type="VI" URL="../Private/Device/Wait For Bytes.vi"/>
+			<Item Name="Wait For Packet.vi" Type="VI" URL="../Private/Device/Wait For Packet.vi"/>
 		</Item>
 		<Item Name="Target Management" Type="Folder">
 			<Item Name="Get Platform.vi" Type="VI" URL="../Private/Target Management/Get Platform.vi"/>
 		</Item>
 		<Item Name="Type Defs" Type="Folder">
+			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Device/Error Type.ctl"/>
 			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
 			<Item Name="LINX Device Config.ctl" Type="VI" URL="../Private/Type Defs/LINX Device Config.ctl"/>
 			<Item Name="LINX Ref.ctl" Type="VI" URL="../Private/Type Defs/LINX Ref.ctl"/>
