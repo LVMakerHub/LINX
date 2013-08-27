@@ -10,6 +10,15 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="Firmware" Type="Folder">
+			<Item Name="Digilent" Type="Folder">
+				<Item Name="chipKIT" Type="Folder">
+					<Item Name="chipKIT_uC32" Type="Folder">
+						<Item Name="chipKIT_uC32.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/chipKIT_uC32.pde"/>
+					</Item>
+				</Item>
+			</Item>
+		</Item>
 		<Item Name="POC" Type="Folder">
 			<Item Name="Diagram Disable Auto Enable" Type="Folder">
 				<Item Name="DD Enabler.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Diagram Disable Auto Enable/DD Enabler.vi"/>
