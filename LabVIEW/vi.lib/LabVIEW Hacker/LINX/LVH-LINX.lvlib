@@ -7,6 +7,11 @@
 </Property>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Device" Type="Folder">
+			<Item Name="Wrappers" Type="Folder">
+				<Item Name="Serial Open.vi" Type="VI" URL="../Private/Device/Wrappers/Serial Open.vi"/>
+				<Item Name="Serial Read.vi" Type="VI" URL="../Private/Device/Wrappers/Serial Read.vi"/>
+				<Item Name="Serial Write.vi" Type="VI" URL="../Private/Device/Wrappers/Serial Write.vi"/>
+			</Item>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Device/Generate Error.vi"/>
 			<Item Name="Packetize.vi" Type="VI" URL="../Private/Device/Packetize.vi"/>
 			<Item Name="Wait For Bytes.vi" Type="VI" URL="../Private/Device/Wait For Bytes.vi"/>
