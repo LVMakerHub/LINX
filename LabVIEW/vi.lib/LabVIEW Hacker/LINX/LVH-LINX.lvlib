@@ -14,9 +14,12 @@
 			<Item Name="Low Level" Type="Folder">
 				<Item Name="Checksum.vi" Type="VI" URL="../Private/Device/Checksum.vi"/>
 				<Item Name="Packetize.vi" Type="VI" URL="../Private/Device/Packetize.vi"/>
-				<Item Name="Send Packet.vi" Type="VI" URL="../Private/Device/Send Packet.vi"/>
+				<Item Name="Send Command.vi" Type="VI" URL="../Private/Device/Send Command.vi"/>
 				<Item Name="Wait For Bytes.vi" Type="VI" URL="../Private/Device/Wait For Bytes.vi"/>
 				<Item Name="Wait For Packet.vi" Type="VI" URL="../Private/Device/Wait For Packet.vi"/>
+			</Item>
+			<Item Name="Type Defs" Type="Folder">
+				<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Device/Type Defs/Digital Write Control.ctl"/>
 			</Item>
 			<Item Name="Wrappers" Type="Folder">
 				<Item Name="Serial Flush.vi" Type="VI" URL="../Private/Device/Serial Flush.vi"/>
@@ -40,6 +43,9 @@
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Device" Type="Folder">
+			<Item Name="Digital IO" Type="Folder">
+				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Device/Digital/Digital Write.vi"/>
+			</Item>
 			<Item Name="Close Device.vi" Type="VI" URL="../Public/Device/Close Device.vi"/>
 			<Item Name="Initialize Device.vi" Type="VI" URL="../Public/Device/Initialize Device.vi"/>
 		</Item>

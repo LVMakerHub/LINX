@@ -15,18 +15,21 @@
 *  Configuration
 ************************************************************************************/
 //Uncomment To Enable Debugging On The Secondary Serial Port.
-#define debug 1
+#define DEBUG_ENABLED 1
 
-//Uncomment To Enable LINX Packets On The Primary Serial Port.
+//Uncomment A Line Below To Enable LINX Packets On The Specified Interface.
 #define SERIAL_ENABLED 1
-
-//Uncomment To Enable TCP LINX Packets
-//#define tcpEnabled 1
+//#define ETHERNET_ENABLED 1
+//#define WIFI_ENABLED 1
 
 /************************************************************************************
 *  Includes
 ************************************************************************************/
 #include "LINX_chipKIT_common.h"
+
+#ifdef SERIAL_ENABLED
+  #include "LINX_chipKIT_serial.h"
+#endif
 
 /************************************************************************************
 *  Setup
@@ -43,7 +46,9 @@ void setup()
 void loop()
 {
   //Check For A LINX Packet
-  checkForPacket();
+  #ifdef SERIAL_ENABLED
+    checkForSerialPacket();
+  #endif
 }
 
 

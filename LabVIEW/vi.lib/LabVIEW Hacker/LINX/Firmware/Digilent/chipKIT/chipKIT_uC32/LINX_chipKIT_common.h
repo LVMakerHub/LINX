@@ -12,26 +12,25 @@
  *********************************************************************************/
 
 //Prevent Multiple Includes
-#ifndef linx_chipkit_common_h
-#define linx_chipkit_common_h
+#ifndef LINX_CHIPKIT_COMMON_H
+#define LINX_CHIPKIT_COMMON_H
+
 
 // Buffers For LINX Packets
-unsigned char serialCommandPacketBuffer[64];
-unsigned char serialResponsePacketBuffer[64];
-unsigned char tcpCommandPacketBuffer[64];
-unsigned char tcpResponsePacketBuffer[64];
+unsigned char ethernetCommandPacketBuffer[64];
+unsigned char ethernetResponsePacketBuffer[64];
 
 
 
 /*********************************************************************************
-**  checkForPacket
+**  checkForSerialPacket
 **
-**  Check for a LINX command packet
+**  Check for a LINX command packet on the serial port
 **
 **  Input:  none
 **  Output: none
 *********************************************************************************/
-void checkForPacket();
+void checkForSerialPacket();
 
  
 /*********************************************************************************
@@ -57,7 +56,7 @@ unsigned char computeChecksum(unsigned char* packetBuffer);
 
 
 /*********************************************************************************
-**  processPacket
+**  processCommand
 **
 **  Process a LINX command packet and generate a response packet
 **
@@ -78,12 +77,6 @@ void processPacket(unsigned char* commandPacketBuffer, unsigned char* responsePa
 void setupLINX();
 
 
-
-
-
-
-
-
-#endif //linx_chipkit_common_h
+#endif //LINX_CHIPKIT_COMMON_H
 
 
