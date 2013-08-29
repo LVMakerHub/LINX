@@ -22,13 +22,20 @@
 //#define ETHERNET_ENABLED 1
 //#define WIFI_ENABLED 1
 
+//Comment Lines Below To Disable Various Peripherals
+#define LINX_DIGITAL 1
+
+
 /************************************************************************************
 *  Includes
 ************************************************************************************/
-#include "LINX_chipKIT_common.h"
+#include "LINX_chipKIT_Common.h"
 
 #ifdef SERIAL_ENABLED
-  #include "LINX_chipKIT_serial.h"
+  #include "LINX_chipKIT_Serial.h"
+#endif
+#ifdef LINX_DIGITAL
+  #include "LINX_chipKIT_Digital.h"
 #endif
 
 /************************************************************************************

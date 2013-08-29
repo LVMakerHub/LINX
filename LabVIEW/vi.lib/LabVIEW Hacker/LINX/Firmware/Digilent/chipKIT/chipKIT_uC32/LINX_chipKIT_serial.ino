@@ -12,6 +12,15 @@
  *********************************************************************************/
 
 /****************************************************************************************
+**  setupSerial - Initialize Serial Port For LINX 
+*****************************************************************************************/
+void setupSerial()
+{
+  //Serial Setup  
+  Serial.begin(9600);
+}
+
+/****************************************************************************************
 **  checkForPacket - Check for a LINX command packet
 *****************************************************************************************/
 void checkForSerialPacket()
@@ -74,10 +83,9 @@ void checkForSerialPacket()
          //Checksum Failed
          #ifdef DEBUG_ENABLED
          Serial1.println("Checksum Failed...");
-         #endif
-         
+         #endif         
          Serial.flush();
-       }       
+       }  
     }
     else
     {

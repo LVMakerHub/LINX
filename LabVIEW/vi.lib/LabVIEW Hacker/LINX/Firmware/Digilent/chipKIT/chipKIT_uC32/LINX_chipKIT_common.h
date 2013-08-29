@@ -1,6 +1,6 @@
 /*********************************************************************************
  **
- **  LINX_chipKIT_common - chipKIT LINX fimrware common functions
+ **  LINX_chipKIT_Common - chipKIT LINX fimrware common functions
  **
  **  Written By:    Sam K
  **  Written On:    August 2013

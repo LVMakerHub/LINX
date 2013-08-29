@@ -1,6 +1,6 @@
 /*********************************************************************************
  **
- **  LINX_chipKIT_common - chipKIT LINX fimrware common functions
+ **  LINX_chipKIT_Common - chipKIT LINX fimrware common functions
  **
  **  Written By:    Sam K
  **  Written On:    August 2013
@@ -41,16 +41,9 @@ bool checksumPassed(unsigned char* packetBuffer)
 *****************************************************************************************/
 void processCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
-  
-  //TEMP !!!
-  int dirBit = 0;
-  int dirByte = 0;
-  int pinOffset = 0;
-  
-  
-  
   //Store Some Local Values For Convenience
   unsigned char commandLength = commandPacketBuffer[1];
+  unsigned int command = commandPacketBuffer[4] << 8 | commandPacketBuffer[5];
   
   #ifdef DEBUG_ENABLED
     Serial1.print("Processing Packet ..::");
@@ -64,7 +57,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
   #endif
   
   //Process Command
-  unsigned int command = commandPacketBuffer[4] << 8 | commandPacketBuffer[5];
+  
   switch(command)
   {
     /****************************************************************************************
@@ -82,49 +75,11 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     /****************************************************************************************
     * Digital I/O
     ****************************************************************************************/     
-    case 0x0041: // Sync Packet
-      
-      dirBit = 0;
-      dirByte = 0;
-      pinOffset = 0;
-      
-      pinMode(13, OUTPUT);
-      
-      while(pinOffset < commandPacketBuffer[6])
-      {
-        
-        unsigned char digitalPin = (commandPacketBuffer[7 + pinOffset]);
-        unsigned char digitalVal = ( ( commandPacketBuffer[( (commandPacketBuffer[6] + 7) + dirByte)] >> dirBit) & 0x01);
-        
-        #ifdef DEBUG_ENABLED          
-          Serial1.print("digitalWrite(");
-          Serial1.print(digitalPin, DEC);
-          Serial1.print(", ");
-          Serial1.print(digitalVal, DEC);
-          Serial1.println(")");
-        #endif       
-        
-        digitalWrite(digitalPin, digitalVal);
-        
-        //Increment Counters
-        if(dirBit < 7)
-        {
-          dirBit++; 
-        }
-        else
-        {
-          dirBit = 0; 
-          dirByte++;
-        }
-        pinOffset++;
-      }
-      
-      responsePacketBuffer[0] = 0xFF;                                    //SoF
-      responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-      responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-      responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-      responsePacketBuffer[4] = 0x00;                                    //STATUS
-      responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM         
+    case 0x0040: // Set Digital Pin Mode
+      linxSetDigtalPinMode(commandPacketBuffer, responsePacketBuffer);      
+      break;
+    case 0x0041: // Digital Write
+      linxDigitalWrite(commandPacketBuffer, responsePacketBuffer);      
       break;
       
     default:  //Default Case
@@ -155,9 +110,9 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
 *****************************************************************************************/
 void setupLINX()
 {
-  //Serial Setup
+  // Setup Serial Port For LINX
   #ifdef SERIAL_ENABLED
-    Serial.begin(9600);
+    setupSerial();
   #endif
   
   //Ethernet Setup

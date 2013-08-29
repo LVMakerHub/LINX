@@ -19,6 +19,8 @@
 				<Item Name="Wait For Packet.vi" Type="VI" URL="../Private/Device/Wait For Packet.vi"/>
 			</Item>
 			<Item Name="Type Defs" Type="Folder">
+				<Item Name="Digital Pin Mode Control.ctl" Type="VI" URL="../Private/Device/Type Defs/Digital Pin Mode Control.ctl"/>
+				<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Device/Type Defs/Digital Pin Mode.ctl"/>
 				<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Device/Type Defs/Digital Write Control.ctl"/>
 			</Item>
 			<Item Name="Wrappers" Type="Folder">
@@ -26,6 +28,11 @@
 				<Item Name="Serial Open.vi" Type="VI" URL="../Private/Device/Wrappers/Serial Open.vi"/>
 				<Item Name="Serial Read.vi" Type="VI" URL="../Private/Device/Wrappers/Serial Read.vi"/>
 				<Item Name="Serial Write.vi" Type="VI" URL="../Private/Device/Wrappers/Serial Write.vi"/>
+			</Item>
+		</Item>
+		<Item Name="Peripherals" Type="Folder">
+			<Item Name="Digital" Type="Folder">
+				<Item Name="Type Defs" Type="Folder"/>
 			</Item>
 		</Item>
 		<Item Name="Target Management" Type="Folder">
@@ -45,11 +52,14 @@
 		<Item Name="Device" Type="Folder">
 			<Item Name="Digital IO" Type="Folder">
 				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Device/Digital/Digital Write.vi"/>
+				<Item Name="Set Digital Pin Mode.vi" Type="VI" URL="../Public/Device/Digital/Set Digital Pin Mode.vi"/>
 			</Item>
 			<Item Name="Close Device.vi" Type="VI" URL="../Public/Device/Close Device.vi"/>
 			<Item Name="Initialize Device.vi" Type="VI" URL="../Public/Device/Initialize Device.vi"/>
 		</Item>
-		<Item Name="Peripherals" Type="Folder"/>
+		<Item Name="Peripherals" Type="Folder">
+			<Item Name="Digital" Type="Folder"/>
+		</Item>
 		<Item Name="Sensors" Type="Folder"/>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
