@@ -6,40 +6,13 @@
 
 </Property>
 	<Item Name="Private" Type="Folder">
-		<Item Name="Device" Type="Folder">
-			<Item Name="Peripheral" Type="Folder">
-				<Item Name="Analog" Type="Folder"/>
-				<Item Name="Digital" Type="Folder">
-					<Item Name="Digital Write.vi" Type="VI" URL="../Private/Device/Peripheral/Digital/Digital Write.vi"/>
-					<Item Name="Set Digital Pin Mode.vi" Type="VI" URL="../Private/Device/Peripheral/Digital/Set Digital Pin Mode.vi"/>
-				</Item>
-				<Item Name="I2C" Type="Folder"/>
-			</Item>
-			<Item Name="Type Defs" Type="Folder"/>
-			<Item Name="Utilities" Type="Folder">
-				<Item Name="Wrappers" Type="Folder">
-					<Item Name="Serial Flush.vi" Type="VI" URL="../Private/Device/Utilities/Wrappers/Serial Flush.vi"/>
-					<Item Name="Serial Open.vi" Type="VI" URL="../Private/Device/Utilities/Wrappers/Serial Open.vi"/>
-					<Item Name="Serial Read.vi" Type="VI" URL="../Private/Device/Utilities/Wrappers/Serial Read.vi"/>
-					<Item Name="Serial Write.vi" Type="VI" URL="../Private/Device/Utilities/Wrappers/Serial Write.vi"/>
-				</Item>
-				<Item Name="Checksum.vi" Type="VI" URL="../Private/Device/Utilities/Checksum.vi"/>
-				<Item Name="Packetize.vi" Type="VI" URL="../Private/Device/Utilities/Packetize.vi"/>
-				<Item Name="Send Command.vi" Type="VI" URL="../Private/Device/Utilities/Send Command.vi"/>
-				<Item Name="Synchronize.vi" Type="VI" URL="../Private/Device/Utilities/Synchronize.vi"/>
-				<Item Name="Wait For Bytes.vi" Type="VI" URL="../Private/Device/Utilities/Wait For Bytes.vi"/>
-				<Item Name="Wait For Packet.vi" Type="VI" URL="../Private/Device/Utilities/Wait For Packet.vi"/>
-			</Item>
-			<Item Name="Close Device.vi" Type="VI" URL="../Private/Device/Close Device.vi"/>
-			<Item Name="Initialize Device.vi" Type="VI" URL="../Private/Device/Initialize Device.vi"/>
-		</Item>
 		<Item Name="Target Management" Type="Folder">
 			<Item Name="Get Platform.vi" Type="VI" URL="../Private/Target Management/Get Platform.vi"/>
 		</Item>
 		<Item Name="Type Defs" Type="Folder">
 			<Item Name="Perpipherals" Type="Folder">
 				<Item Name="Digital" Type="Folder">
-					<Item Name="Digital Pin Mode Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode Control.ctl"/>
+					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
 					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
 					<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
 				</Item>
@@ -55,11 +28,16 @@
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 		</Item>
+		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">
 			<Item Name="Analog" Type="Folder"/>
-			<Item Name="Digital" Type="Folder"/>
+			<Item Name="Digital" Type="Folder">
+				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
+				<Item Name="Digital Open.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Open.vi"/>
+				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
+			</Item>
 			<Item Name="I2C" Type="Folder"/>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>

@@ -37,6 +37,26 @@ bool checksumPassed(unsigned char* packetBuffer)
 }
 
 /****************************************************************************************
+**  Generate a resposne packet containing the device's maximum supported baud rate.
+*****************************************************************************************/
+void gatMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  
+  unsigned long baudRate = 115200;
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = (baudRate >> 24) & 0xFF;                 //Baud Rate MSB
+  responsePacketBuffer[6] = (baudRate >> 16) & 0xFF;      
+  responsePacketBuffer[7] = (baudRate >> 8) & 0xFF;   
+  responsePacketBuffer[8] = (baudRate) & 0xFF;                       //Baud Rate LSB
+  responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+/****************************************************************************************
 **  processCommand - Process a LINX command packet and generate a response packet
 *****************************************************************************************/
 void processCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
@@ -72,6 +92,14 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM         
       break;
       
+    case 0x0005: // Get Max Baud Rate      
+      gatMaxBaudRate(commandPacketBuffer, responsePacketBuffer);
+      break;
+      
+    case 0x0006: // Set Baud Rate      
+      setBaudRate(commandPacketBuffer, responsePacketBuffer);
+      break;
+      
     /****************************************************************************************
     * Digital I/O
     ****************************************************************************************/     
@@ -103,6 +131,25 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     }
     Serial1.println("::..");
   #endif  
+}
+
+/****************************************************************************************
+**  Sets the serial baud rate that the LINX device uses to talk to the host.
+*****************************************************************************************/
+void setBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+       Serial.end();
+       Serial.begin( (commandPacketBuffer[6]<<24) + (commandPacketBuffer[7]<<16) + (commandPacketBuffer[8]<<8) + (commandPacketBuffer[9]));
+       delay(1000);   //Give Host Time To Update Serial Baud Rate 
+       
+       responsePacketBuffer[0] = 0xFF;                                    //SoF
+       responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
+       responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+       responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+       responsePacketBuffer[4] = 0x00;                                    //STATUS
+       responsePacketBuffer[5] = 0x13;                                    //Delay MSB (ms)
+       responsePacketBuffer[6] = 0x88;                                    //Delay LSB (ms)
+       responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
 }
 
 /****************************************************************************************

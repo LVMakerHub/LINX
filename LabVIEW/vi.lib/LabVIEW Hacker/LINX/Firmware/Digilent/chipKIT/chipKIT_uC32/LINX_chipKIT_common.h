@@ -54,6 +54,16 @@ bool checksumPassed(unsigned char* packetBuffer);
 *********************************************************************************/
 unsigned char computeChecksum(unsigned char* packetBuffer);
 
+/*********************************************************************************
+**  getMaxBaudRate
+**
+**  Generate a resposne packet containing the device's maximum supported baud rate.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: None
+*********************************************************************************/
+void gatMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 /*********************************************************************************
 **  processCommand
@@ -64,6 +74,17 @@ unsigned char computeChecksum(unsigned char* packetBuffer);
 **  Output: True if the checksum passes, false otherwise 
 *********************************************************************************/
 void processPacket(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/*********************************************************************************
+**  setBaudRate
+**
+**  Sets the serial baud rate that the LINX device uses to talk to the host.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: None
+*********************************************************************************/
+void setBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 
 /*********************************************************************************

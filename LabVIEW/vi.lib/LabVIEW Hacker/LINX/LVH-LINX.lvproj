@@ -55,13 +55,20 @@
 			</Item>
 		</Item>
 		<Item Name="Test Apps" Type="Folder">
-			<Item Name="Device Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device Connection Test App.vi"/>
-			<Item Name="Digital Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Digital Write Benchmark.vi"/>
-			<Item Name="LINX Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX Connection Test App.vi"/>
+			<Item Name="Device" Type="Folder">
+				<Item Name="Device Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device Connection Test App.vi"/>
+				<Item Name="Digital Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Digital Write Benchmark.vi"/>
+				<Item Name="Generic Device VI Tester.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Generic Device VI Tester.vi"/>
+			</Item>
+			<Item Name="LINX" Type="Folder">
+				<Item Name="LINX Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX Connection Test App.vi"/>
+				<Item Name="LINX Digital Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX Digital Write Benchmark.vi"/>
+			</Item>
 		</Item>
 		<Item Name="LVH-LINX.lvlib" Type="Library" URL="../LVH-LINX.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
+				<Item Name="Device.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Device.lvlib"/>
 				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
 				<Item Name="LVH-LINX.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/LVH-LINX.lvlib"/>
 				<Item Name="NI_PtbyPt.lvlib" Type="Library" URL="/&lt;vilib&gt;/ptbypt/NI_PtbyPt.lvlib"/>

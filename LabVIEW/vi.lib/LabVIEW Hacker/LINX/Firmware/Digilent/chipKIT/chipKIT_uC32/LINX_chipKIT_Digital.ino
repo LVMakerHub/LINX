@@ -32,6 +32,7 @@ void linxDigitalWrite(unsigned char* commandPacketBuffer, unsigned char* respons
       Serial1.println(")");
     #endif       
     
+    pinMode(digitalPin, OUTPUT);
     digitalWrite(digitalPin, digitalVal);
     
     //Increment Counters
