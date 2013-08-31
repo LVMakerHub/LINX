@@ -41,6 +41,7 @@
 			<Item Name="Digital" Type="Folder">
 				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
 				<Item Name="Digital Open_XX.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Open_XX.vi"/>
+				<Item Name="Digital Read.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read.vi"/>
 				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
 			</Item>
 			<Item Name="I2C" Type="Folder"/>

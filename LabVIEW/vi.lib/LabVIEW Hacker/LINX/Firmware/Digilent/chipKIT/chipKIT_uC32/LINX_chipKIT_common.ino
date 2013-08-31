@@ -109,6 +109,9 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x0041: // Digital Write
       linxDigitalWrite(commandPacketBuffer, responsePacketBuffer);      
       break;
+    case 0x0042: // Digital Read
+      linxDigitalRead(commandPacketBuffer, responsePacketBuffer);      
+      break;
       
     default:  //Default Case
        responsePacketBuffer[0] = 0xFF;                                    //SoF

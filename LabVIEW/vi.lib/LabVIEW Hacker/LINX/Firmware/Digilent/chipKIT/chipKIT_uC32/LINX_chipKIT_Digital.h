@@ -28,6 +28,18 @@
 void linxDigitalWrite(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 /*********************************************************************************
+**  linxDigitalRead
+**
+**  Read Digital Values Based On Digital Read Command Packet
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+*********************************************************************************/
+void linxDigitalRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/*********************************************************************************
 **  linxSetDigtalPinMode
 **
 **  Set The Digital Pin Mode Based On The Set Digital Pin Mode Packet

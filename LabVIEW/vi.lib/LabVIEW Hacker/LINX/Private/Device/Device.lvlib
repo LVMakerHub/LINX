@@ -11,6 +11,7 @@
 		<Item Name="Peripheral" Type="Folder">
 			<Item Name="Analog" Type="Folder"/>
 			<Item Name="Digital" Type="Folder">
+				<Item Name="Digital Read.vi" Type="VI" URL="../Peripheral/Digital/Digital Read.vi"/>
 				<Item Name="Digital Write.vi" Type="VI" URL="../Peripheral/Digital/Digital Write.vi"/>
 				<Item Name="Set Digital Pin Mode.vi" Type="VI" URL="../Peripheral/Digital/Set Digital Pin Mode.vi"/>
 			</Item>

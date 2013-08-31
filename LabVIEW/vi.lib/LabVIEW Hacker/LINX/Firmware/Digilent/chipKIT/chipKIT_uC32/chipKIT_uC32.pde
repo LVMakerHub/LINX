@@ -15,7 +15,7 @@
 *  Configuration
 ************************************************************************************/
 //Uncomment To Enable Debugging On The Secondary Serial Port.
-//#define DEBUG_ENABLED 1
+#define DEBUG_ENABLED 1
 
 //Uncomment A Line Below To Enable LINX Packets On The Specified Interface.
 #define SERIAL_ENABLED 1

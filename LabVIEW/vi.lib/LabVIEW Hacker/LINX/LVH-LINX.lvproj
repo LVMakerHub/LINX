@@ -57,7 +57,7 @@
 		<Item Name="Test Apps" Type="Folder">
 			<Item Name="Device" Type="Folder">
 				<Item Name="Device Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device Connection Test App.vi"/>
-				<Item Name="Digital Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Digital Write Benchmark.vi"/>
+				<Item Name="Digital Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/Digital Read Benchmark.vi"/>
 				<Item Name="Generic Device VI Tester.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Generic Device VI Tester.vi"/>
 			</Item>
 			<Item Name="LINX" Type="Folder">
@@ -78,6 +78,7 @@
 				<Item Name="myLINX.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/myRIO/myLINX.lvlib"/>
 				<Item Name="NI_PtbyPt.lvlib" Type="Library" URL="/&lt;vilib&gt;/ptbypt/NI_PtbyPt.lvlib"/>
 				<Item Name="Open.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Open.vi"/>
+				<Item Name="Read.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Read.vi"/>
 				<Item Name="TRef Traverse.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/traverseref.llb/TRef Traverse.vi"/>
 				<Item Name="TRef TravTarget.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/traverseref.llb/TRef TravTarget.ctl"/>
 				<Item Name="Trim Whitespace.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Trim Whitespace.vi"/>
