@@ -17,6 +17,7 @@
 					<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
 				</Item>
 			</Item>
+			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
 			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
 			<Item Name="LINX Device Config.ctl" Type="VI" URL="../Private/Type Defs/LINX Device Config.ctl"/>
@@ -26,16 +27,20 @@
 			<Item Name="User Platform.ctl" Type="VI" URL="../Private/Type Defs/User Platform.ctl"/>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
+			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
+			<Item Name="DIO Channels_XX.vi" Type="VI" URL="../Private/Utilties/DIO Channels_XX.vi"/>
+			<Item Name="I2C Channels.vi" Type="VI" URL="../Private/Utilties/I2C Channels.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
+		<Item Name="myLINX.lvlib" Type="Library" URL="../Private/myRIO/myLINX.lvlib"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">
 			<Item Name="Analog" Type="Folder"/>
 			<Item Name="Digital" Type="Folder">
 				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
-				<Item Name="Digital Open.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Open.vi"/>
+				<Item Name="Digital Open_XX.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Open_XX.vi"/>
 				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
 			</Item>
 			<Item Name="I2C" Type="Folder"/>
