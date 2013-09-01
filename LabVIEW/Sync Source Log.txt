@@ -1,4 +1,4 @@
-#### Starting Mass Compile: Sat, Aug 31, 2013 4:19:26 PM
+#### Starting Mass Compile: Sun, Sep 01, 2013 8:52:29 AM
   Directory: "C:\github\labviewhacker\LVH-LINX\LabVIEW"
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\POC\Diagram Disable Auto Enable\DD Enabler.vi
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\POC\Diagram Disable Auto Enable\DD Test Subject.vi
@@ -11,4 +11,4 @@ CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\v
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\Test Apps\LINX\LINX Digital Write Benchmark.vi
 CompileFile: skipping C:\Program Files (x86)\National Instruments\LabVIEW 2011\vi.lib\LabVIEW Hacker\LINX\Test Apps\myLINX\DIO Pin To Channel.vi
   ### Bad VI:    "DD Test Subject.vi"	Path="C:\github\labviewhacker\LVH-LINX\LabVIEW\vi.lib\LabVIEW Hacker\LINX\POC\Diagram Disable Auto Enable\DD Test Subject.vi"
-#### Finished Mass Compile: Sat, Aug 31, 2013 4:19:28 PM
+#### Finished Mass Compile: Sun, Sep 01, 2013 8:52:31 AM

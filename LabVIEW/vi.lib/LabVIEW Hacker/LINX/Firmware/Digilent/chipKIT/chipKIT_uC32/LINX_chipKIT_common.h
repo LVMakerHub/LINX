@@ -55,6 +55,17 @@ bool checksumPassed(unsigned char* packetBuffer);
 unsigned char computeChecksum(unsigned char* packetBuffer);
 
 /*********************************************************************************
+**  getDeviceID
+**
+**  Return the device family and device ID.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: None
+*********************************************************************************/
+void getDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/*********************************************************************************
 **  getMaxBaudRate
 **
 **  Generate a resposne packet containing the device's maximum supported baud rate.
@@ -63,7 +74,7 @@ unsigned char computeChecksum(unsigned char* packetBuffer);
 **          responsePacketBuffer - The buffer used build the response packet.
 **  Output: None
 *********************************************************************************/
-void gatMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+void getMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 /*********************************************************************************
 **  processCommand

@@ -47,6 +47,7 @@
 			<Item Name="I2C" Type="Folder"/>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>
+		<Item Name="Utilities" Type="Folder"/>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>

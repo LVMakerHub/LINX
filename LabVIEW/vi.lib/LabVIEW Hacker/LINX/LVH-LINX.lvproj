@@ -17,6 +17,11 @@
 						<Item Name="chipKIT_uC32.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/chipKIT_uC32.pde"/>
 						<Item Name="LINX_chipKIT_common.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_common.h"/>
 						<Item Name="LINX_chipKIT_common.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_common.ino"/>
+						<Item Name="LINX_chipKIT_Digital.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_Digital.h"/>
+						<Item Name="LINX_chipKIT_Digital.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_Digital.ino"/>
+						<Item Name="LINX_chipKIT_serial.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_serial.h"/>
+						<Item Name="LINX_chipKIT_Serial.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_Serial.ino"/>
+						<Item Name="LINX_chipKIT_uC32_Config.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_uC32_Config.h"/>
 					</Item>
 				</Item>
 			</Item>

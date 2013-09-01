@@ -37,12 +37,29 @@ bool checksumPassed(unsigned char* packetBuffer)
 }
 
 /****************************************************************************************
+**  Return the device family and device ID.
+****************************************************************************************/
+void getDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = DEVICE_FAMILY;                           //Device Family
+  responsePacketBuffer[6] = DEVICE_ID;                               //Device ID
+  responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+
+
+/****************************************************************************************
 **  Generate a resposne packet containing the device's maximum supported baud rate.
 *****************************************************************************************/
-void gatMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+void getMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
   
-  unsigned long baudRate = 115200;
+  unsigned long baudRate = MAX_BAUD_RATE;
   
   responsePacketBuffer[0] = 0xFF;                                    //SoF
   responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
@@ -92,8 +109,12 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM         
       break;
       
+    case 0x0003: // Get Device ID     
+      getDeviceID(commandPacketBuffer, responsePacketBuffer);
+      break;
+      
     case 0x0005: // Get Max Baud Rate      
-      gatMaxBaudRate(commandPacketBuffer, responsePacketBuffer);
+      getMaxBaudRate(commandPacketBuffer, responsePacketBuffer);
       break;
       
     case 0x0006: // Set Baud Rate      
