@@ -24,6 +24,7 @@
 
 //Comment Lines Below To Disable Various Peripherals
 #define LINX_DIGITAL 1
+#define LINX_I2C 1
 
 
 /************************************************************************************
@@ -37,6 +38,9 @@
 #endif
 #ifdef LINX_DIGITAL
   #include "LINX_chipKIT_Digital.h"
+#endif
+#ifdef LINX_I2C
+  #include "LINX_chipKIT_I2C.h"
 #endif
 
 /************************************************************************************

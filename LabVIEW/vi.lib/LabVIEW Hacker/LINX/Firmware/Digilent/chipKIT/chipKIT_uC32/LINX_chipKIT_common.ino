@@ -122,7 +122,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;
       
     /****************************************************************************************
-    * Digital I/O
+    * DIGITAL I/O
     ****************************************************************************************/     
     case 0x0040: // Set Digital Pin Mode
       linxSetDigtalPinMode(commandPacketBuffer, responsePacketBuffer);      
@@ -132,6 +132,16 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;
     case 0x0042: // Digital Read
       linxDigitalRead(commandPacketBuffer, responsePacketBuffer);      
+      break;
+    
+    /****************************************************************************************
+    * I2C
+    ****************************************************************************************/     
+    case 0x00E0: // I2C Open - Master
+      linxI2COpenMaster(commandPacketBuffer, responsePacketBuffer);      
+      break;
+    case 0x00E2: // I2C Write
+      linxI2CWrite(commandPacketBuffer, responsePacketBuffer);      
       break;
       
     default:  //Default Case
