@@ -42,7 +42,11 @@
 				<Item Name="Digital Read.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read.vi"/>
 				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
 			</Item>
-			<Item Name="I2C" Type="Folder"/>
+			<Item Name="I2C" Type="Folder">
+				<Item Name="I2C Close.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Close.vi"/>
+				<Item Name="I2C Open.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Open.vi"/>
+				<Item Name="I2C Write.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Write.vi"/>
+			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>
 		<Item Name="Utilities" Type="Folder"/>

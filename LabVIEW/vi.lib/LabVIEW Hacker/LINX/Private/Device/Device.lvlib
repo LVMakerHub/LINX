@@ -19,6 +19,7 @@
 				<Item Name="Set Digital Pin Mode.vi" Type="VI" URL="../Peripheral/Digital/Set Digital Pin Mode.vi"/>
 			</Item>
 			<Item Name="I2C" Type="Folder">
+				<Item Name="I2C Close.vi" Type="VI" URL="../Peripheral/I2C/I2C Close.vi"/>
 				<Item Name="I2C Open.vi" Type="VI" URL="../Peripheral/I2C/I2C Open.vi"/>
 				<Item Name="I2C Write.vi" Type="VI" URL="../Peripheral/I2C/I2C Write.vi"/>
 			</Item>

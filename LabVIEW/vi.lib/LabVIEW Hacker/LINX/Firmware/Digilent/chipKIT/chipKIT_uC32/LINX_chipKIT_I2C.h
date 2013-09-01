@@ -18,6 +18,17 @@
 #define LINX_CHIPKIT_I2C_H
 
 /*********************************************************************************
+**  linxI2CClose
+**
+**  Close the specified I2C channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+*********************************************************************************/
+void linxI2CClose(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/*********************************************************************************
 **  linxI2COpenMaster
 **
 **  Open the specified I2C channel and join as master.

@@ -13,6 +13,20 @@
  #include "LINX_chipKIT_I2C.h"
  #include <Wire.h>
  
+ 
+ //Close the specified I2C channel.
+ void linxI2CClose(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+ {
+   //Nothing To Do Here....   
+   responsePacketBuffer[0] = 0xFF;                                    //SoF
+   responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+   responsePacketBuffer[4] = 0x00;                                    //STATUS
+   responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+   
+ }
+ 
  //Open the specified I2C channel and join as master.
  void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
  {
