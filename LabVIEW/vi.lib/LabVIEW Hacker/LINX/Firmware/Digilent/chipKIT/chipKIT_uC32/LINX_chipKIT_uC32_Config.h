@@ -12,7 +12,7 @@
  *********************************************************************************/
  
 //Device ID
-#define DEVICE_FAMILY 0
+#define DEVICE_FAMILY 1
 #define DEVICE_ID 1
 
 //Serial Settings

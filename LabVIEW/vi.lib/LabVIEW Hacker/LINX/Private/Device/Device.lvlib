@@ -8,9 +8,6 @@
 
 </Property>
 	<Item Name="Device" Type="Folder">
-		<Item Name="Constants" Type="Folder">
-			<Item Name="Devices.vi" Type="VI" URL="../Constants/Devices.vi"/>
-		</Item>
 		<Item Name="Peripheral" Type="Folder">
 			<Item Name="Analog" Type="Folder"/>
 			<Item Name="Digital" Type="Folder">
@@ -36,6 +33,7 @@
 				<Item Name="Serial Read.vi" Type="VI" URL="../Utilities/Wrappers/Serial Read.vi"/>
 				<Item Name="Serial Write.vi" Type="VI" URL="../Utilities/Wrappers/Serial Write.vi"/>
 			</Item>
+			<Item Name="Check Channel.vi" Type="VI" URL="../Utilities/Check Channel.vi"/>
 			<Item Name="Checksum.vi" Type="VI" URL="../Utilities/Checksum.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Utilities/Device ID to Name.vi"/>
 			<Item Name="Get Device ID.vi" Type="VI" URL="../Utilities/Get Device ID.vi"/>

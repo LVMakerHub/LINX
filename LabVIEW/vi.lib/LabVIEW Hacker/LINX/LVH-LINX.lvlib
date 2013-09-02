@@ -6,6 +6,9 @@
 
 </Property>
 	<Item Name="Private" Type="Folder">
+		<Item Name="Constants" Type="Folder">
+			<Item Name="Devices.vi" Type="VI" URL="../Private/Constants/Devices.vi"/>
+		</Item>
 		<Item Name="Target Management" Type="Folder">
 			<Item Name="Get Platform.vi" Type="VI" URL="../Private/Target Management/Get Platform.vi"/>
 		</Item>
@@ -18,9 +21,14 @@
 				</Item>
 			</Item>
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
+			<Item Name="Device Family.ctl" Type="VI" URL="../Private/Type Defs/Device Family.ctl"/>
+			<Item Name="Devices - Arduino.ctl" Type="VI" URL="../Private/Type Defs/Devices - Arduino.ctl"/>
+			<Item Name="Devices - Digilent.ctl" Type="VI" URL="../Private/Type Defs/Devices - Digilent.ctl"/>
+			<Item Name="Devices - NI.ctl" Type="VI" URL="../Private/Type Defs/Devices - NI.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
 			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
 			<Item Name="LINX Ref.ctl" Type="VI" URL="../Private/Type Defs/LINX Ref.ctl"/>
+			<Item Name="Peripheral.ctl" Type="VI" URL="../Private/Type Defs/Peripheral.ctl"/>
 			<Item Name="Platform.ctl" Type="VI" URL="../Private/Type Defs/Platform.ctl"/>
 			<Item Name="User Platform.ctl" Type="VI" URL="../Private/Type Defs/User Platform.ctl"/>
 		</Item>
@@ -38,7 +46,6 @@
 			<Item Name="Analog" Type="Folder"/>
 			<Item Name="Digital" Type="Folder">
 				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
-				<Item Name="Digital Open_XX.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Open_XX.vi"/>
 				<Item Name="Digital Read.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read.vi"/>
 				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
 			</Item>
