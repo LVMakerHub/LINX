@@ -6,13 +6,26 @@
 
 </Property>
 	<Item Name="Private" Type="Folder">
-		<Item Name="Constants" Type="Folder">
-			<Item Name="Devices.vi" Type="VI" URL="../Private/Constants/Devices.vi"/>
-		</Item>
-		<Item Name="Target Management" Type="Folder">
-			<Item Name="Get Platform.vi" Type="VI" URL="../Private/Target Management/Get Platform.vi"/>
-		</Item>
 		<Item Name="Type Defs" Type="Folder">
+			<Item Name="Devices" Type="Folder">
+				<Item Name="Arduino" Type="Folder">
+					<Item Name="Devices - Arduino.ctl" Type="VI" URL="../Private/Type Defs/Devices - Arduino.ctl"/>
+				</Item>
+				<Item Name="Digilent" Type="Folder">
+					<Item Name="chipKIT DP32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT DP32.vi"/>
+					<Item Name="chipKIT Max32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Max32.vi"/>
+					<Item Name="chipKIT uC32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT uC32.vi"/>
+					<Item Name="chipKIT Uno32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Uno32.vi"/>
+					<Item Name="Devices - Digilent.ctl" Type="VI" URL="../Private/Type Defs/Devices - Digilent.ctl"/>
+				</Item>
+				<Item Name="NI" Type="Folder">
+					<Item Name="Devices - NI.ctl" Type="VI" URL="../Private/Type Defs/Devices - NI.ctl"/>
+					<Item Name="myRI0-1900.vi" Type="VI" URL="../Private/Type Defs/Devices/NI/myRI0-1900.vi"/>
+					<Item Name="myRI0-1950.vi" Type="VI" URL="../Private/Type Defs/Devices/NI/myRI0-1950.vi"/>
+				</Item>
+				<Item Name="Device Family.ctl" Type="VI" URL="../Private/Type Defs/Device Family.ctl"/>
+				<Item Name="Generic Device.ctl" Type="VI" URL="../Private/Type Defs/Devices/Generic Device.ctl"/>
+			</Item>
 			<Item Name="Perpipherals" Type="Folder">
 				<Item Name="Digital" Type="Folder">
 					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
@@ -21,10 +34,6 @@
 				</Item>
 			</Item>
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
-			<Item Name="Device Family.ctl" Type="VI" URL="../Private/Type Defs/Device Family.ctl"/>
-			<Item Name="Devices - Arduino.ctl" Type="VI" URL="../Private/Type Defs/Devices - Arduino.ctl"/>
-			<Item Name="Devices - Digilent.ctl" Type="VI" URL="../Private/Type Defs/Devices - Digilent.ctl"/>
-			<Item Name="Devices - NI.ctl" Type="VI" URL="../Private/Type Defs/Devices - NI.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
 			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
 			<Item Name="LINX Ref.ctl" Type="VI" URL="../Private/Type Defs/LINX Ref.ctl"/>
@@ -34,12 +43,18 @@
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Property Name="NI.SortType" Type="Int">3</Property>
+			<Item Name="Channel FGVs" Type="Folder">
+				<Item Name="I2C Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/I2C Channels.vi"/>
+			</Item>
+			<Item Name="Target Management" Type="Folder">
+				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
+			</Item>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
-			<Item Name="DIO Channels_XX.vi" Type="VI" URL="../Private/Utilties/DIO Channels_XX.vi"/>
-			<Item Name="I2C Channels.vi" Type="VI" URL="../Private/Utilties/I2C Channels.vi"/>
+			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
+			<Item Name="Get Device Channels.vi" Type="VI" URL="../Private/Utilties/Get Device Channels.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
-		<Item Name="myLINX.lvlib" Type="Library" URL="../Private/myRIO/myLINX.lvlib"/>
+		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">
@@ -56,7 +71,9 @@
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>
-		<Item Name="Utilities" Type="Folder"/>
+		<Item Name="Utilities" Type="Folder">
+			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
+		</Item>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
