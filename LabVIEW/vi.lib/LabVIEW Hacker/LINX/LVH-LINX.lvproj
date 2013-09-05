@@ -12,17 +12,11 @@
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="Firmware" Type="Folder">
 			<Item Name="Digilent" Type="Folder">
-				<Item Name="chipKIT" Type="Folder">
-					<Item Name="chipKIT_uC32" Type="Folder">
-						<Item Name="chipKIT_uC32.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/chipKIT_uC32.pde"/>
-						<Item Name="LINX_chipKIT_common.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_common.h"/>
-						<Item Name="LINX_chipKIT_common.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_common.ino"/>
-						<Item Name="LINX_chipKIT_Digital.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_Digital.h"/>
-						<Item Name="LINX_chipKIT_Digital.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_Digital.ino"/>
-						<Item Name="LINX_chipKIT_serial.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_serial.h"/>
-						<Item Name="LINX_chipKIT_Serial.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_Serial.ino"/>
-						<Item Name="LINX_chipKIT_uC32_Config.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/chipKIT/chipKIT_uC32/LINX_chipKIT_uC32_Config.h"/>
-					</Item>
+				<Item Name="LINX_chipKIT_Firmware" Type="Folder">
+					<Item Name="LINX.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/LINX_chipKIT_Firmware/LINX.h"/>
+					<Item Name="LINX.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/LINX_chipKIT_Firmware/LINX.pde"/>
+					<Item Name="LINX_chipKIT_Firmware.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/LINX_chipKIT_Firmware/LINX_chipKIT_Firmware.pde"/>
+					<Item Name="LINX_Config.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Digilent/LINX_chipKIT_Firmware/LINX_Config.h"/>
 				</Item>
 			</Item>
 		</Item>
@@ -80,7 +74,9 @@
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="Close.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Close.vi"/>
 				<Item Name="Close.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/vis/Close.vi"/>
+				<Item Name="Color to RGB.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/colorconv.llb/Color to RGB.vi"/>
 				<Item Name="Device ID to Name.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Utilities/Device ID to Name.vi"/>
+				<Item Name="Device.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Device.lvlib"/>
 				<Item Name="Error Cluster From Error Code.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Error Cluster From Error Code.vi"/>
 				<Item Name="Generic FPGA Reference.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Common/Instrument Driver Framework/Utilities/typedefs/Generic FPGA Reference.ctl"/>
 				<Item Name="Hardware Version Enum.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Common/Instrument Driver Framework/Utilities/typedefs/Hardware Version Enum.ctl"/>
@@ -88,12 +84,18 @@
 				<Item Name="I2C Configuration.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/typedefs/I2C Configuration.ctl"/>
 				<Item Name="I2C Reference.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/typedefs/I2C Reference.ctl"/>
 				<Item Name="I2C Transfer Rate.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/typedefs/I2C Transfer Rate.ctl"/>
+				<Item Name="LVH-LINX.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/LVH-LINX.lvlib"/>
 				<Item Name="myRIO Generic Hardware Reference.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Common/Instrument Driver Framework/Utilities/typedefs/myRIO Generic Hardware Reference.ctl"/>
 				<Item Name="myRIO v1.0 Reference.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Common/Instrument Driver Framework/Utilities/typedefs/myRIO v1.0 Reference.ctl"/>
+				<Item Name="myRIO.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/myRIO/myRIO.lvlib"/>
+				<Item Name="NI_PtbyPt.lvlib" Type="Library" URL="/&lt;vilib&gt;/ptbypt/NI_PtbyPt.lvlib"/>
 				<Item Name="Open.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Open.vi"/>
 				<Item Name="Open.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/vis/Open.vi"/>
 				<Item Name="Read.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Read.vi"/>
+				<Item Name="TRef Traverse.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/traverseref.llb/TRef Traverse.vi"/>
+				<Item Name="TRef TravTarget.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/traverseref.llb/TRef TravTarget.ctl"/>
 				<Item Name="Trim Whitespace.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Trim Whitespace.vi"/>
+				<Item Name="VI Scripting - Traverse.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/traverseref.llb/VI Scripting - Traverse.lvlib"/>
 				<Item Name="VISA Configure Serial Port" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port"/>
 				<Item Name="VISA Configure Serial Port (Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Instr).vi"/>
 				<Item Name="VISA Configure Serial Port (Serial Instr).vi" Type="VI" URL="/&lt;vilib&gt;/Instr/_visa.llb/VISA Configure Serial Port (Serial Instr).vi"/>
