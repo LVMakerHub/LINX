@@ -61,6 +61,7 @@
 				<Item Name="Generic Device VI Tester.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Generic Device VI Tester.vi"/>
 				<Item Name="I2C Write Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/I2C Write Test App.vi"/>
 				<Item Name="PWM Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/PWM Benchmark.vi"/>
+				<Item Name="SPI Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/SPI Benchmark.vi"/>
 			</Item>
 			<Item Name="LINX" Type="Folder">
 				<Item Name="LINX Analog Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX Analog Read Benchmark.vi"/>

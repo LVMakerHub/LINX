@@ -7,6 +7,10 @@
   #include <Wire.h>
 #endif //LINX_I2C_ENABLED
 
+#ifdef LINX_SPI_ENABLED
+  #include <SPI.h>
+#endif //LINX_SPI_ENABLED
+
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
@@ -157,11 +161,30 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     **  PWM
     ************************************************************************************/     
     #ifdef LINX_PWM_ENABLED
-    case 0x0083: // I2C Open - Master
+    case 0x0083: // PWM Set Duty Cycle
       linxPWMSetDutyCycle(commandPacketBuffer, responsePacketBuffer);      
       break;
       
     #endif  //LINX_PWM_ENABLED
+    
+    /************************************************************************************
+    **  SPI
+    ************************************************************************************/     
+    #ifdef LINX_SPI_ENABLED
+    case 0x0100: // SPI Open Master
+      linxSPIOpenMaster(commandPacketBuffer, responsePacketBuffer);      
+      break;
+    case 0x0101: // SPI Set Bit Order
+      linxSPISetBitOrder(commandPacketBuffer, responsePacketBuffer);      
+      break;
+    case 0x0103: // SPI Set Mode
+      linxSPISetMode(commandPacketBuffer, responsePacketBuffer);      
+      break;
+    case 0x0104: // SPI Write/Read
+      linxSPIWriteRead(commandPacketBuffer, responsePacketBuffer);      
+      break;
+      
+    #endif  //LINX_SPI_ENABLED
       
     default:  //Default Case
        responsePacketBuffer[0] = 0xFF;                                    //SoF
@@ -626,6 +649,7 @@ void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responseP
 
 #ifdef LINX_PWM_ENABLED
 
+//--------------------------- linxPWMSetDutyCycle -------------------------------------//
 void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
   //Loop Over All PWM Pins To Set
@@ -649,5 +673,100 @@ void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* resp
 
 
 #endif  //LINX_PWM_ENABLED
+
+/****************************************************************************************
+**
+**--------------------------- SPI ------------------------------------------------------ 
+**
+****************************************************************************************/
+#ifdef LINX_SPI_ENABLED
+
+//--------------------------- linxSPIO ------------------------------------------------//
+void linxSPIOpenMaster(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  SPI.begin();
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+}
+
+
+//--------------------------- linxSPISetBitOrder --------------------------------------//
+void linxSPISetBitOrder(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  SPI.setBitOrder(commandPacketBuffer[7]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
+}
+
+
+//--------------------------- linxSPISetMode ------------------------------------------//
+void linxSPISetMode(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  SPI.setDataMode(commandPacketBuffer[7]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
+}
+
+
+//--------------------------- linxSPIWriteRead ----------------------------------------//
+void linxSPIWriteRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  unsigned char csPin = commandPacketBuffer[7];
+  unsigned char frameSize = commandPacketBuffer[8];
+  unsigned char byteCounter = 0;
+  
+  //Prep responsePacketBuffer
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  
+  //Set CS Pin As DO
+  pinMode(csPin, OUTPUT);
+  
+  //Assuming Active Low For Now
+  digitalWrite(csPin, HIGH);
+  
+  //Loop Over Data To Send, Send And Build Response
+  for(int i=0; i<(commandPacketBuffer[1]-9); i++)
+  {
+    if(byteCounter == 0)
+    {
+      //Start Frame
+      digitalWrite(csPin, LOW);      
+    }   
+    
+    responsePacketBuffer[i+5] = SPI.transfer(commandPacketBuffer[i+9]);
+    byteCounter++;
+   
+    if(byteCounter == frameSize-1)
+    {
+      //End Of Frame
+      digitalWrite(csPin, HIGH);
+      byteCounter = 0;            
+    }   
+  }
+  
+  //Add Response Packet Checksum
+  responsePacketBuffer[commandPacketBuffer[1]-3] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
+}
+
+#endif  //LINX_SPI_ENABLED
 
 

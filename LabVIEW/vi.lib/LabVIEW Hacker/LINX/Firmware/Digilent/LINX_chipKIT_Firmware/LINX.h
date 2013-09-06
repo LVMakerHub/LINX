@@ -258,8 +258,8 @@ void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responseP
 **--------------------------- PWM ------------------------------------------------------ 
 **
 ****************************************************************************************/
-
 #ifdef LINX_PWM_ENABLED
+
 /****************************************************************************************
 **  linxPWMSetDutyCycle
 **
@@ -272,6 +272,64 @@ void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responseP
 void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 #endif  //LINX_PWM_ENABLED
+
+
+/****************************************************************************************
+**
+**--------------------------- SPI ------------------------------------------------------ 
+**
+****************************************************************************************/
+
+#ifdef LINX_SPI_ENABLED
+
+/****************************************************************************************
+**  linxSPIOpenMaster
+**
+**  Open the specfified SPI channel as master.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxSPIOpenMaster(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxSPISetBitOrder
+**
+**  Set the bit order of the specified SPI Channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxSPISetBitOrder(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxSPISetMode
+**
+**  Set the data mode of the specified SPI Channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxSPISetMode(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxSPIWriteRead
+**
+**  Write/Read the specified SPI channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxSPIWriteRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+#endif  //LINX_SPI_ENABLED
 
 
 #endif //LINX_H
