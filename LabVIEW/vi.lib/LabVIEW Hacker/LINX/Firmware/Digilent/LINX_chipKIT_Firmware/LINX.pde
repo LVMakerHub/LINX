@@ -73,7 +73,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
   unsigned int command = commandPacketBuffer[4] << 8 | commandPacketBuffer[5];
   
   #ifdef DEBUG_ENABLED
-    Serial1.print("Processing Packet ..::");
+    Serial1.print("Processing Packet       ..::");
     for(int i=0; i<commandLength; i++)
     {
       Serial1.print("[");
@@ -144,13 +144,24 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     **  I2C
     ************************************************************************************/     
     #ifdef LINX_I2C_ENABLED
-	case 0x00E0: // I2C Open - Master
+    case 0x00E0: // I2C Open - Master
       linxI2COpenMaster(commandPacketBuffer, responsePacketBuffer);      
       break;
     case 0x00E2: // I2C Write
       linxI2CWrite(commandPacketBuffer, responsePacketBuffer);      
       break;
-	#endif	//LINX_I2C_ENABLED
+      
+    #endif  //LINX_I2C_ENABLED
+
+    /************************************************************************************
+    **  PWM
+    ************************************************************************************/     
+    #ifdef LINX_PWM_ENABLED
+    case 0x0083: // I2C Open - Master
+      linxPWMSetDutyCycle(commandPacketBuffer, responsePacketBuffer);      
+      break;
+      
+    #endif  //LINX_PWM_ENABLED
       
     default:  //Default Case
        responsePacketBuffer[0] = 0xFF;                                    //SoF
@@ -161,18 +172,18 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
        responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM     
        break; 
    }
-  
-  //Send Response Packet
-  #ifdef DEBUG_ENABLED 
-    Serial1.print("Sending Response Packet ..::"); 
-    for(int i=0; i<responsePacketBuffer[1]; i++)
-    {  
-      Serial1.print("[");
-      Serial1.print(responsePacketBuffer[i], HEX);
-      Serial1.print("]");      
-    }
-    Serial1.println("::..");
-  #endif  
+   
+   //If Debugging Enabled Print Response Packet
+   #ifdef DEBUG_ENABLED 
+     Serial1.print("Sending Response Packet ..::"); 
+     for(int i=0; i<responsePacketBuffer[1]; i++)
+     {  
+       Serial1.print("[");
+       Serial1.print(responsePacketBuffer[i], HEX);
+       Serial1.print("]");      
+     }
+     Serial1.println("::..");
+   #endif  
 }
 
 //--------------------------- checksumPassed ------------------------------------------//
@@ -257,7 +268,8 @@ void checkForSerialPacket()
          #endif
          //Process Packet
          processCommand(serialCommandBuffer, serialResponseBuffer);
-         //Send Response
+        
+         //Send Response Packet         
          Serial.write(serialResponseBuffer, serialResponseBuffer[1]);   
        }
        else
@@ -603,4 +615,39 @@ void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responseP
 }
 
 #endif  //LINX_ANALOG_INPUT_ENABLED
+
+
+/****************************************************************************************
+**
+**--------------------------- PWM ------------------------------------------------------ 
+**
+****************************************************************************************/
+
+
+#ifdef LINX_PWM_ENABLED
+
+void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Loop Over All PWM Pins To Set
+  for(int i=0; i<commandPacketBuffer[6]; i++)
+  {
+    //Config PWM Pin As Output
+    pinMode(commandPacketBuffer[i+7], OUTPUT);
+    
+    //Set Duty Cycle
+    analogWrite(commandPacketBuffer[i+7], commandPacketBuffer[i+7+commandPacketBuffer[6]]);
+  }  
+  
+  //Build Response Packet
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+}
+
+
+#endif  //LINX_PWM_ENABLED
+
 

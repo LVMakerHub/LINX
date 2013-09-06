@@ -32,6 +32,9 @@
 					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
 					<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
 				</Item>
+				<Item Name="PWM" Type="Folder">
+					<Item Name="PWM Duty Cycle Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/PWM/PWM Duty Cycle Control.ctl"/>
+				</Item>
 			</Item>
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
@@ -70,6 +73,9 @@
 				<Item Name="I2C Close.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Close.vi"/>
 				<Item Name="I2C Open.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Open.vi"/>
 				<Item Name="I2C Write.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Write.vi"/>
+			</Item>
+			<Item Name="PWM" Type="Folder">
+				<Item Name="Set Duty Cycle.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle.vi"/>
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>

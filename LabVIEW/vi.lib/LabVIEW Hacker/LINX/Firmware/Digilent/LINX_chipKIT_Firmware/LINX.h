@@ -253,6 +253,26 @@ void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responseP
 #endif  //LINX_ANALOG_INPUT_ENABLED
 
 
+/****************************************************************************************
+**
+**--------------------------- PWM ------------------------------------------------------ 
+**
+****************************************************************************************/
+
+#ifdef LINX_PWM_ENABLED
+/****************************************************************************************
+**  linxPWMSetDutyCycle
+**
+**  Set the duty cycle of the specified PWM channels
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+#endif  //LINX_PWM_ENABLED
+
 
 #endif //LINX_H
 

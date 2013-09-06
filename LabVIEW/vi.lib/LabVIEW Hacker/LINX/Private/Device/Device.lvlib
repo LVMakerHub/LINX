@@ -42,6 +42,9 @@
 			<Item Name="I2C Open.vi" Type="VI" URL="../Peripheral/I2C/I2C Open.vi"/>
 			<Item Name="I2C Write.vi" Type="VI" URL="../Peripheral/I2C/I2C Write.vi"/>
 		</Item>
+		<Item Name="PWM" Type="Folder">
+			<Item Name="Set Duty Cycle.vi" Type="VI" URL="../Peripheral/PWM/Set Duty Cycle.vi"/>
+		</Item>
 	</Item>
 	<Item Name="Type Defs" Type="Folder">
 		<Item Name="LINX Device Config.ctl" Type="VI" URL="../Type Defs/LINX Device Config.ctl"/>
