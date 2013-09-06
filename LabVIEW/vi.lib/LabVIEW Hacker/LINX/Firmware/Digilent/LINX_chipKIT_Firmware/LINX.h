@@ -229,5 +229,30 @@ void linxI2CWrite(unsigned char* commandPacketBuffer, unsigned char* responsePac
 #endif  //LINX_I2C_ENABLED
 
 
+
+/****************************************************************************************
+**
+**--------------------------- ANALOG INPUT ---------------------------------------------- 
+**
+****************************************************************************************/
+#ifdef LINX_ANALOG_INPUT_ENABLED
+
+
+/****************************************************************************************
+**  linxAnalogRead
+**
+**  Read values from the specified AI pins
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+#endif  //LINX_ANALOG_INPUT_ENABLED
+
+
+
 #endif //LINX_H
 

@@ -114,19 +114,34 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     * DIGITAL I/O
     ************************************************************************************/     
     #ifdef LINX_DIGITAL_ENABLED
-	case 0x0040: // Set Digital Pin Mode
+    case 0x0040: // Set Digital Pin Mode
       linxSetDigtalPinMode(commandPacketBuffer, responsePacketBuffer);      
       break;
+      
     case 0x0041: // Digital Write
       linxDigitalWrite(commandPacketBuffer, responsePacketBuffer);      
       break;
+      
     case 0x0042: // Digital Read
       linxDigitalRead(commandPacketBuffer, responsePacketBuffer);      
       break;
-	#endif	//LINX_DIGITAL_ENABLED
-    
+      
+    #endif //LINX_DIGITAL_ENABLED
+
+
     /************************************************************************************
-    * I2C
+    **  Analog I/O
+    ************************************************************************************/    
+    #ifdef LINX_ANALOG_INPUT_ENABLED
+    case 0x0064:  //Analog Read
+      linxAnalogRead(commandPacketBuffer, responsePacketBuffer);      
+      break;
+      
+    #endif //LINX_ANALOG_INPUT_ENABLED
+
+
+    /************************************************************************************
+    **  I2C
     ************************************************************************************/     
     #ifdef LINX_I2C_ENABLED
 	case 0x00E0: // I2C Open - Master
@@ -513,4 +528,79 @@ void linxI2CWrite(unsigned char* commandPacketBuffer, unsigned char* responsePac
 
 #endif  //LINX_I2C_ENABLED
 
+/****************************************************************************************
+**
+**--------------------------- ANALOG INPUT ---------------------------------------------- 
+**
+****************************************************************************************/
+#ifdef LINX_ANALOG_INPUT_ENABLED
+
+//--------------------------- linxAnalogRead ------------------------------------------//
+void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Prep Response Packet
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = AI_RESOLUTION;                           //RESOLUTION 
+  
+  unsigned int analogValue = 0;
+  unsigned char currentResponseOffset = 6;
+  unsigned char responseBitsRemaining = 8; 
+  unsigned char dataBitsRemaining = AI_RESOLUTION;
+  
+  responsePacketBuffer[currentResponseOffset] = 0x00;    //Clear Next Response Byte   
+  
+  //Loop Over All AI Pins In Command Packet
+  for(int i=0; i<(commandPacketBuffer[1]-7); i++)
+  {
+    analogValue = analogRead(commandPacketBuffer[i+6]);
+    //analogValue = 0x03BD;  //0b1110111101
+    
+    #ifdef DEBUG_ENABLED
+      Serial1.print("AI");
+      Serial1.print(commandPacketBuffer[i+6], DEC);
+      Serial1.print(" Value = ");
+      Serial1.println(analogValue, HEX);
+    #endif
+    
+    dataBitsRemaining = AI_RESOLUTION;
+    
+    //Byte Packet AI Values In Response Packet
+    while(dataBitsRemaining > 0)
+    {
+      responsePacketBuffer[currentResponseOffset] |= ( (analogValue>>(AI_RESOLUTION - dataBitsRemaining)) << (8 - responseBitsRemaining) );
+       
+      if(responseBitsRemaining > dataBitsRemaining)
+      {
+        //Current Byte Still Has Empty Bits
+        responseBitsRemaining -= dataBitsRemaining;
+        dataBitsRemaining = 0;
+      }
+      else
+      {
+        //Current Byte Full
+        dataBitsRemaining = dataBitsRemaining - responseBitsRemaining;
+        currentResponseOffset++;
+        responseBitsRemaining = 8;
+        responsePacketBuffer[currentResponseOffset] = 0x00;    //Clear Next Response Byte     
+      } 
+    } 
+  }
+  
+  //Complete Response Packet
+  if(responseBitsRemaining == 8)
+  {
+    responsePacketBuffer[1] = currentResponseOffset+1;                                       //PACKET SIZE
+    responsePacketBuffer[currentResponseOffset] = computeChecksum(responsePacketBuffer);     //CHECKSUM    
+  }
+  else
+  {     
+    responsePacketBuffer[1] = currentResponseOffset+2;                                       //PACKET SIZE
+    responsePacketBuffer[currentResponseOffset+1] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+  }  
+}
+
+#endif  //LINX_ANALOG_INPUT_ENABLED
 

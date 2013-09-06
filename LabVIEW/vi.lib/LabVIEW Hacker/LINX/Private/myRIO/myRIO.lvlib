@@ -8,10 +8,12 @@
 
 </Property>
 	<Item Name="Type Defs" Type="Folder">
+		<Item Name="AI Channel.ctl" Type="VI" URL="../Type Defs/AI Channel.ctl"/>
 		<Item Name="DIO Channel.ctl" Type="VI" URL="../Type Defs/DIO Channel.ctl"/>
 		<Item Name="I2C Channel.ctl" Type="VI" URL="../Type Defs/I2C Channel.ctl"/>
 	</Item>
 	<Item Name="Utilities" Type="Folder">
+		<Item Name="Get AI Channel Name.vi" Type="VI" URL="../Get AI Channel Name.vi"/>
 		<Item Name="Get DIO Channel Name.vi" Type="VI" URL="../Utilities/Get DIO Channel Name.vi"/>
 		<Item Name="Get I2C Channel Name.vi" Type="VI" URL="../Utilities/Get I2C Channel Name.vi"/>
 	</Item>

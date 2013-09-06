@@ -51,14 +51,16 @@
 			</Item>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
-			<Item Name="Get Device Channels.vi" Type="VI" URL="../Private/Utilties/Get Device Channels.vi"/>
+			<Item Name="Get Device Config.vi" Type="VI" URL="../Private/Utilties/Get Device Config.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">
-			<Item Name="Analog" Type="Folder"/>
+			<Item Name="Analog" Type="Folder">
+				<Item Name="Analog Read.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read.vi"/>
+			</Item>
 			<Item Name="Digital" Type="Folder">
 				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
 				<Item Name="Digital Read.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read.vi"/>
