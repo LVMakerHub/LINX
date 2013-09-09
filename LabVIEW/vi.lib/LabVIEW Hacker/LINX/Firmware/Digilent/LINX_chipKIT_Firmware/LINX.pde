@@ -180,7 +180,16 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x0103: // SPI Set Mode
       linxSPISetMode(commandPacketBuffer, responsePacketBuffer);      
       break;
-    case 0x0104: // SPI Write/Read
+    case 0x0104: // SPI Set Frame Size
+      //Removed This Command    
+      break;
+    case 0x0105: // SPI Set CS Logic Level
+      //Removed This Command         
+      break;
+     case 0x0106: // SPI Set CS Pin
+      //Removed This Command        
+      break;      
+    case 0x0107: // SPI Write/Read
       linxSPIWriteRead(commandPacketBuffer, responsePacketBuffer);      
       break;
       
@@ -722,49 +731,52 @@ void linxSPISetMode(unsigned char* commandPacketBuffer, unsigned char* responseP
   responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
 }
 
-
 //--------------------------- linxSPIWriteRead ----------------------------------------//
 void linxSPIWriteRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
-  unsigned char csPin = commandPacketBuffer[7];
-  unsigned char frameSize = commandPacketBuffer[8];
+  unsigned char numDataBytes = commandPacketBuffer[1] - 11;
+  unsigned char frameSize = commandPacketBuffer[7];
+  unsigned char SPI_csPin = commandPacketBuffer[8];
+  unsigned char SPI_csActiveHigh = commandPacketBuffer[9];
   unsigned char byteCounter = 0;
+  
   
   //Prep responsePacketBuffer
   responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[1] = numDataBytes + 6;                        //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
   responsePacketBuffer[4] = 0x00;                                    //STATUS
   
   //Set CS Pin As DO
-  pinMode(csPin, OUTPUT);
+  pinMode(SPI_csPin, OUTPUT);
   
-  //Assuming Active Low For Now
-  digitalWrite(csPin, HIGH);
+  //Set CS Pin Before Starting SPI Transfer
+  digitalWrite(SPI_csPin, (SPI_csActiveHigh ^ 0x01));  
   
   //Loop Over Data To Send, Send And Build Response
-  for(int i=0; i<(commandPacketBuffer[1]-9); i++)
+  for(int i=0; i<numDataBytes; i++)
   {
     if(byteCounter == 0)
     {
       //Start Frame
-      digitalWrite(csPin, LOW);      
+      digitalWrite(SPI_csPin, SPI_csActiveHigh);      
     }   
     
-    responsePacketBuffer[i+5] = SPI.transfer(commandPacketBuffer[i+9]);
+    responsePacketBuffer[i+5] = SPI.transfer(commandPacketBuffer[i+10]);
     byteCounter++;
    
-    if(byteCounter == frameSize-1)
+    if(byteCounter == frameSize)
     {
       //End Of Frame
-      digitalWrite(csPin, HIGH);
-      byteCounter = 0;            
+      digitalWrite(SPI_csPin, (SPI_csActiveHigh ^ 0x01));
+      byteCounter = 0; 
+      //May Need A Delay Here Depending On SPI Device      
     }   
   }
   
   //Add Response Packet Checksum
-  responsePacketBuffer[commandPacketBuffer[1]-3] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
+  responsePacketBuffer[numDataBytes + 5] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
 }
 
 #endif  //LINX_SPI_ENABLED

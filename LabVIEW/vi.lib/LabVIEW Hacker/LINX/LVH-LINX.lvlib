@@ -35,6 +35,13 @@
 				<Item Name="PWM" Type="Folder">
 					<Item Name="PWM Duty Cycle Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/PWM/PWM Duty Cycle Control.ctl"/>
 				</Item>
+				<Item Name="SPI" Type="Folder">
+					<Item Name="SPI Bit Order.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Bit Order.ctl"/>
+					<Item Name="SPI Clock Phase.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Phase.ctl"/>
+					<Item Name="SPI Clock Polarity.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Polarity.ctl"/>
+					<Item Name="SPI Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Configuration.ctl"/>
+					<Item Name="SPI CS Logic Level.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI CS Logic Level.ctl"/>
+				</Item>
 			</Item>
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
@@ -48,6 +55,7 @@
 			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Channel FGVs" Type="Folder">
 				<Item Name="I2C Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/I2C Channels.vi"/>
+				<Item Name="SPI Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/SPI Channels.vi"/>
 			</Item>
 			<Item Name="Target Management" Type="Folder">
 				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
@@ -76,6 +84,11 @@
 			</Item>
 			<Item Name="PWM" Type="Folder">
 				<Item Name="Set Duty Cycle.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle.vi"/>
+			</Item>
+			<Item Name="SPI" Type="Folder">
+				<Item Name="SPI Configure.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Configure.vi"/>
+				<Item Name="SPI Open.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Open.vi"/>
+				<Item Name="SPI Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read.vi"/>
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>

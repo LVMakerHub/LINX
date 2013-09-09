@@ -305,6 +305,18 @@ void linxSPIOpenMaster(unsigned char* commandPacketBuffer, unsigned char* respon
 ****************************************************************************************/
 void linxSPISetBitOrder(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
+/****************************************************************************************
+**  .: TODO :.
+**  linxSPISetClockRate
+**
+**  Set the clock rate of the specified SPI channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxSPISetBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
 
 /****************************************************************************************
 **  linxSPISetMode
@@ -319,6 +331,17 @@ void linxSPISetMode(unsigned char* commandPacketBuffer, unsigned char* responseP
 
 
 /****************************************************************************************
+**  linxSPISetFrameSize
+**
+**  Set the frame size in bytes for the specified SPI Channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxSPISetFrameSize(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
 **  linxSPIWriteRead
 **
 **  Write/Read the specified SPI channel.
@@ -328,6 +351,7 @@ void linxSPISetMode(unsigned char* commandPacketBuffer, unsigned char* responseP
 **  Output: none
 ****************************************************************************************/
 void linxSPIWriteRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
 
 #endif  //LINX_SPI_ENABLED
 

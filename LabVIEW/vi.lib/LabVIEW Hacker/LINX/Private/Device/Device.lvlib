@@ -50,6 +50,8 @@
 			<Item Name="SPI Write Read.vi" Type="VI" URL="../Peripheral/SPI/SPI Write Read.vi"/>
 			<Item Name="SPI Set Mode.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Mode.vi"/>
 			<Item Name="SPI Set Bit Order.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Bit Order.vi"/>
+			<Item Name="SPI Set CS Logic Level.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Logic Level.vi"/>
+			<Item Name="SPI Set CS Pin.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Pin.vi"/>
 		</Item>
 	</Item>
 	<Item Name="Type Defs" Type="Folder">
