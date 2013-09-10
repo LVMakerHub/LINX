@@ -96,6 +96,16 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
 ****************************************************************************************/
 void setupLINX();
 
+/****************************************************************************************
+**  statusResponse
+**
+**  Build a basic response packet with the specified status.
+**
+**  Input:  none
+**  Output: non
+****************************************************************************************/
+void statusResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, unsigned char linxStatus);
+
 
 /****************************************************************************************
 **
@@ -355,6 +365,88 @@ void linxSPIWriteRead(unsigned char* commandPacketBuffer, unsigned char* respons
 
 #endif  //LINX_SPI_ENABLED
 
+
+/****************************************************************************************
+**
+**--------------------------- UART ------------------------------------------------------ 
+**
+****************************************************************************************/
+
+#ifdef LINX_UART_ENABLED
+
+/****************************************************************************************
+**  linxUARTOpen
+**
+**  Open the UART channel with the specified baud rate.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxUARTOpen(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxUARTSetBaudRate
+**
+**  Set the buad rate of the specified UART channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxUARTSetBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxUARTGetBytesAvailable
+**
+**  Get the number of bytes available in the specified UART channel receive buffer.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxUARTGetBytesAvailable(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxUARTRead
+**
+**  Read the specified number of bytes from the specified UART channel's receive buffer.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxUARTRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxUARTWrite
+**
+**  Transmit data using the specified UART channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxUARTWrite(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
+**  linxUARTClose
+**
+**  Close the specified UART channel.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxUARTClose(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+#endif //LINX_UART_ENABLED
 
 #endif //LINX_H
 

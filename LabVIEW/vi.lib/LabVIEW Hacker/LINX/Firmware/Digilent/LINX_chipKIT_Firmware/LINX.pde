@@ -94,12 +94,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     * SYSTEM COMMANDS
     ************************************************************************************/
     case 0x0000: // Sync Packet        
-      responsePacketBuffer[0] = 0xFF;                                    //SoF
-      responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-      responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-      responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-      responsePacketBuffer[4] = 0x00;                                    //STATUS
-      responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM         
+      statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
       break;
       
     case 0x0003: // Get Device ID     
@@ -142,6 +137,30 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;
       
     #endif //LINX_ANALOG_INPUT_ENABLED
+    
+    /************************************************************************************
+    **  UART
+    ************************************************************************************/     
+    #ifdef LINX_UART_ENABLED
+    case 0x0C0: // UART Open
+      linxUARTOpen(commandPacketBuffer, responsePacketBuffer);      
+      break; 
+    case 0x0C1: // UART Set Baud Rate
+      linxUARTSetBaudRate(commandPacketBuffer, responsePacketBuffer);      
+      break; 
+    case 0x0C2: // UART Get Bytes Available
+      linxUARTGetBytesAvailable(commandPacketBuffer, responsePacketBuffer);      
+      break; 
+    case 0x0C3: // UART Read
+      linxUARTRead(commandPacketBuffer, responsePacketBuffer);      
+      break; 
+    case 0x0C4: // UART Write
+      linxUARTWrite(commandPacketBuffer, responsePacketBuffer);      
+      break;      
+    case 0x0C5: // UART Close
+      linxUARTClose(commandPacketBuffer, responsePacketBuffer);      
+      break; 
+    #endif  //LINX_UART_ENABLED
 
 
     /************************************************************************************
@@ -191,17 +210,12 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;      
     case 0x0107: // SPI Write/Read
       linxSPIWriteRead(commandPacketBuffer, responsePacketBuffer);      
-      break;
-      
+      break;      
     #endif  //LINX_SPI_ENABLED
+        
       
     default:  //Default Case
-       responsePacketBuffer[0] = 0xFF;                                    //SoF
-       responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-       responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-       responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-       responsePacketBuffer[4] = 0x01;                                    //STATUS
-       responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM     
+       statusResponse(commandPacketBuffer, responsePacketBuffer, 0x01);
        break; 
    }
    
@@ -237,6 +251,16 @@ unsigned char computeChecksum(unsigned char* packetBuffer)
   return checksum; 
 }
 
+//--------------------------- statusResponse ------------------------------------------//
+void statusResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, unsigned char linxStatus)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = linxStatus;                              //STATUS
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM   
+}
 
 
 
@@ -417,12 +441,8 @@ void linxDigitalWrite(unsigned char* commandPacketBuffer, unsigned char* respons
     pinOffset++;
   }
   
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM   
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
 }
 
 
@@ -507,12 +527,8 @@ void linxSetDigtalPinMode(unsigned char* commandPacketBuffer, unsigned char* res
     pinOffset++;
   }
   
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM   
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
 }
 #endif  //LINX_DIGITAL_ENABLED
 
@@ -528,12 +544,9 @@ void linxSetDigtalPinMode(unsigned char* commandPacketBuffer, unsigned char* res
 void linxI2CClose(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
   //Nothing To Do Here....   
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+ 
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
    
 }
 
@@ -543,12 +556,8 @@ void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* respon
 {
   Wire.begin();
     
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00); 
 }
  
  
@@ -562,12 +571,8 @@ void linxI2CWrite(unsigned char* commandPacketBuffer, unsigned char* responsePac
   }
   Wire.endTransmission();
   
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
 }
 
 #endif  //LINX_I2C_ENABLED
@@ -671,13 +676,8 @@ void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* resp
     analogWrite(commandPacketBuffer[i+7], commandPacketBuffer[i+7+commandPacketBuffer[6]]);
   }  
   
-  //Build Response Packet
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
 }
 
 
@@ -695,12 +695,8 @@ void linxSPIOpenMaster(unsigned char* commandPacketBuffer, unsigned char* respon
 {
   SPI.begin();
   
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);  
 }
 
 
@@ -709,12 +705,8 @@ void linxSPISetBitOrder(unsigned char* commandPacketBuffer, unsigned char* respo
 {
   SPI.setBitOrder(commandPacketBuffer[7]);
   
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
+ //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);    
 }
 
 
@@ -723,12 +715,8 @@ void linxSPISetMode(unsigned char* commandPacketBuffer, unsigned char* responseP
 {
   SPI.setDataMode(commandPacketBuffer[7]);
   
-  responsePacketBuffer[0] = 0xFF;                                    //SoF
-  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
-  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
-  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
-  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
+ //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);  
 }
 
 //--------------------------- linxSPIWriteRead ----------------------------------------//
@@ -780,5 +768,145 @@ void linxSPIWriteRead(unsigned char* commandPacketBuffer, unsigned char* respons
 }
 
 #endif  //LINX_SPI_ENABLED
+
+
+
+/****************************************************************************************
+**
+**--------------------------- UART ------------------------------------------------------ 
+**
+****************************************************************************************/
+
+#ifdef LINX_UART_ENABLED
+
+//--------------------------- linxUARTOpen --------------------------------------------//
+void linxUARTOpen(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  unsigned long baudRate = (commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | (commandPacketBuffer[10]);
+    
+  if(commandPacketBuffer[6] == 0)
+  {
+    //Open UART0
+    Serial.begin(baudRate);    
+  }
+  else if(commandPacketBuffer[6] == 1)
+  {
+    //Open UART1
+    Serial1.begin(baudRate);  
+  }
+  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);  
+}
+
+
+//--------------------------- linxUARTSetBaudRate -------------------------------------//
+void linxUARTSetBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  unsigned long baudRate = (commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | (commandPacketBuffer[10]);
+  
+  if(commandPacketBuffer[6] == 0)
+  {
+    //Open UART0
+    Serial.begin(baudRate);    
+  }
+  else if(commandPacketBuffer[6] == 1)
+  {
+    //Open UART1
+    Serial1.begin(baudRate);  
+  }
+  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);    
+}
+
+
+//--------------------------- linxUARTGetBytesAvailable -------------------------------//
+void linxUARTGetBytesAvailable(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  if(commandPacketBuffer[6] == 0)
+  {
+    //Check UART0 Buffer
+    responsePacketBuffer[5] = Serial.available();    
+  }
+  else if(commandPacketBuffer[6] == 1)
+  {
+    //Check UART0 Buffer
+    responsePacketBuffer[5] = Serial1.available();    
+  }
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x07;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[6] = computeChecksum(responsePacketBuffer);   //CHECKSUM   
+}
+
+//--------------------------- linxUARTRead --------------------------------------------//
+void linxUARTRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  unsigned char bytesToRead = commandPacketBuffer[7];
+  
+  if(commandPacketBuffer[6] == 0)
+  {
+    //Read From UART0 Buffer
+    for(int i=0; i<bytesToRead; i++)
+    {
+      responsePacketBuffer[i+5] = Serial.read();      
+    }
+  }
+  else if(commandPacketBuffer[6] == 1)
+  {
+    //Read From UART1 Buffer
+    for(int i=0; i<bytesToRead; i++)
+    {
+      responsePacketBuffer[i+5] = Serial1.read();      
+    } 
+  }
+  
+  responsePacketBuffer[0] = 0xFF;                                                //SoF
+  responsePacketBuffer[1] = bytesToRead + 6;                                                //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                              //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                              //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                                //STATUS  
+  responsePacketBuffer[bytesToRead+5] = computeChecksum(responsePacketBuffer);   //CHECKSUM     
+}
+
+//--------------------------- linxUARTWrite -------------------------------------------//
+void linxUARTWrite(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  unsigned char bytesToWrite = commandPacketBuffer[1] - 8;
+  if(commandPacketBuffer[6] == 0)
+  {
+    //Write To UART0
+    for(int i=0; i<bytesToWrite; i++)
+    {
+      Serial.print(commandPacketBuffer[i+7]);      
+    }
+  }
+  else if(commandPacketBuffer[6] == 1)
+  {
+    //Read To UART1
+    for(int i=0; i<bytesToWrite; i++)
+    {
+      Serial1.print(commandPacketBuffer[i+7]); 
+    } 
+  }
+  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);      
+}
+
+//--------------------------- linxUARTClose -------------------------------------------//
+void linxUARTClose(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Noting To Do Here...
+  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);  
+}
+
+#endif  //LINX_UART_ENABLED
 
 

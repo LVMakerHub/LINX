@@ -53,6 +53,14 @@
 			<Item Name="SPI Set CS Logic Level.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Logic Level.vi"/>
 			<Item Name="SPI Set CS Pin.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Pin.vi"/>
 		</Item>
+		<Item Name="UART" Type="Folder">
+			<Item Name="UART Open.vi" Type="VI" URL="../Peripheral/UART/UART Open.vi"/>
+			<Item Name="UART Set Baud Rate.vi" Type="VI" URL="../Peripheral/UART/UART Set Baud Rate.vi"/>
+			<Item Name="UART Get Bytes Available.vi" Type="VI" URL="../Peripheral/UART/UART Get Bytes Available.vi"/>
+			<Item Name="UART Read.vi" Type="VI" URL="../Peripheral/UART/UART Read.vi"/>
+			<Item Name="UART Write.vi" Type="VI" URL="../Peripheral/UART/UART Write.vi"/>
+			<Item Name="UART Close.vi" Type="VI" URL="../Peripheral/UART/UART Close.vi"/>
+		</Item>
 	</Item>
 	<Item Name="Type Defs" Type="Folder">
 		<Item Name="LINX Device Config.ctl" Type="VI" URL="../Type Defs/LINX Device Config.ctl"/>

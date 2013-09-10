@@ -42,6 +42,7 @@
   //#define LINX_ANALOG_OUTPUT_ENABLED 1
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
+  #define LINX_UART_ENABLED 1
   
 /****************************************************************************************
 **
