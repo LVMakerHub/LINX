@@ -71,6 +71,7 @@
 				<Item Name="LINX Digital Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX Digital Write Benchmark.vi"/>
 				<Item Name="LINX I2C Write Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX I2C Write Test App.vi"/>
 				<Item Name="LINX SPI Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX SPI Benchmark.vi"/>
+				<Item Name="LINX UART Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX UART Write Benchmark.vi"/>
 			</Item>
 			<Item Name="myLINX" Type="Folder">
 				<Item Name="DIO Pin To Channel.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/myLINX/DIO Pin To Channel.vi"/>

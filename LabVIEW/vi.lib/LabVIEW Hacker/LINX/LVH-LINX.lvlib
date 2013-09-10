@@ -56,6 +56,7 @@
 			<Item Name="Channel FGVs" Type="Folder">
 				<Item Name="I2C Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/I2C Channels.vi"/>
 				<Item Name="SPI Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/SPI Channels.vi"/>
+				<Item Name="UART Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/UART Channels.vi"/>
 			</Item>
 			<Item Name="Target Management" Type="Folder">
 				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
@@ -89,6 +90,14 @@
 				<Item Name="SPI Configure.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Configure.vi"/>
 				<Item Name="SPI Open.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Open.vi"/>
 				<Item Name="SPI Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read.vi"/>
+			</Item>
+			<Item Name="UART" Type="Folder">
+				<Item Name="UART Close.vi" Type="VI" URL="../Public/Peripherals/UART/UART Close.vi"/>
+				<Item Name="UART Get Bytes Available.vi" Type="VI" URL="../Public/Peripherals/UART/UART Get Bytes Available.vi"/>
+				<Item Name="UART Open.vi" Type="VI" URL="../Public/Peripherals/UART/UART Open.vi"/>
+				<Item Name="UART Read.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read.vi"/>
+				<Item Name="UART Set Baud Rate.vi" Type="VI" URL="../Public/Peripherals/UART/UART Set Baud Rate.vi"/>
+				<Item Name="UART Write.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write.vi"/>
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>
