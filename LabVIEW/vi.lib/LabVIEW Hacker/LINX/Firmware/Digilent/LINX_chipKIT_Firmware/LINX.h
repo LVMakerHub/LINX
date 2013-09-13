@@ -7,15 +7,6 @@
 ****************************************************************************************/
 #include "LINX_Config.h"
 
-/****************************************************************************************
-**  Variables
-****************************************************************************************/
-#ifdef LINX_SERIAL_INTERFACE_ENABLED
-  //LINX Serial Packet Send / Receive Buffers
-  unsigned char serialCommandBuffer[64];
-  unsigned char serialResponseBuffer[64];
-#endif
-
 
 /****************************************************************************************
 **  Functions
@@ -32,7 +23,7 @@
 /****************************************************************************************
 **  checksumPassed
 **
-**  Check the specified packet buffer to see if the checksum passes
+**  Check the specified packet buffer to see if the checksum passes.  Uses [1] as length.
 **
 **  Input:  packetBuffer - pointer to a packet buffer
 **  Output: True if the checksum passes, false otherwise
@@ -79,6 +70,7 @@ void getMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responseP
 **  processCommand
 **
 **  Process a LINX command packet and generate a response packet
+**  This command only fills the reponse buffer, it does not send the response packet.
 **
 **  Input:  packetBuffer - pointer to a packet buffer
 **  Output: True if the checksum passes, false otherwise 
@@ -123,18 +115,18 @@ void statusResponse(unsigned char* commandPacketBuffer, unsigned char* responseP
 **  Input:  None
 **  Output: None
 ****************************************************************************************/
-void checkForSerialPacket();
+void checkForLINXSerialPacket();
 
 
 /****************************************************************************************
-**  setupSerial
+**  setupLINXSerialInterface
 **
 **  Initialize The Serial Port For LINX Communication To The Host.
 **
 **  Input:  None
 **  Output: None
 ****************************************************************************************/
-void setupSerial();
+void setupLINXSerialInterface();
 
 
 /****************************************************************************************
@@ -148,6 +140,50 @@ void setupSerial();
 ****************************************************************************************/
 void setBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 #endif  //LINX_SERIAL_INTERFACE_ENABLED
+
+/****************************************************************************************
+**
+**--------------------------- ETHERNET INTERFACE ---------------------------------------- 
+**
+****************************************************************************************/
+#ifdef LINX_ETHERNET_INTERFACE_ENABLED
+
+typedef enum
+{
+    NONE = 0,
+    LISTEN,
+    ISLISTENING,
+    AVAILABLECLIENT,
+    ACCEPTCLIENT,
+    READ,
+    WRITE,
+    CLOSE,
+    EXIT,
+    DONE
+} STATE;
+
+/****************************************************************************************
+**  setupLINXEthernetInterface
+**
+**  Initialize The chipKIT Network Shield For LINX Communication To The Host.
+**
+**  Input:  None
+**  Output: None
+****************************************************************************************/
+void setupLINXEthernetInterface();
+
+/****************************************************************************************
+**  checkForEthernetPacket
+**
+**  Check Ethernet Stack For LINX Command Packet.  If Full Packet Exists And Checksum 
+**  Passes Process The Command.
+**
+**  Input:  None
+**  Output: None
+****************************************************************************************/
+void checkForLINXEthernetPacket();
+
+#endif  //LINX_ETHERNET_INTERFACE_ENABLED
 
 
 /****************************************************************************************

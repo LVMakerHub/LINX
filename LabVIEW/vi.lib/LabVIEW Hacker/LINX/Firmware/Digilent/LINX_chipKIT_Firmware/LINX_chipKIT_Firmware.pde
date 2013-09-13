@@ -40,7 +40,11 @@ void loop()
 {
   //Check For A LINX Packet
   #ifdef LINX_SERIAL_INTERFACE_ENABLED
-    checkForSerialPacket();
+    checkForLINXSerialPacket();
+  #endif
+  
+  #ifdef LINX_ETHERNET_INTERFACE_ENABLED
+    checkForLINXEthernetPacket();
   #endif
 }
 

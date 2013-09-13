@@ -25,6 +25,9 @@
 				<Item Name="DD Enabler.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Diagram Disable Auto Enable/DD Enabler.vi"/>
 				<Item Name="DD Test Subject.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Diagram Disable Auto Enable/DD Test Subject.vi"/>
 			</Item>
+			<Item Name="LINX TCP" Type="Folder">
+				<Item Name="Ethernet Sync.vi" Type="VI" URL="../../../../../LabVIEW 2013/vi.lib/LabVIEW Hacker/LINX/POC/LINX TCP/Ethernet Sync.vi"/>
+			</Item>
 			<Item Name="Serial and TCP Benchmarking" Type="Folder">
 				<Item Name="Results" Type="Folder">
 					<Item Name="Arduino Uno - Serial.PNG" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Results/Arduino Uno - Serial.PNG"/>

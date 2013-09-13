@@ -15,9 +15,21 @@
   //Uncomment To Enable Debugging On The Secondary Serial Port.
   #define DEBUG_ENABLED 1
   
-  //Uncomment A Line Below To Enable LINX Packets On The Specified Interface.
-  #define LINX_SERIAL_INTERFACE_ENABLED 1
-  //#define LINX_ETHERNET_INTERFACE_ENABLED 1
+  //Uncomment A Section Below To Enable LINX Packets On The Specified Interface.
+  
+  //Serial
+  //#define LINX_SERIAL_INTERFACE_ENABLED 1
+  //#define MAX_BAUD_RATE 115200
+  
+  //Ethernet
+  #define LINX_ETHERNET_INTERFACE_ENABLED 1
+  #define LINX_ETHERNET_DEFAULT_IP {10, 2, 106, 213}
+  #define LINX_ETHERNET_DEFAULT_PORT 6921
+  #define LINX_ETHERNET_RX_BUFF_SIZE 256
+  #define LINX_ETHERNET_TX_BUFF_SIZE 256
+  #define LINX_ETHERNET_DEFAULT_TIMEOUT 5000              //Ethernet Timeout In mS
+  
+  //WIFI
   //#define LINX_WIFI_INTERFACE_ENABLED 1
   
   //Device ID
