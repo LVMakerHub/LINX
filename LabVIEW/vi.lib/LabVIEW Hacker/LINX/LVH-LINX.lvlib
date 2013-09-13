@@ -9,103 +9,103 @@
 		<Item Name="Type Defs" Type="Folder">
 			<Item Name="Devices" Type="Folder">
 				<Item Name="Arduino" Type="Folder">
-					<Item Name="Devices - Arduino.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices - Arduino.ctl"/>
+					<Item Name="Devices - Arduino.ctl" Type="VI" URL="../Private/Type Defs/Devices - Arduino.ctl"/>
 				</Item>
 				<Item Name="Digilent" Type="Folder">
-					<Item Name="chipKIT DP32.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices/Digilent/chipKIT DP32.vi"/>
-					<Item Name="chipKIT Max32.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices/Digilent/chipKIT Max32.vi"/>
-					<Item Name="chipKIT uC32.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices/Digilent/chipKIT uC32.vi"/>
-					<Item Name="chipKIT Uno32.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices/Digilent/chipKIT Uno32.vi"/>
-					<Item Name="Devices - Digilent.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices - Digilent.ctl"/>
+					<Item Name="chipKIT DP32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT DP32.vi"/>
+					<Item Name="chipKIT Max32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Max32.vi"/>
+					<Item Name="chipKIT uC32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT uC32.vi"/>
+					<Item Name="chipKIT Uno32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Uno32.vi"/>
+					<Item Name="Devices - Digilent.ctl" Type="VI" URL="../Private/Type Defs/Devices - Digilent.ctl"/>
 				</Item>
 				<Item Name="NI" Type="Folder">
-					<Item Name="Devices - NI.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices - NI.ctl"/>
-					<Item Name="myRI0-1900.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices/NI/myRI0-1900.vi"/>
-					<Item Name="myRI0-1950.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices/NI/myRI0-1950.vi"/>
+					<Item Name="Devices - NI.ctl" Type="VI" URL="../Private/Type Defs/Devices - NI.ctl"/>
+					<Item Name="myRI0-1900.vi" Type="VI" URL="../Private/Type Defs/Devices/NI/myRI0-1900.vi"/>
+					<Item Name="myRI0-1950.vi" Type="VI" URL="../Private/Type Defs/Devices/NI/myRI0-1950.vi"/>
 				</Item>
-				<Item Name="Device Family.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Device Family.ctl"/>
-				<Item Name="Generic Device.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Devices/Generic Device.ctl"/>
+				<Item Name="Device Family.ctl" Type="VI" URL="../Private/Type Defs/Device Family.ctl"/>
+				<Item Name="Generic Device.ctl" Type="VI" URL="../Private/Type Defs/Devices/Generic Device.ctl"/>
 			</Item>
 			<Item Name="Perpipherals" Type="Folder">
 				<Item Name="Digital" Type="Folder">
-					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
-					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
-					<Item Name="Digital Write Control.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
+					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
+					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
+					<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
 				</Item>
 				<Item Name="PWM" Type="Folder">
-					<Item Name="PWM Duty Cycle Control.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/PWM/PWM Duty Cycle Control.ctl"/>
+					<Item Name="PWM Duty Cycle Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/PWM/PWM Duty Cycle Control.ctl"/>
 				</Item>
 				<Item Name="SPI" Type="Folder">
-					<Item Name="SPI Bit Order.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/SPI/SPI Bit Order.ctl"/>
-					<Item Name="SPI Clock Phase.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/SPI/SPI Clock Phase.ctl"/>
-					<Item Name="SPI Clock Polarity.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/SPI/SPI Clock Polarity.ctl"/>
-					<Item Name="SPI Configuration.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/SPI/SPI Configuration.ctl"/>
-					<Item Name="SPI CS Logic Level.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripherals/SPI/SPI CS Logic Level.ctl"/>
+					<Item Name="SPI Bit Order.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Bit Order.ctl"/>
+					<Item Name="SPI Clock Phase.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Phase.ctl"/>
+					<Item Name="SPI Clock Polarity.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Polarity.ctl"/>
+					<Item Name="SPI Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Configuration.ctl"/>
+					<Item Name="SPI CS Logic Level.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI CS Logic Level.ctl"/>
 				</Item>
 			</Item>
-			<Item Name="Channel FGV States.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Channel FGV States.ctl"/>
-			<Item Name="Error Type.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Error Type.ctl"/>
-			<Item Name="Interface.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Interface.ctl"/>
-			<Item Name="LINX Ref.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/LINX Ref.ctl"/>
-			<Item Name="Peripheral.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Peripheral.ctl"/>
-			<Item Name="Platform.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/Platform.ctl"/>
-			<Item Name="User Platform.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Type Defs/User Platform.ctl"/>
+			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
+			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
+			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
+			<Item Name="LINX Ref.ctl" Type="VI" URL="../Private/Type Defs/LINX Ref.ctl"/>
+			<Item Name="Peripheral.ctl" Type="VI" URL="../Private/Type Defs/Peripheral.ctl"/>
+			<Item Name="Platform.ctl" Type="VI" URL="../Private/Type Defs/Platform.ctl"/>
+			<Item Name="User Platform.ctl" Type="VI" URL="../Private/Type Defs/User Platform.ctl"/>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Channel FGVs" Type="Folder">
-				<Item Name="I2C Channels.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Channel FGVs/I2C Channels.vi"/>
-				<Item Name="SPI Channels.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Channel FGVs/SPI Channels.vi"/>
-				<Item Name="UART Channels.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Channel FGVs/UART Channels.vi"/>
+				<Item Name="I2C Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/I2C Channels.vi"/>
+				<Item Name="SPI Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/SPI Channels.vi"/>
+				<Item Name="UART Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/UART Channels.vi"/>
 			</Item>
 			<Item Name="Target Management" Type="Folder">
-				<Item Name="Get Platform.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Target Management/Get Platform.vi"/>
+				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
 			</Item>
-			<Item Name="Generate Error.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Generate Error.vi"/>
-			<Item Name="Device ID to Name.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Device ID to Name.vi"/>
-			<Item Name="Get Device Config.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Get Device Config.vi"/>
-			<Item Name="Enable myRIO Support.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Enable myRIO Support.vi"/>
+			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
+			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
+			<Item Name="Get Device Config.vi" Type="VI" URL="../Private/Utilties/Get Device Config.vi"/>
+			<Item Name="Enable myRIO Support.vi" Type="VI" URL="../Private/Utilties/Enable myRIO Support.vi"/>
 		</Item>
-		<Item Name="Device.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Device.lvlib"/>
-		<Item Name="myRIO.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/myRIO/myRIO.lvlib"/>
+		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
+		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">
 			<Item Name="Analog" Type="Folder">
-				<Item Name="Analog Read.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/Analog/Analog Read.vi"/>
+				<Item Name="Analog Read.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read.vi"/>
 			</Item>
 			<Item Name="Digital" Type="Folder">
-				<Item Name="Digital Close.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/Digital/Digital Close.vi"/>
-				<Item Name="Digital Read.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/Digital/Digital Read.vi"/>
-				<Item Name="Digital Write.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/Digital/Digital Write.vi"/>
+				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
+				<Item Name="Digital Read.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read.vi"/>
+				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
 			</Item>
 			<Item Name="I2C" Type="Folder">
-				<Item Name="I2C Close.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/I2C/I2C Close.vi"/>
-				<Item Name="I2C Open.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/I2C/I2C Open.vi"/>
-				<Item Name="I2C Write.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/I2C/I2C Write.vi"/>
+				<Item Name="I2C Close.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Close.vi"/>
+				<Item Name="I2C Open.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Open.vi"/>
+				<Item Name="I2C Write.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Write.vi"/>
 			</Item>
 			<Item Name="PWM" Type="Folder">
-				<Item Name="Set Duty Cycle.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/PWM/Set Duty Cycle.vi"/>
+				<Item Name="Set Duty Cycle.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle.vi"/>
 			</Item>
 			<Item Name="SPI" Type="Folder">
-				<Item Name="SPI Configure.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/SPI/SPI Configure.vi"/>
-				<Item Name="SPI Open.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/SPI/SPI Open.vi"/>
-				<Item Name="SPI Write Read.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/SPI/SPI Write Read.vi"/>
+				<Item Name="SPI Configure.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Configure.vi"/>
+				<Item Name="SPI Open.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Open.vi"/>
+				<Item Name="SPI Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read.vi"/>
 			</Item>
 			<Item Name="UART" Type="Folder">
-				<Item Name="UART Close.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/UART/UART Close.vi"/>
-				<Item Name="UART Get Bytes Available.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/UART/UART Get Bytes Available.vi"/>
-				<Item Name="UART Open.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/UART/UART Open.vi"/>
-				<Item Name="UART Read.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/UART/UART Read.vi"/>
-				<Item Name="UART Set Baud Rate.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/UART/UART Set Baud Rate.vi"/>
-				<Item Name="UART Write.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Peripherals/UART/UART Write.vi"/>
+				<Item Name="UART Close.vi" Type="VI" URL="../Public/Peripherals/UART/UART Close.vi"/>
+				<Item Name="UART Get Bytes Available.vi" Type="VI" URL="../Public/Peripherals/UART/UART Get Bytes Available.vi"/>
+				<Item Name="UART Open.vi" Type="VI" URL="../Public/Peripherals/UART/UART Open.vi"/>
+				<Item Name="UART Read.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read.vi"/>
+				<Item Name="UART Set Baud Rate.vi" Type="VI" URL="../Public/Peripherals/UART/UART Set Baud Rate.vi"/>
+				<Item Name="UART Write.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write.vi"/>
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder"/>
 		<Item Name="Utilities" Type="Folder">
-			<Item Name="Check Channel.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Utilities/Check Channel.vi"/>
+			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
 		</Item>
-		<Item Name="Close.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Close.vi"/>
-		<Item Name="Initialize.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Initialize.vi"/>
+		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
+		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
 </Library>
