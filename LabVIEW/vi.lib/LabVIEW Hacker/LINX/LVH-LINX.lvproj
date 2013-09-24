@@ -65,6 +65,7 @@
 				<Item Name="I2C Write Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/I2C Write Test App.vi"/>
 				<Item Name="PWM Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/PWM Benchmark.vi"/>
 				<Item Name="SPI Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/SPI Benchmark.vi"/>
+				<Item Name="TCP - Ethernet.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/TCP - Ethernet.vi"/>
 				<Item Name="UART Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/UART Benchmark.vi"/>
 				<Item Name="UART Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/UART Read Benchmark.vi"/>
 			</Item>

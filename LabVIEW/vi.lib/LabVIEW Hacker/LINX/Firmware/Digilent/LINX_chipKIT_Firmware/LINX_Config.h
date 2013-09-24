@@ -27,7 +27,7 @@
   #define LINX_ETHERNET_DEFAULT_PORT 6921
   #define LINX_ETHERNET_RX_BUFF_SIZE 256
   #define LINX_ETHERNET_TX_BUFF_SIZE 256
-  #define LINX_ETHERNET_DEFAULT_TIMEOUT 5000              //Ethernet Timeout In mS
+  #define LINX_ETHERNET_DEFAULT_TIMEOUT 60000              //Ethernet Timeout In mS
   
   //WIFI
   //#define LINX_WIFI_INTERFACE_ENABLED 1

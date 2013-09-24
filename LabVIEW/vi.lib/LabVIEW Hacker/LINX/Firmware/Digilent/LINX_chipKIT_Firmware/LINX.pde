@@ -489,12 +489,15 @@ void checkForLINXEthernetPacket()
       break;
       
     case ISLISTENING:
-      //Check Listener Status
+      //Check If Server Is Listening
+      #ifdef DEBUG_ENABLED          
+          Serial1.println("STATE => ISLISTENTING");
+      #endif  //DEBUG_ENABLED
       if(ethernetTCPServer.isListening(&ethernetStatus))
       {
         ethernetState = AVAILABLECLIENT;
         #ifdef DEBUG_ENABLED          
-          Serial1.print("Ethernet Listening On Port");
+          Serial1.print("Ethernet Listening On Port ");
           Serial1.println(deviceEthernetPort);
         #endif  //DEBUG_ENABLED
       }
@@ -502,10 +505,21 @@ void checkForLINXEthernetPacket()
       {
         ethernetState = EXIT;
       }
+      else
+      {
+         #ifdef DEBUG_ENABLED
+          Serial1.print("Ethernet Status => ");         
+          Serial1.println(ethernetStatus, DEC);
+        #endif  //DEBUG_ENABLED
+        
+      }
       break;
       
     case AVAILABLECLIENT:
-      if( (ethernetClientCount == ethernetTCPServer.availableClients()) > 0)
+      #ifdef DEBUG_ENABLED          
+        Serial1.println("STATE => AVAILABLECLIENT");
+      #endif  //DEBUG_ENABLED
+      if( (ethernetClientCount = ethernetTCPServer.availableClients()) > 0)
       {
         ethernetState = ACCEPTCLIENT;
        
@@ -513,9 +527,19 @@ void checkForLINXEthernetPacket()
           Serial1.println("Ethernet Client Available...");
         #endif  //DEBUG_ENABLED
       }
+      else
+      {
+        #ifdef DEBUG_ENABLED          
+          Serial1.println("Waiting For Ethernet Client...");
+        #endif  //DEBUG_ENABLED
+      }
       break;
+      
     case ACCEPTCLIENT:
       //Accept The Cleint Connection
+      #ifdef DEBUG_ENABLED          
+        Serial1.println("STATE => ACCEPTCLIENT");
+      #endif  //DEBUG_ENABLED
       
       //Close Any Previous Connections Just In Case
       ethernetTCPClient.close();
@@ -533,6 +557,8 @@ void checkForLINXEthernetPacket()
         ethernetState = CLOSE;
         #ifdef DEBUG_ENABLED          
           Serial1.println("Failed To Accept Ethernet Connection...");
+          Serial1.print("Ethernet Status => ");         
+          Serial1.println(ethernetStatus, DEC);
         #endif  //DEBUG_ENABLED
       }
       break;
@@ -599,8 +625,7 @@ void checkForLINXEthernetPacket()
             #ifdef DEBUG_ENABLED          
               Serial1.println("Checksum Failed...");
             #endif  //DEBUG_ENABLED            
-          }
-          
+          }          
         }
         else
         {
@@ -620,9 +645,15 @@ void checkForLINXEthernetPacket()
       }
       else
       {
-        //No SoF But No Timeout Either, Loop To Read Again
+        //No Data To Read But No Timeout Either, Loop To Read Again
         ethernetState = READ;
-        ethernetStartTime = (unsigned) millis();
+        //ethernetStartTime = (unsigned) millis();
+        
+        #ifdef DEBUG_ENABLED          
+          Serial1.print(((unsigned)millis() - ethernetStartTime), DEC);
+          Serial1.println(" mS With No Data");
+        #endif  //DEBUG_ENABLED  
+
       } 
       break;
    
@@ -631,6 +662,15 @@ void checkForLINXEthernetPacket()
        #ifdef DEBUG_ENABLED          
           Serial1.println("Ethernet Write Case...");
         #endif  //DEBUG_ENABLED   
+      break;
+
+    case CLOSE:
+      //Close TCP Connection, Return To Listening State
+      #ifdef DEBUG_ENABLED          
+        Serial1.println("Closing Ethernet TCP Connection...");
+      #endif  //DEBUG_ENABLED
+      ethernetTCPClient.close();
+      ethernetState = ISLISTENING;
       break;
       
     case EXIT:
@@ -650,6 +690,7 @@ void checkForLINXEthernetPacket()
       #ifdef DEBUG_ENABLED          
         Serial1.println("Ethernet TCP Server Offline");
       #endif  //DEBUG_ENABLED
+    break;
     
     default:
       ethernetState = EXIT;
@@ -658,7 +699,10 @@ void checkForLINXEthernetPacket()
         Serial1.println("Unknown Ethernet TCP State");
       #endif  //DEBUG_ENABLED
       break;
-  }  
+  } 
+  
+  //Every Iteration Run Periodic Network Tasks
+  DNETcK::periodicTasks(); 
 }
 
 #endif  //LINX_ETHERNET_INTERFACE_ENABLED
