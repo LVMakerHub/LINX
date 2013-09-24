@@ -14,6 +14,9 @@
 			<Item Name="Serial Open.vi" Type="VI" URL="../Utilities/Wrappers/Serial Open.vi"/>
 			<Item Name="Serial Read.vi" Type="VI" URL="../Utilities/Wrappers/Serial Read.vi"/>
 			<Item Name="Serial Write.vi" Type="VI" URL="../Utilities/Wrappers/Serial Write.vi"/>
+			<Item Name="TCP Open.vi" Type="VI" URL="../Utilities/Wrappers/TCP Open.vi"/>
+			<Item Name="TCP Write.vi" Type="VI" URL="../Utilities/Wrappers/TCP Write.vi"/>
+			<Item Name="TCP Read.vi" Type="VI" URL="../Utilities/Wrappers/TCP Read.vi"/>
 		</Item>
 		<Item Name="Checksum.vi" Type="VI" URL="../Utilities/Checksum.vi"/>
 		<Item Name="Get Device ID.vi" Type="VI" URL="../Utilities/Get Device ID.vi"/>
