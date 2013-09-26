@@ -13,7 +13,7 @@
 **
 ****************************************************************************************/
   //Uncomment To Enable Debugging On The Secondary Serial Port.
-  #define DEBUG_ENABLED 1
+  //#define DEBUG_ENABLED 1
   
   //Uncomment A Section Below To Enable LINX Packets On The Specified Interface.
   
@@ -27,7 +27,7 @@
   #define LINX_ETHERNET_DEFAULT_PORT 6921
   #define LINX_ETHERNET_RX_BUFF_SIZE 256
   #define LINX_ETHERNET_TX_BUFF_SIZE 256
-  #define LINX_ETHERNET_DEFAULT_TIMEOUT 60000              //Ethernet Timeout In mS
+  #define LINX_ETHERNET_DEFAULT_TIMEOUT 1000              //Ethernet Timeout In mS
   
   //WIFI
   //#define LINX_WIFI_INTERFACE_ENABLED 1

@@ -67,6 +67,18 @@ void getMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responseP
 
 
 /****************************************************************************************
+**  linxDisconnect
+**
+**  Disconnect from the LINX device.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: None
+****************************************************************************************/
+void linxDisconnect(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+
+/****************************************************************************************
 **  processCommand
 **
 **  Process a LINX command packet and generate a response packet

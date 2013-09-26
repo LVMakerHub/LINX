@@ -17,6 +17,7 @@
 			<Item Name="TCP Open.vi" Type="VI" URL="../Utilities/Wrappers/TCP Open.vi"/>
 			<Item Name="TCP Write.vi" Type="VI" URL="../Utilities/Wrappers/TCP Write.vi"/>
 			<Item Name="TCP Read.vi" Type="VI" URL="../Utilities/Wrappers/TCP Read.vi"/>
+			<Item Name="TCP Close.vi" Type="VI" URL="../Utilities/Wrappers/TCP Close.vi"/>
 		</Item>
 		<Item Name="Checksum.vi" Type="VI" URL="../Utilities/Checksum.vi"/>
 		<Item Name="Get Device ID.vi" Type="VI" URL="../Utilities/Get Device ID.vi"/>

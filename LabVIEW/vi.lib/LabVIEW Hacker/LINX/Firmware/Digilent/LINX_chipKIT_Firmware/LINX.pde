@@ -137,6 +137,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x0003: // Get Device ID     
       getDeviceID(commandPacketBuffer, responsePacketBuffer);
       break;
+    
     #ifdef LINX_SERIAL_INTERFACE_ENABLED
     case 0x0005: // Get Max Baud Rate      
       getMaxBaudRate(commandPacketBuffer, responsePacketBuffer);
@@ -146,6 +147,10 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       setBaudRate(commandPacketBuffer, responsePacketBuffer);
       break;
     #endif  //LINX_SERIAL_INTERFACE_ENABLED
+    
+    case 0x0011: // Disconnect
+      linxDisconnect(commandPacketBuffer, responsePacketBuffer);
+      break;
       
     /************************************************************************************
     * DIGITAL I/O
@@ -287,6 +292,17 @@ unsigned char computeChecksum(unsigned char* packetBuffer)
     checksum += packetBuffer[i];
   }  
   return checksum; 
+}
+
+//--------------------------- linxDisconnect ------------------------------------------//
+void linxDisconnect(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  ethernetState = CLOSE;  
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0);
+  
+  #ifdef DEBUG_ENABLED          
+    Serial1.println("Disconnect Command Received...");
+  #endif  //DEBUG_ENABLED   
 }
 
 //--------------------------- statusResponse ------------------------------------------//
@@ -489,9 +505,9 @@ void checkForLINXEthernetPacket()
       break;
       
     case ISLISTENING:
-      //Check If Server Is Listening
+      //Listen For Clients
       #ifdef DEBUG_ENABLED          
-          Serial1.println("STATE => ISLISTENTING");
+          //Serial1.println("STATE => ISLISTENTING");
       #endif  //DEBUG_ENABLED
       if(ethernetTCPServer.isListening(&ethernetStatus))
       {
@@ -508,8 +524,8 @@ void checkForLINXEthernetPacket()
       else
       {
          #ifdef DEBUG_ENABLED
-          Serial1.print("Ethernet Status => ");         
-          Serial1.println(ethernetStatus, DEC);
+          //Serial1.print("Ethernet Status => ");         
+          //Serial1.println(ethernetStatus, DEC);
         #endif  //DEBUG_ENABLED
         
       }
@@ -517,7 +533,7 @@ void checkForLINXEthernetPacket()
       
     case AVAILABLECLIENT:
       #ifdef DEBUG_ENABLED          
-        Serial1.println("STATE => AVAILABLECLIENT");
+        //Serial1.println("STATE => AVAILABLECLIENT");
       #endif  //DEBUG_ENABLED
       if( (ethernetClientCount = ethernetTCPServer.availableClients()) > 0)
       {
@@ -530,7 +546,7 @@ void checkForLINXEthernetPacket()
       else
       {
         #ifdef DEBUG_ENABLED          
-          Serial1.println("Waiting For Ethernet Client...");
+          //Serial1.println("Waiting For Ethernet Client...");
         #endif  //DEBUG_ENABLED
       }
       break;
@@ -538,7 +554,7 @@ void checkForLINXEthernetPacket()
     case ACCEPTCLIENT:
       //Accept The Cleint Connection
       #ifdef DEBUG_ENABLED          
-        Serial1.println("STATE => ACCEPTCLIENT");
+        //Serial1.println("STATE => ACCEPTCLIENT");
       #endif  //DEBUG_ENABLED
       
       //Close Any Previous Connections Just In Case
@@ -575,6 +591,9 @@ void checkForLINXEthernetPacket()
           #ifdef DEBUG_ENABLED          
             Serial1.println("SoF Received...");
           #endif  //DEBUG_ENABLED
+          
+          //SoF Received, Reset ethernetStartTime
+          ethernetStartTime = (unsigned)millis();
           
           //SoF Received Wait For Packet Size
           while(ethernetTCPClient.available() < 1)
@@ -617,8 +636,10 @@ void checkForLINXEthernetPacket()
             #ifdef DEBUG_ENABLED          
               Serial1.println("Checksum Passed, Processing Packet...");
             #endif  //DEBUG_ENABLED
+            
+            //Process Command And Respond
             processCommand(ethernetCommandBuffer, ethernetResponseBuffer);
-            ethernetTCPClient.writeStream(ethernetResponseBuffer, ethernetResponseBuffer[1]);
+            ethernetTCPClient.writeStream(ethernetResponseBuffer, ethernetResponseBuffer[1]);            
           }
           else
           {
@@ -634,6 +655,10 @@ void checkForLINXEthernetPacket()
             Serial1.println("Bad SoF Received...");
           #endif  //DEBUG_ENABLED          
         }
+        
+        //Data Received, Reset Timeout
+        ethernetStartTime = (unsigned)millis();
+        
       }
       //Check For Timeout
       else if( ((unsigned)millis() - ethernetStartTime) > ethernetTimeout)
@@ -652,8 +677,7 @@ void checkForLINXEthernetPacket()
         #ifdef DEBUG_ENABLED          
           Serial1.print(((unsigned)millis() - ethernetStartTime), DEC);
           Serial1.println(" mS With No Data");
-        #endif  //DEBUG_ENABLED  
-
+        #endif  //DEBUG_ENABLED
       } 
       break;
    
