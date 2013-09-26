@@ -18,8 +18,8 @@
   //Uncomment A Section Below To Enable LINX Packets On The Specified Interface.
   
   //Serial
-  //#define LINX_SERIAL_INTERFACE_ENABLED 1
-  //#define MAX_BAUD_RATE 115200
+  #define LINX_SERIAL_INTERFACE_ENABLED 1
+  #define MAX_BAUD_RATE 115200
   
   //Ethernet
   #define LINX_ETHERNET_INTERFACE_ENABLED 1
