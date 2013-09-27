@@ -70,6 +70,11 @@
 				<Item Name="UART Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/UART Read Benchmark.vi"/>
 			</Item>
 			<Item Name="LINX" Type="Folder">
+				<Item Name="Sensors" Type="Folder">
+					<Item Name="BlinkM" Type="Folder">
+						<Item Name="Goto RGB Color Now.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Sensors/BlinkM/Goto RGB Color Now.vi"/>
+					</Item>
+				</Item>
 				<Item Name="LINX Analog Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX Analog Read Benchmark.vi"/>
 				<Item Name="LINX Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX Connection Test App.vi"/>
 				<Item Name="LINX Digital Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX Digital Write Benchmark.vi"/>
@@ -84,6 +89,7 @@
 		<Item Name="LVH-LINX.lvlib" Type="Library" URL="../LVH-LINX.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
+				<Item Name="BlinkM.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/BlinkM/BlinkM.lvlib"/>
 				<Item Name="Close.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Close.vi"/>
 				<Item Name="Close.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/vis/Close.vi"/>
 				<Item Name="Color to RGB.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/colorconv.llb/Color to RGB.vi"/>

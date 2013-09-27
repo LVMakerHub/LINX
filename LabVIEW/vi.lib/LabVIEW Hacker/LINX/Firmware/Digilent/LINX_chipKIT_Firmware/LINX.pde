@@ -47,6 +47,10 @@
   
 #endif  //LINX_ETHERNET_INTERFACE_ENABLED
 
+#ifdef LINX_I2C_ENABLED
+  unsigned char I2C0Open = 0;
+#endif //LINX_I2C_ENABLED
+
 
 /****************************************************************************************
 **  Functions
@@ -889,7 +893,13 @@ void linxI2CClose(unsigned char* commandPacketBuffer, unsigned char* responsePac
 //--------------------------- linxI2COpenMaster ---------------------------------------//
 void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
-  Wire.begin();
+  //Only Call Wire.Begin If It Has Not Been Called Since the uC Boot
+  //If Wire.Begin Is Called A Second Time The Following Transmit Will Hang The Device
+  if(I2C0Open == 0)
+  {
+    I2C0Open = 1;
+    Wire.begin();
+  }
     
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00); 
@@ -900,11 +910,28 @@ void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* respon
 void linxI2CWrite(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
   Wire.beginTransmission(commandPacketBuffer[7]);
-  for(int i=0; i<(commandPacketBuffer[1] - 8); i++)
+  #ifdef DEBUG_ENABLED
+      Serial1.print("Sending ");      
+      Serial1.print(commandPacketBuffer[1] - 9, DEC);
+      Serial1.println(" Bytes Via I2C...");
+    #endif
+    
+  for(int i=0; i<(commandPacketBuffer[1] - 9); i++)
   {
-    Wire.send(commandPacketBuffer[i+7]);
+    Wire.send(commandPacketBuffer[i+8]);
+    #ifdef DEBUG_ENABLED      
+      Serial1.print("Sent ");
+      Serial1.println(commandPacketBuffer[i+8], HEX);
+    #endif
   }
+  #ifdef DEBUG_ENABLED      
+      Serial1.println("Exited I2C Sent Loop");
+  #endif
   Wire.endTransmission();
+  
+  #ifdef DEBUG_ENABLED      
+      Serial1.println("I2C Transfer Complete...");
+  #endif
   
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);

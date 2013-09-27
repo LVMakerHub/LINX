@@ -101,7 +101,11 @@
 				<Item Name="UART Write.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write.vi"/>
 			</Item>
 		</Item>
-		<Item Name="Sensors" Type="Folder"/>
+		<Item Name="Sensors" Type="Folder">
+			<Item Name="BlinkM" Type="Folder">
+				<Item Name="BlinkM.lvlib" Type="Library" URL="../Public/Sensors/BlinkM/BlinkM.lvlib"/>
+			</Item>
+		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
 		</Item>
