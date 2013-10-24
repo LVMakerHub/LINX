@@ -301,12 +301,14 @@ unsigned char computeChecksum(unsigned char* packetBuffer)
 //--------------------------- linxDisconnect ------------------------------------------//
 void linxDisconnect(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
-  ethernetState = CLOSE;  
-  statusResponse(commandPacketBuffer, responsePacketBuffer, 0);
-  
-  #ifdef DEBUG_ENABLED          
-    Serial1.println("Disconnect Command Received...");
-  #endif  //DEBUG_ENABLED   
+  #ifdef LINX_ETHERNET_INTERFACE_ENABLED
+    ethernetState = CLOSE;  
+    statusResponse(commandPacketBuffer, responsePacketBuffer, 0);
+    
+    #ifdef DEBUG_ENABLED          
+      Serial1.println("Disconnect Command Received...");
+    #endif  //DEBUG_ENABLED   
+  #endif //LINX_ETHERNET_INTERFACE_ENABLED
 }
 
 //--------------------------- statusResponse ------------------------------------------//
