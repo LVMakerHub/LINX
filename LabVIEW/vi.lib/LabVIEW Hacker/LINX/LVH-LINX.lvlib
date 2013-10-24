@@ -69,10 +69,14 @@
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
 			<Item Name="Get Device Config.vi" Type="VI" URL="../Private/Utilties/Get Device Config.vi"/>
 			<Item Name="Enable myRIO Support.vi" Type="VI" URL="../Private/Utilties/Enable myRIO Support.vi"/>
-			<Item Name="Deploy Firmware.vi" Type="VI" URL="../Private/Utilties/Deploy Firmware.vi"/>
+			<Item Name="Firmware Wizard.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard.vi"/>
 			<Item Name="Get Firmware Program Interfaces.vi" Type="VI" URL="../Private/Utilties/Get Firmware Program Interfaces.vi"/>
 			<Item Name="Get Firmware Pogram Interface Index.vi" Type="VI" URL="../Private/Utilties/Get Firmware Pogram Interface Index.vi"/>
 			<Item Name="Get Firmware Version Names.vi" Type="VI" URL="../Private/Utilties/Get Firmware Version Names.vi"/>
+			<Item Name="Get Firmware Builds Base Path.vi" Type="VI" URL="../Private/Utilties/Get Firmware Builds Base Path.vi"/>
+			<Item Name="Load Firmware ReadMe.vi" Type="VI" URL="../Private/Utilties/Load Firmware ReadMe.vi"/>
+			<Item Name="Load Device Image.vi" Type="VI" URL="../Private/Utilties/Load Device Image.vi"/>
+			<Item Name="Generate Firmware Interface Config Message.vi" Type="VI" URL="../Private/Utilties/Generate Firmware Interface Config Message.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
