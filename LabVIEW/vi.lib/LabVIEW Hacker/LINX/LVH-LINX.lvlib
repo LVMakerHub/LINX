@@ -124,4 +124,5 @@
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
+	<Item Name="Examples.lvlib" Type="Library" URL="../../../../examples/LabVIEW Hacker/LINX/Examples.lvlib"/>
 </Library>
