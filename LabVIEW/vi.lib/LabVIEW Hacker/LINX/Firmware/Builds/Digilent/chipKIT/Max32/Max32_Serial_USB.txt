@@ -1,0 +1,1 @@
+LINX firmware for the Digilent chipKIT Max32 with Serial/USB interface enabled.

@@ -1,1 +1,1 @@
-Description of the uC32 Serial/USB Firmware
+LINX firmware for the Digilent chipKIT uC32 with Serial/USB interface enabled.
