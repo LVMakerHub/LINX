@@ -79,6 +79,8 @@
 			<Item Name="Generate Firmware Interface Config Message.vi" Type="VI" URL="../Private/Utilties/Generate Firmware Interface Config Message.vi"/>
 			<Item Name="Upload Firmware.vi" Type="VI" URL="../Private/Utilties/Upload Firmware.vi"/>
 			<Item Name="Generate Firmware Wizard Summary Message.vi" Type="VI" URL="../Private/Utilties/Generate Firmware Wizard Summary Message.vi"/>
+			<Item Name="Firmware Wizard Config.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Config.vi"/>
+			<Item Name="Firmware Wizard Check INI.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Check INI.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
