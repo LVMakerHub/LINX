@@ -10,6 +10,10 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="Examples" Type="Folder">
+			<Item Name="Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - Serial Connection.vi"/>
+			<Item Name="Analog Read - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - TCP Connection.vi"/>
+		</Item>
 		<Item Name="Firmware" Type="Folder">
 			<Item Name="Source" Type="Folder">
 				<Item Name="Digilent" Type="Folder">
@@ -22,78 +26,11 @@
 				</Item>
 			</Item>
 		</Item>
-		<Item Name="POC" Type="Folder">
-			<Item Name="Diagram Disable Auto Enable" Type="Folder">
-				<Item Name="DD Enabler.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Diagram Disable Auto Enable/DD Enabler.vi"/>
-				<Item Name="DD Test Subject.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Diagram Disable Auto Enable/DD Test Subject.vi"/>
-			</Item>
-			<Item Name="LINX TCP" Type="Folder">
-				<Item Name="Ethernet Sync.vi" Type="VI" URL="../../../../../LabVIEW 2013/vi.lib/LabVIEW Hacker/LINX/POC/LINX TCP/Ethernet Sync.vi"/>
-			</Item>
-			<Item Name="Serial and TCP Benchmarking" Type="Folder">
-				<Item Name="Results" Type="Folder">
-					<Item Name="Arduino Uno - Serial.PNG" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Results/Arduino Uno - Serial.PNG"/>
-					<Item Name="chipKIT - Ethernet Zoomed.PNG" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Results/chipKIT - Ethernet Zoomed.PNG"/>
-					<Item Name="chipKIT - Ethernet.PNG" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Results/chipKIT - Ethernet.PNG"/>
-					<Item Name="chipKIT - Serial.PNG" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Results/chipKIT - Serial.PNG"/>
-					<Item Name="chipKIT - WIFI.PNG" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Results/chipKIT - WIFI.PNG"/>
-				</Item>
-				<Item Name="Serial" Type="Folder">
-					<Item Name="LINX_Arduino_Serial_Benchmark" Type="Folder">
-						<Item Name="LINX_Arduino_Serial_Benchmark.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Serial/LINX_Arduino_Serial_Benchmark/LINX_Arduino_Serial_Benchmark.ino"/>
-					</Item>
-					<Item Name="LINX_chipKIT_Serial_Benchmark" Type="Folder">
-						<Item Name="LINX_chipKIT_Serial_Benchmark.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Serial/LINX_chipKIT_Serial_Benchmark/LINX_chipKIT_Serial_Benchmark.pde"/>
-					</Item>
-					<Item Name="LINX Serial Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/Serial/LINX Serial Benchmark.vi"/>
-				</Item>
-				<Item Name="TCP" Type="Folder">
-					<Item Name="LINX_chipKIT_Ethernet_Benchmark" Type="Folder">
-						<Item Name="LINX_chipKIT_Ethernet_Benchmark.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/TCP/LINX_chipKIT_Ethernet_Benchmark/LINX_chipKIT_Ethernet_Benchmark.pde"/>
-					</Item>
-					<Item Name="LINX_chipKIT_WIFI_Benchmark" Type="Folder">
-						<Item Name="LINX_chipKIT_WIFI_Benchmark.pde" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/TCP/LINX_chipKIT_WIFI_Benchmark/LINX_chipKIT_WIFI_Benchmark.pde"/>
-					</Item>
-					<Item Name="LINX TCP Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/POC/Serial and TCP Benchmarking/TCP/LINX TCP Benchmark.vi"/>
-				</Item>
-			</Item>
-		</Item>
-		<Item Name="Test Apps" Type="Folder">
-			<Item Name="Device" Type="Folder">
-				<Item Name="Analog Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/Analog Read Benchmark.vi"/>
-				<Item Name="Device Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device Connection Test App.vi"/>
-				<Item Name="Digital Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/Digital Read Benchmark.vi"/>
-				<Item Name="Generic Device VI Tester.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Generic Device VI Tester.vi"/>
-				<Item Name="I2C Write Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/I2C Write Test App.vi"/>
-				<Item Name="PWM Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/PWM Benchmark.vi"/>
-				<Item Name="SPI Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/SPI Benchmark.vi"/>
-				<Item Name="TCP - Ethernet Basic Communication.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/TCP - Ethernet Basic Communication.vi"/>
-				<Item Name="UART Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/UART Benchmark.vi"/>
-				<Item Name="UART Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Device/UART Read Benchmark.vi"/>
-			</Item>
-			<Item Name="LINX" Type="Folder">
-				<Item Name="Sensors" Type="Folder">
-					<Item Name="BlinkM" Type="Folder">
-						<Item Name="Goto RGB Color Now.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/Sensors/BlinkM/Goto RGB Color Now.vi"/>
-					</Item>
-				</Item>
-				<Item Name="LINX Analog Read Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX Analog Read Benchmark.vi"/>
-				<Item Name="LINX Connection Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX Connection Test App.vi"/>
-				<Item Name="LINX Digital Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX Digital Write Benchmark.vi"/>
-				<Item Name="LINX I2C Write Test App.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX I2C Write Test App.vi"/>
-				<Item Name="LINX SPI Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX SPI Benchmark.vi"/>
-				<Item Name="LINX UART Write Benchmark.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/LINX/LINX UART Write Benchmark.vi"/>
-			</Item>
-			<Item Name="myLINX" Type="Folder">
-				<Item Name="DIO Pin To Channel.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Test Apps/myLINX/DIO Pin To Channel.vi"/>
-			</Item>
-		</Item>
-		<Item Name="LVH-LINX.lvlib" Type="Library" URL="../LVH-LINX.lvlib"/>
+		<Item Name="LVH-LINX.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/LVH-LINX.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="8.6CompatibleGlobalVar.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/config.llb/8.6CompatibleGlobalVar.vi"/>
 				<Item Name="Bit-array To Byte-array.vi" Type="VI" URL="/&lt;vilib&gt;/picture/pictutil.llb/Bit-array To Byte-array.vi"/>
-				<Item Name="BlinkM.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/BlinkM/BlinkM.lvlib"/>
 				<Item Name="BuildHelpPath.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/BuildHelpPath.vi"/>
 				<Item Name="Check if File or Folder Exists.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/libraryn.llb/Check if File or Folder Exists.vi"/>
 				<Item Name="Check Path.vi" Type="VI" URL="/&lt;vilib&gt;/picture/jpeg.llb/Check Path.vi"/>
@@ -107,7 +44,6 @@
 				<Item Name="Convert property node font to graphics font.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Convert property node font to graphics font.vi"/>
 				<Item Name="Create Mask By Alpha.vi" Type="VI" URL="/&lt;vilib&gt;/picture/picture.llb/Create Mask By Alpha.vi"/>
 				<Item Name="Details Display Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Details Display Dialog.vi"/>
-				<Item Name="Device.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Device.lvlib"/>
 				<Item Name="DialogType.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/DialogType.ctl"/>
 				<Item Name="DialogTypeEnum.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/DialogTypeEnum.ctl"/>
 				<Item Name="Directory of Top Level VI.vi" Type="VI" URL="/&lt;vilib&gt;/picture/jpeg.llb/Directory of Top Level VI.vi"/>
@@ -137,15 +73,12 @@
 				<Item Name="List Directory and LLBs.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/libraryn.llb/List Directory and LLBs.vi"/>
 				<Item Name="Longest Line Length in Pixels.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Longest Line Length in Pixels.vi"/>
 				<Item Name="LVBoundsTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVBoundsTypeDef.ctl"/>
-				<Item Name="LVH-LINX.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/LVH-LINX.lvlib"/>
 				<Item Name="LVH-Toolbox.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LVH-Toolbox/LVH-Toolbox.lvlib"/>
 				<Item Name="myRIO Generic Hardware Reference.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Common/Instrument Driver Framework/Utilities/typedefs/myRIO Generic Hardware Reference.ctl"/>
 				<Item Name="myRIO v1.0 Reference.ctl" Type="VI" URL="/&lt;vilib&gt;/myRIO/Common/Instrument Driver Framework/Utilities/typedefs/myRIO v1.0 Reference.ctl"/>
-				<Item Name="myRIO.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/myRIO/myRIO.lvlib"/>
 				<Item Name="NI_FileType.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/lvfile.llb/NI_FileType.lvlib"/>
 				<Item Name="NI_LVConfig.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/config.llb/NI_LVConfig.lvlib"/>
 				<Item Name="NI_PackedLibraryUtility.lvlib" Type="Library" URL="/&lt;vilib&gt;/Utility/LVLibp/NI_PackedLibraryUtility.lvlib"/>
-				<Item Name="NI_PtbyPt.lvlib" Type="Library" URL="/&lt;vilib&gt;/ptbypt/NI_PtbyPt.lvlib"/>
 				<Item Name="NI_WebServices.lvlib" Type="Library" URL="/&lt;vilib&gt;/wsapi/NI_WebServices.lvlib"/>
 				<Item Name="Not Found Dialog.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/Not Found Dialog.vi"/>
 				<Item Name="Open URL in Default Browser (path).vi" Type="VI" URL="/&lt;vilib&gt;/Platform/browser.llb/Open URL in Default Browser (path).vi"/>
@@ -193,7 +126,7 @@
 				<Item Name="Write.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Write.vi"/>
 				<Item Name="Write.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/vis/Write.vi"/>
 			</Item>
-			<Item Name="SPI Set Frame Size.vi" Type="VI" URL="../Private/Device/Peripheral/SPI/SPI Set Frame Size.vi"/>
+			<Item Name="LVH-LINX.lvlib" Type="Library" URL="../LVH-LINX.lvlib"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Item Name="Firmware Wizard" Type="EXE">
@@ -205,19 +138,19 @@
 				<Property Name="Bld_buildSpecName" Type="Str">Firmware Wizard</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">/C/github/labviewhacker/LVH-Builds/NI_AB_PROJECTNAME</Property>
+				<Property Name="Bld_localDestDir" Type="Path">/C/github/labviewhacker/NI_AB_PROJECTNAME/Builds</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{39BD3B23-7F70-4820-AE84-AB4096176AB0}</Property>
 				<Property Name="Destination[0].destName" Type="Str">LVH - LINX Firmware Wizard.exe</Property>
-				<Property Name="Destination[0].path" Type="Path">/C/github/labviewhacker/LVH-Builds/NI_AB_PROJECTNAME/LVH - LINX Firmware Wizard.exe</Property>
+				<Property Name="Destination[0].path" Type="Path">/C/github/labviewhacker/NI_AB_PROJECTNAME/Builds/LVH - LINX Firmware Wizard.exe</Property>
 				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
-				<Property Name="Destination[1].path" Type="Path">/C/github/labviewhacker/LVH-Builds/NI_AB_PROJECTNAME/data</Property>
+				<Property Name="Destination[1].path" Type="Path">/C/github/labviewhacker/NI_AB_PROJECTNAME/Builds/data</Property>
 				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{A38CB129-DC6D-499B-9FC8-6846F83420A7}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{5EAAC1E3-E8F7-4DF5-A828-5E0F995E162B}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/LVH-LINX.lvlib/Private/Utilities/Firmware Wizard.vi</Property>

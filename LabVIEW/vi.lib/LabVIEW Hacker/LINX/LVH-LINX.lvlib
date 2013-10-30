@@ -106,6 +106,7 @@
 			<Item Name="SPI" Type="Folder">
 				<Item Name="SPI Configure.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Configure.vi"/>
 				<Item Name="SPI Open.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Open.vi"/>
+				<Item Name="SPI Set Frame Size.vi" Type="VI" URL="../Private/Device/Peripheral/SPI/SPI Set Frame Size.vi"/>
 				<Item Name="SPI Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read.vi"/>
 			</Item>
 			<Item Name="UART" Type="Folder">
@@ -128,5 +129,4 @@
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
-	<Item Name="Examples.lvlib" Type="Library" URL="../../../../examples/LabVIEW Hacker/LINX/Examples.lvlib"/>
 </Library>
