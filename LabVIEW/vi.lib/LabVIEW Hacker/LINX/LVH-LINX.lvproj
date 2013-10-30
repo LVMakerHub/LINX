@@ -10,10 +10,6 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
-		<Item Name="Examples" Type="Folder">
-			<Item Name="Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - Serial Connection.vi"/>
-			<Item Name="Analog Read - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - TCP Connection.vi"/>
-		</Item>
 		<Item Name="Firmware" Type="Folder">
 			<Item Name="Source" Type="Folder">
 				<Item Name="Digilent" Type="Folder">
@@ -26,8 +22,6 @@
 				</Item>
 			</Item>
 		</Item>
-		<Item Name="Banner.bmp" Type="Document" URL="../../../../../../LVH-Images/Libraries/LINX/Installer/Banner.bmp"/>
-		<Item Name="Installer Welcome Image.bmp" Type="Document" URL="../../../../../../LVH-Images/Common/Installer Welcome Image.bmp"/>
 		<Item Name="LVH-LINX.lvlib" Type="Library" URL="../LVH-LINX.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
@@ -189,11 +183,11 @@
 				<Property Name="MSI_arpCompany" Type="Str">LVH</Property>
 				<Property Name="MSI_arpContact" Type="Str">labviewhacker@gmail.com</Property>
 				<Property Name="MSI_arpURL" Type="Str">http://www.labviewhacker.com/linx</Property>
-				<Property Name="MSI_bannerImageID" Type="Ref">/My Computer/Banner.bmp</Property>
+				<Property Name="MSI_bannerImageID" Type="Ref"></Property>
 				<Property Name="MSI_distID" Type="Str">{B7756912-4E27-44C5-991B-198AD666B873}</Property>
 				<Property Name="MSI_osCheck" Type="Int">0</Property>
 				<Property Name="MSI_upgradeCode" Type="Str">{A3A786D6-9AA3-406C-A7CF-CE32A497B656}</Property>
-				<Property Name="MSI_welcomeImageID" Type="Ref">/My Computer/Installer Welcome Image.bmp</Property>
+				<Property Name="MSI_welcomeImageID" Type="Ref"></Property>
 				<Property Name="MSI_windowMessage" Type="Str">na</Property>
 				<Property Name="MSI_windowTitle" Type="Str">na</Property>
 				<Property Name="RegDest[0].dirName" Type="Str">Software</Property>
