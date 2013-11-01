@@ -23,6 +23,7 @@
 			</Item>
 		</Item>
 		<Item Name="LVH-LINX.lvlib" Type="Library" URL="../LVH-LINX.lvlib"/>
+		<Item Name="Post-Install Custom Action.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Utilties/Post-Install Custom Action.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="8.6CompatibleGlobalVar.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/config.llb/8.6CompatibleGlobalVar.vi"/>
@@ -133,19 +134,18 @@
 				<Property Name="Bld_buildSpecName" Type="Str">Firmware Wizard</Property>
 				<Property Name="Bld_excludeLibraryItems" Type="Bool">true</Property>
 				<Property Name="Bld_excludePolymorphicVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">/C/github/labviewhacker/LVH-Builds/NI_AB_PROJECTNAME/LINX Apps/Firmware Wizard</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../LINX/LINX Apps</Property>
+				<Property Name="Bld_localDestDirType" Type="Str">relativeToCommon</Property>
 				<Property Name="Bld_modifyLibraryFile" Type="Bool">true</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{39BD3B23-7F70-4820-AE84-AB4096176AB0}</Property>
 				<Property Name="Destination[0].destName" Type="Str">LVH - LINX Firmware Wizard.exe</Property>
-				<Property Name="Destination[0].path" Type="Path">/C/github/labviewhacker/LVH-Builds/NI_AB_PROJECTNAME/LINX Apps/Firmware Wizard/LVH - LINX Firmware Wizard.exe</Property>
-				<Property Name="Destination[0].path.type" Type="Str">&lt;none&gt;</Property>
+				<Property Name="Destination[0].path" Type="Path">../LINX/LINX Apps/LVH - LINX Firmware Wizard.exe</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
-				<Property Name="Destination[1].path" Type="Path">/C/github/labviewhacker/LVH-Builds/NI_AB_PROJECTNAME/LINX Apps/Firmware Wizard/data</Property>
-				<Property Name="Destination[1].path.type" Type="Str">&lt;none&gt;</Property>
+				<Property Name="Destination[1].path" Type="Path">../LINX/LINX Apps/data</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{C2C0A489-D4FE-445B-9D87-C4D7EF6B5EA9}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{5FF20C24-3E5F-4CBF-B543-58B2DE1AD902}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/LVH-LINX.lvlib/Private/Utilities/Firmware Wizard.vi</Property>
@@ -173,21 +173,20 @@
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="INST_author" Type="Str">LVH</Property>
 				<Property Name="INST_autoIncrement" Type="Bool">true</Property>
-				<Property Name="INST_buildLocation" Type="Path">/C/github/labviewhacker/LVH-Builds/LVH-LINX/LINX Apps/Installers</Property>
+				<Property Name="INST_buildLocation" Type="Path">../LINX/LINX App Installers</Property>
+				<Property Name="INST_buildLocation.type" Type="Str">relativeToCommon</Property>
 				<Property Name="INST_buildSpecName" Type="Str">LINX Apps</Property>
 				<Property Name="INST_defaultDir" Type="Str">{3912416A-D2E5-411B-AFEE-B63654D690C0}</Property>
 				<Property Name="INST_productName" Type="Str">LVH LINX Apps</Property>
-				<Property Name="INST_productVersion" Type="Str">1.0.4</Property>
+				<Property Name="INST_productVersion" Type="Str">1.0.5</Property>
 				<Property Name="InstSpecBitness" Type="Str">32-bit</Property>
 				<Property Name="InstSpecVersion" Type="Str">11018013</Property>
 				<Property Name="MSI_arpCompany" Type="Str">LVH</Property>
 				<Property Name="MSI_arpContact" Type="Str">labviewhacker@gmail.com</Property>
 				<Property Name="MSI_arpURL" Type="Str">http://www.labviewhacker.com/linx</Property>
-				<Property Name="MSI_bannerImageID" Type="Ref"></Property>
 				<Property Name="MSI_distID" Type="Str">{B7756912-4E27-44C5-991B-198AD666B873}</Property>
 				<Property Name="MSI_osCheck" Type="Int">0</Property>
 				<Property Name="MSI_upgradeCode" Type="Str">{A3A786D6-9AA3-406C-A7CF-CE32A497B656}</Property>
-				<Property Name="MSI_welcomeImageID" Type="Ref"></Property>
 				<Property Name="MSI_windowMessage" Type="Str">na</Property>
 				<Property Name="MSI_windowTitle" Type="Str">na</Property>
 				<Property Name="RegDest[0].dirName" Type="Str">Software</Property>

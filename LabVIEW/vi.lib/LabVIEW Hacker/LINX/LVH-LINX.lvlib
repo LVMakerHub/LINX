@@ -68,7 +68,6 @@
 			<Item Name="Target Management" Type="Folder">
 				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
 			</Item>
-			<Item Name="Installer" Type="Folder"/>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
 			<Item Name="Get Device Config.vi" Type="VI" URL="../Private/Utilties/Get Device Config.vi"/>
