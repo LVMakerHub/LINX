@@ -13,7 +13,7 @@
 **
 ****************************************************************************************/
   //Uncomment To Enable Debugging On The Secondary Serial Port.
-  #define DEBUG_ENABLED 1
+  //#define DEBUG_ENABLED 1
   
   //Uncomment A Section Below To Enable LINX Packets On The Specified Interface.
   
@@ -34,7 +34,7 @@
   
   //Device ID
   #define DEVICE_FAMILY 1
-  #define DEVICE_ID 1
+  #define DEVICE_ID 2
   
   //Serial Settings
   #define MAX_BAUD_RATE 115200

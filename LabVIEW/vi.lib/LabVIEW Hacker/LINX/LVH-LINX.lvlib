@@ -13,6 +13,15 @@
 		<Item Name="Type Defs" Type="Folder">
 			<Item Name="Devices" Type="Folder">
 				<Item Name="Arduino" Type="Folder">
+					<Item Name="Arduino Due.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Due.vi"/>
+					<Item Name="Arduino Fio.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Fio.vi"/>
+					<Item Name="Arduino Leonardo.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Leonardo.vi"/>
+					<Item Name="Arduino Mega 2560.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Mega 2560.vi"/>
+					<Item Name="Arduino Nano.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Nano.vi"/>
+					<Item Name="Arduino Pro Mini.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Pro Mini.vi"/>
+					<Item Name="Arduino Pro.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Pro.vi"/>
+					<Item Name="Arduino Uno.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Uno.vi"/>
+					<Item Name="Arduino Yun.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Yun.vi"/>
 					<Item Name="Devices - Arduino.ctl" Type="VI" URL="../Private/Type Defs/Devices - Arduino.ctl"/>
 				</Item>
 				<Item Name="Digilent" Type="Folder">
