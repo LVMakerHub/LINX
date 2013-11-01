@@ -72,7 +72,7 @@
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
 			<Item Name="Get Device Config.vi" Type="VI" URL="../Private/Utilties/Get Device Config.vi"/>
 			<Item Name="Enable myRIO Support.vi" Type="VI" URL="../Private/Utilties/Enable myRIO Support.vi"/>
-			<Item Name="Firmware Wizard.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard.vi"/>
+			<Item Name="Firmware Wizard.vi" Type="VI" URL="../../../../project/LabVIEW Hacker/LINX/Firmware Wizard.vi"/>
 			<Item Name="Get Firmware Program Interfaces.vi" Type="VI" URL="../Private/Utilties/Get Firmware Program Interfaces.vi"/>
 			<Item Name="Get Firmware Pogram Interface Index.vi" Type="VI" URL="../Private/Utilties/Get Firmware Pogram Interface Index.vi"/>
 			<Item Name="Get Firmware Version Names.vi" Type="VI" URL="../Private/Utilties/Get Firmware Version Names.vi"/>
