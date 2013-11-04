@@ -17,11 +17,42 @@
   #include <SPI.h>
 #endif //LINX_SPI_ENABLED
 
+#ifdef LINX_NVS_ENABLED
+  #include <EEPROM.h>
+#endif //LINX_NVS_ENABLED
+
 /****************************************************************************************
 **
 **--------------------------- VARIABLES ------------------------------------------------ 
 **
 ****************************************************************************************/
+//Load User Configuration From Non-Volatile Storage
+#ifdef LINX_NVS_ENABLED
+  #define NVS_USERID 0x00
+  #define NVS_ETHERNET_IP 0x02
+  #define NVS_ETHERNET_PORT 0x06
+  #define NVS_WIFI_IP 0x08
+  #define NVS_WIFI_PORT 0x0C
+  #define NVS_WIFI_SSID_SIZE 0x0E
+  #define NVS_WIFI_SSID 0x0F
+  #define NVS_WIFI_SECURITY_TYPE 0x30
+  #define NVS_WIFI_PW_SIZE 0x31
+  #define NVS_WIFI_PW 0x32
+
+  unsigned short userID;
+  
+  unsigned long ethernetIP;
+  unsigned short ethernetPort;
+  
+  unsigned long wifiIP;
+  unsigned short wifiPort;
+  unsigned char wifiSSIDSize;
+  unsigned char wifiSSID[32];
+  unsigned char wifiSecurity;
+  unsigned char wifiPwSize;
+  unsigned char wifiPw[64];
+#endif //LINX_NVS_ENABLED
+
 //Serial Interface
 #ifdef LINX_SERIAL_INTERFACE_ENABLED
   //LINX Serial Packet Send / Receive Buffers
@@ -64,12 +95,16 @@
 
 //--------------------------- setupLINX -----------------------------------------------//
 void setupLINX()
-{
+{ 
+  
   //Debugging
   #ifdef DEBUG_ENABLED
     Serial1.begin(115200);
     Serial1.println("Booting Up...");
   #endif  
+  
+  //Load Config Values
+  loadNVSConfig();
   
   // Setup Serial Port For LINX
   #ifdef LINX_SERIAL_INTERFACE_ENABLED
@@ -107,6 +142,23 @@ void getDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePack
     responsePacketBuffer[6] = 0x00;    
   #endif  
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setUserDeviceID ---------------------------------------------//
+void setUserDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update Value In RAM
+  userID = commandPacketBuffer[6] << 8 | commandPacketBuffer[7];
+  //Update NVS
+  EEPROM.write(NVS_USERID, commandPacketBuffer[6]);
+  EEPROM.write(NVS_USERID+1, commandPacketBuffer[7]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
 
@@ -154,6 +206,9 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     
     case 0x0011: // Disconnect
       linxDisconnect(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0012: // Set Device User ID
+      setUserDeviceID(commandPacketBuffer, responsePacketBuffer);
       break;
       
     /************************************************************************************
@@ -1273,4 +1328,116 @@ void linxUARTClose(unsigned char* commandPacketBuffer, unsigned char* responsePa
 
 #endif  //LINX_UART_ENABLED
 
+
+
+#ifdef LINX_NVS_ENABLED
+void loadNVSConfig()
+{
+  //Debugging
+  #ifdef DEBUG_ENABLED
+    Serial1.println("Loading User Device Configuration...");
+  #endif  
+  
+  userID = (EEPROM.read(NVS_USERID) << 8) | EEPROM.read(NVS_USERID+1);
+  
+  ethernetIP = (EEPROM.read(NVS_ETHERNET_IP) << 24) |(EEPROM.read(NVS_ETHERNET_IP+1) << 16) |(EEPROM.read(NVS_ETHERNET_IP+2) << 8) | EEPROM.read(NVS_ETHERNET_IP+3);
+  ethernetPort = (EEPROM.read(NVS_ETHERNET_PORT) << 8) | EEPROM.read(NVS_ETHERNET_PORT+1);
+
+  wifiIP = (EEPROM.read(NVS_WIFI_IP) << 24) |(EEPROM.read(NVS_WIFI_IP+1) << 16) |(EEPROM.read(NVS_WIFI_IP+2) << 8) | EEPROM.read(NVS_WIFI_IP+3);
+  wifiPort = (EEPROM.read(NVS_WIFI_PORT) << 8) | EEPROM.read(NVS_WIFI_PORT+1);
+  wifiSSIDSize = EEPROM.read(NVS_WIFI_SSID_SIZE);
+  if(wifiSSIDSize > 32)
+  {
+    wifiSSIDSize = 32;
+  }
+  
+  wifiSSID[32];
+  for(int i=0; i<wifiSSIDSize; i++)
+  {
+    wifiSSID[i] = EEPROM.read(i+NVS_WIFI_SSID);
+  }
+  wifiSecurity = EEPROM.read(NVS_WIFI_SECURITY_TYPE);
+  wifiPwSize = EEPROM.read(NVS_WIFI_PW_SIZE);
+  wifiPw[64];
+  if(wifiPwSize > 64)
+  {
+    wifiSSIDSize = 32;
+  }
+  for(int i=0; i<wifiPwSize; i++)
+  {
+    wifiSSID[i] = EEPROM.read(i+NVS_WIFI_PW);    
+  }
+ 
+ //Debugging
+ #ifdef DEBUG_ENABLED
+   Serial1.print("User Device ID     = ");
+   Serial1.println(userID, HEX);
+   
+   Serial1.print("Ethernet IP        = ");
+   Serial1.print((ethernetIP>>24) & 0xFF, DEC);
+   Serial1.print(".");
+   Serial1.print((ethernetIP>>16) & 0xFF, DEC);   
+   Serial1.print(".");
+   Serial1.print((ethernetIP>>8) & 0xFF, DEC);   
+   Serial1.print(".");
+   Serial1.println(ethernetIP & 0xFF, DEC);
+   
+   Serial1.print("Ethernet Port      = ");
+   Serial1.println(ethernetPort, DEC);
+   
+   Serial1.print("WIFI IP            = ");
+   Serial1.print((wifiIP>>24) & 0xFF, DEC);
+   Serial1.print(".");
+   Serial1.print((wifiIP>>16) & 0xFF, DEC);   
+   Serial1.print(".");
+   Serial1.print((wifiIP>>8) & 0xFF, DEC);   
+   Serial1.print(".");
+   Serial1.println(wifiIP & 0xFF, DEC);
+   
+   Serial1.print("WIFI Port          = ");
+   Serial1.println(wifiPort, DEC);
+   
+   Serial1.print("WIFI SSID Size     = ");
+   Serial1.println(wifiSSIDSize, DEC);
+   
+   Serial1.print("WIFI SSID          = ");
+   for(int i=0; i<wifiSSIDSize; i++)
+   {
+     Serial1.print(wifiSSID[i]);
+   }
+   Serial1.println();
+   
+   Serial1.print("WIFI Security Type = ");
+   switch(wifiSecurity)
+   {
+     case 0x00:
+       Serial1.println("WPA2 Password");
+       break;
+     case 0x01:
+       Serial1.println("WPA2 Key");
+       break;
+     case 0x02:
+       Serial1.println("WEP40");
+       break;
+     case 0x03:
+       Serial1.println("WEP104");
+       break;
+     default:
+       Serial1.println("Unknown");
+       break;     
+   }
+   
+   Serial1.print("WIFI PW Size       = ");
+   Serial1.println(wifiPwSize, DEC);
+   
+   Serial1.print("WIFI PW            = ");
+   for(int i=0; i<wifiPwSize; i++)
+   {
+     Serial1.print(wifiPw[i]);
+   }
+   Serial1.println();
+ #endif  //DEBUG_ENABLED
+  
+}
+#endif //LINX_NVS_ENABLED
 

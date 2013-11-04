@@ -32,6 +32,7 @@
 		<Item Name="Wait For Packet.vi" Type="VI" URL="../Utilities/Wait For Packet.vi"/>
 		<Item Name="Unpack AI Values.vi" Type="VI" URL="../Utilities/Unpack AI Values.vi"/>
 		<Item Name="Get AI Ref Voltage.vi" Type="VI" URL="../Utilities/Get AI Ref Voltage.vi"/>
+		<Item Name="Set Device User ID.vi" Type="VI" URL="../Utilities/Set Device User ID.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
