@@ -161,6 +161,256 @@ void setUserDeviceID(unsigned char* commandPacketBuffer, unsigned char* response
   responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
+//--------------------------- getUserDeviceID ---------------------------------------------//
+void getUserDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = (userID>>8) & 0xFF;                      //User ID MSB
+  responsePacketBuffer[5] = userID & 0xFF;                           //User ID LSB
+  responsePacketBuffer[6] = 0x00;                                    //STATUS  
+  responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setEthernetIP ---------------------------------------------//
+void setEthernetIP(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update Value In RAM
+  ethernetIP = (commandPacketBuffer[6]<<24) | (commandPacketBuffer[7]<<16) | (commandPacketBuffer[8]<<8) | (commandPacketBuffer[9]);
+  //Update NVS
+  EEPROM.write(NVS_ETHERNET_IP, commandPacketBuffer[6]);
+  EEPROM.write(NVS_ETHERNET_IP+1, commandPacketBuffer[7]);
+  EEPROM.write(NVS_ETHERNET_IP+2, commandPacketBuffer[8]);
+  EEPROM.write(NVS_ETHERNET_IP+3, commandPacketBuffer[9]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getEthernetIP ---------------------------------------------//
+void getEthernetIP(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = ((ethernetIP>>24) & 0xFF);               //Ethernet IP MSB
+  responsePacketBuffer[5] = ((ethernetIP>>16) & 0xFF);               //Ethernet IP ...
+  responsePacketBuffer[6] = ((ethernetIP>>8) & 0xFF);                //Ethernet IP ...
+  responsePacketBuffer[7] = ((ethernetIP) & 0xFF);                   //Ethernet IP LSB  
+  responsePacketBuffer[8] = 0x00;                                    //STATUS  
+  responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setEthernetPort ---------------------------------------------//
+void setEthernetPort(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update Value In RAM
+  ethernetPort = ((commandPacketBuffer[6]<<8) | (commandPacketBuffer[7]));
+  //Update NVS
+  EEPROM.write(NVS_ETHERNET_PORT, commandPacketBuffer[6]);
+  EEPROM.write(NVS_ETHERNET_PORT+1, commandPacketBuffer[7]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getEthernetPort ---------------------------------------------//
+void getEthernetPort(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = ((ethernetPort>>8) & 0xFF);              //Ethernet PORT MSB
+  responsePacketBuffer[5] = (ethernetPort & 0xFF);                   //Ethernet PORT LSB
+  responsePacketBuffer[6] = 0x00;                                    //STATUS  
+  responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setWIFIIP ---------------------------------------------//
+void setWifiIP(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update Value In RAM
+  wifiIP = (commandPacketBuffer[6]<<24) | (commandPacketBuffer[7]<<16) | (commandPacketBuffer[8]<<8) | (commandPacketBuffer[9]);
+  //Update NVS
+  EEPROM.write(NVS_WIFI_IP, commandPacketBuffer[6]);
+  EEPROM.write(NVS_WIFI_IP+1, commandPacketBuffer[7]);
+  EEPROM.write(NVS_WIFI_IP+2, commandPacketBuffer[8]);
+  EEPROM.write(NVS_WIFI_IP+3, commandPacketBuffer[9]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getWifiIP ---------------------------------------------//
+void getWifiIP(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = ((wifiIP>>24) & 0xFF);                   //WIFI IP MSB
+  responsePacketBuffer[5] = ((wifiIP>>16) & 0xFF);                   //WIFI IP ...
+  responsePacketBuffer[6] = ((wifiIP>>8) & 0xFF);                    //WIFI IP ...
+  responsePacketBuffer[7] = ((wifiIP) & 0xFF);                       //WIFI IP LSB  
+  responsePacketBuffer[8] = 0x00;                                    //STATUS  
+  responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setWifiPort ---------------------------------------------//
+void setWifiPort(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update Value In RAM
+  wifiPort = ((commandPacketBuffer[6]<<8) | (commandPacketBuffer[7]));
+  //Update NVS
+  EEPROM.write(NVS_WIFI_PORT, commandPacketBuffer[6]);
+  EEPROM.write(NVS_WIFI_PORT+1, commandPacketBuffer[7]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getWifiPort ---------------------------------------------//
+void getWifiPort(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = ((wifiPort>>8) & 0xFF);                  //WIFI PORT MSB
+  responsePacketBuffer[5] = (wifiPort & 0xFF);                        //WIFI PORT LSB
+  responsePacketBuffer[6] = 0x00;                                    //STATUS  
+  responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setWifiSSID ---------------------------------------------//
+void setWifiSSID(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update SSID Size In RAM And NVS
+  if(commandPacketBuffer[6] > 32)
+  {
+    wifiSSIDSize = 32;
+    EEPROM.write(NVS_WIFI_SSID_SIZE, 32);
+  }
+  else
+  {
+    wifiSSIDSize = commandPacketBuffer[6];
+    EEPROM.write(NVS_WIFI_SSID_SIZE, commandPacketBuffer[6]);
+  }  
+  
+  //Update SSID Value In RAM And NVS
+  for(int i=0; i<wifiSSIDSize; i++)
+  {
+    wifiSSID[i] = commandPacketBuffer[7+i];
+    EEPROM.write(NVS_WIFI_SSID_SIZE+i, commandPacketBuffer[i+7]);    
+  }
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getWifiSSID ---------------------------------------------//
+void getWifiSSID(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = wifiSSIDSize + 7;                        //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[3] = wifiSSIDSize;                            //SSID SIZE
+  
+  for(int i=0; i<wifiSSIDSize; i++)
+  {
+    responsePacketBuffer[i+5] = wifiSSID[i];
+  }
+  
+  responsePacketBuffer[wifiSSIDSize+5] = 0x00;                                    //STATUS  
+  responsePacketBuffer[wifiSSIDSize+6] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setWifiSecurity ---------------------------------------------//
+void setWifiSecurity(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update Value In RAM
+  wifiSecurity = commandPacketBuffer[6];
+  //Update NVS
+  EEPROM.write(NVS_WIFI_SECURITY_TYPE, commandPacketBuffer[6]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getWifiSecurity ---------------------------------------------//
+void getWifiSecurity(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x07;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = wifiSecurity;                            //WIFI PORT MSB
+  responsePacketBuffer[5] = 0x00;                                    //STATUS  
+  responsePacketBuffer[6] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- setWifiPw ---------------------------------------------//
+void setWifiPw(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update PW Size In RAM And NVS
+  if(commandPacketBuffer[6] > 64)
+  {
+    wifiPwSize = 64;
+    EEPROM.write(NVS_WIFI_PW_SIZE, 64);
+  }
+  else
+  {
+    wifiPwSize = commandPacketBuffer[6];
+    EEPROM.write(NVS_WIFI_PW_SIZE, commandPacketBuffer[6]);
+  }  
+  
+  //Update PW Value In RAM And NVS
+  for(int i=0; i<wifiPwSize; i++)
+  {
+    wifiPw[i] = commandPacketBuffer[7+i];
+    EEPROM.write(NVS_WIFI_PW_SIZE+i, commandPacketBuffer[i+7]);    
+  }
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+  
+  
+
 
 //--------------------------- processCommand ------------------------------------------//
 void processCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
@@ -210,6 +460,48 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x0012: // Set Device User ID
       setUserDeviceID(commandPacketBuffer, responsePacketBuffer);
       break;
+    case 0x0013: // Get Device User ID
+      getUserDeviceID(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0014: // Set Device Ethernet IP
+      setEthernetIP(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0015: // Get Device Ethernet IP
+      getEthernetIP(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0016: // Set Device Ethernet Port
+      setEthernetPort(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0017: // Get Device Ethernet Port
+      getEthernetPort(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0018: // Set Device WIFI IP
+      setWifiIP(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0019: // Get Device WIFI IP
+      getWifiIP(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x001A: // Set Device WIFI Port
+      setWifiPort(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x001B: // Get Device WIFI Port
+      getWifiPort(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x001C: // Set Device WIFI SSID
+      setWifiSSID(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x001D: // Get Device WIFI SSID
+      getWifiSSID(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x001E: // Set Device WIFI Security Type
+      setWifiSecurity(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x001F: // Get Device WIFI Security Type
+      getWifiSecurity(commandPacketBuffer, responsePacketBuffer);
+      break;
+    case 0x0020: // Set Device WIFI Password
+      setWifiPw(commandPacketBuffer, responsePacketBuffer);
+      break;      
       
     /************************************************************************************
     * DIGITAL I/O
