@@ -62,9 +62,7 @@
 
 //Ethernet Interface
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED
-  
-  IPv4 deviceEthernetIpAddress = LINX_ETHERNET_DEFAULT_IP;
-  unsigned short deviceEthernetPort =  LINX_ETHERNET_DEFAULT_PORT;
+
   STATE ethernetState = LISTEN;
   DNETcK::STATUS ethernetStatus;
   TcpServer ethernetTCPServer;
@@ -77,6 +75,7 @@
   unsigned char ethernetResponseBuffer[LINX_ETHERNET_TX_BUFF_SIZE];
   
 #endif  //LINX_ETHERNET_INTERFACE_ENABLED
+
 
 #ifdef LINX_I2C_ENABLED
   unsigned char I2C0Open = 0;
@@ -811,6 +810,15 @@ void getMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responseP
 //--------------------------- setupLINXEthernetInterface ------------------------------//
 void setupLINXEthernetInterface()
 {
+  
+  
+  
+  IPv4 deviceEthernetIpAddress = {((ethernetIP>>24)&0xFF), ((ethernetIP>>16)&0xFF), ((ethernetIP>>8)&0xFF), (ethernetIP&0xFF)};
+  //deviceEthernetIpAddress.rgbIP[0] = ((ethernetIP>>24)&0xFF);
+  //deviceEthernetIpAddress.rgbIP[1] = ((ethernetIP>>16)&0xFF);
+  //6deviceEthernetIpAddress.rgbIP[2] = ((ethernetIP>>8)&0xFF);
+  //deviceEthernetIpAddress.rgbIP[3] = (ethernetIP&0xFF);
+  
   //Initialize Ethernet Stack
   DNETcK::begin(deviceEthernetIpAddress);
   
@@ -837,20 +845,20 @@ void checkForLINXEthernetPacket()
   {
     case LISTEN:  
       //Listen For Connection On Specified Port
-      if(ethernetTCPServer.startListening(deviceEthernetPort))
+      if(ethernetTCPServer.startListening(ethernetPort))
       {
         ethernetState = ISLISTENING;
         
         #ifdef DEBUG_ENABLED          
           Serial1.print("Ethernet Starting To Listen On Port ");
-          Serial1.println(deviceEthernetPort, DEC);
+          Serial1.println(ethernetPort, DEC);
         #endif  //DEBUG_ENABLED
       }
       else
       {
         #ifdef DEBUG_ENABLED          
           Serial1.print("Unable To Start Listenging On Ethernet Port ");
-          Serial1.println(deviceEthernetPort);
+          Serial1.println(ethernetPort);
         #endif  //DEBUG_ENABLED
         
         ethernetState = EXIT;        
@@ -867,7 +875,7 @@ void checkForLINXEthernetPacket()
         ethernetState = AVAILABLECLIENT;
         #ifdef DEBUG_ENABLED          
           Serial1.print("Ethernet Listening On Port ");
-          Serial1.println(deviceEthernetPort);
+          Serial1.println(ethernetPort);
         #endif  //DEBUG_ENABLED
       }
       else if(DNETcK::isStatusAnError(ethernetStatus))
@@ -1621,7 +1629,7 @@ void linxUARTClose(unsigned char* commandPacketBuffer, unsigned char* responsePa
 #endif  //LINX_UART_ENABLED
 
 
-
+//--------------------------- loadNVSConfig -------------------------------------------//
 #ifdef LINX_NVS_ENABLED
 void loadNVSConfig()
 {
@@ -1732,4 +1740,5 @@ void loadNVSConfig()
   
 }
 #endif //LINX_NVS_ENABLED
+
 

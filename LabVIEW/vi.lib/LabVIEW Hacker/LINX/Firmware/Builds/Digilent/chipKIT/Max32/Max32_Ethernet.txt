@@ -1,0 +1,3 @@
+LINX firmware for the Digilent chipKIT Max32 with the Serial/USB and Ethernet (chipKIT Network Shield) interfaces enabled.
+
+Note: When debugging is enabled the LINX device will be much slower to repsond to commands from LabVIEW

@@ -59,6 +59,7 @@
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
 			<Item Name="Deploy Firmware State.ctl" Type="VI" URL="../Private/Type Defs/Deploy Firmware State.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
+			<Item Name="Firmware Interface.ctl" Type="VI" URL="../Private/Device/Type Defs/Firmware Interface.ctl"/>
 			<Item Name="Firmware Program Interface.ctl" Type="VI" URL="../Private/Type Defs/Firmware Program Interface.ctl"/>
 			<Item Name="Firmware Version.ctl" Type="VI" URL="../Private/Type Defs/Firmware Version.ctl"/>
 			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
@@ -87,13 +88,14 @@
 			<Item Name="Get Firmware Pogram Interface Index.vi" Type="VI" URL="../Private/Utilties/Get Firmware Pogram Interface Index.vi"/>
 			<Item Name="Get Firmware Version Names.vi" Type="VI" URL="../Private/Utilties/Get Firmware Version Names.vi"/>
 			<Item Name="Get Firmware Builds Base Path.vi" Type="VI" URL="../Private/Utilties/Get Firmware Builds Base Path.vi"/>
-			<Item Name="Load Firmware ReadMe.vi" Type="VI" URL="../Private/Utilties/Load Firmware ReadMe.vi"/>
+			<Item Name="Load Firmware Data.vi" Type="VI" URL="../Private/Utilties/Load Firmware Data.vi"/>
 			<Item Name="Load Device Image.vi" Type="VI" URL="../Private/Utilties/Load Device Image.vi"/>
 			<Item Name="Generate Firmware Interface Config Message.vi" Type="VI" URL="../Private/Utilties/Generate Firmware Interface Config Message.vi"/>
 			<Item Name="Upload Firmware.vi" Type="VI" URL="../Private/Utilties/Upload Firmware.vi"/>
 			<Item Name="Generate Firmware Wizard Summary Message.vi" Type="VI" URL="../Private/Utilties/Generate Firmware Wizard Summary Message.vi"/>
 			<Item Name="Firmware Wizard Config.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Config.vi"/>
 			<Item Name="Firmware Wizard Check INI.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Check INI.vi"/>
+			<Item Name="Loop Frequency.vi" Type="VI" URL="../Private/Device/Utilities/Loop Frequency.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>

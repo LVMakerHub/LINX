@@ -47,6 +47,8 @@
 		<Item Name="Set WIFI Security Type.vi" Type="VI" URL="../Utilities/Set WIFI Security Type.vi"/>
 		<Item Name="Get WIFI Secuirty Type.vi" Type="VI" URL="../Utilities/Get WIFI Secuirty Type.vi"/>
 		<Item Name="Set WIFI Password.vi" Type="VI" URL="../Utilities/Set WIFI Password.vi"/>
+		<Item Name="Configure Ethernet.vi" Type="VI" URL="../Utilities/Configure Ethernet.vi"/>
+		<Item Name="Reset VISA Device.vi" Type="VI" URL="../Utilities/Reset VISA Device.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
@@ -71,7 +73,7 @@
 			<Item Name="SPI Set Mode.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Mode.vi"/>
 			<Item Name="SPI Set Bit Order.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Bit Order.vi"/>
 			<Item Name="SPI Set CS Logic Level.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Logic Level.vi"/>
-			<Item Name="SPI Set CS Pin.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Peripheral/SPI/SPI Set CS Pin.vi"/>
+			<Item Name="SPI Set CS Pin.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Pin.vi"/>
 		</Item>
 		<Item Name="UART" Type="Folder">
 			<Item Name="UART Open.vi" Type="VI" URL="../Peripheral/UART/UART Open.vi"/>

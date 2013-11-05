@@ -1,0 +1,1 @@
+LINX firmware for the Digilent chipKIT Max32 with the Serial/USB and Ethernet (chipKIT Network Shield) interfaces and debugging enabled.
