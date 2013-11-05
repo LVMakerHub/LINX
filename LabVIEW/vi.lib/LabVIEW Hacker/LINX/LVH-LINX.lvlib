@@ -66,6 +66,7 @@
 			<Item Name="Peripheral.ctl" Type="VI" URL="../Private/Type Defs/Peripheral.ctl"/>
 			<Item Name="Platform.ctl" Type="VI" URL="../Private/Type Defs/Platform.ctl"/>
 			<Item Name="User Platform.ctl" Type="VI" URL="../Private/Type Defs/User Platform.ctl"/>
+			<Item Name="WIFI Security Type.ctl" Type="VI" URL="../Private/Type Defs/WIFI Security Type.ctl"/>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Property Name="NI.SortType" Type="Int">3</Property>

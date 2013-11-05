@@ -313,15 +313,15 @@ void setWifiSSID(unsigned char* commandPacketBuffer, unsigned char* responsePack
   }
   else
   {
-    wifiSSIDSize = commandPacketBuffer[6];
+    wifiSSIDSize =commandPacketBuffer[6];
     EEPROM.write(NVS_WIFI_SSID_SIZE, commandPacketBuffer[6]);
-  }  
-  
+  }
+    
   //Update SSID Value In RAM And NVS
   for(int i=0; i<wifiSSIDSize; i++)
   {
     wifiSSID[i] = commandPacketBuffer[7+i];
-    EEPROM.write(NVS_WIFI_SSID_SIZE+i, commandPacketBuffer[i+7]);    
+    EEPROM.write(NVS_WIFI_SSID+i, commandPacketBuffer[7+i]);    
   }
   
   responsePacketBuffer[0] = 0xFF;                                    //SoF
@@ -340,7 +340,7 @@ void getWifiSSID(unsigned char* commandPacketBuffer, unsigned char* responsePack
   responsePacketBuffer[1] = wifiSSIDSize + 7;                        //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[3] = wifiSSIDSize;                            //SSID SIZE
+  responsePacketBuffer[4] = wifiSSIDSize;                            //SSID SIZE
   
   for(int i=0; i<wifiSSIDSize; i++)
   {
@@ -398,7 +398,7 @@ void setWifiPw(unsigned char* commandPacketBuffer, unsigned char* responsePacket
   for(int i=0; i<wifiPwSize; i++)
   {
     wifiPw[i] = commandPacketBuffer[7+i];
-    EEPROM.write(NVS_WIFI_PW_SIZE+i, commandPacketBuffer[i+7]);    
+    EEPROM.write(NVS_WIFI_PW+i, commandPacketBuffer[i+7]);    
   }
   
   responsePacketBuffer[0] = 0xFF;                                    //SoF
@@ -1637,27 +1637,27 @@ void loadNVSConfig()
 
   wifiIP = (EEPROM.read(NVS_WIFI_IP) << 24) |(EEPROM.read(NVS_WIFI_IP+1) << 16) |(EEPROM.read(NVS_WIFI_IP+2) << 8) | EEPROM.read(NVS_WIFI_IP+3);
   wifiPort = (EEPROM.read(NVS_WIFI_PORT) << 8) | EEPROM.read(NVS_WIFI_PORT+1);
+    
   wifiSSIDSize = EEPROM.read(NVS_WIFI_SSID_SIZE);
   if(wifiSSIDSize > 32)
   {
     wifiSSIDSize = 32;
   }
   
-  wifiSSID[32];
   for(int i=0; i<wifiSSIDSize; i++)
   {
     wifiSSID[i] = EEPROM.read(i+NVS_WIFI_SSID);
   }
   wifiSecurity = EEPROM.read(NVS_WIFI_SECURITY_TYPE);
   wifiPwSize = EEPROM.read(NVS_WIFI_PW_SIZE);
-  wifiPw[64];
+  
   if(wifiPwSize > 64)
   {
-    wifiSSIDSize = 32;
+    wifiPwSize = 64;
   }
   for(int i=0; i<wifiPwSize; i++)
   {
-    wifiSSID[i] = EEPROM.read(i+NVS_WIFI_PW);    
+    wifiPw[i] = EEPROM.read(i+NVS_WIFI_PW);    
   }
  
  //Debugging

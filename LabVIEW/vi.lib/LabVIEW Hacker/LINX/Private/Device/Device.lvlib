@@ -33,6 +33,20 @@
 		<Item Name="Unpack AI Values.vi" Type="VI" URL="../Utilities/Unpack AI Values.vi"/>
 		<Item Name="Get AI Ref Voltage.vi" Type="VI" URL="../Utilities/Get AI Ref Voltage.vi"/>
 		<Item Name="Set Device User ID.vi" Type="VI" URL="../Utilities/Set Device User ID.vi"/>
+		<Item Name="Get Device User ID.vi" Type="VI" URL="../Utilities/Get Device User ID.vi"/>
+		<Item Name="Set Ethernet IP.vi" Type="VI" URL="../Utilities/Set Ethernet IP.vi"/>
+		<Item Name="Get Ethernet IP.vi" Type="VI" URL="../Utilities/Get Ethernet IP.vi"/>
+		<Item Name="Set Ethernet Port.vi" Type="VI" URL="../Utilities/Set Ethernet Port.vi"/>
+		<Item Name="Get Ethernet Port.vi" Type="VI" URL="../Utilities/Get Ethernet Port.vi"/>
+		<Item Name="Set WIFI IP.vi" Type="VI" URL="../Utilities/Set WIFI IP.vi"/>
+		<Item Name="Get WIFI IP.vi" Type="VI" URL="../Utilities/Get WIFI IP.vi"/>
+		<Item Name="Set WIFI Port.vi" Type="VI" URL="../Utilities/Set WIFI Port.vi"/>
+		<Item Name="Get WIFI Port.vi" Type="VI" URL="../Utilities/Get WIFI Port.vi"/>
+		<Item Name="Set WIFI SSID.vi" Type="VI" URL="../Utilities/Set WIFI SSID.vi"/>
+		<Item Name="Get WIFI SSID.vi" Type="VI" URL="../Utilities/Get WIFI SSID.vi"/>
+		<Item Name="Set WIFI Security Type.vi" Type="VI" URL="../Utilities/Set WIFI Security Type.vi"/>
+		<Item Name="Get WIFI Secuirty Type.vi" Type="VI" URL="../Utilities/Get WIFI Secuirty Type.vi"/>
+		<Item Name="Set WIFI Password.vi" Type="VI" URL="../Utilities/Set WIFI Password.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
@@ -57,7 +71,7 @@
 			<Item Name="SPI Set Mode.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Mode.vi"/>
 			<Item Name="SPI Set Bit Order.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Bit Order.vi"/>
 			<Item Name="SPI Set CS Logic Level.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Logic Level.vi"/>
-			<Item Name="SPI Set CS Pin.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Pin.vi"/>
+			<Item Name="SPI Set CS Pin.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Peripheral/SPI/SPI Set CS Pin.vi"/>
 		</Item>
 		<Item Name="UART" Type="Folder">
 			<Item Name="UART Open.vi" Type="VI" URL="../Peripheral/UART/UART Open.vi"/>
