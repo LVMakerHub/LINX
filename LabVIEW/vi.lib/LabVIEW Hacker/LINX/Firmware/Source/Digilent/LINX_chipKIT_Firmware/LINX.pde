@@ -5,8 +5,8 @@
 
 //Include Ethernet Headers If Necissary
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED
-  #include <NetworkShield.h>
-  #include <DNETcK.h>
+  //#include <NetworkShield.h>
+  //#include <DNETcK.h>
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
 
 #ifdef LINX_I2C_ENABLED
@@ -38,6 +38,7 @@
   #define NVS_WIFI_SECURITY_TYPE 0x30
   #define NVS_WIFI_PW_SIZE 0x31
   #define NVS_WIFI_PW 0x32
+  #define NVS_SERIAL_INTERFACE_MAX_BAUD 0x72
 
   unsigned short userID;
   
@@ -51,6 +52,9 @@
   unsigned char wifiSecurity;
   unsigned char wifiPwSize;
   unsigned char wifiPw[64];
+  
+  unsigned long serialInterfaceMaxBaud = 115200;
+  
 #endif //LINX_NVS_ENABLED
 
 //Serial Interface
@@ -295,8 +299,8 @@ void getWifiPort(unsigned char* commandPacketBuffer, unsigned char* responsePack
   responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = ((wifiPort>>8) & 0xFF);                  //WIFI PORT MSB
-  responsePacketBuffer[5] = (wifiPort & 0xFF);                        //WIFI PORT LSB
+  responsePacketBuffer[4] = ((wifiPort>>8) & 0xFF);                          //WIFI PORT MSB
+  responsePacketBuffer[5] = (wifiPort & 0xFF);                       //WIFI PORT LSB
   responsePacketBuffer[6] = 0x00;                                    //STATUS  
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
@@ -407,6 +411,42 @@ void setWifiPw(unsigned char* commandPacketBuffer, unsigned char* responsePacket
   responsePacketBuffer[4] = 0x00;                                    //STATUS  
   responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
+
+
+//--------------------------- setSerialInterfaceMaxBaud ---------------------------------------------//
+void setSerialInterfaceMaxBaud(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Update Value In RAM
+  serialInterfaceMaxBaud = (unsigned long)(((unsigned long)commandPacketBuffer[6]<<24) | ((unsigned long)commandPacketBuffer[7]<<16) | ((unsigned long)commandPacketBuffer[8]<<8) | ((unsigned long)commandPacketBuffer[9]));
+  
+  //Update NVS
+  EEPROM.write(NVS_SERIAL_INTERFACE_MAX_BAUD, commandPacketBuffer[6]);
+  EEPROM.write(NVS_SERIAL_INTERFACE_MAX_BAUD+1, commandPacketBuffer[7]);
+  EEPROM.write(NVS_SERIAL_INTERFACE_MAX_BAUD+2, commandPacketBuffer[8]);
+  EEPROM.write(NVS_SERIAL_INTERFACE_MAX_BAUD+3, commandPacketBuffer[9]);
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x06;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getSerialInterfaceMaxBaud ---------------------------------------------//
+void getSerialInterfaceMaxBaud(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = ((serialInterfaceMaxBaud>>24) & 0xFF);   //WIFI IP MSB
+  responsePacketBuffer[5] = ((serialInterfaceMaxBaud>>16) & 0xFF);   //WIFI IP ...
+  responsePacketBuffer[6] = ((serialInterfaceMaxBaud>>8) & 0xFF);    //WIFI IP ...
+  responsePacketBuffer[7] = ((serialInterfaceMaxBaud) & 0xFF);       //WIFI IP LSB  
+  responsePacketBuffer[8] = 0x00;                                    //STATUS  
+  responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
   
   
 
@@ -449,7 +489,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;
       
     case 0x0006: // Set Baud Rate      
-      setBaudRate(commandPacketBuffer, responsePacketBuffer);
+      setInterfaceBaudRate(commandPacketBuffer, responsePacketBuffer);
       break;
     #endif  //LINX_SERIAL_INTERFACE_ENABLED
     
@@ -500,7 +540,16 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;
     case 0x0020: // Set Device WIFI Password
       setWifiPw(commandPacketBuffer, responsePacketBuffer);
-      break;      
+      break;    
+    //case 0x0021: // Get Device WIFI Password
+      //getWifiPw(commandPacketBuffer, responsePacketBuffer);   //Not Implemented For Security Reasons (not that that's going to stop anyone :D )
+      //break;
+    case 0x0022: // Set Serial Interface Max Baud
+      setSerialInterfaceMaxBaud(commandPacketBuffer, responsePacketBuffer);
+      break;  
+    case 0x0023: // Get Serial Interface Max Baud
+      getSerialInterfaceMaxBaud(commandPacketBuffer, responsePacketBuffer);
+      break;
       
     /************************************************************************************
     * DIGITAL I/O
@@ -761,11 +810,11 @@ void setupLINXSerialInterface()
   Serial.begin(9600);
 }
 
-//--------------------------- setBaudRate ---------------------------------------------//
-void setBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+//--------------------------- setInterfaceBaudRate ---------------------------------------------//
+void setInterfaceBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
        Serial.end();
-       Serial.begin( (commandPacketBuffer[6]<<24) + (commandPacketBuffer[7]<<16) + (commandPacketBuffer[8]<<8) + (commandPacketBuffer[9]));
+       Serial.begin((unsigned long)(((unsigned long)commandPacketBuffer[6]<<24) | ((unsigned long)commandPacketBuffer[7]<<16) | ((unsigned long)commandPacketBuffer[8]<<8) | ((unsigned long)commandPacketBuffer[9])));
        delay(1000);   //Give Host Time To Update Serial Baud Rate 
        
        responsePacketBuffer[0] = 0xFF;                                    //SoF
@@ -781,12 +830,16 @@ void setBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePack
 //--------------------------- getMaxBaudRate ------------------------------------------//
 void getMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
+  unsigned long baudRate;
   
-  #ifdef MAX_BAUD_RATE
-  unsigned long baudRate = MAX_BAUD_RATE;
-  #else
-  unsigned long baudRate = 9600;
-  #endif
+  if(serialInterfaceMaxBaud != 0)
+  {
+    baudRate = serialInterfaceMaxBaud;
+  }
+  else
+  {
+     baudRate = 9600;    
+  }
   
   responsePacketBuffer[0] = 0xFF;                                    //SoF
   responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
@@ -1667,11 +1720,21 @@ void loadNVSConfig()
   {
     wifiPw[i] = EEPROM.read(i+NVS_WIFI_PW);    
   }
- 
+  
+  //serialInterfaceMaxBaud = ((unsigned long)(((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD)<<24) | ((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD+1)<<16) | ((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD+2)<<8) | ((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD+3))));
+  //if(serialInterfaceMaxBaud < 200 | serialInterfaceMaxBaud > 200000)
+  //{
+  // serialInterfaceMaxBaud = 9600;
+  //}
+  
+  
  //Debugging
  #ifdef DEBUG_ENABLED
    Serial1.print("User Device ID     = ");
    Serial1.println(userID, HEX);
+   
+   Serial1.println("Serial Max Baud  = ");
+   Serial1.println(serialInterfaceMaxBaud, DEC);
    
    Serial1.print("Ethernet IP        = ");
    Serial1.print((ethernetIP>>24) & 0xFF, DEC);

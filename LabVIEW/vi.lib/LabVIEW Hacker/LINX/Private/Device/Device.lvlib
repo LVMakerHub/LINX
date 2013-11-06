@@ -49,6 +49,8 @@
 		<Item Name="Set WIFI Password.vi" Type="VI" URL="../Utilities/Set WIFI Password.vi"/>
 		<Item Name="Configure Ethernet.vi" Type="VI" URL="../Utilities/Configure Ethernet.vi"/>
 		<Item Name="Reset VISA Device.vi" Type="VI" URL="../Utilities/Reset VISA Device.vi"/>
+		<Item Name="Set Serial Interface Max Baud.vi" Type="VI" URL="../Utilities/Set Serial Interface Max Baud.vi"/>
+		<Item Name="Get Serial Interface Max Baud.vi" Type="VI" URL="../Utilities/Get Serial Interface Max Baud.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">

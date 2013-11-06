@@ -19,24 +19,22 @@
   
   //Serial
   #define LINX_SERIAL_INTERFACE_ENABLED 1
-  #define MAX_BAUD_RATE 115200
   
   //Ethernet
-  #define LINX_ETHERNET_INTERFACE_ENABLED 1
-  #define LINX_ETHERNET_DEFAULT_IP {10, 2, 106, 213}
-  #define LINX_ETHERNET_RX_BUFF_SIZE 256
-  #define LINX_ETHERNET_TX_BUFF_SIZE 256
-  #define LINX_ETHERNET_DEFAULT_TIMEOUT 1000              //Ethernet Timeout In mS
+  //#define LINX_ETHERNET_INTERFACE_ENABLED 1
+  //#define LINX_ETHERNET_DEFAULT_IP {10, 2, 106, 213}
+  //#define LINX_ETHERNET_RX_BUFF_SIZE 256
+  //#define LINX_ETHERNET_TX_BUFF_SIZE 256
+  //#define LINX_ETHERNET_DEFAULT_TIMEOUT 1000              //Ethernet Timeout In mS
   
   //WIFI
   //#define LINX_WIFI_INTERFACE_ENABLED 1
   
   //Device ID
-  #define DEVICE_FAMILY 1
-  #define DEVICE_ID 2
+  #define DEVICE_FAMILY 2
+  #define DEVICE_ID 0
   
   //Serial Settings
-  #define MAX_BAUD_RATE 115200
   
   //Analog Settings
   #define AI_RESOLUTION 10
@@ -53,7 +51,7 @@
   //#define LINX_ANALOG_OUTPUT_ENABLED 1
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
-  #define LINX_UART_ENABLED 1
+  //#define LINX_UART_ENABLED 1
   #define LINX_NVS_ENABLED 1
   
 /****************************************************************************************

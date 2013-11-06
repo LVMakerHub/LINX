@@ -56,6 +56,7 @@
 					<Item Name="SPI CS Logic Level.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI CS Logic Level.ctl"/>
 				</Item>
 			</Item>
+			<Item Name="Baud Rate.ctl" Type="VI" URL="../Private/Type Defs/Baud Rate.ctl"/>
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
 			<Item Name="Deploy Firmware State.ctl" Type="VI" URL="../Private/Type Defs/Deploy Firmware State.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
@@ -96,6 +97,7 @@
 			<Item Name="Firmware Wizard Config.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Config.vi"/>
 			<Item Name="Firmware Wizard Check INI.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Check INI.vi"/>
 			<Item Name="Loop Frequency.vi" Type="VI" URL="../Private/Device/Utilities/Loop Frequency.vi"/>
+			<Item Name="Baud Rate To Value.vi" Type="VI" URL="../Private/Utilties/Baud Rate To Value.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>

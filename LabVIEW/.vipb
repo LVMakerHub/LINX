@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-11-05 15:09:19" Creator="lvadmin" Comments="" ID="7f5ecfb24ce9b4c6162191971988c484">
+<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-11-06 14:42:34" Creator="lvadmin" Comments="" ID="bd3fc599c3c521dbfa00334f1991efd3">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>1.0.0.28</Library_Version>
+    <Library_Version>1.0.0.31</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\LVH-Builds\LVH-LINX\Installers</Library_Output_Folder>
@@ -31,9 +31,7 @@
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewhacker.com/linx</URL>
-      <Release_Notes>Added support for Ethernet on the chipKIT Max32 with chipKIT network shield.
-
-Updated firmware wizard with new firmware and appropriate config options.</Release_Notes>
+      <Release_Notes>Added Support For Arduino Uno</Release_Notes>
     </Description>
     <Destinations>
       <Toolkit_VIs>
