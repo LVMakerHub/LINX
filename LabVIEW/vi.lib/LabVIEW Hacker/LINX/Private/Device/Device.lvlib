@@ -51,6 +51,7 @@
 		<Item Name="Reset VISA Device.vi" Type="VI" URL="../Utilities/Reset VISA Device.vi"/>
 		<Item Name="Set Serial Interface Max Baud.vi" Type="VI" URL="../Utilities/Set Serial Interface Max Baud.vi"/>
 		<Item Name="Get Serial Interface Max Baud.vi" Type="VI" URL="../Utilities/Get Serial Interface Max Baud.vi"/>
+		<Item Name="Configure LINX Device.vi" Type="VI" URL="../Utilities/Configure LINX Device.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
