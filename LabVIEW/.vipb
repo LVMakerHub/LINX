@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-11-06 14:42:34" Creator="lvadmin" Comments="" ID="bd3fc599c3c521dbfa00334f1991efd3">
+<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-11-07 12:23:25" Creator="lvadmin" Comments="" ID="413a1e6000c2c3f403e8ae3f81bb09d0">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>1.0.0.31</Library_Version>
+    <Library_Version>1.0.0.32</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\LVH-Builds\LVH-LINX\Installers</Library_Output_Folder>
@@ -31,7 +31,8 @@
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewhacker.com/linx</URL>
-      <Release_Notes>Added Support For Arduino Uno</Release_Notes>
+      <Release_Notes>Added myRIO Support VI to LV Tools Menu
+Several minor updates to FW Wizard</Release_Notes>
     </Description>
     <Destinations>
       <Toolkit_VIs>

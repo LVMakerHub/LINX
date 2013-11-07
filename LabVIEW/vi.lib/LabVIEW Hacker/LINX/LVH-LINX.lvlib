@@ -83,7 +83,6 @@
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
 			<Item Name="Get Device Config.vi" Type="VI" URL="../Private/Utilties/Get Device Config.vi"/>
-			<Item Name="Enable myRIO Support.vi" Type="VI" URL="../Private/Utilties/Enable myRIO Support.vi"/>
 			<Item Name="Firmware Wizard.vi" Type="VI" URL="../../../../project/LabVIEW Hacker/LINX/Firmware Wizard.vi"/>
 			<Item Name="Get Firmware Program Interfaces.vi" Type="VI" URL="../Private/Utilties/Get Firmware Program Interfaces.vi"/>
 			<Item Name="Get Firmware Pogram Interface Index.vi" Type="VI" URL="../Private/Utilties/Get Firmware Pogram Interface Index.vi"/>
@@ -98,6 +97,7 @@
 			<Item Name="Firmware Wizard Check INI.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Check INI.vi"/>
 			<Item Name="Loop Frequency.vi" Type="VI" URL="../Private/Device/Utilities/Loop Frequency.vi"/>
 			<Item Name="Baud Rate To Value.vi" Type="VI" URL="../Private/Utilties/Baud Rate To Value.vi"/>
+			<Item Name="myRIO Support.vi" Type="VI" URL="../../../../project/LabVIEW Hacker/LINX/myRIO Support.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
