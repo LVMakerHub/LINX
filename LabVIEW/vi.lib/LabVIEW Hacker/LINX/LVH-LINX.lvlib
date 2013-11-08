@@ -98,6 +98,8 @@
 			<Item Name="Loop Frequency.vi" Type="VI" URL="../Private/Device/Utilities/Loop Frequency.vi"/>
 			<Item Name="Baud Rate To Value.vi" Type="VI" URL="../Private/Utilties/Baud Rate To Value.vi"/>
 			<Item Name="myRIO Support.vi" Type="VI" URL="../../../../project/LabVIEW Hacker/LINX/myRIO Support.vi"/>
+			<Item Name="Get Devices In Family.vi" Type="VI" URL="../Private/Utilties/Get Devices In Family.vi"/>
+			<Item Name="Check myRIO Status.vi" Type="VI" URL="../Private/Utilties/Check myRIO Status.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
