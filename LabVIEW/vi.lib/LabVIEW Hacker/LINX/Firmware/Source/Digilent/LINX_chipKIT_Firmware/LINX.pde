@@ -133,17 +133,17 @@ void getDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePack
   responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
   #ifdef DEVICE_FAMILY
-    responsePacketBuffer[5] = DEVICE_FAMILY;                         //Device Family
+    responsePacketBuffer[4] = DEVICE_FAMILY;                         //Device Family
   #else
-    responsePacketBuffer[5] = 0x00;                                 
+    responsePacketBuffer[4] = 0x00;                                 
   #endif
   #ifdef DEVICE_ID
-    responsePacketBuffer[6] = DEVICE_ID;                             //Device ID
+    responsePacketBuffer[5] = DEVICE_ID;                             //Device ID
   #else
-    responsePacketBuffer[6] = 0x00;    
-  #endif  
+    responsePacketBuffer[5] = 0x00;    
+  #endif
+  responsePacketBuffer[6] = 0x00;                                    //STATUS
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 

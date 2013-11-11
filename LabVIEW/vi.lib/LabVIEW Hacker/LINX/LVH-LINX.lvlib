@@ -8,6 +8,7 @@
 	<Item Name="Examples" Type="Folder">
 		<Item Name="Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - Serial Connection.vi"/>
 		<Item Name="Analog Read - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - TCP Connection.vi"/>
+		<Item Name="Blink - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Blink - Serial Connection.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
@@ -100,6 +101,7 @@
 			<Item Name="myRIO Support.vi" Type="VI" URL="../../../../project/LabVIEW Hacker/LINX/myRIO Support.vi"/>
 			<Item Name="Get Devices In Family.vi" Type="VI" URL="../Private/Utilties/Get Devices In Family.vi"/>
 			<Item Name="Check myRIO Status.vi" Type="VI" URL="../Private/Utilties/Check myRIO Status.vi"/>
+			<Item Name="Clean Error Call Chain.vi" Type="VI" URL="../Private/Utilties/Clean Error Call Chain.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>

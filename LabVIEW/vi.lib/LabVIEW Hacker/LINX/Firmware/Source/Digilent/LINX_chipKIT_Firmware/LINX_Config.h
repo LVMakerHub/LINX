@@ -31,8 +31,8 @@
   //#define LINX_WIFI_INTERFACE_ENABLED 1
   
   //Device ID
-  #define DEVICE_FAMILY 2
-  #define DEVICE_ID 0
+  #define DEVICE_FAMILY 1
+  #define DEVICE_ID 1
   
   //Serial Settings
   
