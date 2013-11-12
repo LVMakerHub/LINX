@@ -9,6 +9,7 @@
 		<Item Name="Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - Serial Connection.vi"/>
 		<Item Name="Analog Read - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - TCP Connection.vi"/>
 		<Item Name="Blink - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Blink - Serial Connection.vi"/>
+		<Item Name="Real Time Clock - DS1307.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Real Time Clock - DS1307.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
@@ -119,6 +120,7 @@
 			<Item Name="I2C" Type="Folder">
 				<Item Name="I2C Close.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Close.vi"/>
 				<Item Name="I2C Open.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Open.vi"/>
+				<Item Name="I2C Read.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Read.vi"/>
 				<Item Name="I2C Write.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Write.vi"/>
 			</Item>
 			<Item Name="PWM" Type="Folder">
@@ -142,6 +144,9 @@
 		<Item Name="Sensors" Type="Folder">
 			<Item Name="BlinkM" Type="Folder">
 				<Item Name="BlinkM.lvlib" Type="Library" URL="../Public/Sensors/BlinkM/BlinkM.lvlib"/>
+			</Item>
+			<Item Name="DS1307" Type="Folder">
+				<Item Name="DS1307.lvlib" Type="Library" URL="../Public/Sensors/DS1307/DS1307.lvlib"/>
 			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">

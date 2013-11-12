@@ -66,6 +66,7 @@
 			<Item Name="I2C Close.vi" Type="VI" URL="../Peripheral/I2C/I2C Close.vi"/>
 			<Item Name="I2C Open.vi" Type="VI" URL="../Peripheral/I2C/I2C Open.vi"/>
 			<Item Name="I2C Write.vi" Type="VI" URL="../Peripheral/I2C/I2C Write.vi"/>
+			<Item Name="I2C Read.vi" Type="VI" URL="../Peripheral/I2C/I2C Read.vi"/>
 		</Item>
 		<Item Name="PWM" Type="Folder">
 			<Item Name="Set Duty Cycle.vi" Type="VI" URL="../Peripheral/PWM/Set Duty Cycle.vi"/>

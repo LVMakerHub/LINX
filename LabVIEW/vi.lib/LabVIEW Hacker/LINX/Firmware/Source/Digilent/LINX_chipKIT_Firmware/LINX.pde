@@ -83,6 +83,9 @@
 
 #ifdef LINX_I2C_ENABLED
   unsigned char I2C0Open = 0;
+  unsigned char I2C1Open = 1;
+  unsigned char I2C2Open = 2;
+  unsigned char I2C3Open = 3;
 #endif //LINX_I2C_ENABLED
 
 
@@ -614,6 +617,9 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;
     case 0x00E2: // I2C Write
       linxI2CWrite(commandPacketBuffer, responsePacketBuffer);      
+      break;
+    case 0x00E3: // I2C Read
+      linxI2CRead(commandPacketBuffer, responsePacketBuffer);      
       break;
       
     #endif  //LINX_I2C_ENABLED
@@ -1292,7 +1298,7 @@ void linxSetDigtalPinMode(unsigned char* commandPacketBuffer, unsigned char* res
 //--------------------------- linxI2CClose --------------------------------------------//
 void linxI2CClose(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
-  //Nothing To Do Here....   
+  //Nothing To Do Here For Current Targets  
  
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
@@ -1303,6 +1309,7 @@ void linxI2CClose(unsigned char* commandPacketBuffer, unsigned char* responsePac
 //--------------------------- linxI2COpenMaster ---------------------------------------//
 void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
+    
   //Only Call Wire.Begin If It Has Not Been Called Since the uC Boot
   //If Wire.Begin Is Called A Second Time The Following Transmit Will Hang The Device
   if(I2C0Open == 0)
@@ -1345,6 +1352,63 @@ void linxI2CWrite(unsigned char* commandPacketBuffer, unsigned char* responsePac
   
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
+}
+
+//--------------------------- linxI2CRead --------------------------------------------//
+void linxI2CRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Ignore Channel, Assuming Channel 1 With Device As Master
+  #ifdef DEBUG_ENABLED      
+      Serial1.println("I2C Read...");
+  #endif
+  
+  
+ 
+  //Request Bytes From I2C Device
+  Wire.requestFrom(commandPacketBuffer[7], commandPacketBuffer[8]);
+  unsigned long reqTime = millis();
+  unsigned long timeout = (((unsigned long)commandPacketBuffer[9])<<8) | commandPacketBuffer[10];
+  
+  //Wait To Receive Bytes Or Tme Out
+  while( (Wire.available() < commandPacketBuffer[8]) & ((millis()-reqTime)<timeout) )
+  {
+    delay(1);
+    #ifdef DEBUG_ENABLED      
+      Serial1.print(((millis()-reqTime)), DEC);
+      Serial1.println("ms");
+      Serial1.println(Wire.available());
+    #endif    
+  }
+  
+  if(Wire.available() >= commandPacketBuffer[8])
+  {
+    //All Data Received    
+    responsePacketBuffer[0] = 0xFF;                                                //SoF
+    responsePacketBuffer[1] = commandPacketBuffer[8] + 6;                          //PACKET SIZE (DATA + 6 BYTES)
+    responsePacketBuffer[2] = commandPacketBuffer[2];                              //PACKET NUM 
+    responsePacketBuffer[3] = commandPacketBuffer[3];                              //PACKET NUM 
+    
+    //Fill Data
+    for(int i=0; i<commandPacketBuffer[8]; i++)
+    {
+      responsePacketBuffer[i+4] = Wire.receive();      
+    }
+    
+    responsePacketBuffer[commandPacketBuffer[8] + 4] = 0x00;                                   //STATUS
+    responsePacketBuffer[commandPacketBuffer[8] + 5] = computeChecksum(responsePacketBuffer);  //CHECKSUM   
+  }
+  else
+  {
+    #ifdef DEBUG_ENABLED      
+      Serial1.print("I2C Read Timeout.  Read ");
+      Serial1.print(Wire.available(), DEC);
+      Serial1.println("bytes");
+    #endif
+  
+    //Timeout
+    statusResponse(commandPacketBuffer, responsePacketBuffer, 0x80);
+  }
+  
 }
 
 #endif  //LINX_I2C_ENABLED
