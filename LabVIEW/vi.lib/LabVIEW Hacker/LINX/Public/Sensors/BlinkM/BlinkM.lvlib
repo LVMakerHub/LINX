@@ -8,5 +8,5 @@
 
 </Property>
 	<Item Name="Go To RGB Color Now.vi" Type="VI" URL="../Go To RGB Color Now.vi"/>
-	<Item Name="Initialize.vi" Type="VI" URL="../Initialize.vi"/>
+	<Item Name="Open.vi" Type="VI" URL="../Open.vi"/>
 </Library>

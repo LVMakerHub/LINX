@@ -9,7 +9,9 @@
 		<Item Name="Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - Serial Connection.vi"/>
 		<Item Name="Analog Read - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - TCP Connection.vi"/>
 		<Item Name="Blink - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Blink - Serial Connection.vi"/>
-		<Item Name="Real Time Clock - DS1307.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Real Time Clock - DS1307.vi"/>
+		<Item Name="Blink - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Blink - TCP Connection.vi"/>
+		<Item Name="BlinkM Smart LED.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/BlinkM Smart LED.vi"/>
+		<Item Name="DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/DS1307 Real Time Clock.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
@@ -148,6 +150,7 @@
 			<Item Name="DS1307" Type="Folder">
 				<Item Name="DS1307.lvlib" Type="Library" URL="../Public/Sensors/DS1307/DS1307.lvlib"/>
 			</Item>
+			<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Generic/Thermistor.vi"/>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
