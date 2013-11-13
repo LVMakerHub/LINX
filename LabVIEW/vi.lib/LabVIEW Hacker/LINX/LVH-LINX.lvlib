@@ -6,12 +6,15 @@
 
 </Property>
 	<Item Name="Examples" Type="Folder">
-		<Item Name="Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - Serial Connection.vi"/>
-		<Item Name="Analog Read - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Analog Read - TCP Connection.vi"/>
-		<Item Name="Blink - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Blink - Serial Connection.vi"/>
-		<Item Name="Blink - TCP Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/Blink - TCP Connection.vi"/>
-		<Item Name="BlinkM Smart LED.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/BlinkM Smart LED.vi"/>
-		<Item Name="DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/DS1307 Real Time Clock.vi"/>
+		<Item Name="LINX - Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read - Serial Connection.vi"/>
+		<Item Name="LINX - Analog Read - TCP Interface.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read - TCP Interface.vi"/>
+		<Item Name="LINX - Blink - Serial Interface.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink - Serial Interface.vi"/>
+		<Item Name="LINX - Blink - TCP Interface.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink - TCP Interface.vi"/>
+		<Item Name="LINX - BlinkM Smart LED.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - BlinkM Smart LED.vi"/>
+		<Item Name="LINX - DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - DS1307 Real Time Clock.vi"/>
+		<Item Name="LINX - Photocell.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Photocell.vi"/>
+		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Set RGB LED Color.vi"/>
+		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Seven Segment Display.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
@@ -71,6 +74,8 @@
 			<Item Name="LINX Ref.ctl" Type="VI" URL="../Private/Type Defs/LINX Ref.ctl"/>
 			<Item Name="Peripheral.ctl" Type="VI" URL="../Private/Type Defs/Peripheral.ctl"/>
 			<Item Name="Platform.ctl" Type="VI" URL="../Private/Type Defs/Platform.ctl"/>
+			<Item Name="Seven Segment Control.ctl" Type="VI" URL="../Private/Type Defs/Seven Segment Control.ctl"/>
+			<Item Name="Thumbstick Data.ctl" Type="VI" URL="../Private/Type Defs/Thumbstick Data.ctl"/>
 			<Item Name="User Platform.ctl" Type="VI" URL="../Private/Type Defs/User Platform.ctl"/>
 			<Item Name="WIFI Security Type.ctl" Type="VI" URL="../Private/Type Defs/WIFI Security Type.ctl"/>
 		</Item>
@@ -150,7 +155,13 @@
 			<Item Name="DS1307" Type="Folder">
 				<Item Name="DS1307.lvlib" Type="Library" URL="../Public/Sensors/DS1307/DS1307.lvlib"/>
 			</Item>
-			<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Generic/Thermistor.vi"/>
+			<Item Name="Generic" Type="Folder">
+				<Item Name="Photocell.vi" Type="VI" URL="../Public/Sensors/Generic/Photocell.vi"/>
+				<Item Name="RGB LED.vi" Type="VI" URL="../Public/Sensors/Generic/RGB LED.vi"/>
+				<Item Name="Seven Segment Display.vi" Type="VI" URL="../Public/Sensors/Generic/Seven Segment Display.vi"/>
+				<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Generic/Thermistor.vi"/>
+				<Item Name="Thumbstick.vi" Type="VI" URL="../Public/Sensors/Generic/Thumbstick.vi"/>
+			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
@@ -159,4 +170,5 @@
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
+	<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Thumbstick Read.vi"/>
 </Library>

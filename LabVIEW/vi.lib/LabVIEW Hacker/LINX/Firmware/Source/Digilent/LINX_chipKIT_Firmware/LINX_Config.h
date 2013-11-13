@@ -29,22 +29,24 @@
 
 //Ethernet
 //#define LINX_ETHERNET_INTERFACE_ENABLED 1
-//#define LINX_ETHERNET_DEFAULT_IP {10, 2, 106, 213}
-//#define LINX_ETHERNET_RX_BUFF_SIZE 256
-//#define LINX_ETHERNET_TX_BUFF_SIZE 256
-//#define LINX_ETHERNET_DEFAULT_TIMEOUT 1000              //Ethernet Timeout In mS
 
 //WIFI
 //#define LINX_WIFI_INTERFACE_ENABLED 1
 
-        //Device ID
-        //#define DEVICE_FAMILY 1
-        //#define DEVICE_ID 1
+//
+//#define LINX_ETHERNET_RX_BUFF_SIZE 256
+//#define LINX_ETHERNET_TX_BUFF_SIZE 256
+//#define LINX_ETHERNET_DEFAULT_TIMEOUT 1000              //Ethernet Timeout In mS
+
    
 /*------------------------------------- DEBUG -----------------------------------------*/
 //Uncomment To Enable Debugging On The Secondary Serial Port.
 
 #define DEBUG_ENABLED 1
+
+
+
+
 
 
 /****************************************************************************************

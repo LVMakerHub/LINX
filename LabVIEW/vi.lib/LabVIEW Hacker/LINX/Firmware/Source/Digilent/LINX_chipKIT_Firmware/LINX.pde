@@ -75,8 +75,8 @@
   unsigned int ethernetStartTime = 0;
   unsigned int ethernetTimeout = LINX_ETHERNET_DEFAULT_TIMEOUT;
   
-  unsigned char ethernetCommandBuffer[LINX_ETHERNET_RX_BUFF_SIZE];
-  unsigned char ethernetResponseBuffer[LINX_ETHERNET_TX_BUFF_SIZE];
+  unsigned char ethernetCommandBuffer[256];    //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
+  unsigned char ethernetResponseBuffer[256];
   
 #endif  //LINX_ETHERNET_INTERFACE_ENABLED
 
