@@ -15,6 +15,7 @@
 		<Item Name="LINX - Photocell.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Photocell.vi"/>
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Set RGB LED Color.vi"/>
 		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Seven Segment Display.vi"/>
+		<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Thumbstick Read.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
@@ -170,5 +171,4 @@
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
-	<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Thumbstick Read.vi"/>
 </Library>
