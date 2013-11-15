@@ -5,8 +5,8 @@
 
 //Include Ethernet Headers If Necissary
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED
-  //#include <NetworkShield.h>
-  //#include <DNETcK.h>
+  #include <NetworkShield.h>
+  #include <DNETcK.h>
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
 
 #ifdef LINX_I2C_ENABLED
@@ -73,7 +73,7 @@
   TcpClient ethernetTCPClient;
   int ethernetClientCount = 0;
   unsigned int ethernetStartTime = 0;
-  unsigned int ethernetTimeout = LINX_ETHERNET_DEFAULT_TIMEOUT;
+  unsigned int ethernetTimeout = 10000;         //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
   
   unsigned char ethernetCommandBuffer[256];    //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
   unsigned char ethernetResponseBuffer[256];

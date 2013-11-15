@@ -6,10 +6,9 @@
 
 </Property>
 	<Item Name="Examples" Type="Folder">
-		<Item Name="LINX - Analog Read - Serial Connection.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read - Serial Connection.vi"/>
-		<Item Name="LINX - Analog Read - TCP Interface.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read - TCP Interface.vi"/>
-		<Item Name="LINX - Blink - Serial Interface.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink - Serial Interface.vi"/>
-		<Item Name="LINX - Blink - TCP Interface.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink - TCP Interface.vi"/>
+		<Item Name="LINX - Analog Read 1 Channel.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read 1 Channel.vi"/>
+		<Item Name="LINX - Blink (Advanced).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Advanced).vi"/>
+		<Item Name="LINX - Blink (Simple).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple).vi"/>
 		<Item Name="LINX - BlinkM Smart LED.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - BlinkM Smart LED.vi"/>
 		<Item Name="LINX - DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - DS1307 Real Time Clock.vi"/>
 		<Item Name="LINX - Photocell.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Photocell.vi"/>
@@ -118,11 +117,17 @@
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">
 			<Item Name="Analog" Type="Folder">
+				<Item Name="Analog Read 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read 1 Chan.vi"/>
+				<Item Name="Analog Read N Chans.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read N Chans.vi"/>
 				<Item Name="Analog Read.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read.vi"/>
 			</Item>
 			<Item Name="Digital" Type="Folder">
 				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
+				<Item Name="Digital Read 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read 1 Chan.vi"/>
+				<Item Name="Digital Read N Chans.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read N Chans.vi"/>
 				<Item Name="Digital Read.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read.vi"/>
+				<Item Name="Digital Write 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write 1 Chan.vi"/>
+				<Item Name="Digital Write N Chans.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write N Chans.vi"/>
 				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
 			</Item>
 			<Item Name="I2C" Type="Folder">
@@ -132,6 +137,8 @@
 				<Item Name="I2C Write.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Write.vi"/>
 			</Item>
 			<Item Name="PWM" Type="Folder">
+				<Item Name="Set Duty Cycle 1 Chan.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle 1 Chan.vi"/>
+				<Item Name="Set Duty Cycle N Chans.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle N Chans.vi"/>
 				<Item Name="Set Duty Cycle.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle.vi"/>
 			</Item>
 			<Item Name="SPI" Type="Folder">

@@ -28,7 +28,7 @@
 #define LINX_SERIAL_INTERFACE_ENABLED 1
 
 //Ethernet
-//#define LINX_ETHERNET_INTERFACE_ENABLED 1
+#define LINX_ETHERNET_INTERFACE_ENABLED 1
 
 //WIFI
 //#define LINX_WIFI_INTERFACE_ENABLED 1
@@ -42,7 +42,7 @@
 /*------------------------------------- DEBUG -----------------------------------------*/
 //Uncomment To Enable Debugging On The Secondary Serial Port.
 
-#define DEBUG_ENABLED 1
+//#define DEBUG_ENABLED 1
 
 
 
