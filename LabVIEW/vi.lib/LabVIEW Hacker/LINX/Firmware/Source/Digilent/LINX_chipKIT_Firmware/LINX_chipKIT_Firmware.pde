@@ -25,12 +25,13 @@
 #include "LINX_Devices.h"
 #include "LINX.h"
 
+
 /****************************************************************************************
 **  Setup
 ****************************************************************************************/
 void setup()
 {
-  //Setup LINX Device
+  //Setup LINX Device (Serial Interface Only)
   setupLINX();
 }
 
@@ -38,7 +39,7 @@ void setup()
 *  Loop
 ****************************************************************************************/
 void loop()
-{
+{  
   //Check For A LINX Packet
   #ifdef LINX_SERIAL_INTERFACE_ENABLED
     checkForLINXSerialPacket();
@@ -46,6 +47,10 @@ void loop()
   
   #ifdef LINX_ETHERNET_INTERFACE_ENABLED
     checkForLINXEthernetPacket();
+  #endif
+  
+  #ifdef LINX_WIFI_INTERFACE_ENABLED
+    checkForLINXWifiPacket();
   #endif
 }
 

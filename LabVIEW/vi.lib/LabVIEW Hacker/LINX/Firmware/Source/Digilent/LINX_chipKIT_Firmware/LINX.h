@@ -160,19 +160,6 @@ void setBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePack
 ****************************************************************************************/
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED
 
-typedef enum
-{
-    NONE = 0,
-    LISTEN,
-    ISLISTENING,
-    AVAILABLECLIENT,
-    ACCEPTCLIENT,
-    READ,
-    WRITE,
-    CLOSE,
-    EXIT,
-    DONE
-} STATE;
 
 /****************************************************************************************
 **  setupLINXEthernetInterface
@@ -196,6 +183,28 @@ void setupLINXEthernetInterface();
 void checkForLINXEthernetPacket();
 
 #endif  //LINX_ETHERNET_INTERFACE_ENABLED
+
+
+#if defined(LINX_ETHERNET_INTERFACE_ENABLED) || defined(LINX_WIFI_INTERFACE_ENABLED)
+typedef enum
+{
+    NONE = 0,
+    INITIALIZE,
+    LISTEN,
+    ISLISTENING,
+    AVAILABLECLIENT,
+    ACCEPTCLIENT,
+    READ,
+    WRITE,
+    CLOSE,
+    EXIT,
+    DONE
+} STATE;
+
+#endif
+
+
+
 
 
 /****************************************************************************************

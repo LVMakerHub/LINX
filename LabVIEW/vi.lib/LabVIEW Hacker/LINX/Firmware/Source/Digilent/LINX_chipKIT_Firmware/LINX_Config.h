@@ -15,9 +15,9 @@
 
 /*------------------------------------ DEVICE -----------------------------------------*/
 //    DIGILENT
-//#define CHIPKIT_UC32
+#define CHIPKIT_UC32
 //#define CHIPKIT_UNO32
-#define CHIPKIT_MAX32
+//#define CHIPKIT_MAX32
 
 //    ARDUINO
 //#define ARDUINO_UNO
@@ -28,10 +28,10 @@
 #define LINX_SERIAL_INTERFACE_ENABLED 1
 
 //Ethernet
-#define LINX_ETHERNET_INTERFACE_ENABLED 1
+//#define LINX_ETHERNET_INTERFACE_ENABLED 1
 
 //WIFI
-//#define LINX_WIFI_INTERFACE_ENABLED 1
+#define LINX_WIFI_INTERFACE_ENABLED 1
 
 //
 //#define LINX_ETHERNET_RX_BUFF_SIZE 256

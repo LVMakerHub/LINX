@@ -5,9 +5,16 @@
 
 //Include Ethernet Headers If Necissary
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED
-  #include <NetworkShield.h>
-  #include <DNETcK.h>
+  //#include <NetworkShield.h>
+  //#include <DNETcK.h>
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
+
+//Include WIFI Headers If Necissary
+#ifdef LINX_WIFI_INTERFACE_ENABLED
+  #include <WiFiShieldOrPmodWiFi_G.h> 
+  #include <DNETcK.h>
+  #include <DWIFIcK.h>
+#endif //LINX_WIFI_INTERFACE_ENABLED
 
 #ifdef LINX_I2C_ENABLED
   #include <Wire.h>
@@ -43,15 +50,15 @@
   unsigned short userID;
   
   unsigned long ethernetIP;
-  unsigned short ethernetPort;
+  unsigned short ethernetPort;  
   
   unsigned long wifiIP;
   unsigned short wifiPort;
   unsigned char wifiSSIDSize;
-  unsigned char wifiSSID[32];
+  char wifiSSID[32];
   unsigned char wifiSecurity;
   unsigned char wifiPwSize;
-  unsigned char wifiPw[64];
+  char wifiPw[64];
   
   unsigned long serialInterfaceMaxBaud = 115200;
   
@@ -73,12 +80,31 @@
   TcpClient ethernetTCPClient;
   int ethernetClientCount = 0;
   unsigned int ethernetStartTime = 0;
-  unsigned int ethernetTimeout = 10000;         //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
+  unsigned int ethernetTimeout = 5000;         //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
   
   unsigned char ethernetCommandBuffer[256];    //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
   unsigned char ethernetResponseBuffer[256];
   
 #endif  //LINX_ETHERNET_INTERFACE_ENABLED
+  
+
+//WIFI Interface
+#ifdef LINX_WIFI_INTERFACE_ENABLED
+  STATE wifiState = INITIALIZE;
+  DNETcK::STATUS wifiStatus;
+  TcpServer wifiTCPServer;
+  TcpClient wifiTCPClient;
+  int wifiClientCount = 0;
+  unsigned int wifiStartTime = 0;
+  unsigned int wifiTimeout = 5000;         //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
+  
+  unsigned char wifiCommandBuffer[256];    //UPDATE THESE TO LOAD FROM NVS (LOW PRIORITY)
+  unsigned char wifiResponseBuffer[256];
+  
+  unsigned char wifiServerFail = 0;
+#endif //LINX_WIFI_INTERFACE_ENABLED
+  
+
 
 
 #ifdef LINX_I2C_ENABLED
@@ -87,6 +113,10 @@
   unsigned char I2C2Open = 2;
   unsigned char I2C3Open = 3;
 #endif //LINX_I2C_ENABLED
+
+unsigned long startTime;
+unsigned long configTimeout = 10000; //10 Second Config Timeout (Including LINX Delay After Boot)
+
 
 
 /****************************************************************************************
@@ -106,7 +136,7 @@ void setupLINX()
   //Debugging
   #ifdef DEBUG_ENABLED
     Serial1.begin(115200);
-    Serial1.println("Booting Up...");
+    Serial1.println("\n\nBooting Up...");
   #endif  
   
   //Load Config Values
@@ -117,15 +147,30 @@ void setupLINX()
     setupLINXSerialInterface();
   #endif
   
-  //Ethernet Setup
-  #ifdef LINX_ETHERNET_INTERFACE_ENABLED
-    setupLINXEthernetInterface();
-  #endif
+  #ifdef DEBUG_ENABLED
+    Serial1.println("Entering Config Mode");   
+  #endif  //DEBUG_ENABLED   
   
-  //WIFI Setup
+  startTime = millis();
+  while( (millis() - startTime) < configTimeout)
+  {
+    //Check Config Data (Or Normal Serial Commands
+    #ifdef LINX_SERIAL_INTERFACE_ENABLED
+      checkForLINXSerialPacket();
+    #endif
+  }
+  
+  #ifdef DEBUG_ENABLED
+    Serial1.println("Entering Normal Operation");   
+  #endif  //DEBUG_ENABLED   
+  
+  // Configure Other Interfaces
+  #ifdef LINX_Ethernet_INTERFACE_ENABLED
+    setupLINXEthernetInterface();
+  #endif //LINX_Ethernet_INTERFACE_ENABLED
   #ifdef LINX_WIFI_INTERFACE_ENABLED
-    // TODO
-  #endif
+    setupLINXWifiInterface();
+  #endif //LINX_WIFI_INTERFACE_ENABLED  
 }
 
 
@@ -890,8 +935,7 @@ void setupLINXEthernetInterface()
     Serial1.print(".");
     Serial1.print(deviceEthernetIpAddress.rgbIP[2], DEC);
     Serial1.print(".");
-    Serial1.println(deviceEthernetIpAddress.rgbIP[3], DEC);
-    
+    Serial1.println(deviceEthernetIpAddress.rgbIP[3], DEC);    
   #endif  //DEBUG_ENABLED
   
 }
@@ -1150,6 +1194,337 @@ void checkForLINXEthernetPacket()
 }
 
 #endif  //LINX_ETHERNET_INTERFACE_ENABLED
+
+/****************************************************************************************
+**
+**--------------------------- WIFI INTERFACE --------------------------------------- 
+**
+****************************************************************************************/
+#ifdef LINX_WIFI_INTERFACE_ENABLED
+//--------------------------- setupLINXWifiInterface ------------------------------//
+void setupLINXWifiInterface()
+{
+  //Configure Wifi IP
+  IPv4 deviceWifiIpAddress = {((wifiIP>>24)&0xFF), ((wifiIP>>16)&0xFF), ((wifiIP>>8)&0xFF), (wifiIP&0xFF)};
+    
+  const char * szSsid; 
+  szSsid = wifiSSID;
+  
+  //Start Wifi Server - TODO UPDATE WITH SECURITY SETTINGS
+  #ifdef DEBUG_ENABLED          
+    Serial1.println("Initializing Wifi Stack...");
+    Serial1.print("Using Wifi IP Address - ");
+    Serial1.print(deviceWifiIpAddress.rgbIP[0], DEC);
+    Serial1.print(".");
+    Serial1.print(deviceWifiIpAddress.rgbIP[1], DEC);
+    Serial1.print(".");
+    Serial1.print(deviceWifiIpAddress.rgbIP[2], DEC);
+    Serial1.print(".");
+    Serial1.println(deviceWifiIpAddress.rgbIP[3], DEC);  
+  #endif  //DEBUG_ENABLED
+  
+    
+  //Connec To Wifi Network
+  int conID = DWIFIcK::INVALID_CONNECTION_ID;
+ 
+  //
+  if((conID = DWIFIcK::connect(szSsid, &wifiStatus)) != DWIFIcK::INVALID_CONNECTION_ID)
+  {
+    #ifdef DEBUG_ENABLED          
+    Serial1.println("Connecting To Wifi Network");
+    #endif  //DEBUG_ENABLED
+    wifiState = INITIALIZE;
+  }
+  else
+  {
+    #ifdef DEBUG_ENABLED          
+    Serial1.print("Unable to connection, status: ");
+    Serial1.println(wifiStatus, DEC);
+    #endif  //DEBUG_ENABLED
+    wifiState = EXIT;
+  }
+
+ // intialize the stack with a static IP
+  DNETcK::begin(deviceWifiIpAddress); 
+}
+
+//--------------------------- checkForLINXWifiPacket ------------------------------//
+void checkForLINXWifiPacket()
+{
+  if(wifiServerFail == 0)
+    {
+    //Wifi Server Core
+    switch(wifiState)
+    {
+      case INITIALIZE:
+          if(DNETcK::isInitialized(&wifiStatus))
+          {
+            #ifdef DEBUG_ENABLED
+              Serial1.println("TCP Stack Initialized");
+            #endif  //DEBUG_ENABLED
+            wifiState = LISTEN;
+          }
+          else if(DNETcK::isStatusAnError(wifiStatus))
+          {
+            #ifdef DEBUG_ENABLED
+              Serial1.print("Error in initializing, status: ");
+              Serial1.println(wifiStatus, DEC);
+            #endif  //DEBUG_ENABLED
+            wifiState = EXIT;
+          }
+          break;    
+      case LISTEN:  
+        //Listen For Connection On Specified Port
+        if(wifiTCPServer.startListening(wifiPort))
+        {
+          wifiState = ISLISTENING;
+          
+          #ifdef DEBUG_ENABLED          
+            Serial1.print("Wifi Starting To Listen On Port ");
+            Serial1.println(wifiPort, DEC);
+          #endif  //DEBUG_ENABLED
+        }
+        else
+        {
+          #ifdef DEBUG_ENABLED          
+            Serial1.print("Unable To Start Listenging On Wifi Port ");
+            Serial1.println(wifiPort);
+          #endif  //DEBUG_ENABLED
+          
+          wifiState = EXIT;        
+        }
+        break;
+        
+      case ISLISTENING:
+        //Listen For Clients
+        #ifdef DEBUG_ENABLED          
+            //Serial1.println("STATE => ISLISTENTING");
+        #endif  //DEBUG_ENABLED
+        if(wifiTCPServer.isListening(&wifiStatus))
+        {
+          wifiState = AVAILABLECLIENT;
+          #ifdef DEBUG_ENABLED          
+            Serial1.print("Wifi Listening On Port ");
+            Serial1.println(wifiPort);
+          #endif  //DEBUG_ENABLED
+        }
+        else if(DNETcK::isStatusAnError(wifiStatus))
+        {
+          wifiState = EXIT;
+        }
+        else
+        {
+           #ifdef DEBUG_ENABLED
+            //Serial1.print("Wifi Status => ");         
+            //Serial1.println(wifiStatus, DEC);
+          #endif  //DEBUG_ENABLED
+          
+        }
+        break;
+        
+      case AVAILABLECLIENT:
+        #ifdef DEBUG_ENABLED          
+          //Serial1.println("STATE => AVAILABLECLIENT");
+        #endif  //DEBUG_ENABLED
+        if( (wifiClientCount = wifiTCPServer.availableClients()) > 0)
+        {
+          wifiState = ACCEPTCLIENT;
+         
+          #ifdef DEBUG_ENABLED          
+            Serial1.println("Wifi Client Available...");
+          #endif  //DEBUG_ENABLED
+        }
+        else
+        {
+          #ifdef DEBUG_ENABLED          
+            //Serial1.println("Waiting For Wifi Client...");
+          #endif  //DEBUG_ENABLED
+        }
+        break;
+        
+      case ACCEPTCLIENT:
+        //Accept The Cleint Connection
+        #ifdef DEBUG_ENABLED          
+          //Serial1.println("STATE => ACCEPTCLIENT");
+        #endif  //DEBUG_ENABLED
+        
+        //Close Any Previous Connections Just In Case
+        wifiTCPClient.close();
+        
+        if(wifiTCPServer.acceptClient(&wifiTCPClient))
+        {
+          wifiState = READ;
+          wifiStartTime = (unsigned) millis();
+          #ifdef DEBUG_ENABLED          
+            Serial1.println("Client Connected...");
+          #endif  //DEBUG_ENABLED
+        }
+        else
+        {
+          wifiState = CLOSE;
+          #ifdef DEBUG_ENABLED          
+            Serial1.println("Failed To Accept Wifi Connection...");
+            Serial1.print("Wifi Status => ");         
+            Serial1.println(wifiStatus, DEC);
+          #endif  //DEBUG_ENABLED
+        }
+        break;
+        
+      case READ:
+        //Read Wifi TCP Bytes
+        
+        //If There Are Bytes Available Have A Look, If Not Loop (Remain In Read Unless Timeout)
+        if(wifiTCPClient.available() > 0)
+        {
+          //Read First Byte, Check If It Is SoF (0xFF)
+          if ( (wifiCommandBuffer[0] = wifiTCPClient.readByte()) == 0xFF)
+          {        
+            #ifdef DEBUG_ENABLED          
+              Serial1.println("SoF Received...");
+            #endif  //DEBUG_ENABLED
+            
+            //SoF Received, Reset wifiStartTime
+            wifiStartTime = (unsigned)millis();
+            
+            //SoF Received Wait For Packet Size
+            while(wifiTCPClient.available() < 1)
+            {
+              if( ((unsigned)millis() - wifiStartTime) > wifiTimeout)
+              {
+                wifiState = CLOSE;
+                #ifdef DEBUG_ENABLED          
+                  Serial1.println("Wifi Connection Timed Out...");
+                #endif  //DEBUG_ENABLED   
+              }             
+            }         
+            wifiCommandBuffer[1] = wifiTCPClient.readByte();
+            #ifdef DEBUG_ENABLED          
+              Serial1.println("Packet Size Received...");
+            #endif  //DEBUG_ENABLED
+            
+            //Read Remainder Of Packet As It Comes In
+            for (int i=0; i< wifiCommandBuffer[1]-2; i++)
+            {
+              while(wifiTCPClient.available() < 1)
+              {
+                if( ((unsigned)millis() - wifiStartTime) > wifiTimeout)
+                {
+                  wifiState = CLOSE;
+                  #ifdef DEBUG_ENABLED          
+                    Serial1.println("Wifi Connection Timed Out...");
+                  #endif  //DEBUG_ENABLED   
+                }
+              } 
+              wifiCommandBuffer[i+2] = wifiTCPClient.readByte();
+            }
+            #ifdef DEBUG_ENABLED          
+              Serial1.println("Full Packet Received...");
+            #endif  //DEBUG_ENABLED
+            
+            //Checksum
+            if(checksumPassed(wifiCommandBuffer))
+            {
+              #ifdef DEBUG_ENABLED          
+                Serial1.println("Checksum Passed, Processing Packet...");
+              #endif  //DEBUG_ENABLED
+              
+              //Process Command And Respond
+              processCommand(wifiCommandBuffer, wifiResponseBuffer);
+              wifiTCPClient.writeStream(wifiResponseBuffer, wifiResponseBuffer[1]);            
+            }
+            else
+            {
+              #ifdef DEBUG_ENABLED          
+                Serial1.println("Checksum Failed...");
+              #endif  //DEBUG_ENABLED            
+            }          
+          }
+          else
+          {
+            wifiState = CLOSE;
+            #ifdef DEBUG_ENABLED          
+              Serial1.println("Bad SoF Received...");
+            #endif  //DEBUG_ENABLED          
+          }
+          
+          //Data Received, Reset Timeout
+          wifiStartTime = (unsigned)millis();
+          
+        }
+        //Check For Timeout
+        else if( ((unsigned)millis() - wifiStartTime) > wifiTimeout)
+        {
+          wifiState = CLOSE;
+          #ifdef DEBUG_ENABLED          
+            Serial1.println("Wifi Connection Timed Out...");
+          #endif  //DEBUG_ENABLED        
+        }
+        else
+        {
+          //No Data To Read But No Timeout Either, Loop To Read Again
+          wifiState = READ;
+          //wifiStartTime = (unsigned) millis();
+          
+          #ifdef DEBUG_ENABLED          
+            Serial1.print(((unsigned)millis() - wifiStartTime), DEC);
+            Serial1.println(" mS With No Data");
+          #endif  //DEBUG_ENABLED
+        } 
+        break;
+     
+      case WRITE:
+        //Not Used
+         #ifdef DEBUG_ENABLED          
+            Serial1.println("Wifi Write Case...");
+          #endif  //DEBUG_ENABLED   
+        break;
+  
+      case CLOSE:
+        //Close TCP Connection, Return To Listening State
+        #ifdef DEBUG_ENABLED          
+          Serial1.println("Closing Wifi TCP Connection...");
+        #endif  //DEBUG_ENABLED
+        wifiTCPClient.close();
+        wifiState = ISLISTENING;
+        break;
+        
+      case EXIT:
+        //Something Went Wrong.  Try To Close Connection And Quit.
+        wifiTCPServer.close();
+        wifiTCPClient.close();
+        wifiState = DONE;
+        wifiServerFail = 1;
+        
+        #ifdef DEBUG_ENABLED          
+          Serial1.println("Shutting Down Wifi TCP Server...");
+        #endif  //DEBUG_ENABLED
+        break;
+        
+      case DONE:
+        //Wifi TCP Serer Shut Down.
+        wifiState = DONE;
+        wifiServerFail = 1;
+        #ifdef DEBUG_ENABLED          
+          Serial1.println("Wifi TCP Server Offline");
+        #endif  //DEBUG_ENABLED
+      break;
+      
+      default:
+        wifiState = EXIT;
+        
+        #ifdef DEBUG_ENABLED          
+          Serial1.println("Unknown Wifi TCP State");
+        #endif  //DEBUG_ENABLED
+        break;
+    } 
+    
+    //Every Iteration Run Periodic Network Tasks
+    DNETcK::periodicTasks(); 
+  }
+}
+
+
+#endif //LINX_WIFI_INTERFACE_ENABLED
 
 
 /****************************************************************************************
@@ -1838,15 +2213,18 @@ void loadNVSConfig()
    switch(wifiSecurity)
    {
      case 0x00:
-       Serial1.println("WPA2 Password");
+       Serial1.println("None");
        break;
      case 0x01:
-       Serial1.println("WPA2 Key");
+       Serial1.println("WPA2 Password");
        break;
      case 0x02:
-       Serial1.println("WEP40");
+       Serial1.println("WPA2 Key");
        break;
      case 0x03:
+       Serial1.println("WEP40");
+       break;
+     case 0x04:
        Serial1.println("WEP104");
        break;
      default:

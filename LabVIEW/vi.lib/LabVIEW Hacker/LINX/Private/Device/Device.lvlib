@@ -52,6 +52,7 @@
 		<Item Name="Set Serial Interface Max Baud.vi" Type="VI" URL="../Utilities/Set Serial Interface Max Baud.vi"/>
 		<Item Name="Get Serial Interface Max Baud.vi" Type="VI" URL="../Utilities/Get Serial Interface Max Baud.vi"/>
 		<Item Name="Configure LINX Device.vi" Type="VI" URL="../Utilities/Configure LINX Device.vi"/>
+		<Item Name="Configure Wifi.vi" Type="VI" URL="../Utilities/Configure Wifi.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
@@ -92,6 +93,7 @@
 		<Item Name="LINX Device Config.ctl" Type="VI" URL="../Type Defs/LINX Device Config.ctl"/>
 		<Item Name="Packet Number FGV Action.ctl" Type="VI" URL="../Type Defs/Packet Number FGV Action.ctl"/>
 		<Item Name="TCP Config.ctl" Type="VI" URL="../Type Defs/TCP Config.ctl"/>
+		<Item Name="Wifi Config.ctl" Type="VI" URL="../Type Defs/Wifi Config.ctl"/>
 	</Item>
 	<Item Name="Close Device.vi" Type="VI" URL="../Close Device.vi"/>
 	<Item Name="Initialize Device.vi" Type="VI" URL="../Initialize Device.vi"/>
