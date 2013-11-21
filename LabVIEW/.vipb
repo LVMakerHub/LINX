@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-11-19 16:28:35" Creator="lvadmin" Comments="" ID="e0de4af6eb517f9c42bfb3fc9337481b">
+<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-11-21 15:44:17" Creator="lvadmin" Comments="" ID="ddf66e13d8c534ffdf8f9afffec0b097">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>1.0.0.37</Library_Version>
+    <Library_Version>1.0.0.38</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\LVH-Builds\LVH-LINX\Installers</Library_Output_Folder>
@@ -31,8 +31,10 @@
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewhacker.com/linx</URL>
-      <Release_Notes>Added uC32 Wifi Support (beta)
-Many other small changes to support wifi</Release_Notes>
+      <Release_Notes>Major improvements to TCP stability
+Wifi security (WPA2 Passphrase) added
+minor firmware updates
+</Release_Notes>
     </Description>
     <Destinations>
       <Toolkit_VIs>
