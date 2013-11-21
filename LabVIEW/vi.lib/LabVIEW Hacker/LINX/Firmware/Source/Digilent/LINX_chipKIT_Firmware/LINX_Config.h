@@ -21,7 +21,7 @@
 
 //    ARDUINO
 //#define ARDUINO_UNO
-
+//#define ARDUINO_MEGA2560
 /*----------------------------------- INTERFACE ---------------------------------------*/
 
 //Serial
@@ -43,10 +43,6 @@
 //Uncomment To Enable Debugging On The Secondary Serial Port.
 
 //#define DEBUG_ENABLED 1
-
-
-
-
 
 
 /****************************************************************************************

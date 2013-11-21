@@ -1206,9 +1206,6 @@ void setupLINXWifiInterface()
 {
   //Configure Wifi IP
   IPv4 deviceWifiIpAddress = {((wifiIP>>24)&0xFF), ((wifiIP>>16)&0xFF), ((wifiIP>>8)&0xFF), (wifiIP&0xFF)};
-    
-  const char * szSsid; 
-  szSsid = wifiSSID;
   
   //Start Wifi Server - TODO UPDATE WITH SECURITY SETTINGS
   #ifdef DEBUG_ENABLED          
@@ -1226,9 +1223,51 @@ void setupLINXWifiInterface()
     
   //Connec To Wifi Network
   int conID = DWIFIcK::INVALID_CONNECTION_ID;
+  
+  //SSID
+  const char * szSsid; 
+  szSsid = wifiSSID;
+  
+  //PW
+  const char * szPassPhrase;
+  szPassPhrase = wifiPw;  
+  
+  DWIFIcK::WPA2KEY key;
+  for(int i=0; i<32; i++)
+  {
+    key.rgbKey[i] = wifiPw[i];
+  }
+  
+  
+  
+  switch(wifiSecurity)
+  {
+     case 0x00:
+       //No Security
+       conID = DWIFIcK::connect(szSsid, &wifiStatus);
+       break;
+     case 0x01:
+       //WPA2 Passphrase       
+       conID = DWIFIcK::connect(szSsid, szPassPhrase, &wifiStatus);
+       break;
+     case 0x02:
+       //WPA2 Key  --Untested--
+        conID = DWIFIcK::connect(szSsid, szPassPhrase, &wifiStatus);
+       break;
+     case 0x03:
+       Serial1.println("WEP40");
+       break;
+     case 0x04:
+       Serial1.println("WEP104");
+       break;
+     default:
+       Serial1.println("Unknown");
+       break;     
+   }
+  
  
   //
-  if((conID = DWIFIcK::connect(szSsid, &wifiStatus)) != DWIFIcK::INVALID_CONNECTION_ID)
+  if(conID != DWIFIcK::INVALID_CONNECTION_ID)
   {
     #ifdef DEBUG_ENABLED          
     Serial1.println("Connecting To Wifi Network");
@@ -1430,7 +1469,10 @@ void checkForLINXWifiPacket()
               
               //Process Command And Respond
               processCommand(wifiCommandBuffer, wifiResponseBuffer);
-              wifiTCPClient.writeStream(wifiResponseBuffer, wifiResponseBuffer[1]);            
+              wifiTCPClient.writeStream(wifiResponseBuffer, wifiResponseBuffer[1]);
+              #ifdef DEBUG_ENABLED          
+                Serial1.println("WIFI Response Packet Sent");
+              #endif  //DEBUG_ENABLED
             }
             else
             {

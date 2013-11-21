@@ -19,6 +19,7 @@
 			<Item Name="TCP Read.vi" Type="VI" URL="../Utilities/Wrappers/TCP Read.vi"/>
 			<Item Name="TCP Close.vi" Type="VI" URL="../Utilities/Wrappers/TCP Close.vi"/>
 			<Item Name="Serial Set Baud.vi" Type="VI" URL="../Utilities/Wrappers/Serial Set Baud.vi"/>
+			<Item Name="TCP Flush.vi" Type="VI" URL="../Utilities/Wrappers/TCP Flush.vi"/>
 		</Item>
 		<Item Name="Checksum.vi" Type="VI" URL="../Utilities/Checksum.vi"/>
 		<Item Name="Get Device ID.vi" Type="VI" URL="../Utilities/Get Device ID.vi"/>
@@ -53,10 +54,13 @@
 		<Item Name="Get Serial Interface Max Baud.vi" Type="VI" URL="../Utilities/Get Serial Interface Max Baud.vi"/>
 		<Item Name="Configure LINX Device.vi" Type="VI" URL="../Utilities/Configure LINX Device.vi"/>
 		<Item Name="Configure Wifi.vi" Type="VI" URL="../Utilities/Configure Wifi.vi"/>
+		<Item Name="Pack A0 Values.vi" Type="VI" URL="../Utilities/Pack A0 Values.vi"/>
+		<Item Name="Get Device AO Data.vi" Type="VI" URL="../Utilities/Get Device AO Data.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
 			<Item Name="Analog Read.vi" Type="VI" URL="../Peripheral/Analog/Analog Read.vi"/>
+			<Item Name="Analog Write.vi" Type="VI" URL="../Peripheral/Analog/Analog Write.vi"/>
 		</Item>
 		<Item Name="Digital" Type="Folder">
 			<Item Name="Digital Read.vi" Type="VI" URL="../Peripheral/Digital/Digital Read.vi"/>

@@ -82,3 +82,20 @@
   //#define LINX_UART_ENABLED 1
   #define LINX_NVS_ENABLED 1
 #endif //ARDUINO_UNO
+
+/*---------------------------------------- MEGA2560 --------------------------------------*/
+#ifdef ARDUINO_MEGA2560
+  //Device ID
+  #define DEVICE_FAMILY 2
+  #define DEVICE_ID 1
+  //Peripheral
+  #define LINX_DIGITAL_ENABLED 1
+  #define LINX_I2C_ENABLED 1
+  #define LINX_ANALOG_INPUT_ENABLED 1
+  #define AI_RESOLUTION 10
+  //#define LINX_ANALOG_OUTPUT_ENABLED 1
+  #define LINX_PWM_ENABLED 1
+  #define LINX_SPI_ENABLED 1
+  #define LINX_UART_ENABLED 1
+  #define LINX_NVS_ENABLED 1
+#endif //CHIPKIT_MAX32
