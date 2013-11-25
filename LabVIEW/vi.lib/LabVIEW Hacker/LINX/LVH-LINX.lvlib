@@ -128,9 +128,11 @@
 				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
 				<Item Name="Digital Read 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read 1 Chan.vi"/>
 				<Item Name="Digital Read N Chans.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read N Chans.vi"/>
+				<Item Name="Digital Read Pulse Width.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read Pulse Width.vi"/>
 				<Item Name="Digital Read.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read.vi"/>
 				<Item Name="Digital Write 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write 1 Chan.vi"/>
 				<Item Name="Digital Write N Chans.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write N Chans.vi"/>
+				<Item Name="Digital Write Square Wave.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write Square Wave.vi"/>
 				<Item Name="Digital Write.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Write.vi"/>
 			</Item>
 			<Item Name="I2C" Type="Folder">
@@ -160,6 +162,11 @@
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder">
+			<Item Name="Beta" Type="Folder">
+				<Item Name="AD9850" Type="Folder">
+					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/Beta/AD9850/AD9850.lvlib"/>
+				</Item>
+			</Item>
 			<Item Name="BlinkM" Type="Folder">
 				<Item Name="BlinkM.lvlib" Type="Library" URL="../Public/Sensors/BlinkM/BlinkM.lvlib"/>
 			</Item>

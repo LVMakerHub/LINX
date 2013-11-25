@@ -15,13 +15,13 @@
 
 /*------------------------------------ DEVICE -----------------------------------------*/
 //    DIGILENT
-#define CHIPKIT_UC32
+//#define CHIPKIT_UC32
 //#define CHIPKIT_UNO32
 //#define CHIPKIT_MAX32
 
 //    ARDUINO
 //#define ARDUINO_UNO
-//#define ARDUINO_MEGA2560
+#define ARDUINO_MEGA2560
 /*----------------------------------- INTERFACE ---------------------------------------*/
 
 //Serial
@@ -31,7 +31,7 @@
 //#define LINX_ETHERNET_INTERFACE_ENABLED 1
 
 //WIFI
-#define LINX_WIFI_INTERFACE_ENABLED 1
+//#define LINX_WIFI_INTERFACE_ENABLED 1
 
 //
 //#define LINX_ETHERNET_RX_BUFF_SIZE 256

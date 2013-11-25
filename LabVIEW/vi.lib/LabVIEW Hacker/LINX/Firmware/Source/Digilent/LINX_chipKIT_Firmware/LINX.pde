@@ -4,16 +4,16 @@
 #include "LINX.h"
 
 //Include Ethernet Headers If Necissary
-#ifdef LINX_ETHERNET_INTERFACE_ENABLED
-  //#include <NetworkShield.h>
-  //#include <DNETcK.h>
+#ifdef LINX_ETHERNET_INTERFACE_ENABLED 
+//#include <NetworkShield.h> 
+//#include <DNETcK.h>                                //DONT MOVE THESE TO NEXT LINE.  THIS IS A WORK AROUND FOR SOME BUG.
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
 
 //Include WIFI Headers If Necissary
-#ifdef LINX_WIFI_INTERFACE_ENABLED
-  #include <WiFiShieldOrPmodWiFi_G.h> 
-  #include <DNETcK.h>
-  #include <DWIFIcK.h>
+#ifdef LINX_WIFI_INTERFACE_ENABLED 
+//#include <WiFiShieldOrPmodWiFi_G.h> 
+//#include <DNETcK.h> 
+//#include <DWIFIcK.h>      //DONT MOVE THESE TO NEXT LINE.  THIS IS A WORK AROUND FOR SOME BUG.
 #endif //LINX_WIFI_INTERFACE_ENABLED
 
 #ifdef LINX_I2C_ENABLED
@@ -605,16 +605,19 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     #ifdef LINX_DIGITAL_ENABLED
     case 0x0040: // Set Digital Pin Mode
       linxSetDigtalPinMode(commandPacketBuffer, responsePacketBuffer);      
-      break;
-      
+      break;      
     case 0x0041: // Digital Write
       linxDigitalWrite(commandPacketBuffer, responsePacketBuffer);      
-      break;
-      
+      break;      
     case 0x0042: // Digital Read
       linxDigitalRead(commandPacketBuffer, responsePacketBuffer);      
-      break;
-      
+      break;     
+    case 0x0043: // Digital Write Square Wave
+      linxDigitalWriteSquareWave(commandPacketBuffer, responsePacketBuffer);      
+      break;     
+    case 0x0044: // Digital Read Pulse Width
+      linxDigitalReadPulseWidth(commandPacketBuffer, responsePacketBuffer);      
+      break;      
     #endif //LINX_DIGITAL_ENABLED
 
 
@@ -673,6 +676,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     **  PWM
     ************************************************************************************/     
     #ifdef LINX_PWM_ENABLED
+      break;
     case 0x0083: // PWM Set Duty Cycle
       linxPWMSetDutyCycle(commandPacketBuffer, responsePacketBuffer);      
       break;
@@ -1702,6 +1706,99 @@ void linxSetDigtalPinMode(unsigned char* commandPacketBuffer, unsigned char* res
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
 }
+
+//--------------------------- linxDigitalWriteSquareWave ----------------------------------------//
+void linxDigitalWriteSquareWave(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{  
+  
+  unsigned int freq = (commandPacketBuffer[7] << 8) | (commandPacketBuffer[8]);
+  unsigned long duration = (commandPacketBuffer[9] << 24) | (commandPacketBuffer[10] << 16) | (commandPacketBuffer[11] << 8) | commandPacketBuffer[12];
+  
+  #ifdef DEBUG_ENABLED
+      Serial1.print("Square Wave Freq =  ");      
+      Serial1.println(freq, DEC);
+   #endif
+  
+  
+  if(freq == 0)
+  {
+    noTone(commandPacketBuffer[6]);
+  }
+  else if(duration == 0)
+  {
+    tone(commandPacketBuffer[6], freq);
+  }
+  else
+  {
+    tone(commandPacketBuffer[6], freq, duration);
+  }
+  
+  
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);
+}
+
+//--------------------------- linxDigitalReadPulseWidth ----------------------------------------//
+void linxDigitalReadPulseWidth(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{    
+  unsigned long timeout = (commandPacketBuffer[9] << 24) | (commandPacketBuffer[10] << 16) | (commandPacketBuffer[11] << 8) | (commandPacketBuffer[12]);
+  unsigned long pulseWidth = 0;
+  
+  //Stimulus
+  if(commandPacketBuffer[7] == 1)
+  {
+    #ifdef DEBUG_ENABLED
+      Serial1.println("Sending Active LOW Stim");  
+    #endif
+    pinMode(commandPacketBuffer[6], OUTPUT);
+    
+    //High Low High
+    digitalWrite(commandPacketBuffer[6], HIGH);
+    delay(1);
+    digitalWrite(commandPacketBuffer[6], LOW);
+    delay(1);
+    digitalWrite(commandPacketBuffer[6], HIGH);
+    
+  }
+  else if(commandPacketBuffer[7] == 2)
+  {
+    #ifdef DEBUG_ENABLED
+      Serial1.println("Sending Active HIGH Stim");  
+    #endif
+    pinMode(commandPacketBuffer[6], OUTPUT);
+    
+    //Low High Low
+    digitalWrite(commandPacketBuffer[6], LOW);
+    delay(1);
+    digitalWrite(commandPacketBuffer[6], HIGH);
+    delay(1);
+    digitalWrite(commandPacketBuffer[6], LOW);
+  }
+  
+  pinMode(commandPacketBuffer[6], INPUT);
+  if(commandPacketBuffer[8] == 0)
+  {
+    pulseWidth = pulseIn(commandPacketBuffer[6], LOW,  timeout);
+  }
+  else if(commandPacketBuffer[8] == 1)
+  {
+    pulseWidth = pulseIn(commandPacketBuffer[6], HIGH,  timeout);
+  }
+  
+  //Fill In The Rest Of The Response Packet
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM 
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM 
+  responsePacketBuffer[4] = (pulseWidth >> 24) & 0xFF;
+  responsePacketBuffer[5] = (pulseWidth >> 16) & 0xFF;
+  responsePacketBuffer[6] = (pulseWidth >> 8) & 0xFF;
+  responsePacketBuffer[7] = pulseWidth & 0xFF;
+  responsePacketBuffer[8] = 0x00;                                    //STATUS
+  responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM   
+}
+
+
 #endif  //LINX_DIGITAL_ENABLED
 
 
@@ -1915,6 +2012,17 @@ void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responseP
 
 
 #ifdef LINX_PWM_ENABLED
+
+//--------------------------- linxPWMSetFrequency -------------------------------------//
+void linxPWMSetFrequency(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  
+  /*TODO
+  * Need to figure out how 'cross platform' this is.  Changing Freq will break the analogWrite() function
+  * but that could be replaced by platform specific 'set duty cycle' functions.
+  */    
+}
+
 
 //--------------------------- linxPWMSetDutyCycle -------------------------------------//
 void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)

@@ -66,6 +66,8 @@
 			<Item Name="Digital Read.vi" Type="VI" URL="../Peripheral/Digital/Digital Read.vi"/>
 			<Item Name="Digital Write.vi" Type="VI" URL="../Peripheral/Digital/Digital Write.vi"/>
 			<Item Name="Set Digital Pin Mode.vi" Type="VI" URL="../Peripheral/Digital/Set Digital Pin Mode.vi"/>
+			<Item Name="Digital Write Square Wave.vi" Type="VI" URL="../Peripheral/Digital/Digital Write Square Wave.vi"/>
+			<Item Name="Digital Read Pulse Width.vi" Type="VI" URL="../Peripheral/Digital/Digital Read Pulse Width.vi"/>
 		</Item>
 		<Item Name="I2C" Type="Folder">
 			<Item Name="I2C Close.vi" Type="VI" URL="../Peripheral/I2C/I2C Close.vi"/>
@@ -94,6 +96,8 @@
 		</Item>
 	</Item>
 	<Item Name="Type Defs" Type="Folder">
+		<Item Name="Pulse Polarity.ctl" Type="VI" URL="../Type Defs/Pulse Polarity.ctl"/>
+		<Item Name="Stimulus Pulse.ctl" Type="VI" URL="../Type Defs/Stimulus Pulse.ctl"/>
 		<Item Name="LINX Device Config.ctl" Type="VI" URL="../Type Defs/LINX Device Config.ctl"/>
 		<Item Name="Packet Number FGV Action.ctl" Type="VI" URL="../Type Defs/Packet Number FGV Action.ctl"/>
 		<Item Name="TCP Config.ctl" Type="VI" URL="../Type Defs/TCP Config.ctl"/>
