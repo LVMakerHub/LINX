@@ -164,7 +164,7 @@
 		<Item Name="Sensors" Type="Folder">
 			<Item Name="Beta" Type="Folder">
 				<Item Name="AD9850" Type="Folder">
-					<Item Name="AD9850.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/AD9850/AD9850.lvlib"/>
+					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/AD9850/AD9850.lvlib"/>
 				</Item>
 				<Item Name="GH-311" Type="Folder">
 					<Item Name="GH-311.lvlib" Type="Library" URL="../Public/Sensors/GH-311/GH-311.lvlib"/>
