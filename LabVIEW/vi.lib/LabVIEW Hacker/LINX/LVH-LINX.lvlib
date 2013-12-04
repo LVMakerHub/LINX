@@ -162,11 +162,10 @@
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder">
-			<Item Name="Beta" Type="Folder">
-				<Item Name="AD9850" Type="Folder">
-					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/Beta/AD9850/AD9850.lvlib"/>
-				</Item>
+			<Item Name="AD9850" Type="Folder">
+				<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/AD9850/AD9850.lvlib"/>
 			</Item>
+			<Item Name="Beta" Type="Folder"/>
 			<Item Name="BlinkM" Type="Folder">
 				<Item Name="BlinkM.lvlib" Type="Library" URL="../Public/Sensors/BlinkM/BlinkM.lvlib"/>
 			</Item>
