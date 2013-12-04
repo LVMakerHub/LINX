@@ -164,10 +164,7 @@
 		<Item Name="Sensors" Type="Folder">
 			<Item Name="Beta" Type="Folder">
 				<Item Name="AD9850" Type="Folder">
-					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/AD9850/AD9850.lvlib"/>
-				</Item>
-				<Item Name="GH-311" Type="Folder">
-					<Item Name="GH-311.lvlib" Type="Library" URL="../Public/Sensors/GH-311/GH-311.lvlib"/>
+					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/Beta/AD9850/AD9850.lvlib"/>
 				</Item>
 			</Item>
 			<Item Name="BlinkM" Type="Folder">
@@ -182,6 +179,9 @@
 				<Item Name="Seven Segment Display.vi" Type="VI" URL="../Public/Sensors/Generic/Seven Segment Display.vi"/>
 				<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Generic/Thermistor.vi"/>
 				<Item Name="Thumbstick.vi" Type="VI" URL="../Public/Sensors/Generic/Thumbstick.vi"/>
+			</Item>
+			<Item Name="Ultrasonic" Type="Folder">
+				<Item Name="Ultrasonic.lvlib" Type="Library" URL="../Public/Sensors/Ultrasonic/Ultrasonic.lvlib"/>
 			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">

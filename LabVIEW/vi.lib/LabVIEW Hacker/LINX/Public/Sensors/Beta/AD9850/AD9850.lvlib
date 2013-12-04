@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <Library LVVersion="11008008">
 	<Property Name="NI.Lib.ContainingLib" Type="Str">LVH-LINX.lvlib</Property>
 	<Property Name="NI.Lib.ContainingLibPath" Type="Str">../../../../../LVH-LINX.lvlib</Property>
