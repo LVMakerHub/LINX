@@ -179,6 +179,12 @@
 				<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Generic/Thermistor.vi"/>
 				<Item Name="Thumbstick.vi" Type="VI" URL="../Public/Sensors/Generic/Thumbstick.vi"/>
 			</Item>
+			<Item Name="Temperature" Type="Folder">
+				<Item Name="TMP3x" Type="Folder">
+					<Property Name="NI.SortType" Type="Int">3</Property>
+					<Item Name="TMP3x.lvlib" Type="Library" URL="../Public/Sensors/Temperature/TMP3x/TMP3x.lvlib"/>
+				</Item>
+			</Item>
 			<Item Name="Ultrasonic" Type="Folder">
 				<Item Name="Ultrasonic.lvlib" Type="Library" URL="../Public/Sensors/Ultrasonic/Ultrasonic.lvlib"/>
 			</Item>
