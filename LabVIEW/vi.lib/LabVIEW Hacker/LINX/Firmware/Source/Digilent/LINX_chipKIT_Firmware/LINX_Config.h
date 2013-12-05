@@ -15,13 +15,13 @@
 
 /*------------------------------------ DEVICE -----------------------------------------*/
 //    DIGILENT
-//#define CHIPKIT_UC32
+#define CHIPKIT_UC32
 //#define CHIPKIT_UNO32
 //#define CHIPKIT_MAX32
 
 //    ARDUINO
 //#define ARDUINO_UNO
-#define ARDUINO_MEGA2560
+//#define ARDUINO_MEGA2560
 /*----------------------------------- INTERFACE ---------------------------------------*/
 
 //Serial

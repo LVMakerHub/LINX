@@ -6,6 +6,7 @@
 
 </Property>
 	<Item Name="Examples" Type="Folder">
+		<Item Name="LINX - AD9850.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - AD9850.vi"/>
 		<Item Name="LINX - Analog Read 1 Channel.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read 1 Channel.vi"/>
 		<Item Name="LINX - Blink (Advanced).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Advanced).vi"/>
 		<Item Name="LINX - Blink (Simple).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple).vi"/>
@@ -15,6 +16,8 @@
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Set RGB LED Color.vi"/>
 		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Seven Segment Display.vi"/>
 		<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Thumbstick Read.vi"/>
+		<Item Name="LINX - TMP3x.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - TMP3x.vi"/>
+		<Item Name="LINX - Ultrasonic.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Ultrasonic.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
