@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-11-26 11:09:38" Creator="lvadmin" Comments="" ID="782762ade4ca0dc47c02513a8c62523f">
+<VI_Package_Builder_Settings Version="0.4" Created_Date="2013-10-30 14:19:05" Modified_Date="2013-12-05 14:02:41" Creator="lvadmin" Comments="" ID="47c5ca18fd942b07918d7e25e49d7c6c">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>1.0.0.40</Library_Version>
+    <Library_Version>1.0.0.42</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\LVH-Builds\LVH-LINX\Installers</Library_Output_Folder>
@@ -27,11 +27,13 @@
     <VI_Package_Configuration_File>.vipc</VI_Package_Configuration_File>
     <Description>
       <One_Line_Description_Summary/>
-      <Description/>
+      <Description>LINX provides a unified LabVIEW API for interfacing with common embedded platforms such as chipKIT, Arduino, myRIO and more. LINX's hardware abstraction layer provides support for hardware peripherals as well as common sensors, and enables the same code to interface with a chipKIT or Arduino and run headlessly on myRIO with no modifications.</Description>
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewhacker.com/linx</URL>
-      <Release_Notes>Added Ultra Sonic Sensor Beta</Release_Notes>
+      <Release_Notes>Added examples for AD9850, Ultrasonic Range Finder, and TMP3x
+
+Fixed bug in AD9850 (Byte array reversed)</Release_Notes>
     </Description>
     <Destinations>
       <Toolkit_VIs>
