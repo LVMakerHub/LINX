@@ -39,6 +39,7 @@
 					<Item Name="chipKIT Max32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Max32.vi"/>
 					<Item Name="chipKIT uC32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT uC32.vi"/>
 					<Item Name="chipKIT Uno32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Uno32.vi"/>
+					<Item Name="chipKIT WF32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT WF32.vi"/>
 					<Item Name="Devices - Digilent.ctl" Type="VI" URL="../Private/Type Defs/Devices - Digilent.ctl"/>
 				</Item>
 				<Item Name="NI" Type="Folder">
@@ -199,4 +200,5 @@
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
+	<Item Name="LINX - Blink (Simple) (TCP).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple) (TCP).vi"/>
 </Library>

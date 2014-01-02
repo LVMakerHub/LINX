@@ -1,0 +1,1 @@
+LINX firmware for the Digilent chipKIT uC32 with Serial/USB and Wifi interfaces enabled.

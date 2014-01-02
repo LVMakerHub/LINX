@@ -6,14 +6,14 @@
 //Include Ethernet Headers If Necissary
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED 
 //#include <NetworkShield.h> 
-//#include <DNETcK.h>                                //DONT MOVE THESE TO NEXT LINE.  THIS IS A WORK AROUND FOR SOME BUG.
+//#include <DNETcK.h>                                // ifdefs don't prevent these from being included, manually (un)comment as needed
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
 
 //Include WIFI Headers If Necissary
 #ifdef LINX_WIFI_INTERFACE_ENABLED 
-//#include <WiFiShieldOrPmodWiFi_G.h> 
-//#include <DNETcK.h> 
-//#include <DWIFIcK.h>      //DONT MOVE THESE TO NEXT LINE.  THIS IS A WORK AROUND FOR SOME BUG.
+  #include <WiFiShieldOrPmodWiFi_G.h> 
+  #include <DNETcK.h> 
+  #include <DWIFIcK.h>                                // ifdefs don't prevent these from being included, manually (un)comment as needed
 #endif //LINX_WIFI_INTERFACE_ENABLED
 
 #ifdef LINX_I2C_ENABLED
@@ -1248,6 +1248,7 @@ void setupLINXWifiInterface()
   {
      case 0x00:
        //No Security
+       Serial1.println("Connecting To Unsecure Network...");
        conID = DWIFIcK::connect(szSsid, &wifiStatus);
        break;
      case 0x01:
@@ -1741,46 +1742,46 @@ void linxDigitalWriteSquareWave(unsigned char* commandPacketBuffer, unsigned cha
 //--------------------------- linxDigitalReadPulseWidth ----------------------------------------//
 void linxDigitalReadPulseWidth(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {    
-  unsigned long timeout = (commandPacketBuffer[9] << 24) | (commandPacketBuffer[10] << 16) | (commandPacketBuffer[11] << 8) | (commandPacketBuffer[12]);
+  unsigned long timeout = (commandPacketBuffer[10] << 24) | (commandPacketBuffer[11] << 16) | (commandPacketBuffer[12] << 8) | (commandPacketBuffer[13]);
   unsigned long pulseWidth = 0;
   
   //Stimulus
-  if(commandPacketBuffer[7] == 1)
+  if(commandPacketBuffer[8] == 1)
   {
     #ifdef DEBUG_ENABLED
       Serial1.println("Sending Active LOW Stim");  
     #endif
-    pinMode(commandPacketBuffer[6], OUTPUT);
+    pinMode(commandPacketBuffer[7], OUTPUT);
     
     //High Low High
-    digitalWrite(commandPacketBuffer[6], HIGH);
+    digitalWrite(commandPacketBuffer[7], HIGH);
     delay(1);
-    digitalWrite(commandPacketBuffer[6], LOW);
+    digitalWrite(commandPacketBuffer[7], LOW);
     delay(1);
-    digitalWrite(commandPacketBuffer[6], HIGH);
+    digitalWrite(commandPacketBuffer[7], HIGH);
     
   }
-  else if(commandPacketBuffer[7] == 2)
+  else if(commandPacketBuffer[8] == 2)
   {
     #ifdef DEBUG_ENABLED
       Serial1.println("Sending Active HIGH Stim");  
     #endif
-    pinMode(commandPacketBuffer[6], OUTPUT);
+    pinMode(commandPacketBuffer[7], OUTPUT);
     
     //Low High Low
-    digitalWrite(commandPacketBuffer[6], LOW);
+    digitalWrite(commandPacketBuffer[7], LOW);
     delay(1);
-    digitalWrite(commandPacketBuffer[6], HIGH);
+    digitalWrite(commandPacketBuffer[7], HIGH);
     delay(1);
-    digitalWrite(commandPacketBuffer[6], LOW);
+    digitalWrite(commandPacketBuffer[7], LOW);
   }
   
   pinMode(commandPacketBuffer[6], INPUT);
-  if(commandPacketBuffer[8] == 0)
+  if(commandPacketBuffer[9] == 0)
   {
     pulseWidth = pulseIn(commandPacketBuffer[6], LOW,  timeout);
   }
-  else if(commandPacketBuffer[8] == 1)
+  else if(commandPacketBuffer[9] == 1)
   {
     pulseWidth = pulseIn(commandPacketBuffer[6], HIGH,  timeout);
   }

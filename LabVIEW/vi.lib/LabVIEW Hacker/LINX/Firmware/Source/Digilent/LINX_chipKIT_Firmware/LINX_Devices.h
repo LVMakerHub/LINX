@@ -62,6 +62,24 @@
   #define LINX_NVS_ENABLED 1
 #endif //CHIPKIT_MAX32
 
+/*----------------------------------------- WF32 --------------------------------------*/
+#ifdef CHIPKIT_WF32
+  //Device ID
+  #define DEVICE_FAMILY 1
+  #define DEVICE_ID 3
+  //Peripheral
+  #define LINX_DIGITAL_ENABLED 1
+  #define LINX_I2C_ENABLED 1
+  #define LINX_ANALOG_INPUT_ENABLED 1
+  #define AI_RESOLUTION 10
+  //#define LINX_ANALOG_OUTPUT_ENABLED 1
+  #define LINX_PWM_ENABLED 1
+  #define LINX_SPI_ENABLED 1
+  //#define LINX_UART_ENABLED 1
+  #define LINX_NVS_ENABLED 1
+#endif //CHIPKIT_WF32
+
+
 /****************************************************************************************
 **  ARDUINO
 ****************************************************************************************/
