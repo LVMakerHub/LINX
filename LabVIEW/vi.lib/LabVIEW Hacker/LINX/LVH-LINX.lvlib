@@ -9,8 +9,10 @@
 		<Item Name="LINX - AD9850.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - AD9850.vi"/>
 		<Item Name="LINX - Analog Read 1 Channel.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read 1 Channel.vi"/>
 		<Item Name="LINX - Blink (Advanced).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Advanced).vi"/>
+		<Item Name="LINX - Blink (Simple) (TCP).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple) (TCP).vi"/>
 		<Item Name="LINX - Blink (Simple).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple).vi"/>
 		<Item Name="LINX - BlinkM Smart LED.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - BlinkM Smart LED.vi"/>
+		<Item Name="LINX - chipKIT Basic IO Shield.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - chipKIT Basic IO Shield.vi"/>
 		<Item Name="LINX - DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - DS1307 Real Time Clock.vi"/>
 		<Item Name="LINX - Photocell.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Photocell.vi"/>
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Set RGB LED Color.vi"/>
@@ -184,6 +186,9 @@
 				<Item Name="Thumbstick.vi" Type="VI" URL="../Public/Sensors/Generic/Thumbstick.vi"/>
 			</Item>
 			<Item Name="Temperature" Type="Folder">
+				<Item Name="TCN75A" Type="Folder">
+					<Item Name="TCN75A.lvlib" Type="Library" URL="../Public/Sensors/Temperature/TCN75A/TCN75A.lvlib"/>
+				</Item>
 				<Item Name="TMP3x" Type="Folder">
 					<Property Name="NI.SortType" Type="Int">3</Property>
 					<Item Name="TMP3x.lvlib" Type="Library" URL="../Public/Sensors/Temperature/TMP3x/TMP3x.lvlib"/>
@@ -200,5 +205,4 @@
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
-	<Item Name="LINX - Blink (Simple) (TCP).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple) (TCP).vi"/>
 </Library>
