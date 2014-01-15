@@ -17,6 +17,7 @@
 		<Item Name="LINX - Photocell.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Photocell.vi"/>
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Set RGB LED Color.vi"/>
 		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Seven Segment Display.vi"/>
+		<Item Name="LINX - SSD1306 OLED.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - SSD1306 OLED.vi"/>
 		<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Thumbstick Read.vi"/>
 		<Item Name="LINX - TMP3x.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - TMP3x.vi"/>
 		<Item Name="LINX - Ultrasonic.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Ultrasonic.vi"/>
@@ -52,7 +53,7 @@
 				<Item Name="Device Family.ctl" Type="VI" URL="../Private/Type Defs/Device Family.ctl"/>
 				<Item Name="Generic Device.ctl" Type="VI" URL="../Private/Type Defs/Devices/Generic Device.ctl"/>
 			</Item>
-			<Item Name="Perpipherals" Type="Folder">
+			<Item Name="Peripherals" Type="Folder">
 				<Item Name="Digital" Type="Folder">
 					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
 					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
@@ -81,6 +82,7 @@
 			<Item Name="Peripheral.ctl" Type="VI" URL="../Private/Type Defs/Peripheral.ctl"/>
 			<Item Name="Platform.ctl" Type="VI" URL="../Private/Type Defs/Platform.ctl"/>
 			<Item Name="Seven Segment Control.ctl" Type="VI" URL="../Private/Type Defs/Seven Segment Control.ctl"/>
+			<Item Name="Temperature Units.ctl" Type="VI" URL="../Private/Type Defs/Temperature Units.ctl"/>
 			<Item Name="Thumbstick Data.ctl" Type="VI" URL="../Private/Type Defs/Thumbstick Data.ctl"/>
 			<Item Name="User Platform.ctl" Type="VI" URL="../Private/Type Defs/User Platform.ctl"/>
 			<Item Name="WIFI Security Type.ctl" Type="VI" URL="../Private/Type Defs/WIFI Security Type.ctl"/>
@@ -174,6 +176,11 @@
 			<Item Name="Beta" Type="Folder"/>
 			<Item Name="BlinkM" Type="Folder">
 				<Item Name="BlinkM.lvlib" Type="Library" URL="../Public/Sensors/BlinkM/BlinkM.lvlib"/>
+			</Item>
+			<Item Name="Display" Type="Folder">
+				<Item Name="SSD1306" Type="Folder">
+					<Item Name="SSD1306.lvlib" Type="Library" URL="../Public/Sensors/Display/SSD1306/SSD1306.lvlib"/>
+				</Item>
 			</Item>
 			<Item Name="DS1307" Type="Folder">
 				<Item Name="DS1307.lvlib" Type="Library" URL="../Public/Sensors/DS1307/DS1307.lvlib"/>

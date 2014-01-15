@@ -15,10 +15,10 @@
 
 /*------------------------------------ DEVICE -----------------------------------------*/
 //    DIGILENT
-//#define CHIPKIT_UC32
+#define CHIPKIT_UC32
 //#define CHIPKIT_UNO32
 //#define CHIPKIT_MAX32
-#define CHIPKIT_WF32
+//#define CHIPKIT_WF32
 
 //    ARDUINO
 //#define ARDUINO_UNO
@@ -43,7 +43,7 @@
 /*------------------------------------- DEBUG -----------------------------------------*/
 //Uncomment To Enable Debugging On The Secondary Serial Port.
 
-#define DEBUG_ENABLED 1
+//#define DEBUG_ENABLED 1
 
 
 /****************************************************************************************
