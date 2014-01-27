@@ -5,15 +5,15 @@
 
 //Include Ethernet Headers If Necissary
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED 
-//#include <NetworkShield.h> 
-//#include <DNETcK.h>                                // ifdefs don't prevent these from being included, manually (un)comment as needed
+  //#include <NetworkShield.h> 
+  //#include <DNETcK.h>                              
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
 
 //Include WIFI Headers If Necissary
 #ifdef LINX_WIFI_INTERFACE_ENABLED 
-  #include <WiFiShieldOrPmodWiFi_G.h> 
-  #include <DNETcK.h> 
-  #include <DWIFIcK.h>                                // ifdefs don't prevent these from being included, manually (un)comment as needed
+  //#include <WiFiShieldOrPmodWiFi_G.h> 
+  //#include <DNETcK.h> 
+  //#include <DWIFIcK.h>                               
 #endif //LINX_WIFI_INTERFACE_ENABLED
 
 #ifdef LINX_I2C_ENABLED

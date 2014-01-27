@@ -12,6 +12,9 @@
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="Firmware" Type="Folder">
 			<Item Name="Source" Type="Folder">
+				<Item Name="Arduino" Type="Folder">
+					<Item Name="LINX_Arduino_Base_Firmware" Type="Folder"/>
+				</Item>
 				<Item Name="Digilent" Type="Folder">
 					<Item Name="LINX_chipKIT_Firmware" Type="Folder">
 						<Item Name="LINX.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Source/Digilent/LINX_chipKIT_Firmware/LINX.h"/>
