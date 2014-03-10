@@ -24,12 +24,13 @@
 //#define ARDUINO_UNO
 //#define ARDUINO_MEGA2560
 //#define ARDUINO_LEONARDO
+#define ARDUINO_NANO
 
 
 //    PJRC
 //#define PJRC_TEENSY_10
 //#define PJRC_TEENSY_20
-#define PJRC_TEENSY_30
+//#define PJRC_TEENSY_30
 //#define PJRC_TEENSY_31
 //#define PJRC_TEENSY++
 

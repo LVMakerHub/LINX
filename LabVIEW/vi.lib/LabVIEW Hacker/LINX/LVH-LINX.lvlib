@@ -29,6 +29,7 @@
 					<Item Name="Arduino Due.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Due.vi"/>
 					<Item Name="Arduino Fio.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Fio.vi"/>
 					<Item Name="Arduino Leonardo.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Leonardo.vi"/>
+					<Item Name="Arduino Mega 1280.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Mega 1280.vi"/>
 					<Item Name="Arduino Mega 2560.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Mega 2560.vi"/>
 					<Item Name="Arduino Nano.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Nano.vi"/>
 					<Item Name="Arduino Pro Mini.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Pro Mini.vi"/>
@@ -118,6 +119,7 @@
 			<Item Name="Get Devices In Family.vi" Type="VI" URL="../Private/Utilties/Get Devices In Family.vi"/>
 			<Item Name="Check myRIO Status.vi" Type="VI" URL="../Private/Utilties/Check myRIO Status.vi"/>
 			<Item Name="Clean Error Call Chain.vi" Type="VI" URL="../Private/Utilties/Clean Error Call Chain.vi"/>
+			<Item Name="LINX Help.vi" Type="VI" URL="../../../../help/LabVIEW Hacker/LINX/LINX Help.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
@@ -170,6 +172,11 @@
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder">
+			<Item Name="Accelerometer" Type="Folder">
+				<Item Name="ADXL345" Type="Folder">
+					<Item Name="ADXL345.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/ADXL345/ADXL345.lvlib"/>
+				</Item>
+			</Item>
 			<Item Name="AD9850" Type="Folder">
 				<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/AD9850/AD9850.lvlib"/>
 			</Item>

@@ -5,8 +5,8 @@
 
 //Include Ethernet Headers If Necissary
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED 
-  //#include <NetworkShield.h> 
-  //#include <DNETcK.h>                              
+  #include <NetworkShield.h> 
+  #include <DNETcK.h>                              
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
 
 //Include WIFI Headers If Necissary
@@ -165,7 +165,7 @@ void setupLINX()
   #endif  //DEBUG_ENABLED   
   
   // Configure Other Interfaces
-  #ifdef LINX_Ethernet_INTERFACE_ENABLED
+  #ifdef LINX_ETHERNET_INTERFACE_ENABLED
     setupLINXEthernetInterface();
   #endif //LINX_Ethernet_INTERFACE_ENABLED
   #ifdef LINX_WIFI_INTERFACE_ENABLED

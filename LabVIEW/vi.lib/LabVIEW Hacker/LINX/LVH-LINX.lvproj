@@ -13,7 +13,13 @@
 		<Item Name="Firmware" Type="Folder">
 			<Item Name="Source" Type="Folder">
 				<Item Name="Arduino" Type="Folder">
-					<Item Name="LINX_Arduino_Base_Firmware" Type="Folder"/>
+					<Item Name="LINX_Arduino_Base_Firmware" Type="Folder">
+						<Item Name="LINX.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Source/Arduino/LINX_Arduino_Base_Firmware/LINX.h"/>
+						<Item Name="LINX.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Source/Arduino/LINX_Arduino_Base_Firmware/LINX.ino"/>
+						<Item Name="LINX_Arduino_Base_Firmware.ino" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Source/Arduino/LINX_Arduino_Base_Firmware/LINX_Arduino_Base_Firmware.ino"/>
+						<Item Name="LINX_Config.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Source/Arduino/LINX_Arduino_Base_Firmware/LINX_Config.h"/>
+						<Item Name="LINX_Devices.h" Type="Document" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Firmware/Source/Arduino/LINX_Arduino_Base_Firmware/LINX_Devices.h"/>
+					</Item>
 				</Item>
 				<Item Name="Digilent" Type="Folder">
 					<Item Name="LINX_chipKIT_Firmware" Type="Folder">

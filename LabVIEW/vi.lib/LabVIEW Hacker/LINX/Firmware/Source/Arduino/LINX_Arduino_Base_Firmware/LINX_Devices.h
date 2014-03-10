@@ -118,11 +118,11 @@
   #define LINX_NVS_ENABLED 1
 #endif //ARDUINO_MEGA2560
 
-/*----------------------------------------- LEONARDO --------------------------------------*/
-#ifdef ARDUINO_LEONARDO
+/*----------------------------------------- NANO --------------------------------------*/
+#ifdef ARDUINO_NANO
   //Device ID
   #define DEVICE_FAMILY 2
-  #define DEVICE_ID 2
+  #define DEVICE_ID 5
   //Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
@@ -133,7 +133,7 @@
   #define LINX_SPI_ENABLED 1
   //#define LINX_UART_ENABLED 1
   #define LINX_NVS_ENABLED 1
-#endif //ARDUINO_UNO
+#endif //ARDUINO_NANO
 
 
 /****************************************************************************************
