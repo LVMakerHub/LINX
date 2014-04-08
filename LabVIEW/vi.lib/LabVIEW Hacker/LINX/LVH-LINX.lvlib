@@ -200,6 +200,11 @@
 				<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Generic/Thermistor.vi"/>
 				<Item Name="Thumbstick.vi" Type="VI" URL="../Public/Sensors/Generic/Thumbstick.vi"/>
 			</Item>
+			<Item Name="Mindstorms" Type="Folder">
+				<Item Name="HiTechnic" Type="Folder">
+					<Item Name="HiTechnic.lvlib" Type="Library" URL="../Public/Sensors/Mindstorms/HiTechnic/HiTechnic.lvlib"/>
+				</Item>
+			</Item>
 			<Item Name="Temperature" Type="Folder">
 				<Item Name="TCN75A" Type="Folder">
 					<Item Name="TCN75A.lvlib" Type="Library" URL="../Public/Sensors/Temperature/TCN75A/TCN75A.lvlib"/>
