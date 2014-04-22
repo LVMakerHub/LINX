@@ -73,6 +73,7 @@
 			</Item>
 			<Item Name="Baud Rate.ctl" Type="VI" URL="../Private/Type Defs/Baud Rate.ctl"/>
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
+			<Item Name="Channels.ctl" Type="VI" URL="../Private/Device/Type Defs/Channels.ctl"/>
 			<Item Name="Deploy Firmware State.ctl" Type="VI" URL="../Private/Type Defs/Deploy Firmware State.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
 			<Item Name="Firmware Interface.ctl" Type="VI" URL="../Private/Device/Type Defs/Firmware Interface.ctl"/>

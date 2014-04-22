@@ -53,6 +53,16 @@ unsigned char computeChecksum(unsigned char* packetBuffer);
 ****************************************************************************************/
 void getDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
+/****************************************************************************************
+**  getFirmware Version
+**
+**  Return current firmware version.
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: None
+****************************************************************************************/
+void getFrimwareVersion(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 /****************************************************************************************
 **  getMaxBaudRate
@@ -203,6 +213,111 @@ typedef enum
 
 #endif
 
+/****************************************************************************************
+**
+**------------------------------ SYSTEM ------------------------------------------------ 
+**
+****************************************************************************************/
+
+
+/****************************************************************************************
+**  linxGetDIOChannels
+**
+**  Get Devices DIO Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetDIOChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetAIChannels
+**
+**  Get Devices AI Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetAIChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetAOChannels
+**
+**  Get Devices AO Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetAOChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetPWMChannels
+**
+**  Get Devices PWM Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetPWMChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetQEChannels
+**
+**  Get Devices QE Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetQEChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetUARTChannels
+**
+**  Get Devices UART Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetUARTChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetI2CChannels
+**
+**  Get Devices I2C Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetI2CChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetSPIChannels
+**
+**  Get Devices SPI Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetSPIChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
+/****************************************************************************************
+**  linxGetCANChannels
+**
+**  Get Devices CAN Channel Numbers
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetCANChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 
 
@@ -303,6 +418,17 @@ void linxI2CWrite(unsigned char* commandPacketBuffer, unsigned char* responsePac
 **
 ****************************************************************************************/
 #ifdef LINX_ANALOG_INPUT_ENABLED
+
+/****************************************************************************************
+**  linxgetAIRef
+**
+**  Get AI Ref Voltage
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: none
+****************************************************************************************/
+void linxGetAIRef(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
 
 /****************************************************************************************

@@ -5,8 +5,8 @@
 
 //Include Ethernet Headers If Necissary
 #ifdef LINX_ETHERNET_INTERFACE_ENABLED 
-  #include <NetworkShield.h> 
-  #include <DNETcK.h>                              
+  //#include <NetworkShield.h> 
+  //#include <DNETcK.h>                              
 #endif //LINX_ETHERNET_INTERFACE_ENABLED
 
 //Include WIFI Headers If Necissary
@@ -181,18 +181,33 @@ void getDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePack
   responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
   #ifdef DEVICE_FAMILY
-    responsePacketBuffer[4] = DEVICE_FAMILY;                         //Device Family
+    responsePacketBuffer[5] = DEVICE_FAMILY;                         //Device Family
   #else
-    responsePacketBuffer[4] = 0x00;                                 
+    responsePacketBuffer[5] = 0x00;                                 
   #endif
   #ifdef DEVICE_ID
-    responsePacketBuffer[5] = DEVICE_ID;                             //Device ID
+    responsePacketBuffer[6] = DEVICE_ID;                             //Device ID
   #else
-    responsePacketBuffer[5] = 0x00;    
+    responsePacketBuffer[6] = 0x00;    
   #endif
-  responsePacketBuffer[6] = 0x00;                                    //STATUS
+ 
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
+}
+
+//--------------------------- getFrimwareVersion ---------------------------------------------//
+void getFrimwareVersion(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 0x09;                                    //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = FIRMWARE_VER_MAJOR;                      //Version
+  responsePacketBuffer[6] = FIRMWARE_VER_MINOR;                      //...
+  responsePacketBuffer[7] = FIRMWARE_VER_SUBMINOR;                   //... 
+  responsePacketBuffer[8] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
 //--------------------------- setUserDeviceID ---------------------------------------------//
@@ -219,9 +234,9 @@ void getUserDeviceID(unsigned char* commandPacketBuffer, unsigned char* response
   responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = (userID>>8) & 0xFF;                      //User ID MSB
-  responsePacketBuffer[5] = userID & 0xFF;                           //User ID LSB
-  responsePacketBuffer[6] = 0x00;                                    //STATUS  
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = (userID>>8) & 0xFF;                      //User ID MSB
+  responsePacketBuffer[6] = userID & 0xFF;                           //User ID LSB
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
@@ -251,11 +266,11 @@ void getEthernetIP(unsigned char* commandPacketBuffer, unsigned char* responsePa
   responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = ((ethernetIP>>24) & 0xFF);               //Ethernet IP MSB
-  responsePacketBuffer[5] = ((ethernetIP>>16) & 0xFF);               //Ethernet IP ...
-  responsePacketBuffer[6] = ((ethernetIP>>8) & 0xFF);                //Ethernet IP ...
-  responsePacketBuffer[7] = ((ethernetIP) & 0xFF);                   //Ethernet IP LSB  
-  responsePacketBuffer[8] = 0x00;                                    //STATUS  
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = ((ethernetIP>>24) & 0xFF);               //Ethernet IP MSB  
+  responsePacketBuffer[6] = ((ethernetIP>>16) & 0xFF);               //Ethernet IP ...
+  responsePacketBuffer[7] = ((ethernetIP>>8) & 0xFF);                //Ethernet IP ...
+  responsePacketBuffer[8] = ((ethernetIP) & 0xFF);                   //Ethernet IP LSB  
   responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
@@ -283,9 +298,9 @@ void getEthernetPort(unsigned char* commandPacketBuffer, unsigned char* response
   responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = ((ethernetPort>>8) & 0xFF);              //Ethernet PORT MSB
-  responsePacketBuffer[5] = (ethernetPort & 0xFF);                   //Ethernet PORT LSB
-  responsePacketBuffer[6] = 0x00;                                    //STATUS  
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = ((ethernetPort>>8) & 0xFF);              //Ethernet PORT MSB
+  responsePacketBuffer[6] = (ethernetPort & 0xFF);                   //Ethernet PORT LSB
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
@@ -315,11 +330,11 @@ void getWifiIP(unsigned char* commandPacketBuffer, unsigned char* responsePacket
   responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = ((wifiIP>>24) & 0xFF);                   //WIFI IP MSB
-  responsePacketBuffer[5] = ((wifiIP>>16) & 0xFF);                   //WIFI IP ...
-  responsePacketBuffer[6] = ((wifiIP>>8) & 0xFF);                    //WIFI IP ...
-  responsePacketBuffer[7] = ((wifiIP) & 0xFF);                       //WIFI IP LSB  
-  responsePacketBuffer[8] = 0x00;                                    //STATUS  
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = ((wifiIP>>24) & 0xFF);                   //WIFI IP MSB
+  responsePacketBuffer[6] = ((wifiIP>>16) & 0xFF);                   //WIFI IP ...
+  responsePacketBuffer[7] = ((wifiIP>>8) & 0xFF);                    //WIFI IP ...
+  responsePacketBuffer[8] = ((wifiIP) & 0xFF);                       //WIFI IP LSB  
   responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
@@ -347,9 +362,9 @@ void getWifiPort(unsigned char* commandPacketBuffer, unsigned char* responsePack
   responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = ((wifiPort>>8) & 0xFF);                          //WIFI PORT MSB
-  responsePacketBuffer[5] = (wifiPort & 0xFF);                       //WIFI PORT LSB
-  responsePacketBuffer[6] = 0x00;                                    //STATUS  
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = ((wifiPort>>8) & 0xFF);                  //WIFI PORT MSB
+  responsePacketBuffer[6] = (wifiPort & 0xFF);                       //WIFI PORT LSB
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
@@ -391,14 +406,14 @@ void getWifiSSID(unsigned char* commandPacketBuffer, unsigned char* responsePack
   responsePacketBuffer[1] = wifiSSIDSize + 7;                        //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = wifiSSIDSize;                            //SSID SIZE
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = wifiSSIDSize;                            //SSID SIZE
   
   for(int i=0; i<wifiSSIDSize; i++)
   {
-    responsePacketBuffer[i+5] = wifiSSID[i];
+    responsePacketBuffer[i+6] = wifiSSID[i];
   }
-  
-  responsePacketBuffer[wifiSSIDSize+5] = 0x00;                                    //STATUS  
+    
   responsePacketBuffer[wifiSSIDSize+6] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
@@ -425,8 +440,8 @@ void getWifiSecurity(unsigned char* commandPacketBuffer, unsigned char* response
   responsePacketBuffer[1] = 0x07;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = wifiSecurity;                            //WIFI PORT MSB
-  responsePacketBuffer[5] = 0x00;                                    //STATUS  
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = wifiSecurity;                            //WIFI PORT MSB  
   responsePacketBuffer[6] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
@@ -488,11 +503,11 @@ void getSerialInterfaceMaxBaud(unsigned char* commandPacketBuffer, unsigned char
   responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = ((serialInterfaceMaxBaud>>24) & 0xFF);   //WIFI IP MSB
-  responsePacketBuffer[5] = ((serialInterfaceMaxBaud>>16) & 0xFF);   //WIFI IP ...
-  responsePacketBuffer[6] = ((serialInterfaceMaxBaud>>8) & 0xFF);    //WIFI IP ...
-  responsePacketBuffer[7] = ((serialInterfaceMaxBaud) & 0xFF);       //WIFI IP LSB  
-  responsePacketBuffer[8] = 0x00;                                    //STATUS  
+  responsePacketBuffer[4] = 0x00;                                    //STATUS  
+  responsePacketBuffer[5] = ((serialInterfaceMaxBaud>>24) & 0xFF);   //WIFI IP MSB
+  responsePacketBuffer[6] = ((serialInterfaceMaxBaud>>16) & 0xFF);   //WIFI IP ...
+  responsePacketBuffer[7] = ((serialInterfaceMaxBaud>>8) & 0xFF);    //WIFI IP ...
+  responsePacketBuffer[8] = ((serialInterfaceMaxBaud) & 0xFF);       //WIFI IP LSB   
   responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
   
@@ -530,6 +545,9 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x0003: // Get Device ID     
       getDeviceID(commandPacketBuffer, responsePacketBuffer);
       break;
+    case 0x0004: // Get Firmware Version   
+      getFrimwareVersion(commandPacketBuffer, responsePacketBuffer);
+      break;
     
     #ifdef LINX_SERIAL_INTERFACE_ENABLED
     case 0x0005: // Get Max Baud Rate      
@@ -540,6 +558,53 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       setInterfaceBaudRate(commandPacketBuffer, responsePacketBuffer);
       break;
     #endif  //LINX_SERIAL_INTERFACE_ENABLED
+    
+    case 0x0008: // Get DIO Channels
+      #ifdef NUMDIOCHANS
+        linxGetDIOChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMDIOCHANS
+       break;
+    case 0x0009: // Get AI Channels
+      #ifdef NUMAICHANS
+        linxGetAIChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMAICHANS
+       break;
+    case 0x000A: // Get AO Channels
+      #ifdef NUMAOCHANS
+        linxGetAOChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMAOCHANS
+       break;
+    case 0x000B: // Get PWM Channels
+      #ifdef NUMPWMCHANS
+        linxGetPWMChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMPWMCHANS
+       break;
+    case 0x000C: // Get QE Channels
+      #ifdef NUMQECHANS
+        linxGetQEChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMQECHANS
+       break;
+    case 0x000D: // Get UART Channels
+      #ifdef NUMUARTCHANS      
+        linxGetUARTChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMUARTCHANS
+       break;
+    case 0x000E: // Get I2C Channels
+      #ifdef NUMI2CCHANS
+        linxGetI2CChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMI2CCHANS
+       break;
+    case 0x000F: // Get SPI Channels
+      #ifdef NUMSPICHANS
+        linxGetSPIChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMSPICHANS
+       break;
+    case 0x0010: // Get CAN Channels
+      #ifdef NUMCANCHANS
+        linxGetCANChannels(commandPacketBuffer, responsePacketBuffer);
+      #endif //NUMCANCHANS
+       break;
+       
     
     case 0x0011: // Disconnect
       linxDisconnect(commandPacketBuffer, responsePacketBuffer);
@@ -602,7 +667,7 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     /************************************************************************************
     * DIGITAL I/O
     ************************************************************************************/     
-    #ifdef LINX_DIGITAL_ENABLED
+    #ifdef LINX_DIGITAL_ENABLED    
     case 0x0040: // Set Digital Pin Mode
       linxSetDigtalPinMode(commandPacketBuffer, responsePacketBuffer);      
       break;      
@@ -625,6 +690,9 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     **  Analog I/O
     ************************************************************************************/    
     #ifdef LINX_ANALOG_INPUT_ENABLED
+    case 0x0061:  //Get AI Ref
+      linxGetAIRef(commandPacketBuffer, responsePacketBuffer);      
+      break;
     case 0x0064:  //Analog Read
       linxAnalogRead(commandPacketBuffer, responsePacketBuffer);      
       break;
@@ -770,6 +838,22 @@ void statusResponse(unsigned char* commandPacketBuffer, unsigned char* responseP
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
   responsePacketBuffer[4] = linxStatus;                              //STATUS
   responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM   
+}
+
+//--------------------------- U8ArrayResponse ------------------------------------------//
+void U8ArrayResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, unsigned char ArraySize, unsigned char* data)
+{
+  for(int i=0; i<ArraySize; i++)
+  {
+      responsePacketBuffer[i+5] = data[i];      
+  }
+  
+  responsePacketBuffer[0] = 0xFF;                                                //SoF
+  responsePacketBuffer[1] = ArraySize + 6;                                       //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                              //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                              //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                                //STATUS
+  responsePacketBuffer[ArraySize + 5] = computeChecksum(responsePacketBuffer);   //CHECKSUM
 }
 
 
@@ -1573,7 +1657,65 @@ void checkForLINXWifiPacket()
 
 #endif //LINX_WIFI_INTERFACE_ENABLED
 
+/****************************************************************************************
+**
+**------------------------------ SYSTEM ------------------------------------------------- 
+**
+****************************************************************************************/
 
+//--------------------------- linxGetDIOChannels ----------------------------------------//
+void linxGetDIOChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMDIOCHANS, DIOChans);  
+}
+
+//--------------------------- linxGetAIChannels ----------------------------------------//
+void linxGetAIChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMAICHANS, AIChans);  
+}
+
+//--------------------------- linxGetAOChannels ----------------------------------------//
+void linxGetAOChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMAOCHANS, AOChans);  
+}
+
+//--------------------------- linxGetPWMChannels ----------------------------------------//
+void linxGetPWMChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMPWMCHANS, PWMChans);  
+}
+
+//--------------------------- linxGetQEChannels ----------------------------------------//
+void linxGetQEChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMQECHANS, QEChans);  
+}
+
+//--------------------------- linxGetUARTChannels ----------------------------------------//
+void linxGetUARTChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMUARTCHANS, UARTChans);  
+}
+
+//--------------------------- linxGetI2CChannels ----------------------------------------//
+void linxGetI2CChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMI2CCHANS, I2CChans);  
+}
+
+//--------------------------- linxGetSPIChannels ----------------------------------------//
+void linxGetSPIChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMSPICHANS, SPIChans);  
+}
+
+//--------------------------- linxGetCANChannels ----------------------------------------//
+void linxGetCANChannels(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, NUMCANCHANS, CANChans);  
+}
 /****************************************************************************************
 **
 **--------------------------- DIGITAL IO ------------------------------------------------ 
@@ -1791,11 +1933,11 @@ void linxDigitalReadPulseWidth(unsigned char* commandPacketBuffer, unsigned char
   responsePacketBuffer[1] = 0x0A;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM 
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM 
-  responsePacketBuffer[4] = (pulseWidth >> 24) & 0xFF;
-  responsePacketBuffer[5] = (pulseWidth >> 16) & 0xFF;
-  responsePacketBuffer[6] = (pulseWidth >> 8) & 0xFF;
-  responsePacketBuffer[7] = pulseWidth & 0xFF;
-  responsePacketBuffer[8] = 0x00;                                    //STATUS
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = (pulseWidth >> 24) & 0xFF;
+  responsePacketBuffer[6] = (pulseWidth >> 16) & 0xFF;
+  responsePacketBuffer[7] = (pulseWidth >> 8) & 0xFF;
+  responsePacketBuffer[8] = pulseWidth & 0xFF; 
   responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM   
 }
 
@@ -1902,14 +2044,13 @@ void linxI2CRead(unsigned char* commandPacketBuffer, unsigned char* responsePack
     responsePacketBuffer[1] = commandPacketBuffer[8] + 6;                          //PACKET SIZE (DATA + 6 BYTES)
     responsePacketBuffer[2] = commandPacketBuffer[2];                              //PACKET NUM 
     responsePacketBuffer[3] = commandPacketBuffer[3];                              //PACKET NUM 
+    responsePacketBuffer[4] = 0x00;                                                //STATUS
     
     //Fill Data
     for(int i=0; i<commandPacketBuffer[8]; i++)
     {
-      responsePacketBuffer[i+4] = Wire.receive();      
-    }
-    
-    responsePacketBuffer[commandPacketBuffer[8] + 4] = 0x00;                                   //STATUS
+      responsePacketBuffer[i+5] = Wire.receive();      
+    }    
     responsePacketBuffer[commandPacketBuffer[8] + 5] = computeChecksum(responsePacketBuffer);  //CHECKSUM   
   }
   else
@@ -1935,6 +2076,24 @@ void linxI2CRead(unsigned char* commandPacketBuffer, unsigned char* responsePack
 ****************************************************************************************/
 #ifdef LINX_ANALOG_INPUT_ENABLED
 
+//--------------------------- linxGetAIRef ------------------------------------------//
+void linxGetAIRef(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  unsigned long AIRefV = AI_REFERENCE * 1000000;
+  
+  responsePacketBuffer[0] = 0xFF;                                    //SoF
+  responsePacketBuffer[1] = 10;                                      //PACKET NUM (MSB)
+  responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
+  responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[5] = (AIRefV>>24) & 0xFF;                     //AIREF MSB
+  responsePacketBuffer[6] = (AIRefV>>16) & 0xFF;                     //...
+  responsePacketBuffer[7] = (AIRefV>>8) & 0xFF;                      //...
+  responsePacketBuffer[8] = AIRefV & 0xFF;                           //AIREF LSB
+  responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM    
+  
+}
+
 //--------------------------- linxAnalogRead ------------------------------------------//
 void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
@@ -1956,7 +2115,6 @@ void linxAnalogRead(unsigned char* commandPacketBuffer, unsigned char* responseP
   for(int i=0; i<(commandPacketBuffer[1]-7); i++)
   {
     analogValue = analogRead(commandPacketBuffer[i+6]);
-    //analogValue = 0x03BD;  //0b1110111101
     
     #ifdef DEBUG_ENABLED
       Serial1.print("AI");
@@ -2052,7 +2210,7 @@ void linxPWMSetDutyCycle(unsigned char* commandPacketBuffer, unsigned char* resp
 ****************************************************************************************/
 #ifdef LINX_SPI_ENABLED
 
-//--------------------------- linxSPIO ------------------------------------------------//
+//--------------------------- linxSPIOpenMaster ------------------------------------------------//
 void linxSPIOpenMaster(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
   SPI.begin();
@@ -2156,6 +2314,16 @@ void linxUARTOpen(unsigned char* commandPacketBuffer, unsigned char* responsePac
     //Open UART1
     Serial1.begin(baudRate);  
   }
+  else if(commandPacketBuffer[6] == 2)
+  {
+    //Open UART2
+    Serial2.begin(baudRate);  
+  }
+  else if(commandPacketBuffer[6] == 3)
+  {
+    //Open UART3
+    Serial3.begin(baudRate);  
+  }
   
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);  
@@ -2177,6 +2345,16 @@ void linxUARTSetBaudRate(unsigned char* commandPacketBuffer, unsigned char* resp
     //Open UART1
     Serial1.begin(baudRate);  
   }
+  else if(commandPacketBuffer[6] == 2)
+  {
+    //Open UART2
+    Serial2.begin(baudRate);  
+  }
+  else if(commandPacketBuffer[6] == 3)
+  {
+    //Open UART3
+    Serial3.begin(baudRate);  
+  }
   
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00);    
@@ -2193,8 +2371,18 @@ void linxUARTGetBytesAvailable(unsigned char* commandPacketBuffer, unsigned char
   }
   else if(commandPacketBuffer[6] == 1)
   {
-    //Check UART0 Buffer
+    //Check UART1 Buffer
     responsePacketBuffer[5] = Serial1.available();    
+  }
+  else if(commandPacketBuffer[6] == 2)
+  {
+    //Check UART2 Buffer
+    responsePacketBuffer[5] = Serial2.available();    
+  }
+  else if(commandPacketBuffer[6] == 3)
+  {
+    //Check UART3 Buffer
+    responsePacketBuffer[5] = Serial3.available();    
   }
   
   responsePacketBuffer[0] = 0xFF;                                    //SoF
@@ -2226,9 +2414,25 @@ void linxUARTRead(unsigned char* commandPacketBuffer, unsigned char* responsePac
       responsePacketBuffer[i+5] = Serial1.read();      
     } 
   }
+  else if(commandPacketBuffer[6] == 2)
+  {
+    //Read From UART2 Buffer
+    for(int i=0; i<bytesToRead; i++)
+    {
+      responsePacketBuffer[i+5] = Serial2.read();      
+    } 
+  }
+  else if(commandPacketBuffer[6] == 3)
+  {
+    //Read From UART3 Buffer
+    for(int i=0; i<bytesToRead; i++)
+    {
+      responsePacketBuffer[i+5] = Serial3.read();      
+    } 
+  }
   
   responsePacketBuffer[0] = 0xFF;                                                //SoF
-  responsePacketBuffer[1] = bytesToRead + 6;                                                //PACKET SIZE
+  responsePacketBuffer[1] = bytesToRead + 6;                                     //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                              //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                              //PACKET NUM (LSB)
   responsePacketBuffer[4] = 0x00;                                                //STATUS  
@@ -2253,6 +2457,22 @@ void linxUARTWrite(unsigned char* commandPacketBuffer, unsigned char* responsePa
     for(int i=0; i<bytesToWrite; i++)
     {
       Serial1.print(commandPacketBuffer[i+7]); 
+    } 
+  }
+  else if(commandPacketBuffer[6] == 2)
+  {
+    //Read To UART2
+    for(int i=0; i<bytesToWrite; i++)
+    {
+      Serial2.print(commandPacketBuffer[i+7]); 
+    } 
+  }
+  else if(commandPacketBuffer[6] == 3)
+  {
+    //Read To UART3
+    for(int i=0; i<bytesToWrite; i++)
+    {
+      Serial3.print(commandPacketBuffer[i+7]); 
     } 
   }
   

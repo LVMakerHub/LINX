@@ -23,6 +23,7 @@
 		</Item>
 		<Item Name="Checksum.vi" Type="VI" URL="../Utilities/Checksum.vi"/>
 		<Item Name="Get Device ID.vi" Type="VI" URL="../Utilities/Get Device ID.vi"/>
+		<Item Name="Get AI Channels.vi" Type="VI" URL="../Utilities/Get AI Channels.vi"/>
 		<Item Name="Get Max Baud Rate.vi" Type="VI" URL="../Utilities/Get Max Baud Rate.vi"/>
 		<Item Name="Packet Number.vi" Type="VI" URL="../Utilities/Packet Number.vi"/>
 		<Item Name="Packetize.vi" Type="VI" URL="../Utilities/Packetize.vi"/>
@@ -55,7 +56,17 @@
 		<Item Name="Configure LINX Device.vi" Type="VI" URL="../Utilities/Configure LINX Device.vi"/>
 		<Item Name="Configure Wifi.vi" Type="VI" URL="../Utilities/Configure Wifi.vi"/>
 		<Item Name="Pack A0 Values.vi" Type="VI" URL="../Utilities/Pack A0 Values.vi"/>
+		<Item Name="Get QE Channels.vi" Type="VI" URL="../Utilities/Get QE Channels.vi"/>
+		<Item Name="Get UART Channels.vi" Type="VI" URL="../Utilities/Get UART Channels.vi"/>
+		<Item Name="Get I2C Channels.vi" Type="VI" URL="../Utilities/Get I2C Channels.vi"/>
+		<Item Name="Get SPI Channels.vi" Type="VI" URL="../Utilities/Get SPI Channels.vi"/>
+		<Item Name="Get PWM Channels.vi" Type="VI" URL="../Utilities/Get PWM Channels.vi"/>
+		<Item Name="Get AI Ref.vi" Type="VI" URL="../Utilities/Get AI Ref.vi"/>
+		<Item Name="Get Firmware Version.vi" Type="VI" URL="../Utilities/Get Firmware Version.vi"/>
 		<Item Name="Get Device AO Data.vi" Type="VI" URL="../Utilities/Get Device AO Data.vi"/>
+		<Item Name="Get CAN Channels.vi" Type="VI" URL="../Utilities/Get CAN Channels.vi"/>
+		<Item Name="Get AO Channels.vi" Type="VI" URL="../Utilities/Get AO Channels.vi"/>
+		<Item Name="Get DIO Channels.vi" Type="VI" URL="../Utilities/Get DIO Channels.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
@@ -102,6 +113,7 @@
 		<Item Name="Packet Number FGV Action.ctl" Type="VI" URL="../Type Defs/Packet Number FGV Action.ctl"/>
 		<Item Name="TCP Config.ctl" Type="VI" URL="../Type Defs/TCP Config.ctl"/>
 		<Item Name="Wifi Config.ctl" Type="VI" URL="../Type Defs/Wifi Config.ctl"/>
+		<Item Name="Firmware Version.ctl" Type="VI" URL="../Type Defs/Firmware Version.ctl"/>
 	</Item>
 	<Item Name="Close Device.vi" Type="VI" URL="../Close Device.vi"/>
 	<Item Name="Initialize Device.vi" Type="VI" URL="../Initialize Device.vi"/>
