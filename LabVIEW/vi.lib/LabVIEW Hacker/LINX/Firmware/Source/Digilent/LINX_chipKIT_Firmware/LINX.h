@@ -75,6 +75,17 @@ void getFrimwareVersion(unsigned char* commandPacketBuffer, unsigned char* respo
 ****************************************************************************************/
 void getMaxBaudRate(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
 
+/****************************************************************************************
+**  getDeviceName
+**
+**  Get the Device Name
+**
+**  Input:  commandPacketBuffer - The buffer containing the command packet
+**          responsePacketBuffer - The buffer used build the response packet.
+**  Output: None
+****************************************************************************************/
+void getDeviceName(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer);
+
 
 /****************************************************************************************
 **  linxDisconnect

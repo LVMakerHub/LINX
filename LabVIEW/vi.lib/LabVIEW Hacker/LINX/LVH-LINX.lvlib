@@ -122,6 +122,7 @@
 			<Item Name="Clean Error Call Chain.vi" Type="VI" URL="../Private/Utilties/Clean Error Call Chain.vi"/>
 			<Item Name="LINX Help.vi" Type="VI" URL="../../../../help/LabVIEW Hacker/LINX/LINX Help.vi"/>
 			<Item Name="Enter Leonardo Bootloader.vi" Type="VI" URL="../Private/Utilties/Enter Leonardo Bootloader.vi"/>
+			<Item Name="Set Device Name.vi" Type="VI" URL="../Private/Utilties/Set Device Name.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>

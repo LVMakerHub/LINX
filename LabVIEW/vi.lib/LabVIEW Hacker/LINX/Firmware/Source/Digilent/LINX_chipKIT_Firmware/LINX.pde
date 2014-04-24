@@ -510,6 +510,12 @@ void getSerialInterfaceMaxBaud(unsigned char* commandPacketBuffer, unsigned char
   responsePacketBuffer[8] = ((serialInterfaceMaxBaud) & 0xFF);       //WIFI IP LSB   
   responsePacketBuffer[9] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
+
+//--------------------------- getDeviceName ---------------------------------------------//
+void getDeviceName(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  U8ArrayResponse(commandPacketBuffer, responsePacketBuffer, DEVICE_NAME_LENGTH, deviceName);
+}
   
   
 
@@ -663,6 +669,10 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x0023: // Get Serial Interface Max Baud
       getSerialInterfaceMaxBaud(commandPacketBuffer, responsePacketBuffer);
       break;
+    case 0x0024: // Get Device Name
+      getDeviceName(commandPacketBuffer, responsePacketBuffer);
+      break;
+      
       
     /************************************************************************************
     * DIGITAL I/O

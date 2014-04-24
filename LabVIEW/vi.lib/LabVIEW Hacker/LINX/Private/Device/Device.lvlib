@@ -64,9 +64,12 @@
 		<Item Name="Get AI Ref.vi" Type="VI" URL="../Utilities/Get AI Ref.vi"/>
 		<Item Name="Get Firmware Version.vi" Type="VI" URL="../Utilities/Get Firmware Version.vi"/>
 		<Item Name="Get Device AO Data.vi" Type="VI" URL="../Utilities/Get Device AO Data.vi"/>
+		<Item Name="Get Device Name.vi" Type="VI" URL="../Utilities/Get Device Name.vi"/>
 		<Item Name="Get CAN Channels.vi" Type="VI" URL="../Utilities/Get CAN Channels.vi"/>
 		<Item Name="Get AO Channels.vi" Type="VI" URL="../Utilities/Get AO Channels.vi"/>
 		<Item Name="Get DIO Channels.vi" Type="VI" URL="../Utilities/Get DIO Channels.vi"/>
+		<Item Name="Check Firmware Version.vi" Type="VI" URL="../Utilities/Check Firmware Version.vi"/>
+		<Item Name="Load Device Config.vi" Type="VI" URL="../Utilities/Load Device Config.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
@@ -115,6 +118,6 @@
 		<Item Name="Wifi Config.ctl" Type="VI" URL="../Type Defs/Wifi Config.ctl"/>
 		<Item Name="Firmware Version.ctl" Type="VI" URL="../Type Defs/Firmware Version.ctl"/>
 	</Item>
-	<Item Name="Close Device.vi" Type="VI" URL="../Close Device.vi"/>
 	<Item Name="Initialize Device.vi" Type="VI" URL="../Initialize Device.vi"/>
+	<Item Name="Close Device.vi" Type="VI" URL="../Close Device.vi"/>
 </Library>

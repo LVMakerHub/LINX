@@ -16,6 +16,8 @@
   //Device ID
   #define DEVICE_FAMILY 1
   #define DEVICE_ID 0
+  #define DEVICE_NAME_LENGTH 13
+  unsigned char deviceName[] = {'C', 'h', 'i', 'p', 'K', 'I', 'T',' ','U','n','o','3', '2'};
   //Enable Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
@@ -53,7 +55,8 @@
   //Device ID
   #define DEVICE_FAMILY 1
   #define DEVICE_ID 1   
-  
+  #define DEVICE_NAME_LENGTH 12
+  unsigned char deviceName[] = {'C', 'h', 'i', 'p', 'K', 'I', 'T', ' ', 'u', 'C', '3', '2'};
   //Enable Peripheral
   #define LINX_DIGITAL_ENABLED 1  
   #define LINX_I2C_ENABLED 1
@@ -92,6 +95,8 @@
   //Device ID
   #define DEVICE_FAMILY 1
   #define DEVICE_ID 2
+  #define DEVICE_NAME_LENGTH 13
+  unsigned char deviceName[] = {'C', 'h', 'i', 'p', 'K', 'I', 'T',' ','M','a','x','3', '2'};
   //Enable Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
@@ -131,6 +136,8 @@
   //Device ID
   #define DEVICE_FAMILY 1
   #define DEVICE_ID 3
+  #define DEVICE_NAME_LENGTH 12
+  unsigned char deviceName[] = {'C', 'h', 'i', 'p', 'K', 'I', 'T',' ','W','F','3', '2'};
   //Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
@@ -174,6 +181,8 @@
   //Device ID
   #define DEVICE_FAMILY 2
   #define DEVICE_ID 0
+  #define DEVICE_NAME_LENGTH 11
+  unsigned char deviceName[] = {'A', 'r', 'd', 'u', 'i', 'n', 'o',' ','U','n','o'};
   //Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
@@ -212,6 +221,8 @@
   //Device ID
   #define DEVICE_FAMILY 2
   #define DEVICE_ID 1
+   #define DEVICE_NAME_LENGTH 17
+  unsigned char deviceName[] = {'A', 'r', 'd', 'u', 'i', 'n', 'o',' ','M','e','g','a', ' ', '2','5','6','0'};
   //Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
@@ -243,4 +254,4 @@
   unsigned char SPIChans[] = {0};
   #define NUMCANCHANS 0
   unsigned char CANChans[] = {};
-#endif //CHIPKIT_MAX32
+#endif //ARDUINO_MEGA2560
