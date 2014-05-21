@@ -1,1 +1,0 @@
-LINX firmware for the Digilent chipKIT Uno32 with Serial/USB interface enabled.

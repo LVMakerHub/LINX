@@ -71,10 +71,13 @@
 					<Item Name="SPI CS Logic Level.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI CS Logic Level.ctl"/>
 				</Item>
 			</Item>
+			<Item Name="All Firmware Data FGV States.ctl" Type="VI" URL="../Private/Type Defs/All Firmware Data FGV States.ctl"/>
 			<Item Name="Baud Rate.ctl" Type="VI" URL="../Private/Type Defs/Baud Rate.ctl"/>
 			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
 			<Item Name="Channels.ctl" Type="VI" URL="../Private/Device/Type Defs/Channels.ctl"/>
 			<Item Name="Deploy Firmware State.ctl" Type="VI" URL="../Private/Type Defs/Deploy Firmware State.ctl"/>
+			<Item Name="Device Data.ctl" Type="VI" URL="../Private/Type Defs/Device Data.ctl"/>
+			<Item Name="Device Firmware.ctl" Type="VI" URL="../Private/Type Defs/Device Firmware.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
 			<Item Name="Firmware Interface.ctl" Type="VI" URL="../Private/Device/Type Defs/Firmware Interface.ctl"/>
 			<Item Name="Firmware Program Interface.ctl" Type="VI" URL="../Private/Type Defs/Firmware Program Interface.ctl"/>
@@ -123,6 +126,10 @@
 			<Item Name="LINX Help.vi" Type="VI" URL="../../../../help/LabVIEW Hacker/LINX/LINX Help.vi"/>
 			<Item Name="Enter Leonardo Bootloader.vi" Type="VI" URL="../Private/Utilties/Enter Leonardo Bootloader.vi"/>
 			<Item Name="Set Device Name.vi" Type="VI" URL="../Private/Utilties/Set Device Name.vi"/>
+			<Item Name="Load All Firmware Config Data.vi" Type="VI" URL="../Private/Utilties/Load All Firmware Config Data.vi"/>
+			<Item Name="Read FW INI.vi" Type="VI" URL="../Private/Utilties/Read FW INI.vi"/>
+			<Item Name="Read DEV INI.vi" Type="VI" URL="../Private/Utilties/Read DEV INI.vi"/>
+			<Item Name="All Firmware Data FGV.vi" Type="VI" URL="../Private/Utilties/All Firmware Data FGV.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
@@ -222,6 +229,7 @@
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
+			<Item Name="Custom Command Template.vi" Type="VI" URL="../Public/Utilities/Custom Command Template.vi"/>
 			<Item Name="Set Device User ID.vi" Type="VI" URL="../Public/Utilities/Set Device User ID.vi"/>
 		</Item>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>

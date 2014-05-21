@@ -109,9 +109,9 @@
 
 #ifdef LINX_I2C_ENABLED
   unsigned char I2C0Open = 0;
-  unsigned char I2C1Open = 1;
-  unsigned char I2C2Open = 2;
-  unsigned char I2C3Open = 3;
+  unsigned char I2C1Open = 0;
+  unsigned char I2C2Open = 0;
+  unsigned char I2C3Open = 0;
 #endif //LINX_I2C_ENABLED
 
 unsigned long startTime;
@@ -747,6 +747,9 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x00E3: // I2C Read
       linxI2CRead(commandPacketBuffer, responsePacketBuffer);      
       break;
+    case 0x00E4: // I2C Close
+      linxI2CCloseMaster(commandPacketBuffer, responsePacketBuffer);      
+      break;
       
     #endif  //LINX_I2C_ENABLED
 
@@ -787,6 +790,14 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       linxSPIWriteRead(commandPacketBuffer, responsePacketBuffer);      
       break;      
     #endif  //LINX_SPI_ENABLED
+    
+    /************************************************************************************
+    **  CUSTOM COMMANDS
+    ************************************************************************************/ 
+    //Add custom commands here using command range 0xFC00- 0xFFFF  
+    case 0xFC00:
+       digitalBlinkCustomCommand(commandPacketBuffer, responsePacketBuffer);
+       break;
         
       
     default:  //Default Case
@@ -1988,6 +1999,12 @@ void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* respon
   //Send Status OK Response
   statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00); 
 }
+
+void linxI2CCloseMaster(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Send Status OK Response
+  statusResponse(commandPacketBuffer, responsePacketBuffer, 0x00); 
+}
  
  
 //--------------------------- linxI2CWrite --------------------------------------------//
@@ -2652,5 +2669,44 @@ unsigned char linx_SerialRead(unsigned char channel)
         break;
     }  
 }
+
+
+//Custom Blink Command
+void digitalBlinkCustomCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
+{
+  //Pull Data Out Of Packet From LabVIEW
+  unsigned char digitalChannel = commandPacketBuffer[6];
+  unsigned char onTime = commandPacketBuffer[7];
+  unsigned char offTime = commandPacketBuffer[8];
+  unsigned char numBlinks = commandPacketBuffer[9];
+  
+  //Perform Blink Action Using Data From LabVIEW
+  pinMode(digitalChannel, OUTPUT);
+  for(int i=0; i<numBlinks; i++)
+  {
+    digitalWrite(digitalChannel, HIGH);
+    delay(onTime);
+    digitalWrite(digitalChannel, LOW);
+    delay(offTime);
+  }
+  
+  //Fill Response Packet Buffer With Response Data
+  responsePacketBuffer[0] = 0xFF;                                              //SoF Always 0xFF
+  responsePacketBuffer[1] = 14;                                                //PACKET SIZE
+  responsePacketBuffer[2] = commandPacketBuffer[2];                            //PACKET NUM (MSB) This Matches The Packet Number We Got From LV
+  responsePacketBuffer[3] = commandPacketBuffer[3];                            //PACKET NUM (LSB)
+  responsePacketBuffer[4] = 0x00;                                              //STATUS - OK 
+  responsePacketBuffer[5] = 'A';                                               //Response Data "All Done"
+  responsePacketBuffer[6] = 'l';
+  responsePacketBuffer[7] = 'l';
+  responsePacketBuffer[8] = ' ';
+  responsePacketBuffer[9] = 'D';
+  responsePacketBuffer[10] = 'o';
+  responsePacketBuffer[11] = 'n';
+  responsePacketBuffer[12] = 'e';    
+  responsePacketBuffer[13] = computeChecksum(responsePacketBuffer);  //CHECKSUM - Use Helper Function To Calculate Checksum After Buffer Is Loaded With All Response Data
+  
+}
+
 
 

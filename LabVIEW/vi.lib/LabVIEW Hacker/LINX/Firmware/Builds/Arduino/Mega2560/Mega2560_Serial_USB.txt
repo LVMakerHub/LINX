@@ -1,1 +1,0 @@
-LINX firmware for the Arduino Mega2560 with Serial/USB interface enabled.

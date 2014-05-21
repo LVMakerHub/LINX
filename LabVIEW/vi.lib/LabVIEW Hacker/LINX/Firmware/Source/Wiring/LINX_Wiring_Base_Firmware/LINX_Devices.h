@@ -21,6 +21,7 @@
   //Enable Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
+  #define LINX_ANALOG_INPUT_ENABLED 1  
   //#define LINX_ANALOG_OUTPUT_ENABLED 1
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
@@ -301,24 +302,11 @@
 #ifdef ARDUINO_NANO
   //Device ID
   #define DEVICE_FAMILY 2
-  #define DEVICE_ID 2
-  //Peripheral
-  #define LINX_DIGITAL_ENABLED 1
-  #define LINX_I2C_ENABLED 1
-  #define LINX_ANALOG_INPUT_ENABLED 1
-  #define AI_RESOLUTION 10
-  //#define LINX_ANALOG_OUTPUT_ENABLED 1
-  #define LINX_PWM_ENABLED 1
-  #define LINX_SPI_ENABLED 1
-  //#define LINX_UART_ENABLED 1
-  #define LINX_NVS_ENABLED 1
-#endif //ARDUINO_NANO
-/*----------------------------------------- NANO --------------------------------------*/
-#ifdef ARDUINO_NANO
-  //Device ID
-  #define DEVICE_FAMILY 2
   #define DEVICE_ID 5
-  //Peripheral
+  #define DEVICE_NAME_LENGTH 11
+  unsigned char deviceName[] = {'A', 'r', 'd', 'u', 'i', 'n', 'o',' ','N','a','n','o'};
+  
+  //Peripheral Enable
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
   #define LINX_ANALOG_INPUT_ENABLED 1
@@ -326,8 +314,30 @@
   //#define LINX_ANALOG_OUTPUT_ENABLED 1
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
-  //#define LINX_UART_ENABLED 1
+  #define LINX_UART_ENABLED 1
   #define LINX_NVS_ENABLED 1
+  
+  //Describe Peripherals  
+  #define NUMDIOCHANS 14
+  unsigned char DIOChans[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+  #define NUMAICHANS 6
+  unsigned char AIChans[] = {0, 1, 2, 3, 4, 5};
+  #define AI_RESOLUTION 10
+  #define AI_REFERENCE 5
+  #define NUMAOCHANS 0
+  unsigned char AOChans[] = {};
+  #define NUMPWMCHANS 7
+  unsigned char PWMChans[] = {3, 5, 6, 9, 10, 11};
+  #define NUMQECHANS 0
+  unsigned char QEChans[] = {};
+  #define NUMUARTCHANS 1
+  unsigned char UARTChans[] = {0};
+  #define NUMI2CCHANS 1
+  unsigned char I2CChans[] = {0};
+  #define NUMSPICHANS 1
+  unsigned char SPIChans[] = {0};
+  #define NUMCANCHANS 0
+  unsigned char CANChans[] = {};
 #endif //ARDUINO_NANO
 
 
