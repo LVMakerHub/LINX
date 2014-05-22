@@ -26,10 +26,17 @@
 //#define CHIPKIT_WF32
 
 //    ARDUINO
-//#define ARDUINO_UNO
+#define ARDUINO_UNO
 //#define ARDUINO_MEGA2560
-#define ARDUINO_LEONARDO
+//#define ARDUINO_LEONARDO
 //#define ARDUINO_NANO
+
+//    PJRC
+//#define TEENSY_10
+//#define TEENSY_20
+//#define TEENSY_30
+//#define TEENSY_31
+//#define TEENSY++
 /*----------------------------------- INTERFACE ---------------------------------------*/
 
 //Serial
@@ -50,7 +57,7 @@
 /*------------------------------------- DEBUG -----------------------------------------*/
 //Uncomment To Enable Debugging On The Secondary Serial Port.
 
-#define DEBUG_ENABLED 1
+//#define DEBUG_ENABLED 1
 
 
 /****************************************************************************************
