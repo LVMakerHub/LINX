@@ -26,7 +26,7 @@
 //#define CHIPKIT_WF32
 
 //    ARDUINO
-#define ARDUINO_UNO
+//#define ARDUINO_UNO
 //#define ARDUINO_MEGA2560
 //#define ARDUINO_LEONARDO
 //#define ARDUINO_NANO
@@ -34,8 +34,8 @@
 //    PJRC
 //#define TEENSY_10
 //#define TEENSY_20
-//#define TEENSY_30
-//#define TEENSY_31
+//#define PJRC_TEENSY_3_0
+#define PJRC_TEENSY_3_1
 //#define TEENSY++
 /*----------------------------------- INTERFACE ---------------------------------------*/
 

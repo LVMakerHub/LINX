@@ -228,4 +228,5 @@
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
 	</Item>
+	<Item Name="Devices - PJRC.ctl" Type="VI" URL="../Private/Type Defs/Devices - PJRC.ctl"/>
 </Library>

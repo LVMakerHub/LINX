@@ -336,22 +336,24 @@
 ****************************************************************************************/
 
 /*----------------------------------------- TEENSY 3.0  --------------------------------------*/
-#ifdef PJRC_TEENSY_30
+// mr 2014-05-23 test code
+  #ifdef PJRC_TEENSY_3_0
   //Device ID
   #define DEVICE_FAMILY 3
   #define DEVICE_ID 2
+  #define DEVICE_NAME_LENGTH 15
+  unsigned char deviceName[] = {'P', 'J', 'R', 'C', ' ', 'T', 'e','e','n','s','y', ' ', '3', '.','0'};
   //Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
   #define LINX_ANALOG_INPUT_ENABLED 1
-  #define AI_RESOLUTION 13
   //#define LINX_ANALOG_OUTPUT_ENABLED 1
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
   #define LINX_UART_ENABLED 1
   #define LINX_NVS_ENABLED 1
 
-// Describe Peripherals - mdr 2014-05-16 
+// Describe Peripherals - mr 2014-05-23
   #define NUMDIOCHANS 24 
   unsigned char DIOChans[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}; 
   #define NUMAICHANS 14 
@@ -372,26 +374,28 @@
   unsigned char SPIChans[] = {0}; 
   #define NUMCANCHANS 0 
   unsigned char CANChans[] = {}; 
-#endif //PJRC_TEENSY_30 - mdr
+#endif //PJRC_TEENSY_3_0 - mr 2014-05-23
 
 /*----------------------------------------- TEENSY 3.1  --------------------------------------*/
-// mdr 2014-04-30 test code
-#ifdef PJRC_TEENSY_31
+// mr 2014-05-23 test code
+#ifdef PJRC_TEENSY_3_1
   //Device ID
   #define DEVICE_FAMILY 3
   #define DEVICE_ID 3
+  #define DEVICE_NAME_LENGTH 15
+  unsigned char deviceName[] = {'P', 'J', 'R', 'C', ' ', 'T', 'e','e','n','s','y', ' ', '3', '.','1'};
+
   //Peripheral
   #define LINX_DIGITAL_ENABLED 1
   #define LINX_I2C_ENABLED 1
   #define LINX_ANALOG_INPUT_ENABLED 1
-  #define AI_RESOLUTION 13
   //#define LINX_ANALOG_OUTPUT_ENABLED 1
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
   #define LINX_UART_ENABLED 1
   #define LINX_NVS_ENABLED 1
 
-// Describe Peripherals - mdr 2014-05-16
+// Describe Peripherals - mr 2014-05-23
   #define NUMDIOCHANS 24 
   unsigned char DIOChans[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}; 
   #define NUMAICHANS 21 
@@ -412,5 +416,6 @@
   unsigned char SPIChans[] = {0}; 
   #define NUMCANCHANS 0 
   unsigned char CANChans[] = {}; 
-#endif //PJRC_TEENSY_31 - mdr
+#endif //PJRC_TEENSY_3_1 - mr
+
 
