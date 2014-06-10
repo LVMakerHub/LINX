@@ -11,9 +11,9 @@
 
 //Include WIFI Headers If Necissary
 #ifdef LINX_WIFI_INTERFACE_ENABLED 
-  //#include <WiFiShieldOrPmodWiFi_G.h> 
-  //#include <DNETcK.h> 
-  //#include <DWIFIcK.h>                               
+  #include <WiFiShieldOrPmodWiFi_G.h> 
+  #include <DNETcK.h> 
+  #include <DWIFIcK.h>                               
 #endif //LINX_WIFI_INTERFACE_ENABLED
 
 #ifdef LINX_I2C_ENABLED
@@ -1353,7 +1353,9 @@ void setupLINXWifiInterface()
   {
      case 0x00:
        //No Security
-       Serial1.println("Connecting To Unsecure Network...");
+       #ifdef DEBUG_ENABLED  
+         Serial1.println("Connecting To Unsecure Network...");
+       #endif //DEBUG_ENABLED
        conID = DWIFIcK::connect(szSsid, &wifiStatus);
        break;
      case 0x01:
@@ -1365,13 +1367,19 @@ void setupLINXWifiInterface()
         conID = DWIFIcK::connect(szSsid, szPassPhrase, &wifiStatus);
        break;
      case 0x03:
-       Serial1.println("WEP40");
+       #ifdef DEBUG_ENABLED  
+         Serial1.println("WEP40");
+       #endif //DEBUG_ENABLED
        break;
      case 0x04:
-       Serial1.println("WEP104");
+       #ifdef DEBUG_ENABLED  
+         Serial1.println("WEP104");
+       #endif //DEBUG_ENABLED
        break;
      default:
-       Serial1.println("Unknown");
+       #ifdef DEBUG_ENABLED  
+         Serial1.println("Unknown");
+       #endif //DEBUG_ENABLED
        break;     
    }
   
@@ -1380,7 +1388,7 @@ void setupLINXWifiInterface()
   if(conID != DWIFIcK::INVALID_CONNECTION_ID)
   {
     #ifdef DEBUG_ENABLED          
-    Serial1.println("Connecting To Wifi Network");
+      Serial1.println("Connecting To Wifi Network");
     #endif  //DEBUG_ENABLED
     wifiState = INITIALIZE;
   }
@@ -2705,7 +2713,6 @@ void digitalBlinkCustomCommand(unsigned char* commandPacketBuffer, unsigned char
   responsePacketBuffer[11] = 'n';
   responsePacketBuffer[12] = 'e';    
   responsePacketBuffer[13] = computeChecksum(responsePacketBuffer);  //CHECKSUM - Use Helper Function To Calculate Checksum After Buffer Is Loaded With All Response Data
-  
 }
 
 
