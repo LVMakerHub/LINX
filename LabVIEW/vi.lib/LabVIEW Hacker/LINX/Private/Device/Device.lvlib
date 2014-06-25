@@ -70,6 +70,7 @@
 		<Item Name="Get DIO Channels.vi" Type="VI" URL="../Utilities/Get DIO Channels.vi"/>
 		<Item Name="Check Firmware Version.vi" Type="VI" URL="../Utilities/Check Firmware Version.vi"/>
 		<Item Name="Load Device Config.vi" Type="VI" URL="../Utilities/Load Device Config.vi"/>
+		<Item Name="LINX VI API Version.vi" Type="VI" URL="../Utilities/LINX VI API Version.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
