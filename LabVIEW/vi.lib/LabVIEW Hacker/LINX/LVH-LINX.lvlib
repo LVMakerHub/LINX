@@ -68,7 +68,9 @@
 					<Item Name="SPI Clock Phase.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Phase.ctl"/>
 					<Item Name="SPI Clock Polarity.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Polarity.ctl"/>
 					<Item Name="SPI Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Configuration.ctl"/>
+					<Item Name="SPI CS Config.ctl" Type="VI" URL="../Public/Peripherals/SPI/SPI CS Config.ctl"/>
 					<Item Name="SPI CS Logic Level.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI CS Logic Level.ctl"/>
+					<Item Name="SPI Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Mode.ctl"/>
 				</Item>
 			</Item>
 			<Item Name="All Firmware Data FGV States.ctl" Type="VI" URL="../Private/Type Defs/All Firmware Data FGV States.ctl"/>
@@ -170,7 +172,9 @@
 				<Item Name="SPI Configure.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Configure.vi"/>
 				<Item Name="SPI Open.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Open.vi"/>
 				<Item Name="SPI Set Frame Size.vi" Type="VI" URL="../Private/Device/Peripheral/SPI/SPI Set Frame Size.vi"/>
-				<Item Name="SPI Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read.vi"/>
+				<Item Name="SPI Write Read 1 Frame.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read 1 Frame.vi"/>
+				<Item Name="SPI Write Read N Frames.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read N Frames.vi"/>
+				<Item Name="SPi Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPi Write Read.vi"/>
 			</Item>
 			<Item Name="UART" Type="Folder">
 				<Item Name="UART Close.vi" Type="VI" URL="../Public/Peripherals/UART/UART Close.vi"/>
