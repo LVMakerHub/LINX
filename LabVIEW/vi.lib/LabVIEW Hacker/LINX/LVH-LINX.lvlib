@@ -60,6 +60,9 @@
 					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
 					<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
 				</Item>
+				<Item Name="I2C" Type="Folder">
+					<Item Name="EOF.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/I2C/EOF.ctl"/>
+				</Item>
 				<Item Name="PWM" Type="Folder">
 					<Item Name="PWM Duty Cycle Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/PWM/PWM Duty Cycle Control.ctl"/>
 				</Item>
