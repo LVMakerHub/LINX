@@ -18,6 +18,7 @@
 		<Item Name="Set Sleep Enabled.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/Accelerometer/MPU60X0/Set Sleep Enabled.vi"/>
 	</Item>
 	<Item Name="DeviceAddresses.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/Accelerometer/MPU60X0/DeviceAddresses.ctl"/>
-	<Item Name="Read All Data.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/Accelerometer/MPU60X0/Read All Data.vi"/>
-	<Item Name="Init.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/Accelerometer/MPU60X0/Init.vi"/>
+	<Item Name="Read.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/Accelerometer/MPU60X0/Read.vi"/>
+	<Item Name="Open.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/Accelerometer/MPU60X0/Open.vi"/>
+	<Item Name="Close.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Sensors/Accelerometer/MPU60X0/Close.vi"/>
 </Library>
