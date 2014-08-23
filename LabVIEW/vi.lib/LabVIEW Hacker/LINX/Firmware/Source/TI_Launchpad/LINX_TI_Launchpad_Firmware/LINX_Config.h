@@ -30,7 +30,11 @@
 //#define ARDUINO_MEGA2560
 //#define ARDUINO_LEONARDO
 //#define ARDUINO_NANO
+
+//TI Launchpad
 #define STELLARIS_LAUNCHPAD
+//#define MSP430F5529_LAUNCHPAD
+//#define MSP430G2553_LAUNCHPAD
 /*----------------------------------- INTERFACE ---------------------------------------*/
 
 //Serial
@@ -51,7 +55,7 @@
 /*------------------------------------- DEBUG -----------------------------------------*/
 //Uncomment To Enable Debugging On The Secondary Serial Port.
 
-#define DEBUG_ENABLED 1
+//#define DEBUG_ENABLED 1
 
 
 /****************************************************************************************

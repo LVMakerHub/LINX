@@ -368,11 +368,10 @@
   #define LINX_I2C_ENABLED 1
   //#define LINX_ANALOG_OUTPUT_ENABLED 1
   #define LINX_ANALOG_INPUT_ENABLED 1
-  #define NUMAICHANS 2
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
   #define LINX_UART_ENABLED 1
-  #define DEBUG_ENABLED
+  //#define DEBUG_ENABLED
   //#define LINX_NVS_ENABLED 1 Do NOT use EEPROM on Rev A1/B0 of device LM4F120 - See errata (locate version on physical chip) A3/B1 O.K.
   
   //Describe Peripherals  
@@ -389,13 +388,106 @@
   unsigned char PWMChans[] = {2,3,4,7,14,15,17,19,23,24,25,26,30,31,32,33,34,35,36,37,38,39,40};
   #define NUMQECHANS 0
   unsigned char QEChans[] = {};
-  #define NUMUARTCHANS 0
-  unsigned char UARTChans[] = {0, 1};
-  #define NUMI2CCHANS 0
-  unsigned char I2CChans[] = {0};
-  #define NUMSPICHANS 0
-  unsigned char SPIChans[] = {0};
+  #define NUMUARTCHANS 2
+  unsigned char UARTChans[] = {2,3};
+  #define NUMI2CCHANS 4
+  unsigned char I2CChans[] = {0,1,2,3};
+  #define NUMSPICHANS 3
+  unsigned char SPIChans[] = {0,1,2};
   #define NUMCANCHANS 0
   unsigned char CANChans[] = {};
 #endif //STELLARIS_LAUNCHPAD
 
+
+/*--------------------------------- Stellaris Launchpad - LM4F120 -----------------------------*/
+#ifdef MSP430F5529_LAUNCHPAD
+  //Device ID
+  #define MSP430
+  #define DEVICE_FAMILY 2
+  #define DEVICE_ID 8
+  #define DEVICE_NAME_LENGTH 24
+  unsigned char deviceName[] = {'T', 'I', ' ', 'L', 'a', 'u', 'n','c','h','p','a','d',' ', 'M', 'S', 'P', '4','3','0','f','5','5','2','9'};
+  //Enable Peripheral
+  #define LINX_DIGITAL_ENABLED 1
+  #define LINX_I2C_ENABLED 1
+  //#define LINX_ANALOG_OUTPUT_ENABLED 1
+  #define LINX_ANALOG_INPUT_ENABLED 1
+  #define LINX_PWM_ENABLED 1
+  #define LINX_SPI_ENABLED 1
+  #define LINX_UART_ENABLED 1
+  //#define DEBUG_ENABLED
+  #ifdef __MSP430_HAS_FLASH2__
+  //  #define LINX_NVS_ENABLED 1
+  #endif
+  
+  //Describe Peripherals  
+  #define NUMDIOCHANS 39
+  unsigned char DIOChans[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,17,18,19,
+                              23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
+                              41,42,43,44}; //PUSH1 PUSH2 LED1 LED2
+  #define NUMAICHANS 10
+  unsigned char AIChans[] = {2,6,23,24,25,26,27,28,138,139}; //138 = TEMP, 139 = VCC/2
+  #define AI_RESOLUTION 10
+  #define AI_REFERENCE 3.3
+  #define NUMAOCHANS 0
+  unsigned char AOChans[] = {};
+  #define NUMPWMCHANS 8
+  unsigned char PWMChans[] = {12,19,35,36,37,38,39,40};
+  #define NUMQECHANS 0
+  unsigned char QEChans[] = {};
+  #define NUMUARTCHANS 1
+  unsigned char UARTChans[] = {1};
+  #define NUMI2CCHANS 2
+  unsigned char I2CChans[] = {0,1};
+  #define NUMSPICHANS 2
+  unsigned char SPIChans[] = {0,1};
+  #define NUMCANCHANS 0
+  unsigned char CANChans[] = {};
+#endif //MSP430F5529_LAUNCHPAD
+
+/*--------------------------------- Stellaris Launchpad - LM4F120 -----------------------------*/
+#ifdef MSP430G2553_LAUNCHPAD
+  //Device ID
+  #define MSP430
+  #define DEVICE_FAMILY 2
+  #define DEVICE_ID 10
+  #define DEVICE_MAX_BAUD 9600
+  #define DEVICE_NAME_LENGTH 24
+  unsigned char deviceName[] = {'T', 'I', ' ', 'L', 'a', 'u', 'n','c','h','p','a','d',' ', 'M', 'S', 'P', '4','3','0','G','2','5','5','3'};
+  //#define DEVICE_NAME_LENGTH 8
+  //unsigned char deviceName[] = {'M', 'S', 'P', '4','3','0','G','2'};
+  //Enable Peripheral
+  #define LINX_DIGITAL_ENABLED 1
+  #define LINX_I2C_ENABLED 1
+  //#define LINX_ANALOG_OUTPUT_ENABLED 1
+  #define LINX_ANALOG_INPUT_ENABLED 1
+  #define LINX_PWM_ENABLED 1
+  #define LINX_SPI_ENABLED 1
+  //#define LINX_UART_ENABLED 1
+  //#define DEBUG_ENABLED
+  #ifdef __MSP430_HAS_FLASH2__
+  //  #define LINX_NVS_ENABLED 1
+  #endif
+  
+  //Describe Peripherals  
+  #define NUMDIOCHANS 16
+  unsigned char DIOChans[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,18,19};
+  #define NUMAICHANS 8
+  unsigned char AIChans[] = {2,3,4,5,6,7,14,15};
+  #define AI_RESOLUTION 8
+  #define AI_REFERENCE 3.3
+  #define NUMAOCHANS 0
+  unsigned char AOChans[] = {};
+  #define NUMPWMCHANS 7
+  unsigned char PWMChans[] = {4,9,10,12,13,14,19};
+  #define NUMQECHANS 0
+  unsigned char QEChans[] = {};
+  #define NUMUARTCHANS 0
+  unsigned char UARTChans[] = {0};
+  #define NUMI2CCHANS 1
+  unsigned char I2CChans[] = {0};
+  #define NUMSPICHANS 1
+  unsigned char SPIChans[] = {0};
+  #define NUMCANCHANS 0
+  unsigned char CANChans[] = {};
+#endif //MSP430G2553_LAUNCHPAD

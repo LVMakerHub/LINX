@@ -25,7 +25,12 @@
 #endif //LINX_SPI_ENABLED
 
 #ifdef LINX_NVS_ENABLED
-  #include <EEPROM.h>
+  //#ifdef MSP430
+  //  #include <MspFlash.h>
+  //  #define EEPROM Flash
+  //#else
+    #include <EEPROM.h>
+  //#endif //MSP430
 #endif //LINX_NVS_ENABLED
 
 /****************************************************************************************
@@ -51,8 +56,12 @@
 
   unsigned short userID;
   
+#ifdef LINX_ETHERNET_INTERFACE_ENABLED
   unsigned long ethernetIP;
   unsigned short ethernetPort;  
+#endif //LINX_ETHERNET_INTERFACE_ENABLED
+
+#ifdef LINX_WIFI_INTERFACE_ENABLED
   
   unsigned long wifiIP;
   unsigned short wifiPort;
@@ -62,7 +71,14 @@
   unsigned char wifiPwSize;
   char wifiPw[64];
   
+#endif //LINX_WIFI_INTERFACE_ENABLED
+  
+#ifdef DEVICE_MAX_BAUD
+  unsigned long serialInterfaceMaxBaud = DEVICE_MAX_BAUD;
+#else
   unsigned long serialInterfaceMaxBaud = 115200;
+#endif //DEVICE_MAX_BAUD
+  
 
 //Serial Interface
 #ifdef LINX_SERIAL_INTERFACE_ENABLED
@@ -187,7 +203,7 @@ void getDeviceID(unsigned char* commandPacketBuffer, unsigned char* responsePack
   responsePacketBuffer[1] = 0x08;                                    //PACKET SIZE
   responsePacketBuffer[2] = commandPacketBuffer[2];                  //PACKET NUM (MSB)
   responsePacketBuffer[3] = commandPacketBuffer[3];                  //PACKET NUM (LSB)
-  responsePacketBuffer[4] = 0x00;                                    //STATUS
+  responsePacketBuffer[4] = 0x02;                                    //STATUS
   #ifdef DEVICE_FAMILY
     responsePacketBuffer[5] = DEVICE_FAMILY;                         //Device Family
   #else
@@ -249,6 +265,7 @@ void getUserDeviceID(unsigned char* commandPacketBuffer, unsigned char* response
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
+#ifdef LINX_ETHERNET_INTERFACE_ENABLED
 //--------------------------- setEthernetIP ---------------------------------------------//
 void setEthernetIP(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
@@ -318,6 +335,10 @@ void getEthernetPort(unsigned char* commandPacketBuffer, unsigned char* response
   responsePacketBuffer[6] = (ethernetPort & 0xFF);                   //Ethernet PORT LSB
   responsePacketBuffer[7] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
+
+#endif //LINX_ETHERNET_INTERFACE_ENABLED
+
+#ifdef LINX_WIFI_INTERFACE_ENABLED
 
 //--------------------------- setWIFIIP ---------------------------------------------//
 void setWifiIP(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
@@ -514,6 +535,7 @@ void setWifiPw(unsigned char* commandPacketBuffer, unsigned char* responsePacket
   responsePacketBuffer[5] = computeChecksum(responsePacketBuffer);   //CHECKSUM 
 }
 
+#endif //LINX_WIFI_INTERFACE_ENABLED
 
 //--------------------------- setSerialInterfaceMaxBaud ---------------------------------------------//
 void setSerialInterfaceMaxBaud(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
@@ -659,6 +681,8 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x0013: // Get Device User ID
       getUserDeviceID(commandPacketBuffer, responsePacketBuffer);
       break;
+
+#ifdef LINX_ETHERNET_INTERFACE_ENABLED
     case 0x0014: // Set Device Ethernet IP
       setEthernetIP(commandPacketBuffer, responsePacketBuffer);
       break;
@@ -670,7 +694,10 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
       break;
     case 0x0017: // Get Device Ethernet Port
       getEthernetPort(commandPacketBuffer, responsePacketBuffer);
-      break;
+      break;      
+#endif //LINX_ETHERNET_INTERFACE_ENABLED
+
+#ifdef LINX_WIFI_INTERFACE_ENABLED
     case 0x0018: // Set Device WIFI IP
       setWifiIP(commandPacketBuffer, responsePacketBuffer);
       break;
@@ -701,6 +728,8 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     //case 0x0021: // Get Device WIFI Password
       //getWifiPw(commandPacketBuffer, responsePacketBuffer);   //Not Implemented For Security Reasons (not that that's going to stop anyone :D )
       //break;
+#endif //LINX_WIFI_INTERFACE_ENABLED
+
     case 0x0022: // Set Serial Interface Max Baud
       setSerialInterfaceMaxBaud(commandPacketBuffer, responsePacketBuffer);
       break;  
@@ -984,14 +1013,16 @@ void checkForLINXSerialPacket()
       //SoF Incorrect - Corrupt Packet - Flush Buffer.
       #ifdef DEBUG_ENABLED 
         Serial1.println("SoF Failed..."); 
-      #endif
-      //Serial.flush();      
-      Serial1.println("Flushing Buffer...");
-      while(Serial.available() > 0)
-      {
-        Serial1.print(Serial.read());
-      }
-      Serial1.println("<end>");
+        //Serial.flush();      
+        Serial1.println("Flushing Buffer...");
+        while(Serial.available() > 0)
+        {
+          Serial1.print(Serial.read());
+        }
+        Serial1.println("<end>");
+      #else
+        Serial.flush(); 
+     #endif //DEBUG_ENABLED
     }   
   }
 }
@@ -2026,6 +2057,11 @@ void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* respon
   if(I2C0Open == 0)
   {
     I2C0Open = 1;
+    
+    #ifdef STELLARIS_LAUNCHPAD
+    Wire.setModule(0); 
+    #endif
+    
     Wire.begin();
   }
     
