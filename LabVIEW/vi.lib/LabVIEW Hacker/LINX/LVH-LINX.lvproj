@@ -160,7 +160,7 @@
 				<Item Name="Write.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/DIO/vis/Write.vi"/>
 				<Item Name="Write.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/Instrument Drivers/Onboard IO/I2C/vis/Write.vi"/>
 			</Item>
-			<Item Name="lvinput.dll" Type="Document" URL="../../../../../../../../Program Files (x86)/National Instruments/LabVIEW 2011/resource/lvinput.dll"/>
+			<Item Name="lvinput.dll" Type="Document" URL="../../../../../../../../../../Program Files (x86)/National Instruments/LabVIEW 2011/resource/lvinput.dll"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Item Name="Firmware Wizard" Type="EXE">
@@ -218,7 +218,7 @@
 				<Property Name="INST_productName" Type="Str">LVH LINX Apps</Property>
 				<Property Name="INST_productVersion" Type="Str">1.0.5</Property>
 				<Property Name="InstSpecBitness" Type="Str">32-bit</Property>
-				<Property Name="InstSpecVersion" Type="Str">11018015</Property>
+				<Property Name="InstSpecVersion" Type="Str">11018013</Property>
 				<Property Name="MSI_arpCompany" Type="Str">LVH</Property>
 				<Property Name="MSI_arpContact" Type="Str">labviewhacker@gmail.com</Property>
 				<Property Name="MSI_arpURL" Type="Str">http://www.labviewhacker.com/linx</Property>
