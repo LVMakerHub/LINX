@@ -1,6 +1,6 @@
 /****************************************************************************************
 ** 
-**  chipKIT_uC32 - LINX Firmware for chipKIT uC32
+**  LINX Firmware for chipKIT uC32
 **
 **  Written By:    Sam K
 **  Written On:    August 2013

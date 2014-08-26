@@ -747,7 +747,10 @@ void processCommand(unsigned char* commandPacketBuffer, unsigned char* responseP
     case 0x00E3: // I2C Read
       linxI2CRead(commandPacketBuffer, responsePacketBuffer);      
       break;
-      
+    case 0x00E4: // I2C Close
+      linxI2CClose(commandPacketBuffer, responsePacketBuffer);
+      break;
+     
     #endif  //LINX_I2C_ENABLED
 
     /************************************************************************************

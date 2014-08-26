@@ -1,6 +1,6 @@
 /****************************************************************************************
 ** 
-**  chipKIT_uC32 - LINX Firmware for chipKIT uC32
+**  LINX Firmware for Arduino
 **
 **  Written By:    Sam K
 **  Written On:    August 2013
@@ -13,7 +13,7 @@
 
 /***************************************************************************************
 ** 
-** Edit #defines in LINX_Config.h to configure the firmware for a specific chipKIT board
+** Edit #defines in LINX_Config.h to configure the firmware for a specific Arduino board
 **
 ****************************************************************************************/
 
