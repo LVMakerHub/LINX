@@ -32,8 +32,9 @@
 //#define ARDUINO_NANO
 
 //TI Launchpad
-#define STELLARIS_LAUNCHPAD
-//#define MSP430F5529_LAUNCHPAD
+//#define TIVAC_LM4C123_LAUNCHPAD
+//#define STELLARIS_LAUNCHPAD
+#define MSP430F5529_LAUNCHPAD
 //#define MSP430G2553_LAUNCHPAD
 /*----------------------------------- INTERFACE ---------------------------------------*/
 

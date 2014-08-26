@@ -2487,8 +2487,12 @@ void loadNVSConfig()
   
   userID = (EEPROM.read(NVS_USERID) << 8) | EEPROM.read(NVS_USERID+1);
   
+#ifdef LINX_ETHERNET_INTERFACE_ENABLED  
   ethernetIP = (EEPROM.read(NVS_ETHERNET_IP) << 24) |(EEPROM.read(NVS_ETHERNET_IP+1) << 16) |(EEPROM.read(NVS_ETHERNET_IP+2) << 8) | EEPROM.read(NVS_ETHERNET_IP+3);
   ethernetPort = (EEPROM.read(NVS_ETHERNET_PORT) << 8) | EEPROM.read(NVS_ETHERNET_PORT+1);
+#endif //LINX_ETHERNET_INTERFACE_ENABLED
+
+#ifdef LINX_WIFI_INTERFACE_ENABLED
 
   wifiIP = (EEPROM.read(NVS_WIFI_IP) << 24) |(EEPROM.read(NVS_WIFI_IP+1) << 16) |(EEPROM.read(NVS_WIFI_IP+2) << 8) | EEPROM.read(NVS_WIFI_IP+3);
   wifiPort = (EEPROM.read(NVS_WIFI_PORT) << 8) | EEPROM.read(NVS_WIFI_PORT+1);
@@ -2514,7 +2518,8 @@ void loadNVSConfig()
   {
     wifiPw[i] = EEPROM.read(i+NVS_WIFI_PW);    
   }
-  
+#endif //LINX_WIFI_INTERFACE_ENABLED
+
   //serialInterfaceMaxBaud = ((unsigned long)(((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD)<<24) | ((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD+1)<<16) | ((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD+2)<<8) | ((unsigned long)EEPROM.read(NVS_SERIAL_INTERFACE_MAX_BAUD+3))));
   //if(serialInterfaceMaxBaud < 200 | serialInterfaceMaxBaud > 200000)
   //{
@@ -2530,6 +2535,8 @@ void loadNVSConfig()
    Serial1.println("Serial Max Baud  = ");
    Serial1.println(serialInterfaceMaxBaud, DEC);
    
+   #ifdef LINX_ETHERNET_INTERFACE_ENABLED
+   
    Serial1.print("Ethernet IP        = ");
    Serial1.print((ethernetIP>>24) & 0xFF, DEC);
    Serial1.print(".");
@@ -2542,6 +2549,10 @@ void loadNVSConfig()
    Serial1.print("Ethernet Port      = ");
    Serial1.println(ethernetPort, DEC);
    
+   #endif //LINX_ETHERNET_INTERFACE_ENABLED
+   
+   #ifdef LINX_WIFI_INTERFACE_ENABLED
+
    Serial1.print("WIFI IP            = ");
    Serial1.print((wifiIP>>24) & 0xFF, DEC);
    Serial1.print(".");
@@ -2596,6 +2607,7 @@ void loadNVSConfig()
      Serial1.print(wifiPw[i]);
    }
    Serial1.println();
+ #endif //LINX_WIFI_INTERFACE_ENABLED
  #endif  //DEBUG_ENABLED
   
 }

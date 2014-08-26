@@ -356,6 +356,12 @@
 **  Texas Instruments Launchpad
 ****************************************************************************************/
 
+/*--------------------------------- Tiva C Launchpad - LM4C123 -----------------------------*/
+#ifdef TIVAC_LM4C123_LAUNCHPAD
+  #define LINX_NVS_ENABLED 1
+  #define STELLARIS_LAUNCHPAD
+#endif //TIVAC_LM4C123_LAUNCHPAD
+
 /*--------------------------------- Stellaris Launchpad - LM4F120 -----------------------------*/
 #ifdef STELLARIS_LAUNCHPAD
   //Device ID
@@ -415,7 +421,7 @@
   #define LINX_PWM_ENABLED 1
   #define LINX_SPI_ENABLED 1
   #define LINX_UART_ENABLED 1
-  //#define DEBUG_ENABLED
+  #define DEBUG_ENABLED
   #ifdef __MSP430_HAS_FLASH2__
   //  #define LINX_NVS_ENABLED 1
   #endif
