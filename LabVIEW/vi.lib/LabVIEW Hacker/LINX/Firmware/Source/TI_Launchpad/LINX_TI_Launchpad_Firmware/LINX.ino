@@ -2058,9 +2058,9 @@ void linxI2COpenMaster(unsigned char* commandPacketBuffer, unsigned char* respon
   {
     I2C0Open = 1;
     
-    #ifdef STELLARIS_LAUNCHPAD
+    //#ifdef STELLARIS_LAUNCHPAD
     Wire.setModule(0); 
-    #endif
+    //#endif
     
     Wire.begin();
   }

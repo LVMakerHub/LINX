@@ -433,8 +433,8 @@
                               41,42,43,44}; //PUSH1 PUSH2 LED1 LED2
   #define NUMAICHANS 10
   unsigned char AIChans[] = {2,6,23,24,25,26,27,28,138,139}; //138 = TEMP, 139 = VCC/2
-  #define AI_RESOLUTION 10
-  #define AI_REFERENCE 3.3
+  #define AI_RESOLUTION 12
+  #define AI_REFERENCE 2.5
   #define NUMAOCHANS 0
   unsigned char AOChans[] = {};
   #define NUMPWMCHANS 8

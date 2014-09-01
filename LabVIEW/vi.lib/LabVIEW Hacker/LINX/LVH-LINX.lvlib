@@ -52,6 +52,7 @@
 					<Item Name="myRI0-1950.vi" Type="VI" URL="../Private/Type Defs/Devices/NI/myRI0-1950.vi"/>
 				</Item>
 				<Item Name="Device Family.ctl" Type="VI" URL="../Private/Type Defs/Device Family.ctl"/>
+				<Item Name="Device Type.ctl" Type="VI" URL="../Private/Type Defs/Devices/Device Type.ctl"/>
 				<Item Name="Generic Device.ctl" Type="VI" URL="../Private/Type Defs/Devices/Generic Device.ctl"/>
 			</Item>
 			<Item Name="Peripherals" Type="Folder">
@@ -109,7 +110,7 @@
 			</Item>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
-			<Item Name="Get Device Config.vi" Type="VI" URL="../Private/Utilties/Get Device Config.vi"/>
+			<Item Name="Get Device Config_OLD.vi" Type="VI" URL="../Private/Utilties/Get Device Config_OLD.vi"/>
 			<Item Name="Firmware Wizard.vi" Type="VI" URL="../../../../project/LabVIEW Hacker/LINX/Firmware Wizard.vi"/>
 			<Item Name="Get Firmware Program Interfaces.vi" Type="VI" URL="../Private/Utilties/Get Firmware Program Interfaces.vi"/>
 			<Item Name="Get Firmware Pogram Interface Index.vi" Type="VI" URL="../Private/Utilties/Get Firmware Pogram Interface Index.vi"/>
