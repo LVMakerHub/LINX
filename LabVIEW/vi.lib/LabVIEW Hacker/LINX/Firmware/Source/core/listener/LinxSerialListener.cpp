@@ -165,18 +165,18 @@ int LinxSerialListener::CheckForCommands()
 	switch(State)
 	{				
 		case CONNECTED:    
-			LinxConnection.Connected();
+			Connected();
 			break;
 		case CLOSE:    			
-			LinxConnection.Close();
-			LinxConnection.State = START;
+			Close();
+			State = START;
 			break;	
 		case EXIT:
-			LinxConnection.Exit();
+			Exit();
 			exit(-1);
 			break;				
 	}
 }
 
 // Pre Instantiate Object
-LinxSerialListener LinxConnection = LinxSerialListener();
+LinxSerialListener LinxSerialConnection = LinxSerialListener();

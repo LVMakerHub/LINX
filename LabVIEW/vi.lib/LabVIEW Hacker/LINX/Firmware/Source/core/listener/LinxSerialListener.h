@@ -58,6 +58,6 @@ class LinxSerialListener : public LinxListener
 	
 };
 
-extern LinxSerialListener LinxConnection;
+extern LinxSerialListener LinxSerialConnection;
 
 #endif //LINX_SERIAL_LISTENER_H

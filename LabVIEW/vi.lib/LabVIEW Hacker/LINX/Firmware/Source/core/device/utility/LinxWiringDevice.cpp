@@ -1,4 +1,8 @@
 /****************************************************************************************
+**  Defines
+****************************************************************************************/		
+
+/****************************************************************************************
 **  Includes
 ****************************************************************************************/	
 #if DEVICE_FAMILY == 2	//Arduino
@@ -35,12 +39,61 @@ LinxWiringDevice::LinxWiringDevice( )
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
-unsigned long LinxWiringDevice::GetMilliSeconds()
+void LinxWiringDevice::DelayMs(unsigned long ms)
+{
+	delay(ms);
+} 
+		
+//Debug
+void LinxWiringDevice::DebugPrint(unsigned char numBytes, const char* message)
+{	
+	#if DEBUG_ENABLED == 1
+		for(int i=0; i<numBytes; i++)
+		{			
+			Serial1.print(message[i]);
+		}
+		Serial1.print("\n\r");
+	#endif 
+}
+
+void LinxWiringDevice::DebugPrint(const char *s)
+{		
+	#if DEBUG_ENABLED == 1
+		Serial1.print(s);
+	#endif 
+}
+
+void LinxWiringDevice::DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer)
+{
+	#if DEBUG_ENABLED == 1
+		if(direction == RX)
+		{
+			Serial1.print("Received :: ");
+		}
+		else if(direction == TX)
+		{
+			Serial1.print("Sending  :: ");
+		}
+		for(int i=0; i<packetBuffer[1]; i++)
+		{			
+			Serial1.print("[");
+			Serial1.print(packetBuffer[i], HEX);
+			Serial1.print("]");
+		}
+		Serial1.print("\n\r");
+		if(direction == TX)
+		{
+			Serial1.print("\n\r");	//Print Extra New Line After TX
+		}
+	#endif
+}
+
+unsigned long LinxWiringDevice::LinxWiringDevice::GetMilliSeconds()
 {
 	return millis();
 }
 
-unsigned long LinxWiringDevice::GetSeconds()
+unsigned long LinxWiringDevice::LinxWiringDevice::GetSeconds()
 {
 	return (millis() / 1000);
 }
@@ -252,21 +305,20 @@ int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, un
 	for(index=0; index < NumUartSpeeds; index++)
 	{
 			if(baudRate < *(UartSupportedSpeeds+index))
-			{
-				if(index != 0)
-				{
-					index = index - 1; //Use Fastest Speed Below Target Speed					
-					Serial.begin(*(UartSupportedSpeeds+index));
-					*actualBaud = *(UartSupportedSpeeds+index);
-					return L_OK;
-				}
-				//Target Baud Less Than Slowest, Use Slowest
-			}
-			//If Target Speed Is Higher Than Max Speed Use Max Speed				
-	}	
-	//Target Baud >= Max Buad, Open At Max Baud
-	Serial.begin(*(UartSupportedSpeeds+(NumUartSpeeds-1)));
-	*actualBaud = *(UartSupportedSpeeds+(NumUartSpeeds-1));	
+			{		
+				//Previous Index Was Closest Supported Baud Without Going Over
+				break;
+			}			
+	}
+	
+	//Once Loop Complets Index Is One Higher Than The Correct Baud, But Could Be Zero So Check And Decrement Accordingly
+	//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud...Is This Specific To gcc-pic32?
+	if(index != 0)
+	{
+		index = index -1;
+	}
+	Serial.begin(*(UartSupportedSpeeds+(index)));
+	*actualBaud = *(UartSupportedSpeeds+(index));	
 	
 	return L_OK;
 }
