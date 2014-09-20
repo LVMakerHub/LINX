@@ -22,22 +22,23 @@ LinxSerialListener::LinxSerialListener()
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
-int LinxSerialListener::Start(LinxDevice &linxDev, unsigned char uartChan)
+int LinxSerialListener::Start(LinxDevice* linxDev, unsigned char uartChan)
 {
+	LinxDev = linxDev;
 	ListenerChan = uartChan;
 	unsigned long acutalBaud = 0;
 	ListenerChan = uartChan;
-	linxDev.UartOpen(ListenerChan, 9600, &acutalBaud);
+	LinxDev->UartOpen(ListenerChan, 9600, &acutalBaud);
 	
 	State = CONNECTED;
 }
 
-int LinxSerialListener::Connected(LinxDevice &linxDev)
+int LinxSerialListener::Connected()
 {
 	unsigned char bytesAvailable = 0;	
 	
 	//Check How Many Bytes Received, Need At Least 2 To Get SoF And Packet Size
-	linxDev.UartGetBytesAvailable(ListenerChan, &bytesAvailable);
+	LinxDev->UartGetBytesAvailable(ListenerChan, &bytesAvailable);
 	
 	if(bytesAvailable > 0)
 	{
@@ -50,7 +51,7 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 		//DEBUGDEBUG(">2 Bytes Available");
 		//Check for valid SoF
 		unsigned char bytesRead = 0;
-		linxDev.UartRead(ListenerChan, 2, recBuffer, &bytesRead);	
+		LinxDev->UartRead(ListenerChan, 2, recBuffer, &bytesRead);	
 		
 		//DEBUG
 		Serial1.print("Got Frist Two ");
@@ -64,7 +65,7 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 		if(recBuffer[0] == 0xFF)
 		{
 			//SoF is valid. Check If Entire Packet Has Been Received
-			linxDev.UartGetBytesAvailable(ListenerChan, &bytesAvailable);
+			LinxDev->UartGetBytesAvailable(ListenerChan, &bytesAvailable);
 		   
 			if(bytesAvailable < (recBuffer[1] - 2) )
 			{
@@ -74,7 +75,7 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 				while(bytesAvailable < (recBuffer[1] - 2) )
 				{
 					//DEBUGDEBUG("WAITING!!!");
-					linxDev.UartGetBytesAvailable(ListenerChan, &bytesAvailable);
+					LinxDev->UartGetBytesAvailable(ListenerChan, &bytesAvailable);
 					
 					//DEBUG
 					Serial1.print("Bytes At Port:  ");	
@@ -85,8 +86,8 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 						//DEBUG
 						Serial1.println("Timeout Waiting For Rest Of Packet");
 						//Flush
-						linxDev.UartGetBytesAvailable(ListenerChan, &bytesAvailable);
-						linxDev.UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead);
+						LinxDev->UartGetBytesAvailable(ListenerChan, &bytesAvailable);
+						LinxDev->UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead);
 						return -1;
 					}
 					delay(1);
@@ -95,7 +96,7 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 			}
 						
 			//Full Packet Received			
-			linxDev.UartRead(ListenerChan, (recBuffer[1] - 2), (recBuffer+2), &bytesRead);
+			LinxDev->UartRead(ListenerChan, (recBuffer[1] - 2), (recBuffer+2), &bytesRead);
 			
 			//DEBUG
 			Serial1.print("Received ");
@@ -112,7 +113,7 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 			{		
 				//DEBUGDEBUG("Checksum Passed\n");
 				//Process Packet
-				ProcessCommand(recBuffer, sendBuffer, linxDev);
+				ProcessCommand(recBuffer, sendBuffer);
 				
 				//DEBUG
 				Serial1.print("Sending ");
@@ -125,15 +126,15 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 				Serial1.println("");
 			
 				//Send Response Packet      
-				linxDev.UartWrite(ListenerChan, sendBuffer[1], sendBuffer);		
+				LinxDev->UartWrite(ListenerChan, sendBuffer[1], sendBuffer);		
 			}
 			else
 			{         
 				//DEBUG
 				Serial1.println("Checksum Failed");
 				//Flush
-				linxDev.UartGetBytesAvailable(ListenerChan, &bytesAvailable);
-				linxDev.UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead);
+				LinxDev->UartGetBytesAvailable(ListenerChan, &bytesAvailable);
+				LinxDev->UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead);
 			}
 		}
 		else
@@ -141,8 +142,8 @@ int LinxSerialListener::Connected(LinxDevice &linxDev)
 			//DEBUG
 			Serial1.println("SoF Failed");
 			//Flush
-			linxDev.UartGetBytesAvailable(ListenerChan, &bytesAvailable);
-			linxDev.UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead); 
+			LinxDev->UartGetBytesAvailable(ListenerChan, &bytesAvailable);
+			LinxDev->UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead); 
 		}
 	}
 	
@@ -158,3 +159,24 @@ int LinxSerialListener::Exit()
 {
 	return -1;
 }
+
+int LinxSerialListener::CheckForCommands()
+{
+	switch(State)
+	{				
+		case CONNECTED:    
+			LinxConnection.Connected();
+			break;
+		case CLOSE:    			
+			LinxConnection.Close();
+			LinxConnection.State = START;
+			break;	
+		case EXIT:
+			LinxConnection.Exit();
+			exit(-1);
+			break;				
+	}
+}
+
+// Pre Instantiate Object
+LinxSerialListener LinxConnection = LinxSerialListener();

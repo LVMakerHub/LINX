@@ -56,6 +56,11 @@ int LinxListener::Exit()
 	return -1;
 }
 
+int LinxListener::CheckForCommands()
+{
+	return -1;
+}
+
 
 
 unsigned char LinxListener::ComputeChecksum(unsigned char* packetBuffer)
@@ -83,9 +88,9 @@ void LinxListener::StatusResponse(unsigned char* commandPacketBuffer, unsigned c
 }
 
 
-int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, LinxDevice &linxDev)
+int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
-	//DEBUG linxDev.DebugPrintCmdPacket(commandPacketBuffer);
+	//DEBUG LinxDev->DebugPrintCmdPacket(commandPacketBuffer);
 		
 	//Store Some Local Values For Convenience
 	unsigned char commandLength = commandPacketBuffer[1];
@@ -104,23 +109,23 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		break;
 	 
 	case 0x0003: // Get Device ID     
-		responsePacketBuffer[5] = linxDev.DeviceFamily;
-		responsePacketBuffer[6] = linxDev.DeviceID;    
+		responsePacketBuffer[5] = LinxDev->DeviceFamily;
+		responsePacketBuffer[6] = LinxDev->DeviceID;    
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 2, L_OK); 
 		break;	
 		
 	case 0x0004: //Get LINX API Version
-		responsePacketBuffer[5] = linxDev.LinxApiMajor;
-		responsePacketBuffer[6] = linxDev.LinxApiMinor;
-		responsePacketBuffer[7] = linxDev.LinxApiSubminor;   
+		responsePacketBuffer[5] = LinxDev->LinxApiMajor;
+		responsePacketBuffer[6] = LinxDev->LinxApiMinor;
+		responsePacketBuffer[7] = LinxDev->LinxApiSubminor;   
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 3, L_OK); 
 		break;
 		
 	case 0x0005: //Get UART Max Baud
-		responsePacketBuffer[5] = (linxDev.UartMaxBaud>>24) & 0xFF;
-		responsePacketBuffer[6] = (linxDev.UartMaxBaud>>16) & 0xFF;
-		responsePacketBuffer[7] = (linxDev.UartMaxBaud>>8) & 0xFF;
-		responsePacketBuffer[8] = linxDev.UartMaxBaud & 0xFF;
+		responsePacketBuffer[5] = (LinxDev->UartMaxBaud>>24) & 0xFF;
+		responsePacketBuffer[6] = (LinxDev->UartMaxBaud>>16) & 0xFF;
+		responsePacketBuffer[7] = (LinxDev->UartMaxBaud>>8) & 0xFF;
+		responsePacketBuffer[8] = LinxDev->UartMaxBaud & 0xFF;
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK); 
 		break;
 	
@@ -128,48 +133,48 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	{
 		unsigned long targetBaud = (unsigned long)((commandPacketBuffer[6] << 24) | (commandPacketBuffer[7] << 16) | (commandPacketBuffer[8] << 8) | commandPacketBuffer[9]);
 		unsigned long actualBaud = 0;
-		//DEBUG linxDev.DebugPrint((char*)"Changing Listener Baud\n");
-		status = linxDev.UartSetBaudRate(ListenerChan, targetBaud, &actualBaud);
+		//DEBUG LinxDev->DebugPrint((char*)"Changing Listener Baud\n");
+		status = LinxDev->UartSetBaudRate(ListenerChan, targetBaud, &actualBaud);
 		delay(1000);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
-		//DEBUG linxDev.DebugPrint((char*)"Set Baud\n");
+		//DEBUG LinxDev->DebugPrint((char*)"Set Baud\n");
 		break;
 	}		
 			
 	case 0x0008: // Get DIO Channels
-		DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.DigitalChans, linxDev.NumDigitalChans, L_OK);
+		DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DigitalChans, LinxDev->NumDigitalChans, L_OK);
 		break;
 	
 	case 0x0009: // Get AI Channels
-        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.AiChans, linxDev.NumAiChans, L_OK);
+        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->AiChans, LinxDev->NumAiChans, L_OK);
        break;
 	   
     case 0x000A: // Get AO Channels
-        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.AoChans, linxDev.NumAoChans, L_OK);
+        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->AoChans, LinxDev->NumAoChans, L_OK);
        break;
 	   
     case 0x000B: // Get PWM Channels
-        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.PwmChans, linxDev.NumPwmChans, L_OK);
+        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->PwmChans, LinxDev->NumPwmChans, L_OK);
        break;
 	   
     case 0x000C: // Get QE Channels
-        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.QeChans, linxDev.NumQeChans, L_OK);
+        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->QeChans, LinxDev->NumQeChans, L_OK);
        break;
 	   
     case 0x000D: // Get UART Channels
-       DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.UartChans, linxDev.NumUartChans, L_OK);
+       DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->UartChans, LinxDev->NumUartChans, L_OK);
        break;
 	   
     case 0x000E: // Get I2C Channels
-       DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.I2cChans, linxDev.NumI2cChans, L_OK);
+       DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->I2cChans, LinxDev->NumI2cChans, L_OK);
        break;
 	   
     case 0x000F: // Get SPI Channels
-       DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.SpiChans, linxDev.NumSpiChans, L_OK);
+       DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->SpiChans, LinxDev->NumSpiChans, L_OK);
        break;
 	   
     case 0x0010: // Get CAN Channels
-        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.CanChans, linxDev.NumCanChans, L_OK);
+        DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->CanChans, LinxDev->NumCanChans, L_OK);
        break;
 		
 	case 0x0011: // Disconnect
@@ -177,14 +182,14 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		break;
 		
 	case 0x0024: // Get Device Name
-		DataBufferResponse(commandPacketBuffer, responsePacketBuffer, linxDev.DeviceName, linxDev.DeviceNameLen, L_OK);
+		DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
 		break;
 	
 	/****************************************************************************************
 	**  Digital I/O
 	****************************************************************************************/	
 	case 0x0041: // Get Device Name
-		linxDev.DigitalWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
+		LinxDev->DigitalWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 		
@@ -192,10 +197,10 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	**  Analog I/O
 	****************************************************************************************/	
 	case 0x0061: // Get AI Reference Voltage
-		responsePacketBuffer[5] = (linxDev.AiRef>>24) & 0xFF;		//AIREF MSB
-		responsePacketBuffer[6] = (linxDev.AiRef>>16) & 0xFF;		//...
-		responsePacketBuffer[7] = (linxDev.AiRef>>8) & 0xFF;			//...
-		responsePacketBuffer[8] = linxDev.AiRef & 0xFF;					//AIREF LSB
+		responsePacketBuffer[5] = (LinxDev->AiRef>>24) & 0xFF;		//AIREF MSB
+		responsePacketBuffer[6] = (LinxDev->AiRef>>16) & 0xFF;		//...
+		responsePacketBuffer[7] = (LinxDev->AiRef>>8) & 0xFF;			//...
+		responsePacketBuffer[8] = LinxDev->AiRef & 0xFF;					//AIREF LSB
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, status); 
 		break;
 		
@@ -204,12 +209,12 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	****************************************************************************************/	
 	case 0x00C0: // UART Open
 	{
-		//DEBUG linxDev.DebugPrint((char*)"UART Open Command");
+		//DEBUG LinxDev->DebugPrint((char*)"UART Open Command");
 		unsigned long targetBaud = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
 		unsigned long actualBaud = 0;
 		
-		status = linxDev.UartOpen(commandPacketBuffer[6], targetBaud, &actualBaud);
-		//DEBUG linxDev.DebugPrint((char*)"UART Open Command Returned...\n");
+		status = LinxDev->UartOpen(commandPacketBuffer[6], targetBaud, &actualBaud);
+		//DEBUG LinxDev->DebugPrint((char*)"UART Open Command Returned...\n");
 		responsePacketBuffer[5] = (actualBaud>>24) & 0xFF;												//actualBaud MSB
 		responsePacketBuffer[6] = (actualBaud>>16) & 0xFF;												//...
 		responsePacketBuffer[7] = (actualBaud>>8) & 0xFF;												//...
@@ -221,7 +226,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	{
 		unsigned long targetBaud = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
 		unsigned long actualBaud = 0;
-		status = linxDev.UartSetBaudRate(commandPacketBuffer[6], targetBaud, &actualBaud);
+		status = LinxDev->UartSetBaudRate(commandPacketBuffer[6], targetBaud, &actualBaud);
 		responsePacketBuffer[5] = (actualBaud>>24) & 0xFF;												//actualBaud MSB
 		responsePacketBuffer[6] = (actualBaud>>16) & 0xFF;												//...
 		responsePacketBuffer[7] = (actualBaud>>8) & 0xFF;												//...
@@ -232,7 +237,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	case 0x00C2: // UART Get Bytes Available
 	{
 		unsigned char numBytes;
-		status = linxDev.UartGetBytesAvailable(commandPacketBuffer[6], &numBytes);
+		status = LinxDev->UartGetBytesAvailable(commandPacketBuffer[6], &numBytes);
 		responsePacketBuffer[5] = numBytes;	
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 1, status); 		
 		break;
@@ -240,19 +245,19 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	case 0x00C3: // UART Read
 	{
 		unsigned char numBytesRead;
-		status = linxDev.UartRead(commandPacketBuffer[6], commandPacketBuffer[7], &responsePacketBuffer[5], &numBytesRead);
+		status = LinxDev->UartRead(commandPacketBuffer[6], commandPacketBuffer[7], &responsePacketBuffer[5], &numBytesRead);
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numBytesRead, status); 		
 		break;
 	}
 	case 0x00C4: // UART Write
 	{
-		status = linxDev.UartWrite(commandPacketBuffer[6], (commandPacketBuffer[1]-8), &commandPacketBuffer[7]);
+		status = LinxDev->UartWrite(commandPacketBuffer[6], (commandPacketBuffer[1]-8), &commandPacketBuffer[7]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);	
 		break;
 	}
 	case 0x00C5: // UART Close
 	{
-		status = linxDev.UartClose(commandPacketBuffer[6]);
+		status = LinxDev->UartClose(commandPacketBuffer[6]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);	
 		break;
 	}
@@ -261,14 +266,14 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	** I2C
 	****************************************************************************************/	
 	case 0x00E0: // I2C Open Master
-		status = linxDev.I2cOpenMaster(commandPacketBuffer[6]);
+		status = LinxDev->I2cOpenMaster(commandPacketBuffer[6]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 	case 0x00E1: // I2C Set Speed
 	{
 		unsigned long targetSpeed = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
 		unsigned long actualSpeed = 0;
-		status = linxDev.I2cSetSpeed(commandPacketBuffer[6], targetSpeed, &actualSpeed);
+		status = LinxDev->I2cSetSpeed(commandPacketBuffer[6], targetSpeed, &actualSpeed);
 		
 		//Build Response Packet
 		responsePacketBuffer[5] = (actualSpeed>>24) & 0xFF;		//Actual Speed MSB
@@ -279,15 +284,15 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		break;
 	}
 	case 0x00E2: // I2C Write
-		status = linxDev.I2cWrite(commandPacketBuffer[6], commandPacketBuffer[7], commandPacketBuffer[8], (commandPacketBuffer[1]-10), &commandPacketBuffer[9]);
+		status = LinxDev->I2cWrite(commandPacketBuffer[6], commandPacketBuffer[7], commandPacketBuffer[8], (commandPacketBuffer[1]-10), &commandPacketBuffer[9]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 	case 0x00E3: // I2C Read
-		status = linxDev.I2cRead(commandPacketBuffer[6], commandPacketBuffer[7], commandPacketBuffer[11], commandPacketBuffer[8],((commandPacketBuffer[9]<<8) | commandPacketBuffer[10]), &responsePacketBuffer[5]);
+		status = LinxDev->I2cRead(commandPacketBuffer[6], commandPacketBuffer[7], commandPacketBuffer[11], commandPacketBuffer[8],((commandPacketBuffer[9]<<8) | commandPacketBuffer[10]), &responsePacketBuffer[5]);
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, commandPacketBuffer[8], status); 		
 		break;
 	case 0x00E4: // I2C Close
-		status = linxDev.I2cClose((commandPacketBuffer[6]));
+		status = LinxDev->I2cClose((commandPacketBuffer[6]));
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 		
@@ -295,11 +300,11 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	** SPI
 	****************************************************************************************/	
 	case 0x0100: // SPI Open Master
-		linxDev.SpiOpenMaster(commandPacketBuffer[6]);
+		LinxDev->SpiOpenMaster(commandPacketBuffer[6]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 		break;
 	case 0x0101: // SPI Set Bit Order
-		linxDev.SpiSetBitOrder(commandPacketBuffer[6], commandPacketBuffer[7]);
+		LinxDev->SpiSetBitOrder(commandPacketBuffer[6], commandPacketBuffer[7]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 		break;
 		
@@ -307,7 +312,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	{
 		unsigned long targetSpeed = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
 		unsigned long actualSpeed = 0;
-		status = linxDev.SpiSetSpeed( commandPacketBuffer[6], targetSpeed, &actualSpeed );
+		status = LinxDev->SpiSetSpeed( commandPacketBuffer[6], targetSpeed, &actualSpeed );
 		//Build Response Packet
 		responsePacketBuffer[5] = (actualSpeed>>24) & 0xFF;		//Actual Speed MSB
 		responsePacketBuffer[6] = (actualSpeed>>16) & 0xFF;		//...
@@ -319,7 +324,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	case 0x0103: // SPI Set Mode
 	{
 		//Set SPI Mode
-		status = linxDev.SpiSetMode(commandPacketBuffer[6], commandPacketBuffer[7]);
+		status = LinxDev->SpiSetMode(commandPacketBuffer[6], commandPacketBuffer[7]);
 		
 		//Build Response Packet
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, status); 
@@ -327,7 +332,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	}
 	case 0x0107: // SPI Write Read
 	{
-		status = linxDev.SpiWriteRead(commandPacketBuffer[6], commandPacketBuffer[7], (commandPacketBuffer[1]-11)/commandPacketBuffer[7], commandPacketBuffer[8], commandPacketBuffer[9], &commandPacketBuffer[10], &responsePacketBuffer[5]);
+		status = LinxDev->SpiWriteRead(commandPacketBuffer[6], commandPacketBuffer[7], (commandPacketBuffer[1]-11)/commandPacketBuffer[7], commandPacketBuffer[8], commandPacketBuffer[9], &commandPacketBuffer[10], &responsePacketBuffer[5]);
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, commandPacketBuffer[7]*commandPacketBuffer[8], status); 
 		break;
 	}
@@ -338,7 +343,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	}
 	
 	//Print Response Packet If Debugging Is Enabled
-	//DEBUGlinxDev.DebugPrintResPacket(responsePacketBuffer);	
+	//DEBUGLinxDev->DebugPrintResPacket(responsePacketBuffer);	
 	
 	return status;
 }
