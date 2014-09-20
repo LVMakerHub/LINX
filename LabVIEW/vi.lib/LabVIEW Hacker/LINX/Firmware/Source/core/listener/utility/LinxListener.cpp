@@ -90,8 +90,6 @@ void LinxListener::StatusResponse(unsigned char* commandPacketBuffer, unsigned c
 
 int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
-	//DEBUG LinxDev->DebugPrintCmdPacket(commandPacketBuffer);
-		
 	//Store Some Local Values For Convenience
 	unsigned char commandLength = commandPacketBuffer[1];
 	unsigned int command = commandPacketBuffer[4] << 8 | commandPacketBuffer[5];
@@ -133,11 +131,9 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	{
 		unsigned long targetBaud = (unsigned long)((commandPacketBuffer[6] << 24) | (commandPacketBuffer[7] << 16) | (commandPacketBuffer[8] << 8) | commandPacketBuffer[9]);
 		unsigned long actualBaud = 0;
-		//DEBUG LinxDev->DebugPrint((char*)"Changing Listener Baud\n");
 		status = LinxDev->UartSetBaudRate(ListenerChan, targetBaud, &actualBaud);
 		delay(1000);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
-		//DEBUG LinxDev->DebugPrint((char*)"Set Baud\n");
 		break;
 	}		
 			
@@ -209,12 +205,10 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	****************************************************************************************/	
 	case 0x00C0: // UART Open
 	{
-		//DEBUG LinxDev->DebugPrint((char*)"UART Open Command");
 		unsigned long targetBaud = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
 		unsigned long actualBaud = 0;
 		
 		status = LinxDev->UartOpen(commandPacketBuffer[6], targetBaud, &actualBaud);
-		//DEBUG LinxDev->DebugPrint((char*)"UART Open Command Returned...\n");
 		responsePacketBuffer[5] = (actualBaud>>24) & 0xFF;												//actualBaud MSB
 		responsePacketBuffer[6] = (actualBaud>>16) & 0xFF;												//...
 		responsePacketBuffer[7] = (actualBaud>>8) & 0xFF;												//...
@@ -341,9 +335,6 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, (int)L_FUNCTION_NOT_SUPPORTED);
 		break;		
 	}
-	
-	//Print Response Packet If Debugging Is Enabled
-	//DEBUGLinxDev->DebugPrintResPacket(responsePacketBuffer);	
 	
 	return status;
 }

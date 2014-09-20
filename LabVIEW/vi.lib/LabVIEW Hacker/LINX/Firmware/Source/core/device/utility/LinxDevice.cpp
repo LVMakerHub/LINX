@@ -28,7 +28,6 @@ unsigned char LinxDevice::ReverseBits(unsigned char b)
 }
 
 //-------------------Default Empty Functions--------------------------------
-
 void LinxDevice::DelayMs(unsigned long ms)
 {
 
@@ -49,4 +48,3 @@ void LinxDevice::DebugPrintPacket(unsigned char direction, const unsigned char* 
 {
 
 }
-		

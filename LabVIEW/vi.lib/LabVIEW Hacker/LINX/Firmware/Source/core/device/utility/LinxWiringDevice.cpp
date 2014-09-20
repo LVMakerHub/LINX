@@ -20,6 +20,12 @@
 #include "LinxDevice.h"
 #include "LinxWiringDevice.h"
 
+//This Makes It Easy For IDE Users To Define Necissary Settings In One Place
+//When Using Make Files Define LINXCONFIG To Ignore Config.h File
+#ifndef LINXCONFIG
+	#include "../LinxConfig.h"
+#endif
+
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
@@ -88,12 +94,12 @@ void LinxWiringDevice::DebugPrintPacket(unsigned char direction, const unsigned 
 	#endif
 }
 
-unsigned long LinxWiringDevice::LinxWiringDevice::GetMilliSeconds()
+unsigned long LinxWiringDevice::GetMilliSeconds()
 {
 	return millis();
 }
 
-unsigned long LinxWiringDevice::LinxWiringDevice::GetSeconds()
+unsigned long LinxWiringDevice::GetSeconds()
 {
 	return (millis() / 1000);
 }
@@ -298,8 +304,6 @@ int LinxWiringDevice::I2cClose(unsigned char channel)
 //--------------------------------------------------------UART----------------------------------------------------------
 int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 {
-	Serial1.println("In Uart Open");
-	
 	int index = 0;
 	
 	for(index=0; index < NumUartSpeeds; index++)
@@ -317,8 +321,34 @@ int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, un
 	{
 		index = index -1;
 	}
-	Serial.begin(*(UartSupportedSpeeds+(index)));
-	*actualBaud = *(UartSupportedSpeeds+(index));	
+	if(channel == 0)
+	{		
+		#if NUM_UART_CHANS > 0
+			Serial.begin(*(UartSupportedSpeeds+index));
+			*actualBaud = *(UartSupportedSpeeds+index);
+		#endif
+	}
+	if(channel == 1)
+	{
+		#if NUM_UART_CHANS > 1
+			Serial1.begin(*(UartSupportedSpeeds+index));
+			*actualBaud = *(UartSupportedSpeeds+index);
+		#endif
+	}
+	if(channel == 2)
+	{
+		#if NUM_UART_CHANS > 2
+			Serial2.begin(*(UartSupportedSpeeds+index));
+			*actualBaud = *(UartSupportedSpeeds+index);
+		#endif
+	}
+	if(channel == 3)
+	{
+		#if NUM_UART_CHANS > 3
+			Serial3.begin(*(UartSupportedSpeeds+index));
+			*actualBaud = *(UartSupportedSpeeds+index);
+		#endif
+	}
 	
 	return L_OK;
 }
