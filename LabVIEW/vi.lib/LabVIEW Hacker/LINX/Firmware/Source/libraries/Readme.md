@@ -1,0 +1,1 @@
+ This folder contains files from the core firmware source that have been repackaged for use with various target IDEs.
