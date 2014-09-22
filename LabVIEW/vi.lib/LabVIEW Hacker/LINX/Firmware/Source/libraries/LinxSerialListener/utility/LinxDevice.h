@@ -40,6 +40,10 @@
 #define EOF_RESTART_NOSTOP 2
 #define EOF_NOSTOP 3
 
+//DEBUG
+#define TX 0
+#define RX 1
+
 /****************************************************************************************
 **  Typedefs
 ****************************************************************************************/		
@@ -167,12 +171,18 @@ class LinxDevice
 		virtual int UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead) = 0;
 		virtual int UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer) = 0;
 		virtual int UartClose(unsigned char channel) = 0;
-		
-		
+				
 		//General - 
 		unsigned char ReverseBits(unsigned char b);
 		virtual unsigned long GetMilliSeconds() = 0;
-		virtual unsigned long GetSeconds() = 0;		
+		virtual unsigned long GetSeconds() = 0;
+		virtual void DelayMs(unsigned long ms);
+		
+		//Debug
+		virtual void EnableDebug(unsigned char channel);
+		virtual void DebugPrint(const char[]);
+		virtual void DebugPrint(unsigned char numBytes, const char* message);		
+		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
 				
 	private:
 		/****************************************************************************************

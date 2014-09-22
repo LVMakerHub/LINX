@@ -1,5 +1,5 @@
 #ifndef LINX_CHIPKIT_MAX32_H
-#define LLINX_CHIPKIT_MAX32_H
+#define LINX_CHIPKIT_MAX32_H
 
 
 /****************************************************************************************

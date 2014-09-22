@@ -28,6 +28,11 @@ unsigned char LinxDevice::ReverseBits(unsigned char b)
 }
 
 //-------------------Default Empty Functions--------------------------------
+void LinxDevice::EnableDebug(unsigned char channel)
+{
+
+}
+
 void LinxDevice::DelayMs(unsigned long ms)
 {
 

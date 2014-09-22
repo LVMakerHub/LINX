@@ -4,7 +4,7 @@
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/		
-#define LINX_SERIAL_BUFFER_SIZE 64
+#define LINX_SERIAL_BUFFER_SIZE 128
 
 /****************************************************************************************
 **  Includes
@@ -39,10 +39,13 @@ class LinxSerialListener : public LinxListener
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/		
-		virtual int Start(LinxDevice &linxDev, unsigned char uartChan);			
-		virtual int Connected(LinxDevice &linxDev);			
+		virtual int Start(LinxDevice* linxDev, unsigned char uartChan);
+		virtual int Connected();			
 		virtual int Close();			
-		virtual int Exit();			
+		virtual int Exit();
+		
+		virtual int CheckForCommands();
+		
 		
 	private:
 		/****************************************************************************************
@@ -54,5 +57,7 @@ class LinxSerialListener : public LinxListener
 		****************************************************************************************/
 	
 };
+
+extern LinxSerialListener LinxSerialConnection;
 
 #endif //LINX_SERIAL_LISTENER_H

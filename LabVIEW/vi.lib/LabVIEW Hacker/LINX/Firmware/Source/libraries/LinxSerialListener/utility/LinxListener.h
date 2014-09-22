@@ -37,6 +37,7 @@ class LinxListener
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/
+		LinxDevice* LinxDev;
 		LinxListenerState State;
 		LinxListenerInterface Interface;
 		unsigned char ListenerChan;
@@ -44,6 +45,7 @@ class LinxListener
 		unsigned char bufferSize;
 		unsigned char recBuffer[LISTENER_BUFFER_SIZE];
 		unsigned char sendBuffer[LISTENER_BUFFER_SIZE];
+		
 		
 		/****************************************************************************************
 		**  Constructors
@@ -61,8 +63,10 @@ class LinxListener
 		virtual int Close();			//Close Client Connection
 		virtual int Exit();			//Stop Listening, Close And Exit
 		
+		virtual int CheckForCommands();		//Execute Listener State Machine
 		
-		int ProcessCommand(unsigned char* recBuffer, unsigned char* sendBuffer, LinxDevice& LinxDev);
+		
+		int ProcessCommand(unsigned char* recBuffer, unsigned char* sendBuffer);
 		void PacketizeAndSend(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, unsigned int dataSize, int status);
 		void StatusResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, int status);
 		void DataBufferResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, const unsigned char* dataBuffer, unsigned char dataSize, int status);

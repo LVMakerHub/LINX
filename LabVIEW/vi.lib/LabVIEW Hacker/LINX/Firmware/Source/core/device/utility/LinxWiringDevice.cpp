@@ -5,6 +5,9 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/	
+#include "LinxDevice.h"
+#include "LinxWiringDevice.h"
+
 #if DEVICE_FAMILY == 2	//Arduino
 	#include <Arduino.h>
 #endif
@@ -16,15 +19,6 @@
 #include <SPI.h>
 #include <Wire.h>
 //#include <Serial.h>
-
-#include "LinxDevice.h"
-#include "LinxWiringDevice.h"
-
-//This Makes It Easy For IDE Users To Define Necissary Settings In One Place
-//When Using Make Files Define LINXCONFIG To Ignore Config.h File
-#ifndef LINXCONFIG
-	#include "../LinxConfig.h"
-#endif
 
 /****************************************************************************************
 **  Variables
@@ -39,12 +33,24 @@ LinxWiringDevice::LinxWiringDevice( )
 	LinxApiMajor = 1;
 	LinxApiMinor = 2;
 	LinxApiSubminor = 0;	
+	
+	
+	Serial1.begin(115200);
+	Serial1.println("Debugging Enabled");
 }
 
 
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
+void LinxWiringDevice::EnableDebug(unsigned char channel)
+{
+	#if DEBUG_ENABLED == 1
+		Serial1.begin(115200);
+		Serial1.println("Debugging Enabled");
+	#endif 
+}
+
 void LinxWiringDevice::DelayMs(unsigned long ms)
 {
 	delay(ms);

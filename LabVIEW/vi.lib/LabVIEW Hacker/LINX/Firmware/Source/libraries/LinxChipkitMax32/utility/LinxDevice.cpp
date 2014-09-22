@@ -26,3 +26,30 @@ unsigned char LinxDevice::ReverseBits(unsigned char b)
 	b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
 	return b;
 }
+
+//-------------------Default Empty Functions--------------------------------
+void LinxDevice::EnableDebug(unsigned char channel)
+{
+
+}
+
+void LinxDevice::DelayMs(unsigned long ms)
+{
+
+}
+
+//Debug
+void LinxDevice::DebugPrint(unsigned char numBytes, const char* message)
+{
+
+}
+
+void LinxDevice::DebugPrint(const char *s)
+{
+
+}
+
+void LinxDevice::DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer)
+{
+
+}

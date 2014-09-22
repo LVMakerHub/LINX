@@ -4,6 +4,11 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
+//This Makes It Easy For IDE Users To Define Necissary Settings In One Place
+//When Using Make Files Define LINXCONFIG To Ignore Config.h File
+#ifndef LINX_MAKE
+	#include "../LinxConfig.h"
+#endif
 
 /****************************************************************************************
 **  Defines
@@ -179,6 +184,7 @@ class LinxDevice
 		virtual void DelayMs(unsigned long ms);
 		
 		//Debug
+		virtual void EnableDebug(unsigned char channel);
 		virtual void DebugPrint(const char[]);
 		virtual void DebugPrint(unsigned char numBytes, const char* message);		
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
