@@ -39,101 +39,11 @@ LinxWiringDevice::LinxWiringDevice( )
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
-void LinxWiringDevice::EnableDebug(unsigned char channel)
-{
-	unsigned long actualBaud = 0;
-	
-	UartOpen(channel, 115200, &actualBaud);
-	unsigned char debugString[19] = "Debugging Enabled\n";
-	UartWrite(channel, 18, debugString);
-}
 
 void LinxWiringDevice::DelayMs(unsigned long ms)
 {
 	delay(ms);
 } 
-		
-//Debug
-void LinxWiringDevice::DebugPrint(unsigned char numBytes, const char* message)
-{	
-	#if DEBUG_ENABLED > 0
-		UartWrite(DEBUG_ENABLED, numBytes, (unsigned char*) message);
-		
-		unsigned char newLine[3] = "\n\r";
-		UartWrite(DEBUG_ENABLED, 2, newLine);
-	#endif 
-}
-
-void LinxWiringDevice::DebugPrint(const char *s)
-{		
-	/*
-	#if DEBUG_ENABLED > 0
-		Serial1.print(s);
-	#endif 
-	*/
-}
-
-void LinxWiringDevice::DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer)
-{
-	#if DEBUG_ENABLED > 0
-				
-		if(direction == RX)
-		{
-			unsigned char recPrint[13] = "Received :: ";
-			UartWrite(DEBUG_ENABLED, 12, recPrint);
-		}
-		else if(direction == TX)
-		{
-			unsigned char sendPrint[13] = "Sending  :: ";
-			UartWrite(DEBUG_ENABLED, 12, sendPrint);			
-		}
-		
-		for(int i=0; i<packetBuffer[1]; i++)
-		{		
-			unsigned long n = packetBuffer[i];
-			char base = 16;
-			unsigned char openBracket[2] = "[";
-			UartWrite(DEBUG_ENABLED, 1, openBracket);			
-			
-			
-			unsigned char buf[8 * sizeof(long)]; // Assumes 8-bit chars. 
-			unsigned long i = 0;
-
-			//Convert To HEX and Print
-			if (n == 0) 
-			{
-				unsigned char zero[2] = "0";
-				UartWrite(DEBUG_ENABLED, 1, zero);
-			}
-			else
-			{
-
-				while (n > 0) 
-				{
-					buf[i++] = n % base;
-					n /= base;
-				}
-
-				unsigned char digit[2] = "0";
-				for (; i > 0; i--)
-				{
-					digit[0] = (char) (buf[i - 1] < 10 ? '0' + buf[i - 1] : 'A' + buf[i - 1] - 10);
-					UartWrite(DEBUG_ENABLED, 1, digit);
-				}
-								
-				unsigned char closeBracket[2] = "]";
-				UartWrite(DEBUG_ENABLED, 1, closeBracket);
-			}				
-		}
-	
-		unsigned char newLine[3] = "\n\r";
-		UartWrite(DEBUG_ENABLED, 2, newLine);
-		if(direction == TX)
-		{
-			UartWrite(DEBUG_ENABLED, 2, newLine);
-		}
-	#endif
-}
 
 unsigned long LinxWiringDevice::GetMilliSeconds()
 {
@@ -144,6 +54,7 @@ unsigned long LinxWiringDevice::GetSeconds()
 {
 	return (millis() / 1000);
 }
+
 //--------------------------------------------------------DIGITAL-------------------------------------------------------
 
 int LinxWiringDevice::DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values)
@@ -158,6 +69,7 @@ int LinxWiringDevice::DigitalWrite(unsigned char numPins, unsigned char* pins, u
 }
 
 //--------------------------------------------------------SPI-----------------------------------------------------------
+
 int LinxWiringDevice::SpiOpenMaster(unsigned char channel)
 {
 	SPI.begin();
@@ -343,6 +255,7 @@ int LinxWiringDevice::I2cClose(unsigned char channel)
 }
 		
 //--------------------------------------------------------UART----------------------------------------------------------
+
 int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 {
 	int index = 0;
@@ -396,31 +309,107 @@ int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, un
 
 int LinxWiringDevice::UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 {
-	Serial.end();
+	UartClose(channel);
 	int retVal = UartOpen(channel, baudRate, actualBaud);
 	return retVal;
 }
 
 int LinxWiringDevice::UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
 {
-	*numBytes = Serial.available();
-	return 0;
+	if(channel == 0)
+	{		
+		#if NUM_UART_CHANS > 0
+			*numBytes = Serial.available();
+		#endif
+	}
+	if(channel == 1)
+	{
+		#if NUM_UART_CHANS > 1
+			*numBytes = Serial1.available();
+		#endif
+	}
+	if(channel == 2)
+	{
+		#if NUM_UART_CHANS > 2
+		*numBytes = Serial2.available();
+		#endif
+	}
+	if(channel == 3)
+	{
+		#if NUM_UART_CHANS > 3
+			*numBytes = Serial3.available();
+		#endif
+	}
+	
+	return L_OK;
 }
 
 int LinxWiringDevice::UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
 {
 	#if ARDUINO_VERSION >= 100
-		*numBytesRead = Serial.readBytes((char*)recBuffer, numBytes);
-		
+	
+		if(channel == 0)
+		{	
+			#if NUM_UART_CHANS > 0
+				*numBytesRead = Serial.readBytes((char*)recBuffer, numBytes);
+			#endif
+		}
+		else if(channel == 1)
+		{
+			#if NUM_UART_CHANS > 1
+				*numBytesRead = Serial1.readBytes((char*)recBuffer, numBytes);
+			#endif
+		}
+		else if(channel == 2)
+		{
+			#if NUM_UART_CHANS > 2
+				*numBytesRead = Serial2.readBytes((char*)recBuffer, numBytes);
+			#endif
+		}
+		else if(channel == 3)
+		{
+			#if NUM_UART_CHANS > 3
+				*numBytesRead = Serial3.readBytes((char*)recBuffer, numBytes);
+			#endif
+		}	
+				
 		if(*numBytesRead !=numBytes)
 		{
 			return LUART_READ_FAIL;
 		}
-		return 0;
+		
+		return L_OK;	
+	
 	#else
 		for(int i=0; i<numBytes; i++)
 		{
-			int data = Serial.read();
+			int data = -1;
+			
+			if(channel == 0)
+			{	
+				#if NUM_UART_CHANS > 0
+					data = Serial.read();
+				#endif
+			}
+			else if(channel == 1)
+			{
+				#if NUM_UART_CHANS > 1
+					data = Serial1.read();
+				#endif
+			}
+			else if(channel == 2)
+			{
+				#if NUM_UART_CHANS > 2
+					data = Serial2.read();
+				#endif
+			}
+			else if(channel == 3)
+			{
+				#if NUM_UART_CHANS > 3
+					data = Serial3.read();
+				#endif
+			}			
+			
 			if(data < 0)
 			{
 				return LUART_READ_FAIL;
@@ -430,7 +419,7 @@ int LinxWiringDevice::UartRead(unsigned char channel, unsigned char numBytes, un
 				*(recBuffer+i) = (char)data;
 			}
 		}
-		return 0;
+		return L_OK;
 	#endif
 }
 
@@ -451,7 +440,7 @@ int LinxWiringDevice::UartWrite(unsigned char channel, unsigned char numBytes, u
 	if(channel == 2)
 	{
 		#if NUM_UART_CHANS > 2
-		Serial2.write(sendBuffer, numBytes);
+			Serial2.write(sendBuffer, numBytes);
 		#endif
 	}
 	if(channel == 3)
@@ -466,6 +455,29 @@ int LinxWiringDevice::UartWrite(unsigned char channel, unsigned char numBytes, u
 
 int LinxWiringDevice::UartClose(unsigned char channel)
 {
-	Serial.end();
-	return 0;
+	if(channel == 0)
+	{		
+		#if NUM_UART_CHANS > 0
+			Serial.end();
+		#endif
+	}
+	if(channel == 1)
+	{
+		#if NUM_UART_CHANS > 1
+			Serial1.end();
+		#endif
+	}
+	if(channel == 2)
+	{
+		#if NUM_UART_CHANS > 2
+		Serial2.end();
+		#endif
+	}
+	if(channel == 3)
+	{
+		#if NUM_UART_CHANS > 3
+			Serial3.end();
+		#endif
+	}
+	return L_OK;
 }
