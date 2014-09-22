@@ -8,16 +8,16 @@
 #include <LinxSerialListener.h>
  
 //Create A Pointer To The LINX Device Object We Instantiate In Setup()
-LinxChipkitMax32* DevPtr;
+LinxChipkitMax32* LinxDevice;
 
 //Initialize LINX Device And Listener
 void setup()
 {
   //Instantiate The LINX Device
-  DevPtr = new LinxChipkitMax32();
+  LinxDevice = new LinxChipkitMax32();
   
   //The LINXT Listener Is Pre Instantiated, Call Start And Pass A Pointer To The LINX Device And The UART Channel To Listen On
-  LinxSerialConnection.Start(DevPtr, 0);  
+  LinxSerialConnection.Start(LinxDevice, 0);  
 }
 
 void loop()

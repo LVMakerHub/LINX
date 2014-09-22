@@ -102,6 +102,11 @@ LinxChipkitMax32::LinxChipkitMax32()
 	//CAN
 	NumCanChans = 0;
 	CanChans = 0;
+	
+	//If Debuging Is Enabled Call EnableDebug()
+	#if DEBUG_ENABLED > 0
+		EnableDebug(DEBUG_ENABLED);
+	#endif
 }
 
 //Destructor
