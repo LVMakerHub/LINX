@@ -66,7 +66,7 @@ int LinxSerialListener::Connected()
 						LinxDev->UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead);
 						return -1;
 					}
-					delay(1);
+					LinxDev->DelayMs(1);
 					timeout--;
 				}
 			}

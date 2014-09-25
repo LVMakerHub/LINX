@@ -12,8 +12,6 @@
 #include "utility\LinxListener.h"
 #include "utility\LinxDevice.h"
 
-//DEBUG
-#include <WProgram.h>
 
 /****************************************************************************************
 **  Type Defs

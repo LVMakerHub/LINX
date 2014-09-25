@@ -5,6 +5,7 @@
 **  Includes
 ****************************************************************************************/		
 
+
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/		
@@ -169,6 +170,9 @@ class LinxDevice
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
 		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		
+		//PWM
+		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel) = 0;

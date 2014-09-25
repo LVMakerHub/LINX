@@ -133,7 +133,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		unsigned long targetBaud = (unsigned long)((commandPacketBuffer[6] << 24) | (commandPacketBuffer[7] << 16) | (commandPacketBuffer[8] << 8) | commandPacketBuffer[9]);
 		unsigned long actualBaud = 0;
 		status = LinxDev->UartSetBaudRate(ListenerChan, targetBaud, &actualBaud);
-		delay(1000);
+		LinxDev->DelayMs(1000);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 	}		
@@ -212,12 +212,12 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	//case 0x0040: //TODO Set Pin Mode
 	
 	case 0x0041: // Digital Write
-		LinxDev->DigitalWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
+		status = LinxDev->DigitalWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 		
 	case 0x0042: // Digital Read
-		LinxDev->DigitalRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[5]);
+		status = LinxDev->DigitalRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[5]);
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, (commandPacketBuffer[1]-7), status); 
 		break;
 		
@@ -243,31 +243,36 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	case 0x0064: // Analog Read
 	{
 		responsePacketBuffer[5] = LinxDev->AiResolution;
-		LinxDev->AnalogRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[6]);	
+		status = LinxDev->AnalogRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[6]);	
 		unsigned int numDataBits = ((commandPacketBuffer[1]-7) * LinxDev->AiResolution);
 		unsigned char numResponseDataBytes = numDataBits / 8;
 				
-		LinxDev->DebugPrint("numDataBits = ");
-		LinxDev->DebugPrintln(numDataBits, DEC);
-		
-		LinxDev->DebugPrint("numResponseDataBytes = ");		
-		LinxDev->DebugPrintln(numResponseDataBytes, DEC);
-		
 		if( (numDataBits % 8) != 0)
 		{
 			//Partial Byte Included, Increment Total
 			numResponseDataBytes++;
-			LinxDev->DebugPrintln("Partial Byte");		
 		}
-		
-		LinxDev->DebugPrint("numResponseDataBytes = ");		
-		LinxDev->DebugPrintln(numResponseDataBytes, DEC);
 		
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numResponseDataBytes+1, status); 
 		break;
 	}
 	
 	//case 0x0065: //TODO Analog Write
+	
+	/****************************************************************************************
+	** PWM
+	****************************************************************************************/	
+	
+	//case 0x0080: //TODO PWM Open
+	//case 0x0081: //TODO PWM Set Mode
+	//case 0x0082: //TODO PWM Set Frequency
+	
+	case 0x0083: //PWM Set Duty Cycle	
+		status = LinxDev->PwmSetDutyCycle(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[commandPacketBuffer[6] + 7] );
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+		break;
+	
+	//case 0x0084: //TODO PWM Close	
 		
 	/****************************************************************************************
 	** UART
