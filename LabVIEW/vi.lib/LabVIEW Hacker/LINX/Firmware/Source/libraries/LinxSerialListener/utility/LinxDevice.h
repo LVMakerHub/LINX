@@ -40,6 +40,21 @@
 #define EOF_RESTART_NOSTOP 2
 #define EOF_NOSTOP 3
 
+//UART
+#ifndef BIN
+	#define BIN 2
+#endif
+#ifndef OCT
+	#define OCT 8
+#endif
+#ifndef DEC
+	#define DEC 10
+#endif
+#ifndef HEX
+	#define HEX 16
+#endif
+
+
 //DEBUG
 #define TX 0
 #define RX 1
@@ -147,8 +162,13 @@ class LinxDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
+		
+		//Analog
+		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel) = 0;
@@ -168,8 +188,24 @@ class LinxDevice
 		virtual int UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud) = 0;
 		virtual int UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud) = 0;
 		virtual int UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes) = 0;
-		virtual int UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead) = 0;
-		virtual int UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer) = 0;
+		virtual int UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead) = 0;		
+		virtual int UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer) = 0;		
+		virtual void UartWrite(unsigned char channel, char c);
+		virtual void UartWrite(unsigned char channel, const char s[]);
+		virtual void UartWrite(unsigned char channel, unsigned char c);
+		virtual void UartWrite(unsigned char channel, int n);
+		virtual void UartWrite(unsigned char channel, unsigned int n);
+		virtual void UartWrite(unsigned char channel, long n);
+		virtual void UartWrite(unsigned char channel, unsigned long n);
+		virtual void UartWrite(unsigned char channel, long n, int base);
+		virtual void UartWriteln(unsigned char channel);
+		virtual void UartWriteln(unsigned char channel, char c);
+		virtual void UartWriteln(unsigned char channel, const char s[]);
+		virtual void UartWriteln(unsigned char channel, unsigned char c);
+		virtual void UartWriteln(unsigned char channel, int n);
+		virtual void UartWriteln(unsigned char channel, long n);
+		virtual void UartWriteln(unsigned char channel, unsigned long n);
+		virtual void UartWriteln(unsigned char channel, long n, int base);		
 		virtual int UartClose(unsigned char channel) = 0;
 				
 		//General - 
@@ -180,15 +216,32 @@ class LinxDevice
 		
 		//Debug
 		virtual void EnableDebug(unsigned char channel);
-		virtual void DebugPrint(const char[]);
-		virtual void DebugPrint(unsigned char numBytes, const char* message);		
+		
+		virtual void DebugPrint(char c);
+		virtual void DebugPrint(const char s[]);
+		virtual void DebugPrint(unsigned char c);
+		virtual void DebugPrint(int n);
+		virtual void DebugPrint(unsigned int n);
+		virtual void DebugPrint(long n);
+		virtual void DebugPrint(unsigned long n);
+		virtual void DebugPrint(long n, int base);
+		virtual void DebugPrintln();
+		virtual void DebugPrintln(char c);
+		virtual void DebugPrintln(const char s[]);
+		virtual void DebugPrintln(unsigned char c);
+		virtual void DebugPrintln(int n);
+		virtual void DebugPrintln(long n);
+		virtual void DebugPrintln(unsigned long n);
+		virtual void DebugPrintln(long n, int base);
+		
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
 				
 	private:
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-				
+		virtual void UartWriteNumber(unsigned char channel, unsigned long n, unsigned char bases);
+		
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/

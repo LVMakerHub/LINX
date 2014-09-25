@@ -5,7 +5,6 @@
 
 #include "LinxListener.h"
 
-
 //DEBUG
 //This was added to get delay() in cmd 0006.  Delay should be added at device level
 #include <WProgram.h>
@@ -105,6 +104,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	case 0x0000: // Sync Packet        
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 		break;
+		
+	//case 0x0001: //TODO Flush Linx Connection Buffer
 	 
 	case 0x0003: // Get Device ID     
 		responsePacketBuffer[5] = LinxDev->DeviceFamily;
@@ -136,7 +137,9 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 	}		
-			
+		
+	//case 0x0007: //TODO Get Max Packet Size
+	
 	case 0x0008: // Get DIO Channels
 		DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DigitalChans, LinxDev->NumDigitalChans, L_OK);
 		break;
@@ -177,6 +180,28 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		status = L_DISCONNECT;
 		break;
 		
+	//case 0x0012: //TODO Set Device User Id	
+	//case 0x0013: //TODO Get Device User Id
+	
+	//case 0x0014: //TODO Set Device Ethernet IP
+	//case 0x0015: //TODO Get Device Ethernet IP	
+	//case 0x0016: //TODO Set Device Ethernet Port
+	//case 0x0017: //TODO Get Device Ethernet Port
+	
+	//case 0x0018: //TODO Set Device WIFI IP
+	//case 0x0019: //TODO Get Device WIFI IP	
+	//case 0x001A: //TODO Set Device WIFI Port
+	//case 0x001B: //TODO Get Device WIFI Port
+	//case 0x001C: //TODO Set Device WIFI SSID
+	//case 0x001D: //TODO Get Device WIFI SSID
+	//case 0x001E: //TODO Set Device WIFI Security Type
+	//case 0x001F: //TODO Get Device WIFI Security Type
+	//case 0x0020: //TODO Set Device WIFI Password
+	//case 0x0021: //TODO Get Device WIFI Password
+	
+	//case 0x0022: //TODO Set Device Max Baud
+	//case 0x0023: //TODO Get Device Max Baud
+	
 	case 0x0024: // Get Device Name
 		DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
 		break;
@@ -184,14 +209,26 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	/****************************************************************************************
 	**  Digital I/O
 	****************************************************************************************/	
-	case 0x0041: // Get Device Name
+	//case 0x0040: //TODO Set Pin Mode
+	
+	case 0x0041: // Digital Write
 		LinxDev->DigitalWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
 		
+	case 0x0042: // Digital Read
+		LinxDev->DigitalRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[5]);
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, (commandPacketBuffer[1]-7), status); 
+		break;
+		
+	//case 0x0043: //TODO Write Square Wave
+	//case 0x0044: //TODO Read Pulse Width
+		
 	/****************************************************************************************
 	**  Analog I/O
 	****************************************************************************************/	
+	//case 0x0060: //TODO Set AI Ref Voltage
+	
 	case 0x0061: // Get AI Reference Voltage
 		responsePacketBuffer[5] = (LinxDev->AiRef>>24) & 0xFF;		//AIREF MSB
 		responsePacketBuffer[6] = (LinxDev->AiRef>>16) & 0xFF;		//...
@@ -199,6 +236,38 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		responsePacketBuffer[8] = LinxDev->AiRef & 0xFF;					//AIREF LSB
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, status); 
 		break;
+		
+	//case 0x0062: //TODO Set AI Resolution
+	//case 0x0063: //TODO Get AI Resolution
+	
+	case 0x0064: // Analog Read
+	{
+		responsePacketBuffer[5] = LinxDev->AiResolution;
+		LinxDev->AnalogRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[6]);	
+		unsigned int numDataBits = ((commandPacketBuffer[1]-7) * LinxDev->AiResolution);
+		unsigned char numResponseDataBytes = numDataBits / 8;
+				
+		LinxDev->DebugPrint("numDataBits = ");
+		LinxDev->DebugPrintln(numDataBits, DEC);
+		
+		LinxDev->DebugPrint("numResponseDataBytes = ");		
+		LinxDev->DebugPrintln(numResponseDataBytes, DEC);
+		
+		if( (numDataBits % 8) != 0)
+		{
+			//Partial Byte Included, Increment Total
+			numResponseDataBytes++;
+			LinxDev->DebugPrintln("Partial Byte");		
+		}
+		
+		LinxDev->DebugPrint("numResponseDataBytes = ");		
+		LinxDev->DebugPrintln(numResponseDataBytes, DEC);
+		
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numResponseDataBytes+1, status); 
+		break;
+	}
+	
+	//case 0x0065: //TODO Analog Write
 		
 	/****************************************************************************************
 	** UART
@@ -238,7 +307,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	}
 	case 0x00C3: // UART Read
 	{
-		unsigned char numBytesRead;
+		unsigned char numBytesRead = 0;
 		status = LinxDev->UartRead(commandPacketBuffer[6], commandPacketBuffer[7], &responsePacketBuffer[5], &numBytesRead);
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numBytesRead, status); 		
 		break;

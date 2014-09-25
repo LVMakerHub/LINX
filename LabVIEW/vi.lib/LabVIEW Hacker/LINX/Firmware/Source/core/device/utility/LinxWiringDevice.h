@@ -33,8 +33,12 @@ class LinxWiringDevice : public LinxDevice
 		**  Functions
 		****************************************************************************************/
 		
+		//Analog
+		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel);

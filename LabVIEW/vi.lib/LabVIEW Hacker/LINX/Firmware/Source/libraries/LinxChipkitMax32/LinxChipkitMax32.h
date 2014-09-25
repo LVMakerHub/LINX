@@ -9,7 +9,7 @@
 
 #define NUM_AI_CHANS 16
 #define AI_RES_BITS 10
-#define AI_REFV 5
+#define AI_REFV 3300000
 
 #define NUM_DIGITAL_CHANS 86
 

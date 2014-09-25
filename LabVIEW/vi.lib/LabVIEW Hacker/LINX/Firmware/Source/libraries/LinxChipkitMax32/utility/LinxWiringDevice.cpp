@@ -32,7 +32,7 @@ LinxWiringDevice::LinxWiringDevice( )
 	//LINX API Version
 	LinxApiMajor = 1;
 	LinxApiMinor = 2;
-	LinxApiSubminor = 0;		
+	LinxApiSubminor = 0;	
 }
 
 
@@ -55,6 +55,50 @@ unsigned long LinxWiringDevice::GetSeconds()
 	return (millis() / 1000);
 }
 
+//--------------------------------------------------------ANALOG-------------------------------------------------------
+
+int LinxWiringDevice::AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
+{
+	unsigned int analogValue = 0;
+	unsigned char responseByteOffset = 0;
+	unsigned char responseBitsRemaining = 8; 
+	unsigned char dataBitsRemaining = AiResolution;
+  
+	values[responseByteOffset] = 0x00;    //Clear First	Response Byte   
+
+	//Loop Over All AI Pins In Command Packet
+	for(int i=0; i<numPins; i++)
+	{
+		analogValue = analogRead(pins[i]);	
+		
+		dataBitsRemaining = AiResolution;
+
+		//Byte Packet AI Values In Response Packet
+		while(dataBitsRemaining > 0)
+		{
+			*(values+responseByteOffset) |= ( (analogValue>>(AiResolution - dataBitsRemaining)) << (8 - responseBitsRemaining) );
+			//*(values+responseByteOffset) = 69;
+
+			if(responseBitsRemaining > dataBitsRemaining)
+			{
+				//Current Byte Still Has Empty Bits
+				responseBitsRemaining -= dataBitsRemaining;
+				dataBitsRemaining = 0;
+			}
+			else
+			{
+				//Current Byte Full
+				dataBitsRemaining = dataBitsRemaining - responseBitsRemaining;
+				responseByteOffset++;
+				responseBitsRemaining = 8;
+				values[responseByteOffset] = 0x00;    //Clear Next Response Byte     
+			}
+		}
+	}
+	
+	return L_OK;
+}
+
 //--------------------------------------------------------DIGITAL-------------------------------------------------------
 
 int LinxWiringDevice::DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values)
@@ -66,6 +110,42 @@ int LinxWiringDevice::DigitalWrite(unsigned char numPins, unsigned char* pins, u
 	}
 	
 	return 0;
+}
+
+int LinxWiringDevice::DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
+{
+	unsigned char bitOffset = 8;
+	unsigned char byteOffset = 0;
+	unsigned char retVal = 0;
+ 
+	//Loop Over Pins To Read
+	for(int i=0; i<numPins; i++)
+	{
+		//If bitOffset Is 0 We Have To Start A New Byte, Store Old Byte And Increment OFfsets
+		if(bitOffset == 0)
+		{
+			//Insert retVal Into Response Buffer
+			values[byteOffset] = retVal;
+			retVal = 0x00;
+			byteOffset++;
+			bitOffset = 7;      
+		}
+		else
+		{
+			bitOffset--;
+		}
+		
+		//Read From Next Pin
+		unsigned char pinNumber = pins[i];
+			
+		pinMode(pinNumber, INPUT);											//Set Pin As Input (Might Make This Configurable)    		
+		retVal = retVal | (digitalRead(pinNumber) << bitOffset);	//Read Pin And Insert Value Into retVal
+	}
+	
+	//Store Last Byte
+	values[byteOffset] = retVal;
+	
+	return L_OK;
 }
 
 //--------------------------------------------------------SPI-----------------------------------------------------------
@@ -418,7 +498,11 @@ int LinxWiringDevice::UartRead(unsigned char channel, unsigned char numBytes, un
 			{
 				*(recBuffer+i) = (char)data;
 			}
+			
+			//Read All Bytes Without Error.  Return Num Bytes Read So Listener Can Pass It To PacketizeAndSend()
+			*numBytesRead = numBytes;
 		}
+		
 		return L_OK;
 	#endif
 }
