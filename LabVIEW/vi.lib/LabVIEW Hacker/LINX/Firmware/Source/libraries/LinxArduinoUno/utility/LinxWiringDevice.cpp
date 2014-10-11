@@ -16,7 +16,7 @@
 
 #include <SPI.h>
 #include <Wire.h>
-//#include <Serial.h>
+#include <EEPROM.h>
 
 /****************************************************************************************
 **  Variables
@@ -25,12 +25,17 @@
 /****************************************************************************************
 **  Constructors / Destructors 
 ****************************************************************************************/
-LinxWiringDevice::LinxWiringDevice( )
+LinxWiringDevice::LinxWiringDevice()
 {
 	//LINX API Version
 	LinxApiMajor = 1;
 	LinxApiMinor = 2;
-	LinxApiSubminor = 0;	
+	LinxApiSubminor = 0;
+	
+	//Load User Config Data From Non Volatile Storage
+	userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
+	
+	
 }
 
 
@@ -575,4 +580,15 @@ int LinxWiringDevice::UartClose(unsigned char channel)
 		#endif
 	}
 	return L_OK;
+}
+
+//--------------------------------------------------------GENERAL----------------------------------------------------------
+void LinxWiringDevice::NonVolatileWrite(int address, unsigned char data)
+{
+	EEPROM.write(address, data);
+}
+
+unsigned char LinxWiringDevice::NonVolatileRead(int address)
+{
+	return EEPROM.read(address);
 }
