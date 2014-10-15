@@ -1,7 +1,0 @@
-#define DEBUG_ENABLED 0
-#define NUM_I2C_CHANS 1
-#define NUM_SPI_CHANS 1
-#define NUM_UART_CHANS 1
-#define DEVICE_FAMILY 2
-
-#define ARDUINO_VERSION 105

@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX header for generic LINX Device.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_DEVICE_H
 #define LINX_DEVICE_H
 
@@ -244,8 +255,8 @@ class LinxDevice
 		virtual unsigned long GetMilliSeconds() = 0;
 		virtual unsigned long GetSeconds() = 0;
 		virtual void DelayMs(unsigned long ms);
-		virtual void NonVolatileWrite(int address, unsigned char data);
-		virtual unsigned char NonVolatileRead(int address);
+		virtual void NonVolatileWrite(int address, unsigned char data) = 0;
+		virtual unsigned char NonVolatileRead(int address) = 0;
 		
 		//Debug
 		virtual void EnableDebug(unsigned char channel);

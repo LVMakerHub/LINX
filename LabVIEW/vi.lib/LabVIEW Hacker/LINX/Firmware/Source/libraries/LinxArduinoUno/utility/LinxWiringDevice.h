@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX header for Wiring compatible devices.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_WIRING_H
 #define LINX_WIRING_H
 

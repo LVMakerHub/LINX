@@ -219,7 +219,7 @@
 				<Property Name="INST_productName" Type="Str">LVH LINX Apps</Property>
 				<Property Name="INST_productVersion" Type="Str">1.0.5</Property>
 				<Property Name="InstSpecBitness" Type="Str">32-bit</Property>
-				<Property Name="InstSpecVersion" Type="Str">11018015</Property>
+				<Property Name="InstSpecVersion" Type="Str">11018013</Property>
 				<Property Name="MSI_arpCompany" Type="Str">LVH</Property>
 				<Property Name="MSI_arpContact" Type="Str">labviewhacker@gmail.com</Property>
 				<Property Name="MSI_arpURL" Type="Str">http://www.labviewhacker.com/linx</Property>

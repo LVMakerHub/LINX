@@ -1,6 +1,7 @@
 //Include All Peripheral Libraries Used By LINX
 #include <SPI.h>
 #include <Wire.h>
+#include <EEPROM.h>
 
 //Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)

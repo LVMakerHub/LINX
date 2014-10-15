@@ -1,4 +1,15 @@
 /****************************************************************************************
+**  LINX - Wiring compatible device code
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
+/****************************************************************************************
 **  Defines
 ****************************************************************************************/		
 
@@ -8,17 +19,15 @@
 #include "LinxDevice.h"
 #include "LinxWiringDevice.h"
 
-#if DEVICE_FAMILY == 2	//Arduino
+#if ARDUINO_VERSION >= 100
 	#include <Arduino.h>
-#endif
-
-#if DEVICE_FAMILY == 1	//ChipKIT
+#else
 	#include <WProgram.h>
 #endif
 
 #include <SPI.h>
 #include <Wire.h>
-//#include <Serial.h>
+#include <EEPROM.h>
 
 /****************************************************************************************
 **  Variables
@@ -27,12 +36,17 @@
 /****************************************************************************************
 **  Constructors / Destructors 
 ****************************************************************************************/
-LinxWiringDevice::LinxWiringDevice( )
+LinxWiringDevice::LinxWiringDevice()
 {
 	//LINX API Version
 	LinxApiMajor = 1;
 	LinxApiMinor = 2;
-	LinxApiSubminor = 0;	
+	LinxApiSubminor = 0;
+	
+	//Load User Config Data From Non Volatile Storage
+	userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
+	
+	
 }
 
 
@@ -109,7 +123,7 @@ int LinxWiringDevice::DigitalWrite(unsigned char numPins, unsigned char* pins, u
 		digitalWrite( pins[i], (values[i/8] >> i%8) & 0x01);
 	}
 	
-	return 0;
+	return L_OK;
 }
 
 int LinxWiringDevice::DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
@@ -144,6 +158,19 @@ int LinxWiringDevice::DigitalRead(unsigned char numPins, unsigned char* pins, un
 	
 	//Store Last Byte
 	values[byteOffset] = retVal;
+	
+	return L_OK;
+}
+
+//--------------------------------------------------------PWM-----------------------------------------------------------
+
+int LinxWiringDevice::PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values)
+{
+	for(int i=0; i<numPins; i++)
+	{		
+		pinMode(pins[i], OUTPUT);
+		analogWrite(pins[i], values[i]);
+	}
 	
 	return L_OK;
 }
@@ -290,7 +317,7 @@ int LinxWiringDevice::I2cRead(unsigned char channel, unsigned char slaveAddress,
 		}
 		else if (eofConfig == EOF_RESTART)
 		{
-			Wire.requestFrom(slaveAddress, numBytes, 0);
+			Wire.requestFrom(slaveAddress, numBytes, (uint8_t)0);
 		}
 		else
 		{
@@ -303,7 +330,7 @@ int LinxWiringDevice::I2cRead(unsigned char channel, unsigned char slaveAddress,
 			//EOF Not Supported		
 			return LI2C_EOF;
 		}
-		Wire.requestFrom(slaveAddress, numBytes);
+		Wire.requestFrom(slaveAddress, (uint8_t)numBytes);
 	#endif
 		
 		//Wait For Data, Potentially Timeout
@@ -564,4 +591,15 @@ int LinxWiringDevice::UartClose(unsigned char channel)
 		#endif
 	}
 	return L_OK;
+}
+
+//--------------------------------------------------------GENERAL----------------------------------------------------------
+void LinxWiringDevice::NonVolatileWrite(int address, unsigned char data)
+{
+	EEPROM.write(address, data);
+}
+
+unsigned char LinxWiringDevice::NonVolatileRead(int address)
+{
+	return EEPROM.read(address);
 }

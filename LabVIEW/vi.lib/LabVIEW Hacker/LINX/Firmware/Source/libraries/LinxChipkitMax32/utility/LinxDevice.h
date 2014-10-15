@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX header for generic LINX Device.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_DEVICE_H
 #define LINX_DEVICE_H
 
@@ -7,7 +18,7 @@
 //This Makes It Easy For IDE Users To Define Necissary Settings In One Place
 //When Using Make Files Define LINXCONFIG To Ignore Config.h File
 #ifndef LINXCONFIG
-	#include "../LinxConfig.h"
+	#include "../config/LinxConfig.h"
 #endif
 
 /****************************************************************************************
@@ -59,6 +70,18 @@
 	#define HEX 16
 #endif
 
+//Non-Volatile Storage Addresses
+#define NVS_USERID 0x00
+#define NVS_ETHERNET_IP 0x02
+#define NVS_ETHERNET_PORT 0x06
+#define NVS_WIFI_IP 0x08
+#define NVS_WIFI_PORT 0x0C
+#define NVS_WIFI_SSID_SIZE 0x0E
+#define NVS_WIFI_SSID 0x0F
+#define NVS_WIFI_SECURITY_TYPE 0x30
+#define NVS_WIFI_PW_SIZE 0x31
+#define NVS_WIFI_PW 0x32
+#define NVS_SERIAL_INTERFACE_MAX_BAUD 0x72
 
 //DEBUG
 #define TX 0
@@ -159,6 +182,22 @@ class LinxDevice
 		unsigned char NumCanChans;
 		const unsigned char* CanChans;
 		
+		//User Configured Values
+		unsigned short userId;
+  
+		unsigned long ethernetIp;
+		unsigned short ethernetPort;  
+
+		unsigned long wifiIp;
+		unsigned short wifiPort;
+		unsigned char wifiSsidSize;
+		char wifiSsid[32];
+		unsigned char wifiSecurity;
+		unsigned char wifiPwSize;
+		char wifiPw[64];
+		
+		unsigned long serialInterfaceMaxBaud;
+		
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
@@ -174,6 +213,9 @@ class LinxDevice
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
 		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		
+		//PWM
+		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel) = 0;
@@ -213,11 +255,13 @@ class LinxDevice
 		virtual void UartWriteln(unsigned char channel, long n, int base);		
 		virtual int UartClose(unsigned char channel) = 0;
 				
-		//General - 
+		//General
 		unsigned char ReverseBits(unsigned char b);
 		virtual unsigned long GetMilliSeconds() = 0;
 		virtual unsigned long GetSeconds() = 0;
 		virtual void DelayMs(unsigned long ms);
+		virtual void NonVolatileWrite(int address, unsigned char data) = 0;
+		virtual unsigned char NonVolatileRead(int address) = 0;
 		
 		//Debug
 		virtual void EnableDebug(unsigned char channel);

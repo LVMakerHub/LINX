@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX header for generic LINX Device.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_DEVICE_H
 #define LINX_DEVICE_H
 
@@ -7,7 +18,7 @@
 //This Makes It Easy For IDE Users To Define Necissary Settings In One Place
 //When Using Make Files Define LINXCONFIG To Ignore Config.h File
 #ifndef LINXCONFIG
-	#include "../LinxConfig.h"
+	#include "../config/LinxConfig.h"
 #endif
 
 /****************************************************************************************
