@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX Configuration data for the chipKIT Uno32
+**  LINX Configuration data for the chipKIT WF32
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx

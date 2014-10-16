@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX code for chipKIT Max32
+**  LINX Arduino Leonardo code
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx
@@ -16,50 +16,50 @@
 
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
-#include "utility/LinxChipkit.h"
-#include "LinxChipkitMax32.h"
+#include "utility/LinxArduino.h"
+#include "LinxArduinoLeonardo.h"
 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxChipkitMax32::m_DeviceName[DEVICE_NAME_LEN] = "ChipKIT Max32";
+const unsigned char LinxArduinoLeonardo::m_DeviceName[DEVICE_NAME_LEN] = "Arduino Leonardo";
 
 //AI
-const unsigned char LinxChipkitMax32::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+const unsigned char LinxArduinoLeonardo::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5};
 
 //AO
 //None
 
 //DIGITAL
-const unsigned char LinxChipkitMax32::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85};
+const unsigned char LinxArduinoLeonardo::m_DigitalChans[NUM_DIGITAL_CHANS] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
 //PWM
-const unsigned char LinxChipkitMax32::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10};
+const unsigned char LinxArduinoLeonardo::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10, 11, 13};
 
 //QE
 //None
 
 //SPI
-const unsigned char LinxChipkitMax32::m_SpiChans[NUM_SPI_CHANS] = {0};
-unsigned long LinxChipkitMax32::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {40000000, 20000000, 10000000, 5000000, 2500000, 1250000, 625000};
-int LinxChipkitMax32::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
+const unsigned char LinxArduinoLeonardo::m_SpiChans[NUM_SPI_CHANS] = {0};
+unsigned long LinxArduinoLeonardo::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {8000000, 4000000, 2000000, 1000000, 500000, 250000, 125000};
+int LinxArduinoLeonardo::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
 
 //I2C
-unsigned char LinxChipkitMax32::m_I2cChans[NUM_I2C_CHANS] = {0};
-unsigned char LinxChipkitMax32::m_I2cRefCount[NUM_I2C_CHANS];			
+unsigned char LinxArduinoLeonardo::m_I2cChans[NUM_I2C_CHANS] = {0};
+unsigned char LinxArduinoLeonardo::m_I2cRefCount[NUM_I2C_CHANS];			
 
 //UART
-unsigned char LinxChipkitMax32::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3};
-unsigned long LinxChipkitMax32::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200};	
+unsigned char LinxArduinoLeonardo::m_UartChans[NUM_UART_CHANS] = {0};
+unsigned long LinxArduinoLeonardo::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
 
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
-LinxChipkitMax32::LinxChipkitMax32()
+LinxArduinoLeonardo::LinxArduinoLeonardo()
 {
-	//Digilent Family Code Set At Family Level, Device ID set to 0x02 for Max32
-	DeviceID = 0x02;
+	//Arduino Family Code Set At Family Level
+	DeviceID = 0x02;	//Uno
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -89,12 +89,11 @@ LinxChipkitMax32::LinxChipkitMax32()
 	//QE
 	NumQeChans = 0;
 	QeChans = 0;
-	
-	
+		
 	//UART
 	NumUartChans = NUM_UART_CHANS;
 	UartChans = m_UartChans;	
-	UartMaxBaud = 115200;		//TODO Move this to a LinxDevice Method	
+	UartMaxBaud = m_UartSupportedSpeeds[NUM_UART_SPEEDS - 1];
 	NumUartSpeeds = NUM_UART_SPEEDS;
 	UartSupportedSpeeds = m_UartSupportedSpeeds;
 
@@ -121,7 +120,7 @@ LinxChipkitMax32::LinxChipkitMax32()
 }
 
 //Destructor
-LinxChipkitMax32::~LinxChipkitMax32()
+LinxArduinoLeonardo::~LinxArduinoLeonardo()
 {
 	//Handle Any Device Clean Up Here.
 	//UartClose();

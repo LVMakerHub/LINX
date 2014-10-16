@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX code for Arduino Uno
+**  LINX Arduino Uno code
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx

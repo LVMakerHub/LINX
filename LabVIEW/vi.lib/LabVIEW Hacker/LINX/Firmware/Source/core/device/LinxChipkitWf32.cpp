@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX code for chipKIT Max32
+**  LINX code for chipKIT WF32
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx
@@ -17,49 +17,49 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
 #include "utility/LinxChipkit.h"
-#include "LinxChipkitMax32.h"
+#include "LinxChipkitWf32.h"
 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxChipkitMax32::m_DeviceName[DEVICE_NAME_LEN] = "ChipKIT Max32";
+const unsigned char LinxChipkitWf32::m_DeviceName[DEVICE_NAME_LEN] = "ChipKIT WF32";
 
 //AI
-const unsigned char LinxChipkitMax32::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+const unsigned char LinxChipkitWf32::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
 //AO
 //None
 
 //DIGITAL
-const unsigned char LinxChipkitMax32::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85};
+const unsigned char LinxChipkitWf32::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73};
 
 //PWM
-const unsigned char LinxChipkitMax32::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10};
+const unsigned char LinxChipkitWf32::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10};
 
 //QE
 //None
 
 //SPI
-const unsigned char LinxChipkitMax32::m_SpiChans[NUM_SPI_CHANS] = {0};
-unsigned long LinxChipkitMax32::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {40000000, 20000000, 10000000, 5000000, 2500000, 1250000, 625000};
-int LinxChipkitMax32::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
+const unsigned char LinxChipkitWf32::m_SpiChans[NUM_SPI_CHANS] = {0};
+unsigned long LinxChipkitWf32::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {40000000, 20000000, 10000000, 5000000, 2500000, 1250000, 625000};
+int LinxChipkitWf32::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {SPI_CLOCK_DIV2, SPI_CLOCK_DIV4, SPI_CLOCK_DIV8, SPI_CLOCK_DIV16, SPI_CLOCK_DIV32, SPI_CLOCK_DIV64, SPI_CLOCK_DIV128};
 
 //I2C
-unsigned char LinxChipkitMax32::m_I2cChans[NUM_I2C_CHANS] = {0};
-unsigned char LinxChipkitMax32::m_I2cRefCount[NUM_I2C_CHANS];			
+unsigned char LinxChipkitWf32::m_I2cChans[NUM_I2C_CHANS] = {0};
+unsigned char LinxChipkitWf32::m_I2cRefCount[NUM_I2C_CHANS];			
 
 //UART
-unsigned char LinxChipkitMax32::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3};
-unsigned long LinxChipkitMax32::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200};	
+unsigned char LinxChipkitWf32::m_UartChans[NUM_UART_CHANS] = {0, 1};
+unsigned long LinxChipkitWf32::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200};	
 
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
-LinxChipkitMax32::LinxChipkitMax32()
+LinxChipkitWf32::LinxChipkitWf32()
 {
-	//Digilent Family Code Set At Family Level, Device ID set to 0x02 for Max32
-	DeviceID = 0x02;
+	//Digilent Family Code Set At Family Level
+	DeviceID = 0x03;		//WF32
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -121,7 +121,7 @@ LinxChipkitMax32::LinxChipkitMax32()
 }
 
 //Destructor
-LinxChipkitMax32::~LinxChipkitMax32()
+LinxChipkitWf32::~LinxChipkitWf32()
 {
 	//Handle Any Device Clean Up Here.
 	//UartClose();

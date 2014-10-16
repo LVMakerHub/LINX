@@ -1,5 +1,5 @@
 /****************************************************************************************	
-**  This is example LINX firmware for use with the Arduino Uno with the serial 
+**  This is example LINX firmware for use with the Arduino Leonardo with the serial 
 **  interface enabled.
 **
 **  For more information see:           www.labviewhacker.com/linx
@@ -17,17 +17,17 @@
 
 //Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
-#include <LinxArduinoUno.h>
+#include <LinxArduinoLeonardo.h>
 #include <LinxSerialListener.h>
  
 //Create A Pointer To The LINX Device Object We Instantiate In Setup()
-LinxArduinoUno* LinxDevice;
+LinxArduinoLeonardo* LinxDevice;
 
 //Initialize LINX Device And Listener
 void setup()
 {
   //Instantiate The LINX Device
-  LinxDevice = new LinxArduinoUno();
+  LinxDevice = new LinxArduinoLeonardo();
   
   //The LINXT Listener Is Pre Instantiated, Call Start And Pass A Pointer To The LINX Device And The UART Channel To Listen On
   LinxSerialConnection.Start(LinxDevice, 0);  

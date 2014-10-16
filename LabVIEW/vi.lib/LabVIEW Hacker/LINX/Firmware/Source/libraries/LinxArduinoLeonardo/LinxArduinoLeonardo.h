@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for chipKIT Max32
+**  LINX header for Arduino Leonardo
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx
@@ -9,38 +9,39 @@
 ** MIT license.
 ****************************************************************************************/	
 
-#ifndef LINX_CHIPKIT_MAX32_H
-#define LINX_CHIPKIT_MAX32_H
+#ifndef LINX_ARDUINO_LEONARDO_H
+#define LINX_ARDUINO_LEONARDO_H
+
 
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/	
-#define DEVICE_NAME_LEN 14
+#define DEVICE_NAME_LEN 17
 
-#define NUM_AI_CHANS 16
+#define NUM_AI_CHANS 6
 #define AI_RES_BITS 10
-#define AI_REFV 3300000
+#define AI_REFV 5000000
 
-#define NUM_DIGITAL_CHANS 86
+#define NUM_DIGITAL_CHANS 14
 
-#define NUM_PWM_CHANS 5
+#define NUM_PWM_CHANS 7
 
 #define NUM_SPI_CHANS 1
 #define NUM_SPI_SPEEDS 7
 
 #define NUM_I2C_CHANS 1
 
-#define NUM_UART_CHANS 4
-#define NUM_UART_SPEEDS 11
+#define NUM_UART_CHANS 1
+#define NUM_UART_SPEEDS 13
 
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/	
 #include "utility/LinxDevice.h"
 #include "utility/LinxWiringDevice.h"
-#include "utility/LinxChipkit.h"
+#include "utility/LinxArduino.h"
 	
-class LinxChipkitMax32 : public LinxChipkit
+class LinxArduinoLeonardo : public LinxArduino
 {
 	public:	
 		/****************************************************************************************
@@ -77,9 +78,9 @@ class LinxChipkitMax32 : public LinxChipkit
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
-		LinxChipkitMax32();
+		LinxArduinoLeonardo();
 		
-		~LinxChipkitMax32();
+		~LinxArduinoLeonardo();
 			
 		/****************************************************************************************
 		**  Functions
@@ -100,4 +101,4 @@ class LinxChipkitMax32 : public LinxChipkit
 };
 
 
-#endif //LINX_CHIPKIT_MAX32_H
+#endif //LINX_ARDUINO_LEONARDO_H

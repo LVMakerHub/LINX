@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for chipKIT Max32
+**  LINX header for chipKIT Uno32
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx
@@ -9,19 +9,19 @@
 ** MIT license.
 ****************************************************************************************/	
 
-#ifndef LINX_CHIPKIT_MAX32_H
-#define LINX_CHIPKIT_MAX32_H
+#ifndef LINX_CHIPKIT_UC32_H
+#define LINX_CHIPKIT_UC32_H
 
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/	
-#define DEVICE_NAME_LEN 14
+#define DEVICE_NAME_LEN 13
 
-#define NUM_AI_CHANS 16
+#define NUM_AI_CHANS 12
 #define AI_RES_BITS 10
 #define AI_REFV 3300000
 
-#define NUM_DIGITAL_CHANS 86
+#define NUM_DIGITAL_CHANS 47
 
 #define NUM_PWM_CHANS 5
 
@@ -30,7 +30,7 @@
 
 #define NUM_I2C_CHANS 1
 
-#define NUM_UART_CHANS 4
+#define NUM_UART_CHANS 2
 #define NUM_UART_SPEEDS 11
 
 /****************************************************************************************
@@ -40,7 +40,7 @@
 #include "utility/LinxWiringDevice.h"
 #include "utility/LinxChipkit.h"
 	
-class LinxChipkitMax32 : public LinxChipkit
+class LinxChipkitUc32 : public LinxChipkit
 {
 	public:	
 		/****************************************************************************************
@@ -77,9 +77,9 @@ class LinxChipkitMax32 : public LinxChipkit
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
-		LinxChipkitMax32();
+		LinxChipkitUc32();
 		
-		~LinxChipkitMax32();
+		~LinxChipkitUc32();
 			
 		/****************************************************************************************
 		**  Functions
@@ -100,4 +100,4 @@ class LinxChipkitMax32 : public LinxChipkit
 };
 
 
-#endif //LINX_CHIPKIT_MAX32_H
+#endif //LINX_CHIPKIT_UC32_H
