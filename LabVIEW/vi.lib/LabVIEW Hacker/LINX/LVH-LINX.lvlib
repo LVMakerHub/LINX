@@ -191,6 +191,7 @@
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder">
+			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Accelerometer" Type="Folder">
 				<Item Name="ADXL345" Type="Folder">
 					<Item Name="ADXL345.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/ADXL345/ADXL345.lvlib"/>
@@ -202,7 +203,6 @@
 					<Item Name="MPU60X0.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/MPU60X0/MPU60X0.lvlib"/>
 				</Item>
 			</Item>
-			<Item Name="AD9850" Type="Folder"/>
 			<Item Name="Beta" Type="Folder"/>
 			<Item Name="BlinkM" Type="Folder">
 				<Item Name="BlinkM.lvlib" Type="Library" URL="../Public/Sensors/BlinkM/BlinkM.lvlib"/>
@@ -225,6 +225,11 @@
 			<Item Name="Mindstorms" Type="Folder">
 				<Item Name="HiTechnic" Type="Folder">
 					<Item Name="HiTechnic.lvlib" Type="Library" URL="../Public/Sensors/Mindstorms/HiTechnic/HiTechnic.lvlib"/>
+				</Item>
+			</Item>
+			<Item Name="Signal Generation" Type="Folder">
+				<Item Name="AD9850" Type="Folder">
+					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/Signal Generation/AD9850/AD9850.lvlib"/>
 				</Item>
 			</Item>
 			<Item Name="Temperature" Type="Folder">

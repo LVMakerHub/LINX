@@ -161,8 +161,6 @@
 				<Item Name="myRIO.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/myRIO/myRIO.lvlib"/>
 				<Item Name="LVH-Toolbox.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LVH-Toolbox/LVH-Toolbox.lvlib"/>
 			</Item>
-			<Item Name="Open.vi" Type="VI" URL="../Public/Sensors/AD9850/Open.vi"/>
-			<Item Name="Set Frequency and Phase.vi" Type="VI" URL="../Public/Sensors/AD9850/Set Frequency and Phase.vi"/>
 			<Item Name="lvinput.dll" Type="Document" URL="../../../../../../../../Program Files (x86)/National Instruments/LabVIEW 2011/resource/lvinput.dll"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
