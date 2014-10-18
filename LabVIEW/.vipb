@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2014-06-10 11:26:12" Creator="lvadmin" Comments="" ID="33af16e1ff275999b51065a94d445ebb">
+<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2014-10-18 13:58:41" Creator="lvadmin" Comments="" ID="dd11914fa0cbe81ba600581004323be8">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>1.1.0.64</Library_Version>
+    <Library_Version>1.2.0.66</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\LVH-Builds\LVH-LINX\Installers</Library_Output_Folder>
@@ -34,7 +34,27 @@
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewhacker.com/linx</URL>
-      <Release_Notes>Fixed some issues preventing proper enumeration when using TCP and LINX 1.1 enumeration process.</Release_Notes>
+      <Release_Notes>LINX 1.2 (Alpha, Not All Features Below Are Implemented Yet)
+
+Firmware
+- Completly re-written to enable more code re-use between devices
+- Object oriented firmware makes it easy to add new devices in an existing famile
+- Laid groundwork for building firmware using Make files
+- Added beta support for Rapsberry Pi
+
+Sensors:
+Added support for MMA8451 Acceleromter - Original Code Contributed by SEbstein
+Added support for MPU-6050 (Accelerometer / Gyro)
+Added auto populating palette for community sensors
+
+Peripheral:
+-Added I2C End of Frame Configuration
+-Completely New SPI API (much more intuitive)
+    Added support for setting SPI clock speeds
+
+Examples:
+-Added Analog Read N Channel Example
+-Added SPI Example</Release_Notes>
     </Description>
     <Destinations>
       <Toolkit_VIs>
