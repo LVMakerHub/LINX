@@ -1,9 +1,21 @@
 /****************************************************************************************
+**  Generic LINX Listener code.  This file contains the parent class for LINX listeners.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
+/****************************************************************************************
 ** Includes
 ****************************************************************************************/
 #include <stdio.h>
 
 #include "LinxListener.h"
+#include "LinxDevice.h"
 
 //DEBUG
 //This was added to get delay() in cmd 0006.  Delay should be added at device level
@@ -106,6 +118,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		break;
 		
 	//case 0x0001: //TODO Flush Linx Connection Buffer
+	//case 0x0002: //TODO Reset
 	 
 	case 0x0003: // Get Device ID     
 		responsePacketBuffer[5] = LinxDev->DeviceFamily;
@@ -180,31 +193,169 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		status = L_DISCONNECT;
 		break;
 		
-	//case 0x0012: //TODO Set Device User Id	
-	//case 0x0013: //TODO Get Device User Id
+	case 0x0012: //Set Device User Id	
+		LinxDev->userId = commandPacketBuffer[6] << 8 | commandPacketBuffer[7];		
+		LinxDev->NonVolatileWrite(NVS_USERID, commandPacketBuffer[6]);
+		LinxDev->NonVolatileWrite(NVS_USERID+1, commandPacketBuffer[7]);
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+		
+	case 0x0013: //Get Device User Id
+		responsePacketBuffer[5] = (LinxDev->userId >> 8) & 0xFF;
+		responsePacketBuffer[6] = LinxDev->userId & 0xFF;
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 2, L_OK);
+		break;
 	
-	//case 0x0014: //TODO Set Device Ethernet IP
-	//case 0x0015: //TODO Get Device Ethernet IP	
-	//case 0x0016: //TODO Set Device Ethernet Port
-	//case 0x0017: //TODO Get Device Ethernet Port
 	
-	//case 0x0018: //TODO Set Device WIFI IP
-	//case 0x0019: //TODO Get Device WIFI IP	
-	//case 0x001A: //TODO Set Device WIFI Port
-	//case 0x001B: //TODO Get Device WIFI Port
-	//case 0x001C: //TODO Set Device WIFI SSID
-	//case 0x001D: //TODO Get Device WIFI SSID
-	//case 0x001E: //TODO Set Device WIFI Security Type
-	//case 0x001F: //TODO Get Device WIFI Security Type
-	//case 0x0020: //TODO Set Device WIFI Password
-	//case 0x0021: //TODO Get Device WIFI Password
+	case 0x0014: //Set Device Ethernet IP
+		LinxDev->ethernetIp = (commandPacketBuffer[6]<<24) | (commandPacketBuffer[7]<<16) | (commandPacketBuffer[8]<<8) | (commandPacketBuffer[9]);
+		LinxDev->NonVolatileWrite(NVS_ETHERNET_IP, commandPacketBuffer[6]);
+		LinxDev->NonVolatileWrite(NVS_ETHERNET_IP+1, commandPacketBuffer[7]);
+		LinxDev->NonVolatileWrite(NVS_ETHERNET_IP+2, commandPacketBuffer[8]);
+		LinxDev->NonVolatileWrite(NVS_ETHERNET_IP+3, commandPacketBuffer[9]);
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+		
+	case 0x0015: //Get Device Ethernet IP	
+		responsePacketBuffer[5] = ((LinxDev->ethernetIp>>24) & 0xFF);	//Ethernet IP MSB  
+		responsePacketBuffer[6] = ((LinxDev->ethernetIp>>16) & 0xFF);	//Ethernet IP ...
+		responsePacketBuffer[7] = ((LinxDev->ethernetIp>>8) & 0xFF);	//Ethernet IP ...
+		responsePacketBuffer[8] = ((LinxDev->ethernetIp) & 0xFF);		//Ethernet IP LSB  
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK);
+		break;
+		
+	case 0x0016: //Set Device Ethernet Port
+		LinxDev->ethernetPort = ((commandPacketBuffer[6]<<8) | (commandPacketBuffer[7]));
+		LinxDev->NonVolatileWrite(NVS_ETHERNET_PORT, commandPacketBuffer[6]);
+		LinxDev->NonVolatileWrite(NVS_ETHERNET_PORT+1, commandPacketBuffer[7]);
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+		
+	case 0x0017: //Get Device Ethernet Port
+		responsePacketBuffer[5] = ((LinxDev->ethernetPort>>8) & 0xFF);	//Ethernet PORT MSB
+		responsePacketBuffer[6] = (LinxDev->ethernetPort & 0xFF);		//Ethernet PORT LSB
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 2, L_OK);
+		break;
 	
-	//case 0x0022: //TODO Set Device Max Baud
-	//case 0x0023: //TODO Get Device Max Baud
+	case 0x0018: //Set Device WIFI IP
+		LinxDev->wifiIp = (commandPacketBuffer[6]<<24) | (commandPacketBuffer[7]<<16) | (commandPacketBuffer[8]<<8) | (commandPacketBuffer[9]);
+		LinxDev->NonVolatileWrite(NVS_WIFI_IP, commandPacketBuffer[6]);
+		LinxDev->NonVolatileWrite(NVS_WIFI_IP+1, commandPacketBuffer[7]);
+		LinxDev->NonVolatileWrite(NVS_WIFI_IP+2, commandPacketBuffer[8]);
+		LinxDev->NonVolatileWrite(NVS_WIFI_IP+3, commandPacketBuffer[9]);
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+		
+	case 0x0019: //Get Device WIFI IP	
+		responsePacketBuffer[5] = ((LinxDev->wifiIp>>24) & 0xFF);                   //WIFI IP MSB
+		responsePacketBuffer[6] = ((LinxDev->wifiIp>>16) & 0xFF);                   //WIFI IP ...
+		responsePacketBuffer[7] = ((LinxDev->wifiIp>>8) & 0xFF);                    //WIFI IP ...
+		responsePacketBuffer[8] = ((LinxDev->wifiIp) & 0xFF);                       //WIFI IP LSB  
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK);
+		break;
+		
+	case 0x001A: //Set Device WIFI Port
+		LinxDev->wifiPort = ((commandPacketBuffer[6]<<8) | (commandPacketBuffer[7]));
+		LinxDev->NonVolatileWrite(NVS_WIFI_PORT, commandPacketBuffer[6]);
+		LinxDev->NonVolatileWrite(NVS_WIFI_PORT+1, commandPacketBuffer[7]);
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+		
+	case 0x001B: //Get Device WIFI Port
+		responsePacketBuffer[5] = ((LinxDev->wifiPort>>8) & 0xFF);                  //WIFI PORT MSB
+		responsePacketBuffer[6] = (LinxDev->wifiPort & 0xFF);                       //WIFI PORT LSB
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 2, L_OK);
+		break;
+		
+	case 0x001C: //Set Device WIFI SSID
+		 //Update Ssid Size In RAM And NVS
+		if(commandPacketBuffer[6] > 32)
+		{
+			LinxDev->wifiSsidSize = 32;
+			LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE, 32);
+		}
+		else
+		{
+			LinxDev->wifiSsidSize = commandPacketBuffer[6];
+			LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE, commandPacketBuffer[6]);
+		}
+
+		//Update SSID Value In RAM And NVS
+		for(int i=0; i<LinxDev->wifiSsidSize; i++)
+		{
+			LinxDev->wifiSsid[i] = commandPacketBuffer[7+i];
+			LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE+i, commandPacketBuffer[7+i]);    
+		}
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+		
+	case 0x001D: //Get Device WIFI SSID
+		responsePacketBuffer[5] = LinxDev->wifiSsidSize;	//SSID SIZE
+
+		for(int i=0; i<LinxDev->wifiSsidSize; i++)
+		{
+			responsePacketBuffer[i+6] = LinxDev->wifiSsid[i];
+		}
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, LinxDev->wifiSsidSize, L_OK);
+		break;
+		
+	case 0x001E: //Set Device WIFI Security Type
+		LinxDev->wifiSecurity = commandPacketBuffer[6];
+		LinxDev->NonVolatileWrite(NVS_WIFI_SECURITY_TYPE, commandPacketBuffer[6]);
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+	
+	case 0x001F: //Get Device WIFI Security Type
+		responsePacketBuffer[5] = LinxDev->wifiSecurity;
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 1, L_OK);
+		break;
+		
+	case 0x0020: //Set Device WIFI Password
+		//Update PW Size In RAM And NVS
+		if(commandPacketBuffer[6] > 64)
+		{
+			LinxDev->wifiPwSize = 64;
+			LinxDev->NonVolatileWrite(NVS_WIFI_PW_SIZE, 64);
+		}
+		else
+		{
+			LinxDev->wifiPwSize = commandPacketBuffer[6];
+			LinxDev->NonVolatileWrite(NVS_WIFI_PW_SIZE, commandPacketBuffer[6]);
+		}  
+
+		//Update PW Value In RAM And NVS
+		for(int i=0; i<LinxDev->wifiPwSize; i++)
+		{
+			LinxDev->wifiPw[i] = commandPacketBuffer[7+i];
+			LinxDev->NonVolatileWrite(NVS_WIFI_PW+i, commandPacketBuffer[i+7]);    
+		}
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+		
+	//case 0x0021: //TODO Get Device WIFI Password - Intentionally Not Implemented For Security Reasons.
+		
+	case 0x0022: //Set Device Max Baud
+		LinxDev->serialInterfaceMaxBaud = (unsigned long)(((unsigned long)commandPacketBuffer[6]<<24) | ((unsigned long)commandPacketBuffer[7]<<16) | ((unsigned long)commandPacketBuffer[8]<<8) | ((unsigned long)commandPacketBuffer[9]));
+		LinxDev->NonVolatileWrite(NVS_SERIAL_INTERFACE_MAX_BAUD, commandPacketBuffer[6]);
+		LinxDev->NonVolatileWrite(NVS_SERIAL_INTERFACE_MAX_BAUD+1, commandPacketBuffer[7]);
+		LinxDev->NonVolatileWrite(NVS_SERIAL_INTERFACE_MAX_BAUD+2, commandPacketBuffer[8]);
+		LinxDev->NonVolatileWrite(NVS_SERIAL_INTERFACE_MAX_BAUD+3, commandPacketBuffer[9]);
+		StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
+		break;
+	case 0x0023: //Get Device Max Baud
+	
+		responsePacketBuffer[5] = ((LinxDev->serialInterfaceMaxBaud>>24) & 0xFF);   //WIFI IP MSB
+		responsePacketBuffer[6] = ((LinxDev->serialInterfaceMaxBaud>>16) & 0xFF);   //WIFI IP ...
+		responsePacketBuffer[7] = ((LinxDev->serialInterfaceMaxBaud>>8) & 0xFF);    //WIFI IP ...
+		responsePacketBuffer[8] = ((LinxDev->serialInterfaceMaxBaud) & 0xFF);       //WIFI IP LSB   
+		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK);
+		break;
 	
 	case 0x0024: // Get Device Name
 		DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
 		break;
+	
+	//---0x0025 to 0x003F Reserved---
 	
 	/****************************************************************************************
 	**  Digital I/O
@@ -224,6 +375,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	//case 0x0043: //TODO Write Square Wave
 	//case 0x0044: //TODO Read Pulse Width
 		
+	//---0x0045 to 0x005F Reserved---
+	
 	/****************************************************************************************
 	**  Analog I/O
 	****************************************************************************************/	
@@ -259,6 +412,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 	
 	//case 0x0065: //TODO Analog Write
 	
+	//---0x0066 to 0x007F Reserved---
+	
 	/****************************************************************************************
 	** PWM
 	****************************************************************************************/	
@@ -273,7 +428,14 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		break;
 	
 	//case 0x0084: //TODO PWM Close	
-		
+	
+	/****************************************************************************************
+	** QE
+	****************************************************************************************/		
+	
+	//---0x00A0 to 0x00BF Reserved---
+	
+	
 	/****************************************************************************************
 	** UART
 	****************************************************************************************/	
@@ -330,6 +492,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		break;
 	}
 	
+	//---0x00C6 to 0x00DF Reserved---
+	
 	/****************************************************************************************
 	** I2C
 	****************************************************************************************/	
@@ -363,6 +527,8 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		status = LinxDev->I2cClose((commandPacketBuffer[6]));
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 		break;
+		
+	//---0x00E5 to 0x00FF Reserved---
 		
 	/****************************************************************************************
 	** SPI
@@ -398,6 +564,11 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, status); 
 		break;	
 	}
+	
+	//case 0x0104: //LEGACY - SPI Set Frame Size
+	//case 0x0105: //LEGACY - SPI Set CS Logic Level
+	//case 0x0106: //LEGACY - SPI Set CS Channel
+	
 	case 0x0107: // SPI Write Read
 	{
 		status = LinxDev->SpiWriteRead(commandPacketBuffer[6], commandPacketBuffer[7], (commandPacketBuffer[1]-11)/commandPacketBuffer[7], commandPacketBuffer[8], commandPacketBuffer[9], &commandPacketBuffer[10], &responsePacketBuffer[5]);
@@ -405,6 +576,23 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		break;
 	}
 	
+	//---0x0085 to 0x009F Reserved---
+	
+	/****************************************************************************************
+	** CAN
+	****************************************************************************************/	
+	
+	//---0x0120 to 0x013F Reserved---
+	
+	/****************************************************************************************
+	** User Commands
+	****************************************************************************************/	
+	
+	//---0xFC00 to 0xFFFF---
+	
+	/****************************************************************************************
+	** Default
+	****************************************************************************************/	
 	default: //Default Case
 		StatusResponse(commandPacketBuffer, responsePacketBuffer, (int)L_FUNCTION_NOT_SUPPORTED);
 		break;		

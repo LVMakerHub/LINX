@@ -1,4 +1,15 @@
 /****************************************************************************************
+**  LINX - Generic LINX device.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
+/****************************************************************************************
 **  Includes
 ****************************************************************************************/
 #include <stdio.h>
@@ -11,7 +22,7 @@
 LinxDevice::LinxDevice()
 {
 	DeviceFamily = 0xFE;
-	DeviceID = 0x00;
+	DeviceID = 0x00;	
 }
 
 /****************************************************************************************
@@ -87,89 +98,96 @@ void LinxDevice::UartWrite(unsigned char channel, const char *s)
 
 void LinxDevice::UartWrite(unsigned char channel, char c)
 {
-  UartWrite(channel, (unsigned char) c);
+	UartWrite(channel, (unsigned char) c);
 }
 
 void LinxDevice::UartWrite(unsigned char channel, int n)
 {
-  UartWrite(channel, (long) n);
+	UartWrite(channel, (long) n);
 }
 
 void LinxDevice::UartWrite(unsigned char channel, unsigned int n)
 {
-  UartWrite(channel, (unsigned long) n);
+	UartWrite(channel, (unsigned long) n);
 }
 
 void LinxDevice::UartWrite(unsigned char channel, long n)
 {
-  if (n < 0) {
-    UartWrite(channel, '-');
-    n = -n;
-  }
-  UartWriteNumber(channel, n, 10);
+	if (n < 0) 
+	{
+		UartWrite(channel, '-');
+		n = -n;
+	}
+	UartWriteNumber(channel, n, 10);
 }
 
 void LinxDevice::UartWrite(unsigned char channel, unsigned long n)
 {
-  UartWriteNumber(channel , n, 10);
+	UartWriteNumber(channel , n, 10);
 }
 
 void LinxDevice::UartWrite(unsigned char channel, long n, int base)
 {
-  if (base == 0)
-    UartWrite(channel, (char) n);
-  else if (base == 10)
-    UartWrite(channel, n);
-  else
-    UartWriteNumber(channel , n, base);
+	if (base == 0)
+	{
+		UartWrite(channel, (char) n);
+	}
+	else if (base == 10)
+	{
+		UartWrite(channel, n);
+	}
+	else
+	{
+		UartWriteNumber(channel , n, base);
+	}
 }
 
 void LinxDevice::UartWriteln(unsigned char channel)
 {
-  UartWrite(channel, '\r');
-  UartWrite(channel, '\n');  
+	UartWrite(channel, '\r');
+	UartWrite(channel, '\n');  
 }
 
 void LinxDevice::UartWriteln(unsigned char channel, char c)
 {
-  UartWrite(channel, c);
-  UartWriteln(channel);  
+	UartWrite(channel, c);
+	UartWriteln(channel);  
 }
 
 void LinxDevice::UartWriteln(unsigned char channel, const char c[])
 {
-  UartWrite(channel, c);
-  UartWriteln(channel);
+	UartWrite(channel, c);
+	UartWriteln(channel);
 }
 
 void LinxDevice::UartWriteln(unsigned char channel, unsigned char b)
 {
-  UartWrite(channel, b);
-  UartWriteln(channel);
+	UartWrite(channel, b);
+	UartWriteln(channel);
 }
 
 void LinxDevice::UartWriteln(unsigned char channel, int n)
 {
-  UartWrite(channel, n);
-  UartWriteln(channel);
+	UartWrite(channel, n);
+	UartWriteln(channel);
 }
 
 void LinxDevice::UartWriteln(unsigned char channel, long n)
 {
-  UartWrite(channel, n);
-  UartWriteln(channel);  
+	UartWrite(channel, n);
+	UartWriteln(channel);  
 }
 
 void LinxDevice::UartWriteln(unsigned char channel, unsigned long n)
 {
-  UartWrite(channel, n);
-  UartWriteln(channel);  
+	UartWrite(channel, n);
+	UartWriteln(channel);  
 }
 
 void LinxDevice::UartWriteln(unsigned char channel, long n, int base)
 {
-  UartWrite(channel, n, base);
-  UartWriteln(channel);
+	UartWrite(channel, n, base);
+	UartWriteln(channel);
 }
 
 
@@ -293,19 +311,23 @@ void  LinxDevice::DebugPrintln(long n, int base)
 
 void LinxDevice::UartWriteNumber(unsigned char channel, unsigned long n, unsigned char base)
 {
-  unsigned char buf[8 * sizeof(long)]; // Assumes 8-bit chars. 
-  unsigned long i = 0;
+	unsigned char buf[8 * sizeof(long)]; // Assumes 8-bit chars. 
+	unsigned long i = 0;
 
-  if (n == 0) {
-    UartWrite(channel, '0');
-    return;
-  } 
+	if (n == 0) 
+	{
+		UartWrite(channel, '0');
+		return;
+	} 
 
-  while (n > 0) {
-    buf[i++] = n % base;
-    n /= base;
-  }
+	while (n > 0) 
+	{
+		buf[i++] = n % base;
+		n /= base;
+	}
 
-  for (; i > 0; i--)
-    UartWrite(channel, (char) (buf[i - 1] < 10 ? '0' + buf[i - 1] : 'A' + buf[i - 1] - 10));
+	for (; i > 0; i--)
+	{
+		UartWrite(channel, (char) (buf[i - 1] < 10 ? '0' + buf[i - 1] : 'A' + buf[i - 1] - 10));
+	}
 }

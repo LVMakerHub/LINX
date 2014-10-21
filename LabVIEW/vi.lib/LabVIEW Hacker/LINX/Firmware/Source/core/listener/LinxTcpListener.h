@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX header for TCP listener.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_TCP_LISTENER_H
 #define LINX_TCP_LISTENER_H
 

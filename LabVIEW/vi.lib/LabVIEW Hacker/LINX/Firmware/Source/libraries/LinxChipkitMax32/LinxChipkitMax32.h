@@ -1,6 +1,16 @@
+/****************************************************************************************
+**  LINX header for chipKIT Max32
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_CHIPKIT_MAX32_H
 #define LINX_CHIPKIT_MAX32_H
-
 
 /****************************************************************************************
 **  Defines

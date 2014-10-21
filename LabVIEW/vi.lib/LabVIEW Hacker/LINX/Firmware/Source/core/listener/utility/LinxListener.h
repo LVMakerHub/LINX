@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  Generic LINX listener header.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_LISTENER_H
 #define LINX_LISTENER_H
 

@@ -8,6 +8,7 @@
 	<Item Name="Examples" Type="Folder">
 		<Item Name="LINX - AD9850.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - AD9850.vi"/>
 		<Item Name="LINX - Analog Read 1 Channel.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read 1 Channel.vi"/>
+		<Item Name="LINX - Analog Read N Channels.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read N Channels.vi"/>
 		<Item Name="LINX - Blink (Advanced).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Advanced).vi"/>
 		<Item Name="LINX - Blink (Simple) (TCP).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple) (TCP).vi"/>
 		<Item Name="LINX - Blink (Simple).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple).vi"/>
@@ -178,7 +179,7 @@
 				<Item Name="SPI Set Frame Size.vi" Type="VI" URL="../Private/Device/Peripheral/SPI/SPI Set Frame Size.vi"/>
 				<Item Name="SPI Write Read 1 Frame.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read 1 Frame.vi"/>
 				<Item Name="SPI Write Read N Frames.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read N Frames.vi"/>
-				<Item Name="SPi Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPi Write Read.vi"/>
+				<Item Name="SPI Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read.vi"/>
 			</Item>
 			<Item Name="UART" Type="Folder">
 				<Item Name="UART Close.vi" Type="VI" URL="../Public/Peripherals/UART/UART Close.vi"/>
@@ -190,13 +191,17 @@
 			</Item>
 		</Item>
 		<Item Name="Sensors" Type="Folder">
+			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Accelerometer" Type="Folder">
 				<Item Name="ADXL345" Type="Folder">
 					<Item Name="ADXL345.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/ADXL345/ADXL345.lvlib"/>
 				</Item>
-			</Item>
-			<Item Name="AD9850" Type="Folder">
-				<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/AD9850/AD9850.lvlib"/>
+				<Item Name="MMA8451" Type="Folder">
+					<Item Name="MMA8451.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/MMA8451/MMA8451.lvlib"/>
+				</Item>
+				<Item Name="MPU60X0" Type="Folder">
+					<Item Name="MPU60X0.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/MPU60X0/MPU60X0.lvlib"/>
+				</Item>
 			</Item>
 			<Item Name="Beta" Type="Folder"/>
 			<Item Name="BlinkM" Type="Folder">
@@ -220,6 +225,11 @@
 			<Item Name="Mindstorms" Type="Folder">
 				<Item Name="HiTechnic" Type="Folder">
 					<Item Name="HiTechnic.lvlib" Type="Library" URL="../Public/Sensors/Mindstorms/HiTechnic/HiTechnic.lvlib"/>
+				</Item>
+			</Item>
+			<Item Name="Signal Generation" Type="Folder">
+				<Item Name="AD9850" Type="Folder">
+					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/AD9850/AD9850.lvlib"/>
 				</Item>
 			</Item>
 			<Item Name="Temperature" Type="Folder">

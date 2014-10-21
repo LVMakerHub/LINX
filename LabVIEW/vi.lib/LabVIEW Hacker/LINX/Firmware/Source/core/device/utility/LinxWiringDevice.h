@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX header for Wiring compatible devices.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
 #ifndef LINX_WIRING_H
 #define LINX_WIRING_H
 
@@ -16,14 +27,14 @@ class LinxWiringDevice : public LinxDevice
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-		unsigned char NumUartSpeeds;						///Number Of Support UART Buads
+		unsigned char NumUartSpeeds;					//Number Of Support UART Buads
 		unsigned long* UartSupportedSpeeds;				//Supported UART Bauds Frequencies
 		
 		unsigned char NumSpiSpeeds;						//Number Of Supported SPI Speeds
 		unsigned long* SpiSupportedSpeeds;				//Supported SPI Clock Frequencies
-		int* SpiSpeedCodes;										//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		int* SpiSpeedCodes;								//SPI Speed Values (Clock Divider Macros In Wiring Case)
 		
-		unsigned char* I2cRefCount;							//Number Opens - Closes On I2C Channel
+		unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
@@ -69,6 +80,8 @@ class LinxWiringDevice : public LinxDevice
 		virtual unsigned long GetMilliSeconds();
 		virtual unsigned long GetSeconds();
 		virtual void DelayMs(unsigned long ms);
+		virtual void NonVolatileWrite(int address, unsigned char data);
+		virtual unsigned char NonVolatileRead(int address);
 		
 		//Debug
 		

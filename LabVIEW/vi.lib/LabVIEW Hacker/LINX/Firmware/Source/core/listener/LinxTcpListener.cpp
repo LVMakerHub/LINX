@@ -1,4 +1,15 @@
 /****************************************************************************************
+**  LINX TCP listener code.
+**
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** MIT license.
+****************************************************************************************/	
+
+/****************************************************************************************
 **  Includes
 ****************************************************************************************/
 #include "utility\LinxListener.h"
