@@ -57,6 +57,8 @@ class LinxListener
 		unsigned char recBuffer[LISTENER_BUFFER_SIZE];
 		unsigned char sendBuffer[LISTENER_BUFFER_SIZE];
 		
+		int (*customCommands[64])(unsigned char, unsigned char*, unsigned char*, unsigned char*);
+		
 		
 		/****************************************************************************************
 		**  Constructors
@@ -74,9 +76,9 @@ class LinxListener
 		virtual int Close();			//Close Client Connection
 		virtual int Exit();			//Stop Listening, Close And Exit
 		
+		void AttachCustomCommand(unsigned short commandNumber, int (*function)(unsigned char, unsigned char*, unsigned char*, unsigned char*) );
 		virtual int CheckForCommands();		//Execute Listener State Machine
-		
-		
+				
 		int ProcessCommand(unsigned char* recBuffer, unsigned char* sendBuffer);
 		void PacketizeAndSend(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, unsigned int dataSize, int status);
 		void StatusResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, int status);

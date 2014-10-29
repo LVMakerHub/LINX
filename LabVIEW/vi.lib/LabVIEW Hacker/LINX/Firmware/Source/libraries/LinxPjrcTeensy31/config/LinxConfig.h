@@ -14,7 +14,7 @@
 	#define LINXCONFIG
 
 	#define DEBUG_ENABLED 0
-	#define NUM_I2C_CHANS 1
+	#define NUM_I2C_CHANS 2
 	#define NUM_SPI_CHANS 1
 	#define NUM_UART_CHANS 3
 	#define DEVICE_FAMILY 2

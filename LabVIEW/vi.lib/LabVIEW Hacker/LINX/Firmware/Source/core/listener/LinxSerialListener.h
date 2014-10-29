@@ -55,7 +55,6 @@ class LinxSerialListener : public LinxListener
 		
 		virtual int CheckForCommands();
 		
-		
 	private:
 		/****************************************************************************************
 		**  Variables
