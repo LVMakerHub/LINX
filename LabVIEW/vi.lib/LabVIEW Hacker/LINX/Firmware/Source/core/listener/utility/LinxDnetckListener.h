@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for ChipKIT Wifi listener.
+**  LINX header for DNETcK listener.
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx
@@ -9,61 +9,55 @@
 ** MIT license.
 ****************************************************************************************/	
 
-#ifndef LINX_CHIPKITNETWORKSHIELD_LISTENER_H
-#define LINX_CHIPKITNETWORKSHIELD_LISTENER_H
+#ifndef LINX_DNETCK_LISTENER_H
+#define LINX_DNETCK_LISTENER_H
 
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/		
-#define LINX_SERIAL_BUFFER_SIZE 128
+#define LINX_TCP_BUFFER_SIZE 128
 
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-#include "utility\LinxListener.h"
-#include "utility\LinxDevice.h"
-#include "utility\LinxDnetckListener.h"
+#include "LinxListener.h"
+#include "LinxDevice.h"
+#include <DNETcK.h> 
 
 /****************************************************************************************
 **  Type Defs
 ****************************************************************************************/		
-enum SecurityType {NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104};
 
 /****************************************************************************************
 **  Classes
 ****************************************************************************************/		
-class LinxChipkitWifiListener : public LinxDnetckListener
+class LinxDnetckListener : public LinxListener
 {
 	public:
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-		LinxListenerState State;
+		LinxListenerState State;		
 		
-		unsigned long LinxWifiIp;
-		unsigned short LinxWifiPort;
-		unsigned char LinxWifiSsidSize;
-		char LinxWifiSsid[32];
-		SecurityType LinxWifiSecurity;
-		unsigned char LinxWifiPwSize;
-		char LinxWifiPw[32];
+		IPv4 IpAddress;
+		unsigned short LinxTcpPort;
 		
-		unsigned char wifiServerFail;
-		
+		TcpServer LinxTcpServer;
+		TcpClient LinxTcpClient;
+		int LinxTcpClientCount;		
+		unsigned int LinxTcpStartTime;
+		unsigned int LinxTcpTimeout;
+		DNETcK::STATUS LinxTcpStatus;
 		
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
-		LinxChipkitWifiListener();		//Default Constructor
+		LinxDnetckListener();		//Default Constructor
 		
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/		
-		virtual int SetSsid(const char ssid[]);
-		virtual int SetSecurity(SecurityType securityType);
-		virtual int SetPassphrase(const char pw[]);
-		
-		virtual int Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port);
+		virtual int Start(LinxDevice* linxDev);
 		virtual int Listen();			
 		virtual int Available();	
 		virtual int Accept();				
@@ -84,6 +78,4 @@ class LinxChipkitWifiListener : public LinxDnetckListener
 	
 };
 
-extern LinxChipkitWifiListener LinxWifiConnection;
-
-#endif //LINX_CHIPKITNETWORKSHIELD_LISTENER_H
+#endif //LINX_DNETCK_LISTENER_H
