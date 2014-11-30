@@ -15,11 +15,6 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-//This Makes It Easy For IDE Users To Define Necissary Settings In One Place
-//When Using Make Files Define LINXCONFIG To Ignore Config.h File
-#ifndef LINXCONFIG
-	#include "../config/LinxConfig.h"
-#endif
 
 /****************************************************************************************
 **  Defines
@@ -188,13 +183,13 @@ class LinxDevice
 		unsigned long ethernetIp;
 		unsigned short ethernetPort;  
 
-		unsigned long wifiIp;
-		unsigned short wifiPort;
-		unsigned char wifiSsidSize;
-		char wifiSsid[32];
-		unsigned char wifiSecurity;
-		unsigned char wifiPwSize;
-		char wifiPw[64];
+		unsigned long WifiIp;
+		unsigned short WifiPort;
+		unsigned char WifiSsidSize;
+		char WifiSsid[32];
+		unsigned char WifiSecurity;
+		unsigned char WifiPwSize;
+		char WifiPw[64];
 		
 		unsigned long serialInterfaceMaxBaud;
 		

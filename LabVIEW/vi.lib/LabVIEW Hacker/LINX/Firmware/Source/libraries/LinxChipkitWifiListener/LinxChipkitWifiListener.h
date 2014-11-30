@@ -20,6 +20,7 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
+#include "LinxSerialListener.h"
 #include "utility\LinxListener.h"
 #include "utility\LinxDevice.h"
 #include "utility\LinxDnetckListener.h"
@@ -46,7 +47,7 @@ class LinxChipkitWifiListener : public LinxDnetckListener
 		char LinxWifiSsid[32];
 		SecurityType LinxWifiSecurity;
 		unsigned char LinxWifiPwSize;
-		char LinxWifiPw[32];
+		char LinxWifiPw[64];
 		
 		unsigned char wifiServerFail;
 		
@@ -63,7 +64,9 @@ class LinxChipkitWifiListener : public LinxDnetckListener
 		virtual int SetSecurity(SecurityType securityType);
 		virtual int SetPassphrase(const char pw[]);
 		
+		virtual int Start(LinxDevice* linxDev);
 		virtual int Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port);
+		virtual int StartStage2(IPv4 deviceIpAddress, unsigned short port);
 		virtual int Listen();			
 		virtual int Available();	
 		virtual int Accept();				

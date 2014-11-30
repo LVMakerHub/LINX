@@ -1,1 +1,0 @@
-This folder contains log files from each time the firmware wizard deploys firmware to a device. 

@@ -63,20 +63,59 @@ int LinxChipkitWifiListener::SetPassphrase(const char pw[])
 	return L_OK;
 }
 
+//Start With IP And Port Saved In NVS
+int LinxChipkitWifiListener::Start(LinxDevice* linxDev)
+{
+	LinxDev = linxDev;
+	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With NVS Data");
+	
+	//Load Stored WIFI Values
+	int ssidSize = LinxDev->NonVolatileRead(NVS_WIFI_SSID_SIZE);
+	for(int i=0; i<ssidSize; i++)
+	{
+		LinxWifiSsid[i] = LinxDev->NonVolatileRead(NVS_WIFI_SSID + i);
+	}
+	
+	int pwSize =LinxDev->NonVolatileRead(NVS_WIFI_PW_SIZE);
+	for(int i=0; i<pwSize; i++)
+	{
+		LinxWifiPw[i] = LinxDev->NonVolatileRead(NVS_WIFI_PW + i);
+	}
+	
+	LinxWifiSecurity = (SecurityType)LinxDev->NonVolatileRead(NVS_WIFI_SECURITY_TYPE);
+	
+	IPv4 deviceIpAddress = {LinxDev->NonVolatileRead(NVS_WIFI_IP), LinxDev->NonVolatileRead(NVS_WIFI_IP+1), LinxDev->NonVolatileRead(NVS_WIFI_IP+2), LinxDev->NonVolatileRead(NVS_WIFI_IP+3)};
+	LinxDev->WifiIp = deviceIpAddress.rgbIP[0]<<24 | deviceIpAddress.rgbIP[1] <<16 | deviceIpAddress.rgbIP[2] << 8 | deviceIpAddress.rgbIP[3];
+	unsigned short port = (LinxDev->NonVolatileRead(NVS_WIFI_PORT) << 8) +  (LinxDev->NonVolatileRead(NVS_WIFI_PORT+1)) ;
+	
+	
+	
+	StartStage2(deviceIpAddress, port);
+	
+	return L_OK;
+}
+
 int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port)
 {
-	
 	LinxDev = linxDev;
 	
-	LinxDev->DebugPrintln("Network Wifi Stack :: Starting");
+	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With Fixed IP Address");
 		
-	
-	unsigned long deviceIp = (ip3<<24) | (ip2<<16) | (ip1<<8) | ip0;	
 	IPv4 deviceIpAddress = {ip3, ip2, ip1, ip0};
 	
-	LinxTcpPort = port;
-		
+	StartStage2(deviceIpAddress, port);
 	
+	return L_OK;
+	
+}
+
+
+//Common Part Of Network Stack Bring Up
+int LinxChipkitWifiListener::StartStage2(IPv4 deviceIpAddress, unsigned short port)
+{
+	
+	LinxTcpPort = port;
+
 	int LinxWifiConnectionId = DWIFIcK::INVALID_CONNECTION_ID;
 
 	//SSID
@@ -89,10 +128,61 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsig
 
 	DWIFIcK::WPA2KEY key;
 	
-	for(int i=0; i<32; i++)
+	for(int i=0; i<64; i++)
 	{
 		key.rgbKey[i] = LinxWifiPw[i];
 	}
+	
+	//LINX WIFI DEBUG INFO
+	LinxDev->DebugPrintln("");
+	LinxDev->DebugPrintln("");
+	LinxDev->DebugPrintln(".: LINX WIFI SETTINNGS :.");
+	
+	LinxDev->DebugPrint("IP Address : ");
+	LinxDev->DebugPrint(deviceIpAddress.rgbIP[0], DEC);
+	LinxDev->DebugPrint(".");
+	LinxDev->DebugPrint(deviceIpAddress.rgbIP[1], DEC);
+	LinxDev->DebugPrint(".");
+	LinxDev->DebugPrint(deviceIpAddress.rgbIP[2], DEC);
+	LinxDev->DebugPrint(".");
+	LinxDev->DebugPrintln(deviceIpAddress.rgbIP[3], DEC);
+	
+	LinxDev->DebugPrint("Port       : ");
+	LinxDev->DebugPrintln(LinxTcpPort, DEC);
+	
+	LinxDev->DebugPrint("SSID       : ");
+	LinxDev->DebugPrintln(szSsid);
+	
+	LinxDev->DebugPrint("Security   : ");
+	switch(LinxWifiSecurity)
+	{
+		case NONE:
+			//No Security		
+			LinxDev->DebugPrintln("None");
+			break;
+		case WPA2_PASSPHRASE:
+			//WPA2 Passphrase
+				LinxDev->DebugPrintln("WPA2 Passphrase");
+			break;
+		case WPA2_KEY:
+			//WPA2 Key  --Untested--
+				LinxDev->DebugPrintln("WPA2 Key");
+			break;
+		case WEP40:
+				LinxDev->DebugPrintln("WEP40 - Not Implemented");
+			break;
+		case WEO104:
+				LinxDev->DebugPrintln("WEP104 - Not Implemented");
+			break;
+		default:			
+			break;     
+	}
+	
+	LinxDev->DebugPrint("Passphrase : ");
+	LinxDev->DebugPrintln(szPassPhrase);	
+	
+	LinxDev->DebugPrintln("");
+	LinxDev->DebugPrintln("");	
 
 	switch(LinxWifiSecurity)
 	{
@@ -101,7 +191,7 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsig
 			LinxWifiConnectionId = DWIFIcK::connect(szSsid, &LinxTcpStatus);
 			break;
 		case WPA2_PASSPHRASE:
-			//WPA2 Passphrase       
+			//WPA2 Passphrase
 			LinxWifiConnectionId = DWIFIcK::connect(szSsid, szPassPhrase, &LinxTcpStatus);
 			break;
 		case WPA2_KEY:

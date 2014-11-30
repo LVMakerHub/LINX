@@ -8,6 +8,8 @@
 **
 ** MIT license.
 ****************************************************************************************/	
+#ifndef LINXLISTENER_H
+#define LINXLISTENER_H
 
 /****************************************************************************************
 ** Includes
@@ -33,6 +35,7 @@ LinxListener::LinxListener()
 /****************************************************************************************
 ** Functions
 ****************************************************************************************/
+
 int LinxListener::Start()
 {
 	return -1;
@@ -266,7 +269,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		
 		case 0x0018: //Set Device WIFI IP
-			LinxDev->wifiIp = (commandPacketBuffer[6]<<24) | (commandPacketBuffer[7]<<16) | (commandPacketBuffer[8]<<8) | (commandPacketBuffer[9]);
+			LinxDev->WifiIp = (commandPacketBuffer[6]<<24) | (commandPacketBuffer[7]<<16) | (commandPacketBuffer[8]<<8) | (commandPacketBuffer[9]);
 			LinxDev->NonVolatileWrite(NVS_WIFI_IP, commandPacketBuffer[6]);
 			LinxDev->NonVolatileWrite(NVS_WIFI_IP+1, commandPacketBuffer[7]);
 			LinxDev->NonVolatileWrite(NVS_WIFI_IP+2, commandPacketBuffer[8]);
@@ -275,23 +278,23 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 			
 		case 0x0019: //Get Device WIFI IP	
-			responsePacketBuffer[5] = ((LinxDev->wifiIp>>24) & 0xFF);                   //WIFI IP MSB
-			responsePacketBuffer[6] = ((LinxDev->wifiIp>>16) & 0xFF);                   //WIFI IP ...
-			responsePacketBuffer[7] = ((LinxDev->wifiIp>>8) & 0xFF);                    //WIFI IP ...
-			responsePacketBuffer[8] = ((LinxDev->wifiIp) & 0xFF);                       //WIFI IP LSB  
+			responsePacketBuffer[5] = ((LinxDev->WifiIp>>24) & 0xFF);                //WIFI IP MSB
+			responsePacketBuffer[6] = ((LinxDev->WifiIp>>16) & 0xFF);                //WIFI IP ...
+			responsePacketBuffer[7] = ((LinxDev->WifiIp>>8) & 0xFF);                 //WIFI IP ...
+			responsePacketBuffer[8] = ((LinxDev->WifiIp) & 0xFF);                       //WIFI IP LSB  
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK);
 			break;
 			
 		case 0x001A: //Set Device WIFI Port
-			LinxDev->wifiPort = ((commandPacketBuffer[6]<<8) | (commandPacketBuffer[7]));
+			LinxDev->WifiPort = ((commandPacketBuffer[6]<<8) | (commandPacketBuffer[7]));
 			LinxDev->NonVolatileWrite(NVS_WIFI_PORT, commandPacketBuffer[6]);
 			LinxDev->NonVolatileWrite(NVS_WIFI_PORT+1, commandPacketBuffer[7]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 			
 		case 0x001B: //Get Device WIFI Port
-			responsePacketBuffer[5] = ((LinxDev->wifiPort>>8) & 0xFF);                  //WIFI PORT MSB
-			responsePacketBuffer[6] = (LinxDev->wifiPort & 0xFF);                       //WIFI PORT LSB
+			responsePacketBuffer[5] = ((LinxDev->WifiPort>>8) & 0xFF);                  //WIFI PORT MSB
+			responsePacketBuffer[6] = (LinxDev->WifiPort & 0xFF);                       //WIFI PORT LSB
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 2, L_OK);
 			break;
 			
@@ -299,42 +302,42 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			 //Update Ssid Size In RAM And NVS
 			if(commandPacketBuffer[6] > 32)
 			{
-				LinxDev->wifiSsidSize = 32;
+				LinxDev->WifiSsidSize = 32;
 				LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE, 32);
 			}
 			else
 			{
-				LinxDev->wifiSsidSize = commandPacketBuffer[6];
+				LinxDev->WifiSsidSize = commandPacketBuffer[6];
 				LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE, commandPacketBuffer[6]);
 			}
 
 			//Update SSID Value In RAM And NVS
-			for(int i=0; i<LinxDev->wifiSsidSize; i++)
+			for(int i=0; i<LinxDev->WifiSsidSize; i++)
 			{
-				LinxDev->wifiSsid[i] = commandPacketBuffer[7+i];
-				LinxDev->NonVolatileWrite(NVS_WIFI_SSID_SIZE+i, commandPacketBuffer[7+i]);    
+				LinxDev->WifiSsid[i] = commandPacketBuffer[7+i];
+				LinxDev->NonVolatileWrite(NVS_WIFI_SSID+i, commandPacketBuffer[7+i]);    
 			}
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 			
 		case 0x001D: //Get Device WIFI SSID
-			responsePacketBuffer[5] = LinxDev->wifiSsidSize;	//SSID SIZE
+			responsePacketBuffer[5] = LinxDev->WifiSsidSize;	//SSID SIZE
 
-			for(int i=0; i<LinxDev->wifiSsidSize; i++)
+			for(int i=0; i<LinxDev->WifiSsidSize; i++)
 			{
-				responsePacketBuffer[i+6] = LinxDev->wifiSsid[i];
+				responsePacketBuffer[i+6] = LinxDev->WifiSsid[i];
 			}
-			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, LinxDev->wifiSsidSize, L_OK);
+			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, LinxDev->WifiSsidSize, L_OK);
 			break;
 			
 		case 0x001E: //Set Device WIFI Security Type
-			LinxDev->wifiSecurity = commandPacketBuffer[6];
+			LinxDev->WifiSecurity = commandPacketBuffer[6];
 			LinxDev->NonVolatileWrite(NVS_WIFI_SECURITY_TYPE, commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 		
 		case 0x001F: //Get Device WIFI Security Type
-			responsePacketBuffer[5] = LinxDev->wifiSecurity;
+			responsePacketBuffer[5] = LinxDev->WifiSecurity;
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 1, L_OK);
 			break;
 			
@@ -342,19 +345,19 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			//Update PW Size In RAM And NVS
 			if(commandPacketBuffer[6] > 64)
 			{
-				LinxDev->wifiPwSize = 64;
+				LinxDev->WifiPwSize = 64;
 				LinxDev->NonVolatileWrite(NVS_WIFI_PW_SIZE, 64);
 			}
 			else
 			{
-				LinxDev->wifiPwSize = commandPacketBuffer[6];
+				LinxDev->WifiPwSize = commandPacketBuffer[6];
 				LinxDev->NonVolatileWrite(NVS_WIFI_PW_SIZE, commandPacketBuffer[6]);
 			}  
 
 			//Update PW Value In RAM And NVS
-			for(int i=0; i<LinxDev->wifiPwSize; i++)
+			for(int i=0; i<LinxDev->WifiPwSize; i++)
 			{
-				LinxDev->wifiPw[i] = commandPacketBuffer[7+i];
+				LinxDev->WifiPw[i] = commandPacketBuffer[7+i];
 				LinxDev->NonVolatileWrite(NVS_WIFI_PW+i, commandPacketBuffer[i+7]);    
 			}
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
@@ -662,3 +665,5 @@ void LinxListener::AttachCustomCommand(unsigned short commandNumber, int (*funct
 {
 	customCommands[commandNumber] = function;
 }
+
+#endif //LINXLISTENER_H

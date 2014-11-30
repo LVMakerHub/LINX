@@ -8,6 +8,8 @@
 **
 ** MIT license.
 ****************************************************************************************/	
+#ifndef LINXLISTENER_H
+#define LINXLISTENER_H
 
 /****************************************************************************************
 ** Includes
@@ -69,7 +71,23 @@ int LinxListener::Exit()
 
 int LinxListener::CheckForCommands()
 {
-	return -1;
+	switch(State)
+	{
+		case START:    
+			Start();
+			break;
+		case CONNECTED:    
+			Connected();
+			break;
+		case CLOSE:    			
+			Close();
+			State = START;
+			break;	
+		case EXIT:
+			Exit();
+			exit(-1);
+			break;				
+	}
 }
 
 
@@ -259,9 +277,9 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 			
 		case 0x0019: //Get Device WIFI IP	
-			responsePacketBuffer[5] = ((LinxDev->wifiIp>>24) & 0xFF);                   //WIFI IP MSB
-			responsePacketBuffer[6] = ((LinxDev->wifiIp>>16) & 0xFF);                   //WIFI IP ...
-			responsePacketBuffer[7] = ((LinxDev->wifiIp>>8) & 0xFF);                    //WIFI IP ...
+			responsePacketBuffer[5] = ((LinxDev->wifiIp>>24) & 0xFF);                //WIFI IP MSB
+			responsePacketBuffer[6] = ((LinxDev->wifiIp>>16) & 0xFF);                //WIFI IP ...
+			responsePacketBuffer[7] = ((LinxDev->wifiIp>>8) & 0xFF);                 //WIFI IP ...
 			responsePacketBuffer[8] = ((LinxDev->wifiIp) & 0xFF);                       //WIFI IP LSB  
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK);
 			break;
@@ -646,3 +664,5 @@ void LinxListener::AttachCustomCommand(unsigned short commandNumber, int (*funct
 {
 	customCommands[commandNumber] = function;
 }
+
+#endif //LINXLISTENER_H
