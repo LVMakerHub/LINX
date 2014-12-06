@@ -1,12 +1,12 @@
 /****************************************************************************************
-**  LINX Configuration data for the Arduino Mega 2560
+**  LINX Configuration data for the chipKIT Max32
 **
 **  For more information see:           www.labviewhacker.com/linx
 **  For support visit the forums at:    www.labviewhacker.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
-** MIT license.
+** BSD2 license.
 ****************************************************************************************/		
 
 #ifndef LINXCONFIG

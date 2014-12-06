@@ -6,7 +6,7 @@
 **  
 **  Written By Sam Kristoff
 **
-** MIT license.
+** BSD2 License.
 ****************************************************************************************/	
 
 #ifndef LINX_PJRC_H

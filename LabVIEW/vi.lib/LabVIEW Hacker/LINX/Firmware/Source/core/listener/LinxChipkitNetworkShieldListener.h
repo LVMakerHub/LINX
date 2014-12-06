@@ -6,7 +6,7 @@
 **  
 **  Written By Sam Kristoff
 **
-** MIT license.
+** BSD2 License.
 ****************************************************************************************/	
 
 #ifndef LINX_CHIPKITNETWORKSHIELD_LISTENER_H
@@ -20,6 +20,7 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
+#include "LinxSerialListener.h"
 #include "utility\LinxListener.h"
 #include "utility\LinxDevice.h"
 #include "utility\LinxDnetckListener.h"
@@ -48,7 +49,9 @@ class LinxChipkitNetworkShieldListener : public LinxDnetckListener
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/		
+		virtual int Start(LinxDevice* linxDev);
 		virtual int Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port);
+		virtual int StartStage2(IPv4 deviceIpAddress, unsigned short port);
 		virtual int Listen();			
 		virtual int Available();	
 		virtual int Accept();				

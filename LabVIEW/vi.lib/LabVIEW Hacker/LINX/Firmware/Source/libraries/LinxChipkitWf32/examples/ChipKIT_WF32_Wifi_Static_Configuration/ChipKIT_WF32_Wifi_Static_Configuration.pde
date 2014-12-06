@@ -7,7 +7,7 @@
 **  
 **  Written By Sam Kristoff
 **
-**  MIT license.
+**  BSD2 license.
 ****************************************************************************************/
 
 //Include All Peripheral Libraries Used By LINX
@@ -35,10 +35,10 @@ void setup()
   
   //The LINX Listener Is Pre Instantiated.  
   //Set SSID (Network Name), Security Type, Passphrase/Key, And Call Start With Desired Device IP and Port
-  LinxWifiConnection.SetSsid("Gonzo");
+  LinxWifiConnection.SetSsid("YOUR_NETWORK_NAME");
   LinxWifiConnection.SetSecurity(WPA2_PASSPHRASE);    //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
-  LinxWifiConnection.SetPassphrase("samkatie");    //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
-  LinxWifiConnection.Start(LinxDevice, 192, 168, 1, 128, 44300);  
+  LinxWifiConnection.SetPassphrase("PASSPHRASE");    //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
+  LinxWifiConnection.Start(LinxDevice, 192, 168, 1, 128, 44300);  //Start With Fixed IP and Port.  When Using This Method You Cannot Update The IP/Port Using LINX VIs
 }
 
 void loop()

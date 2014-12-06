@@ -7,7 +7,7 @@
 **  
 **  Written By Sam Kristoff
 **
-**  MIT license.
+**  BSD2 License.
 ****************************************************************************************/
 
 //Include All Peripheral Libraries Used By LINX

@@ -6,7 +6,7 @@
 **  
 **  Written By Sam Kristoff
 **
-** MIT license.
+** BSD2 License.
 ****************************************************************************************/	
 #ifndef LINXLISTENER_H
 #define LINXLISTENER_H
