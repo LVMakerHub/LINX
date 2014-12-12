@@ -88,6 +88,7 @@
 			<Item Name="Device Firmware.ctl" Type="VI" URL="../Private/Type Defs/Device Firmware.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
 			<Item Name="Firmware Interface.ctl" Type="VI" URL="../Private/Device/Type Defs/Firmware Interface.ctl"/>
+			<Item Name="Firmware Library Component.ctl" Type="VI" URL="../Private/Type Defs/Firmware Library Component.ctl"/>
 			<Item Name="Firmware Program Interface.ctl" Type="VI" URL="../Private/Type Defs/Firmware Program Interface.ctl"/>
 			<Item Name="Firmware Version.ctl" Type="VI" URL="../Private/Type Defs/Firmware Version.ctl"/>
 			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
@@ -138,6 +139,8 @@
 			<Item Name="Read FW INI.vi" Type="VI" URL="../Private/Utilties/Read FW INI.vi"/>
 			<Item Name="Read DEV INI.vi" Type="VI" URL="../Private/Utilties/Read DEV INI.vi"/>
 			<Item Name="All Firmware Data FGV.vi" Type="VI" URL="../Private/Utilties/All Firmware Data FGV.vi"/>
+			<Item Name="Copy Firmware Libraries.vi" Type="VI" URL="../Private/Utilties/Copy Firmware Libraries.vi"/>
+			<Item Name="Generate Firmware Libraries.vi" Type="VI" URL="../../../../project/LabVIEW Hacker/LINX/Generate Firmware Libraries.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
@@ -249,7 +252,6 @@
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
 			<Item Name="Custom Command.vi" Type="VI" URL="../Public/Utilities/Custom Command.vi"/>
-			<Item Name="Get Device User ID.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Public/Utilities/Get Device User ID.vi"/>
 			<Item Name="Set Device User ID.vi" Type="VI" URL="../Public/Utilities/Set Device User ID.vi"/>
 		</Item>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
