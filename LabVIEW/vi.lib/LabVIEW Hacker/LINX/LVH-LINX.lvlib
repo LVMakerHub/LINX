@@ -151,6 +151,7 @@
 				<Item Name="Analog Read 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read 1 Chan.vi"/>
 				<Item Name="Analog Read N Chans.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read N Chans.vi"/>
 				<Item Name="Analog Read.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read.vi"/>
+				<Item Name="Analog Set Reference Voltage.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Set Reference Voltage.vi"/>
 				<Item Name="Analog Write 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Write 1 Chan.vi"/>
 				<Item Name="Analog Write N Chans.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Write N Chans.vi"/>
 				<Item Name="Analog Write.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Write.vi"/>

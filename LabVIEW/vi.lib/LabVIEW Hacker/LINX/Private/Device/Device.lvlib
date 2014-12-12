@@ -119,6 +119,7 @@
 		<Item Name="TCP Config.ctl" Type="VI" URL="../Type Defs/TCP Config.ctl"/>
 		<Item Name="Wifi Config.ctl" Type="VI" URL="../Type Defs/Wifi Config.ctl"/>
 		<Item Name="Firmware Version.ctl" Type="VI" URL="../Type Defs/Firmware Version.ctl"/>
+		<Item Name="AI Reference Mode.ctl" Type="VI" URL="../Type Defs/AI Reference Mode.ctl"/>
 	</Item>
 	<Item Name="Initialize Device.vi" Type="VI" URL="../Initialize Device.vi"/>
 	<Item Name="Close Device.vi" Type="VI" URL="../Close Device.vi"/>
