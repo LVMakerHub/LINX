@@ -86,7 +86,6 @@ int LinxListener::CheckForCommands()
 			break;	
 		case EXIT:
 			Exit();
-			exit(-1);
 			break;				
 	}
 }
