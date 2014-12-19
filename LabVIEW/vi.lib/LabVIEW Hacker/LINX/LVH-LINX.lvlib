@@ -9,6 +9,7 @@
 		<Item Name="LINX - AD9850.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - AD9850.vi"/>
 		<Item Name="LINX - Analog Read 1 Channel.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read 1 Channel.vi"/>
 		<Item Name="LINX - Analog Read N Channels.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Read N Channels.vi"/>
+		<Item Name="LINX - Analog Set Voltage Reference.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Analog Set Voltage Reference.vi"/>
 		<Item Name="LINX - Blink (Advanced).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Advanced).vi"/>
 		<Item Name="LINX - Blink (Simple) (TCP).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple) (TCP).vi"/>
 		<Item Name="LINX - Blink (Simple).vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Blink (Simple).vi"/>
@@ -248,6 +249,11 @@
 			</Item>
 			<Item Name="Ultrasonic" Type="Folder">
 				<Item Name="Ultrasonic.lvlib" Type="Library" URL="../Public/Sensors/Ultrasonic/Ultrasonic.lvlib"/>
+			</Item>
+			<Item Name="Motion" Type="Folder">
+				<Item Name="Servo" Type="Folder">
+					<Item Name="Servo.lvlib" Type="Library" URL="../Public/Sensors/Motion/Servo/Servo.lvlib"/>
+				</Item>
 			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">

@@ -27,6 +27,8 @@ const unsigned char LinxArduinoUno::m_DeviceName[DEVICE_NAME_LEN] = "Arduino Uno
 
 //AI
 const unsigned char LinxArduinoUno::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5};
+const unsigned long LinxArduinoUno::m_AiRefIntVals[NUM_AI_INT_REFS] = {1100000};
+const int LinxArduinoUno::m_AiRefCodes[NUM_AI_INT_REFS] = {INTERNAL};
 
 //AO
 //None
@@ -53,6 +55,10 @@ unsigned char LinxArduinoUno::m_I2cRefCount[NUM_I2C_CHANS];
 unsigned char LinxArduinoUno::m_UartChans[NUM_UART_CHANS] = {0};
 unsigned long LinxArduinoUno::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
 
+//SERVO
+const unsigned char LinxArduinoUno::m_ServoChans[NUM_SERVO_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+Servo* LinxArduinoUno::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};			//Initialize To Null Pointers
+
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
@@ -76,7 +82,16 @@ LinxArduinoUno::LinxArduinoUno()
 	NumAiChans = NUM_AI_CHANS;
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
-	AiRef = AI_REFV;
+		
+	AiRefDefault = AI_REFV;
+	AiRefSet = AI_REFV;
+	AiRefCodes = m_AiRefCodes;
+	
+	NumAiRefIntVals = NUM_AI_INT_REFS;
+	AiRefIntVals = m_AiRefIntVals;
+	
+	AiRefExtMin = 0;
+	AiRefExtMax = 5000000;
 	
 	//AO
 	NumAoChans = 0;
@@ -113,6 +128,11 @@ LinxArduinoUno::LinxArduinoUno()
 	//CAN
 	NumCanChans = 0;
 	CanChans = 0;
+	
+	//SERVO
+	NumServoChans = NUM_SERVO_CHANS;	
+	ServoChans = m_ServoChans;
+	Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()
 	#if DEBUG_ENABLED > 0

@@ -15,13 +15,8 @@
 ** Includes
 ****************************************************************************************/
 #include <stdio.h>
-
 #include "LinxListener.h"
 #include "LinxDevice.h"
-
-//DEBUG
-//This was added to get delay() in cmd 0006.  Delay should be added at device level
-#include <WProgram.h>
 
 /****************************************************************************************
 **  Constructors
@@ -86,7 +81,10 @@ int LinxListener::CheckForCommands()
 			break;	
 		case EXIT:
 			Exit();
-			break;				
+			break;
+		default:
+			return LUNKNOWN_STATE;
+			break;
 	}
 }
 
@@ -385,7 +383,11 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
 			break;
 		
-		//---0x0025 to 0x003F Reserved---
+		case 0x0025: // Get Servo Channels
+			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->ServoChans, LinxDev->NumServoChans, L_OK);
+			break;
+		
+		//---0x0026 to 0x003F Reserved---
 		
 		/****************************************************************************************
 		**  Digital I/O
@@ -410,13 +412,19 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		/****************************************************************************************
 		**  Analog I/O
 		****************************************************************************************/	
-		//case 0x0060: //TODO Set AI Ref Voltage
+		case 0x0060: //Set AI Ref Voltage
+		{			
+			unsigned long voltage = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
+			status =  LinxDev->AnalogSetRef(commandPacketBuffer[6], voltage);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		}
 		
 		case 0x0061: // Get AI Reference Voltage
-			responsePacketBuffer[5] = (LinxDev->AiRef>>24) & 0xFF;		//AIREF MSB
-			responsePacketBuffer[6] = (LinxDev->AiRef>>16) & 0xFF;		//...
-			responsePacketBuffer[7] = (LinxDev->AiRef>>8) & 0xFF;			//...
-			responsePacketBuffer[8] = LinxDev->AiRef & 0xFF;					//AIREF LSB
+			responsePacketBuffer[5] = (LinxDev->AiRefSet>>24) & 0xFF;		//AIREF MSB
+			responsePacketBuffer[6] = (LinxDev->AiRefSet>>16) & 0xFF;		//...
+			responsePacketBuffer[7] = (LinxDev->AiRefSet>>8) & 0xFF;		//...
+			responsePacketBuffer[8] = LinxDev->AiRefSet & 0xFF;					//AIREF LSB
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, status); 
 			break;
 			
@@ -613,6 +621,22 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		****************************************************************************************/	
 		
 		//---0x0120 to 0x013F Reserved---
+		
+		/****************************************************************************************
+		** SERVO
+		****************************************************************************************/	
+		case 0x0140: // Servo Init
+			status = LinxDev->ServoOpen((commandPacketBuffer[1]-7), &commandPacketBuffer[6]);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		case 0x0141: // Servo Set Pulse Width
+			status = LinxDev->ServoSetPulseWidth(commandPacketBuffer[6], &commandPacketBuffer[7], (unsigned short*)&commandPacketBuffer[7+commandPacketBuffer[6]]);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		case 0x0142: // Servo Close
+			status = LinxDev->ServoClose((commandPacketBuffer[1]-7), &commandPacketBuffer[6]);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
 		
 		/****************************************************************************************
 		** Default

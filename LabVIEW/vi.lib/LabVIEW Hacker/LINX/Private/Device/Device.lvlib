@@ -66,6 +66,7 @@
 		<Item Name="Get Device AO Data.vi" Type="VI" URL="../Utilities/Get Device AO Data.vi"/>
 		<Item Name="Get Device Name.vi" Type="VI" URL="../Utilities/Get Device Name.vi"/>
 		<Item Name="Get CAN Channels.vi" Type="VI" URL="../Utilities/Get CAN Channels.vi"/>
+		<Item Name="Get Servo Channels.vi" Type="VI" URL="../Utilities/Get Servo Channels.vi"/>
 		<Item Name="Get AO Channels.vi" Type="VI" URL="../Utilities/Get AO Channels.vi"/>
 		<Item Name="Get DIO Channels.vi" Type="VI" URL="../Utilities/Get DIO Channels.vi"/>
 		<Item Name="Check Firmware Version.vi" Type="VI" URL="../Utilities/Check Firmware Version.vi"/>
@@ -76,6 +77,7 @@
 		<Item Name="Analog" Type="Folder">
 			<Item Name="Analog Read.vi" Type="VI" URL="../Peripheral/Analog/Analog Read.vi"/>
 			<Item Name="Analog Write.vi" Type="VI" URL="../Peripheral/Analog/Analog Write.vi"/>
+			<Item Name="Analog Set Reference Voltage.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Peripheral/Analog/Analog Set Reference Voltage.vi"/>
 		</Item>
 		<Item Name="Digital" Type="Folder">
 			<Item Name="Digital Read.vi" Type="VI" URL="../Peripheral/Digital/Digital Read.vi"/>
@@ -109,6 +111,11 @@
 			<Item Name="UART Read.vi" Type="VI" URL="../Peripheral/UART/UART Read.vi"/>
 			<Item Name="UART Write.vi" Type="VI" URL="../Peripheral/UART/UART Write.vi"/>
 			<Item Name="UART Close.vi" Type="VI" URL="../Peripheral/UART/UART Close.vi"/>
+		</Item>
+		<Item Name="Servo" Type="Folder">
+			<Item Name="Servo Close.vi" Type="VI" URL="../Peripheral/Servo/Servo Close.vi"/>
+			<Item Name="Servo Open.vi" Type="VI" URL="../Peripheral/Servo/Servo Open.vi"/>
+			<Item Name="Servo Set Pulse Width.vi" Type="VI" URL="../Peripheral/Servo/Servo Set Pulse Width.vi"/>
 		</Item>
 	</Item>
 	<Item Name="Type Defs" Type="Folder">

@@ -20,6 +20,7 @@
 #define NUM_AI_CHANS 12
 #define AI_RES_BITS 10
 #define AI_REFV 3300000
+#define  NUM_AI_INT_REFS 0
 
 #define NUM_DIGITAL_CHANS 47
 
@@ -32,6 +33,8 @@
 
 #define NUM_UART_CHANS 2
 #define NUM_UART_SPEEDS 11
+
+#define NUM_SERVO_CHANS 47
 
 /****************************************************************************************
 **  Includes
@@ -51,8 +54,10 @@ class LinxChipkitUc32 : public LinxChipkit
 		
 		//AI
 		static const unsigned char m_AiChans[NUM_AI_CHANS];
+		static const unsigned long m_AiRefIntVals[NUM_AI_INT_REFS];
+		static int m_AiRefCodes[NUM_AI_INT_REFS];
 		
-		//AI
+		//AO
 		//None
 		
 		//DIGITAL
@@ -73,6 +78,10 @@ class LinxChipkitUc32 : public LinxChipkit
 		//UART
 		static unsigned char m_UartChans[NUM_UART_CHANS];
 		static unsigned long m_UartSupportedSpeeds[NUM_UART_SPEEDS];
+		
+		//Servo		
+		static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
+		static Servo* m_Servos[NUM_SERVO_CHANS];
 		
 		/****************************************************************************************
 		**  Constructors /  Destructor

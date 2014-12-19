@@ -27,6 +27,8 @@ const unsigned char LinxChipkitMax32::m_DeviceName[DEVICE_NAME_LEN] = "ChipKIT M
 
 //AI
 const unsigned char LinxChipkitMax32::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+const unsigned long LinxChipkitMax32::m_AiRefIntVals[NUM_AI_INT_REFS] = {};		//None
+int LinxChipkitMax32::m_AiRefCodes[NUM_AI_INT_REFS] = {};								//None
 
 //AO
 //None
@@ -76,7 +78,17 @@ LinxChipkitMax32::LinxChipkitMax32()
 	NumAiChans = NUM_AI_CHANS;
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
-	AiRef = AI_REFV;
+	AiRefSet = AI_REFV;
+	
+	AiRefDefault = AI_REFV;
+	AiRefSet = AI_REFV;
+	AiRefCodes = m_AiRefCodes;
+	
+	NumAiRefIntVals = NUM_AI_INT_REFS;
+	AiRefIntVals = m_AiRefIntVals;
+	
+	AiRefExtMin = 0;
+	AiRefExtMax = 3300000;
 	
 	//AO
 	NumAoChans = 0;

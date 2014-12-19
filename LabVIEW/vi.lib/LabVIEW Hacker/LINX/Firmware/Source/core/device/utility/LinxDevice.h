@@ -92,6 +92,12 @@
 ****************************************************************************************/		
 enum LinxStatus {L_OK, L_FUNCTION_NOT_SUPPORTED, L_REQUEST_RESEND, L_UNKNOWN_ERROR, L_DISCONNECT};
 
+typedef enum AioStatus
+{
+	LANALOG_REF_MODE_ERROR=129,
+	LANALOG_REF_VAL_ERROR=130
+}AioStatus;
+
 typedef enum DioStatus
 {
 	LDIGITAL_PIN_DNE=128, 
@@ -151,7 +157,8 @@ class LinxDevice
 		unsigned char NumAiChans;
 		const unsigned char* AiChans;
 		unsigned char AiResolution;
-		unsigned long AiRef;
+		unsigned long AiRefDefault;
+		unsigned long AiRefSet;
 		
 		//AO
 		unsigned char NumAoChans;
@@ -182,6 +189,10 @@ class LinxDevice
 		unsigned char NumCanChans;
 		const unsigned char* CanChans;
 		
+		//Servo
+		unsigned char NumServoChans;
+		const unsigned char* ServoChans;
+		
 		//User Configured Values
 		unsigned short userId;
   
@@ -209,6 +220,7 @@ class LinxDevice
 		
 		//Analog
 		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage) = 0;
 		
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
@@ -254,6 +266,11 @@ class LinxDevice
 		virtual void UartWriteln(unsigned char channel, unsigned long n);
 		virtual void UartWriteln(unsigned char channel, long n, int base);		
 		virtual int UartClose(unsigned char channel) = 0;
+		
+		//Servo
+		virtual int ServoOpen(unsigned char numChans, unsigned char* chans) = 0;
+		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths) = 0;
+		virtual int ServoClose(unsigned char numChans, unsigned char* chans) = 0;
 				
 		//General
 		unsigned char ReverseBits(unsigned char b);

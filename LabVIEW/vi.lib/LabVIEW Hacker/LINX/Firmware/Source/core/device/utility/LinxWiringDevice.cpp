@@ -28,6 +28,7 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <EEPROM.h>
+#include <Servo.h>
 
 /****************************************************************************************
 **  Variables
@@ -45,8 +46,6 @@ LinxWiringDevice::LinxWiringDevice()
 	
 	//Load User Config Data From Non Volatile Storage
 	userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
-	
-	
 }
 
 
@@ -110,6 +109,56 @@ int LinxWiringDevice::AnalogRead(unsigned char numPins, unsigned char* pins, uns
 		}
 	}
 	
+	return L_OK;
+}
+
+int LinxWiringDevice::AnalogSetRef(unsigned char mode, unsigned long voltage)
+{
+	switch(mode)
+	{
+		case 0: //Default
+			analogReference(DEFAULT);
+			AiRefSet = AiRefDefault;
+			break;
+		case 1: //Internal
+			if(NumAiRefIntVals > 0)
+			{
+				//Check If Internal AI Ref Value Is Supported
+				for(int i=0; i<NumAiRefIntVals; i++)
+				{				
+					//Voltage Is Supported
+					if(AiRefIntVals[i] == voltage)
+					{
+						analogReference(AiRefCodes[i]);
+						AiRefSet = voltage;
+						return L_OK;
+					}
+				}
+				//Didn't Find Voltage
+				return LANALOG_REF_VAL_ERROR;
+			}
+			else
+			{
+				//No Internal Voltages, So Internal Mode Not Supported
+				return LANALOG_REF_MODE_ERROR;
+			}			
+			break;
+		case 2: //External
+			if(voltage >= AiRefExtMin && voltage <= AiRefExtMax)
+			{
+				analogReference(EXTERNAL);
+				AiRefSet = voltage;
+				return L_OK;
+			}
+			else
+			{
+				return LANALOG_REF_VAL_ERROR;
+			}
+			break;
+		default:
+			return LANALOG_REF_MODE_ERROR;
+			break;	
+	}
 	return L_OK;
 }
 
@@ -268,7 +317,7 @@ int LinxWiringDevice::I2cOpenMaster(unsigned char channel)
 
 int LinxWiringDevice::I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
 {
-	return 0;
+	return L_OK;
 }
 
 int LinxWiringDevice::I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
@@ -592,6 +641,45 @@ int LinxWiringDevice::UartClose(unsigned char channel)
 	}
 	return L_OK;
 }
+
+
+//unsigned char NumServoChans;
+//const unsigned char* ServoChans;
+
+//--------------------------------------------------------SERVO----------------------------------------------------------
+int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
+{
+	for(int i=0; i<numChans; i++)
+	{
+		if(Servos[i] == 0)
+		{
+			//Servo Not Yet Intialized On Specified Channel, Init
+			Servos[i] = &Servo();
+			Servos[i]->attach(chans[i]);			
+		}
+	}
+	return L_OK;
+}
+
+int LinxWiringDevice::ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths)
+{
+	for(int i=0; i<numChans; i++)
+	{
+		Servos[chans[i]]->writeMicroseconds(pulseWidths[i]);
+	}
+	return L_OK;
+}
+
+int LinxWiringDevice::ServoClose(unsigned char numChans, unsigned char* chans)
+{
+	for(int i=0; i<numChans; i++)
+	{
+		Servos[chans[i]]->detach();
+	}
+	return L_OK;
+}
+
+		
 
 //--------------------------------------------------------GENERAL----------------------------------------------------------
 void LinxWiringDevice::NonVolatileWrite(int address, unsigned char data)

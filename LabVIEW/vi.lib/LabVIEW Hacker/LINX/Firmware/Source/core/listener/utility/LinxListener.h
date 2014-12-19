@@ -42,6 +42,12 @@ enum LinxListenerInterface
 	TCP	
 };
 
+
+typedef enum ListenerStatus
+{
+	LUNKNOWN_STATE=128
+}ListenerStatus;
+
 class LinxListener
 {
 	public:	

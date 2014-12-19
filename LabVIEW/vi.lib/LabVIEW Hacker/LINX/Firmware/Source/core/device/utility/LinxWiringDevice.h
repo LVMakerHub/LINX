@@ -16,6 +16,7 @@
 **  Includes
 ****************************************************************************************/		
 #include "LinxDevice.h"
+#include <Servo.h>
 
 /****************************************************************************************
 **  Variables
@@ -27,14 +28,23 @@ class LinxWiringDevice : public LinxDevice
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-		unsigned char NumUartSpeeds;					//Number Of Support UART Buads
-		unsigned long* UartSupportedSpeeds;				//Supported UART Bauds Frequencies
+		unsigned char NumAiRefIntVals;					//Number Of Internal AI Reference Voltages
+		const unsigned long* AiRefIntVals;				//Supported AI Reference Voltages (uV)
+		const int* AiRefCodes;								//AI Ref Values (AI Ref Macros In Wiring Case)
 		
-		unsigned char NumSpiSpeeds;						//Number Of Supported SPI Speeds
-		unsigned long* SpiSupportedSpeeds;				//Supported SPI Clock Frequencies
-		int* SpiSpeedCodes;								//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		unsigned long AiRefExtMin;							//Min External AI Ref Value (uV)
+		unsigned long AiRefExtMax;					    //Min External AI Ref Value (uV)		
+		
+		unsigned char NumUartSpeeds;					//Number Of Support UART Buads
+		unsigned long* UartSupportedSpeeds;			//Supported UART Bauds Frequencies
+		
+		unsigned char NumSpiSpeeds;					//Number Of Supported SPI Speeds
+		unsigned long* SpiSupportedSpeeds;			//Supported SPI Clock Frequencies
+		int* SpiSpeedCodes;									//SPI Speed Values (Clock Divider Macros In Wiring Case)
 		
 		unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
+		
+		Servo** Servos;										//Array Servo Pointers
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
@@ -46,6 +56,7 @@ class LinxWiringDevice : public LinxDevice
 		
 		//Analog
 		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage);
 		
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values);
@@ -75,6 +86,11 @@ class LinxWiringDevice : public LinxDevice
 		virtual int UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead);
 		virtual int UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer);
 		virtual int UartClose(unsigned char channel);
+		
+		//Servo
+		virtual int ServoOpen(unsigned char numChans, unsigned char* chans);
+		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths);
+		virtual int ServoClose(unsigned char numChans, unsigned char* chans);
 		
 		//General - 
 		virtual unsigned long GetMilliSeconds();
