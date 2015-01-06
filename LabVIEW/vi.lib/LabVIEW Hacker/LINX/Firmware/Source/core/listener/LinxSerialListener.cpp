@@ -88,12 +88,12 @@ int LinxSerialListener::Connected()
 			//Full Packet Received - Compute Checksum - Process Packet If Checksum Passes
 			if(ChecksumPassed(recBuffer))
 			{		
-				LinxDev->DebugPrintPacket(1, recBuffer);
+				LinxDev->DebugPrintPacket(RX, recBuffer);
 				//Process Packet
 				ProcessCommand(recBuffer, sendBuffer);				
 			
 				//Send Response Packet 
-				LinxDev->DebugPrintPacket(0, sendBuffer);
+				LinxDev->DebugPrintPacket(TX, sendBuffer);
 				LinxDev->UartWrite(ListenerChan, sendBuffer[1], sendBuffer);		
 			}
 			else

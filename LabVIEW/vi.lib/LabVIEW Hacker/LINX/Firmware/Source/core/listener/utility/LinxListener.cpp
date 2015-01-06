@@ -626,13 +626,28 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		** SERVO
 		****************************************************************************************/	
 		case 0x0140: // Servo Init
+			LinxDev->DebugPrintln("Opening Servo");
 			status = LinxDev->ServoOpen((commandPacketBuffer[1]-7), &commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			LinxDev->DebugPrintln("Servo Open...");
 			break;
 		case 0x0141: // Servo Set Pulse Width
-			status = LinxDev->ServoSetPulseWidth(commandPacketBuffer[6], &commandPacketBuffer[7], (unsigned short*)&commandPacketBuffer[7+commandPacketBuffer[6]]);
+		{
+			//Convert Big Endian Packet To Little Endian (uC)
+			unsigned char* valPtr = &commandPacketBuffer[7+commandPacketBuffer[6]];		//Pointer To First Byte In Packet That Represents A Servo Value
+			unsigned short tempVals[commandPacketBuffer[6] / 2];										//Temporary Array To Store Unsigned Shorts Built From Bytes
+			
+			for(int i=0; i<commandPacketBuffer[6]; i++)
+			{				
+				tempVals[i] = *(valPtr + (i*2))<<8  | *(valPtr + i*2 + 1);										//Create Unsigned Short From Bytes (Swap To Fix Endianess)								
+				
+				LinxDev->DebugPrintln(tempVals[i], DEC);
+			}
+			
+			status = LinxDev->ServoSetPulseWidth(commandPacketBuffer[6], &commandPacketBuffer[7], tempVals);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
+		}
 		case 0x0142: // Servo Close
 			status = LinxDev->ServoClose((commandPacketBuffer[1]-7), &commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);

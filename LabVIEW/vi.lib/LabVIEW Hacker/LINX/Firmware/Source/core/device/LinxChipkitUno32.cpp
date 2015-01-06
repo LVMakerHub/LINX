@@ -53,7 +53,11 @@ unsigned char LinxChipkitUno32::m_I2cRefCount[NUM_I2C_CHANS];
 
 //UART
 unsigned char LinxChipkitUno32::m_UartChans[NUM_UART_CHANS] = {0, 1};
-unsigned long LinxChipkitUno32::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200};	
+unsigned long LinxChipkitUno32::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200};
+
+//SERVO
+const unsigned char LinxChipkitUno32::m_ServoChans[NUM_SERVO_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+Servo* LinxChipkitUno32::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};			//Initialize To Null Pointers
 
 /****************************************************************************************
 **  Constructors /  Destructor
@@ -125,6 +129,11 @@ LinxChipkitUno32::LinxChipkitUno32()
 	//CAN
 	NumCanChans = 0;
 	CanChans = 0;
+	
+	//SERVO
+	NumServoChans = NUM_SERVO_CHANS;	
+	ServoChans = m_ServoChans;
+	Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()
 	#if DEBUG_ENABLED > 0

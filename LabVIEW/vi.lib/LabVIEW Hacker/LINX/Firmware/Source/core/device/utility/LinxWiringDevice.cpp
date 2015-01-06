@@ -651,11 +651,14 @@ int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
 {
 	for(int i=0; i<numChans; i++)
 	{
-		if(Servos[i] == 0)
+		unsigned char pin = chans[i];
+		if(Servos[pin] == 0)
 		{
 			//Servo Not Yet Intialized On Specified Channel, Init
-			Servos[i] = &Servo();
-			Servos[i]->attach(chans[i]);			
+			Servos[pin] = new Servo();
+			Servos[pin]->attach(pin);			
+			DebugPrint("Created New Servo On Channel ");
+			DebugPrint(pin, DEC);
 		}
 	}
 	return L_OK;
@@ -664,8 +667,10 @@ int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
 int LinxWiringDevice::ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths)
 {
 	for(int i=0; i<numChans; i++)
-	{
-		Servos[chans[i]]->writeMicroseconds(pulseWidths[i]);
+	{		
+		DebugPrintln((unsigned long)Servos[chans[i]], DEC);		
+		DebugPrintln(pulseWidths[i], DEC);
+		Servos[chans[i]]->writeMicroseconds((int)pulseWidths[i]);
 	}
 	return L_OK;
 }
@@ -678,7 +683,6 @@ int LinxWiringDevice::ServoClose(unsigned char numChans, unsigned char* chans)
 	}
 	return L_OK;
 }
-
 		
 
 //--------------------------------------------------------GENERAL----------------------------------------------------------

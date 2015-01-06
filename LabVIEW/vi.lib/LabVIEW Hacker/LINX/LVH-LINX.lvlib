@@ -17,6 +17,7 @@
 		<Item Name="LINX - chipKIT Basic IO Shield.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - chipKIT Basic IO Shield.vi"/>
 		<Item Name="LINX - DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - DS1307 Real Time Clock.vi"/>
 		<Item Name="LINX - Photocell.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Photocell.vi"/>
+		<Item Name="LINX - Servo.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Servo.vi"/>
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Set RGB LED Color.vi"/>
 		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - Seven Segment Display.vi"/>
 		<Item Name="LINX - SSD1306 OLED.vi" Type="VI" URL="../../../../examples/LabVIEW Hacker/LINX/LINX - SSD1306 OLED.vi"/>
