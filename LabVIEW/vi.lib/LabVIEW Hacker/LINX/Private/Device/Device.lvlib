@@ -77,7 +77,6 @@
 		<Item Name="Analog" Type="Folder">
 			<Item Name="Analog Read.vi" Type="VI" URL="../Peripheral/Analog/Analog Read.vi"/>
 			<Item Name="Analog Write.vi" Type="VI" URL="../Peripheral/Analog/Analog Write.vi"/>
-			<Item Name="Analog Set Reference Voltage.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Peripheral/Analog/Analog Set Reference Voltage.vi"/>
 		</Item>
 		<Item Name="Digital" Type="Folder">
 			<Item Name="Digital Read.vi" Type="VI" URL="../Peripheral/Digital/Digital Read.vi"/>

@@ -141,6 +141,16 @@
 				<Item Name="LVBoundsTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVBoundsTypeDef.ctl"/>
 				<Item Name="BuildHelpPath.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/BuildHelpPath.vi"/>
 				<Item Name="GetHelpDir.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/error.llb/GetHelpDir.vi"/>
+				<Item Name="LVH-LINX.lvlib" Type="Library" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/LVH-LINX.lvlib"/>
+				<Item Name="AI Reference Mode.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Device/Type Defs/AI Reference Mode.ctl"/>
+				<Item Name="Platform.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Type Defs/Platform.ctl"/>
+				<Item Name="Interface.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Type Defs/Interface.ctl"/>
+				<Item Name="TCP Config.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Device/Type Defs/TCP Config.ctl"/>
+				<Item Name="Channels.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Device/Type Defs/Channels.ctl"/>
+				<Item Name="LINX Device Config.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Device/Type Defs/LINX Device Config.ctl"/>
+				<Item Name="LINX Ref.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Type Defs/LINX Ref.ctl"/>
+				<Item Name="Generate Error.vi" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Utilties/Generate Error.vi"/>
+				<Item Name="Error Type.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Private/Type Defs/Error Type.ctl"/>
 				<Item Name="RGB to Color.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/colorconv.llb/RGB to Color.vi"/>
 				<Item Name="Open URL in Default Browser.vi" Type="VI" URL="/&lt;vilib&gt;/Platform/browser.llb/Open URL in Default Browser.vi"/>
 				<Item Name="Open URL in Default Browser (string).vi" Type="VI" URL="/&lt;vilib&gt;/Platform/browser.llb/Open URL in Default Browser (string).vi"/>

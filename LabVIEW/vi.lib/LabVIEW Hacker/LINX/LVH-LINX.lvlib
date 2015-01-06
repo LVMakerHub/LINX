@@ -260,6 +260,7 @@
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
 			<Item Name="Custom Command.vi" Type="VI" URL="../Public/Utilities/Custom Command.vi"/>
+			<Item Name="Get Device User ID.vi" Type="VI" URL="../Public/Utilities/Get Device User ID.vi"/>
 			<Item Name="Set Device User ID.vi" Type="VI" URL="../Public/Utilities/Set Device User ID.vi"/>
 		</Item>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
