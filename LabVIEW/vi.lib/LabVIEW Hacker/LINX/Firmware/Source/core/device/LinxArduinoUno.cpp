@@ -56,7 +56,6 @@ unsigned char LinxArduinoUno::m_UartChans[NUM_UART_CHANS] = {0};
 unsigned long LinxArduinoUno::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
 
 //SERVO
-const unsigned char LinxArduinoUno::m_ServoChans[NUM_SERVO_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 Servo* LinxArduinoUno::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};			//Initialize To Null Pointers
 
 /****************************************************************************************
@@ -131,7 +130,7 @@ LinxArduinoUno::LinxArduinoUno()
 	
 	//SERVO
 	NumServoChans = NUM_SERVO_CHANS;	
-	ServoChans = m_ServoChans;
+	ServoChans = m_DigitalChans;
 	Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()

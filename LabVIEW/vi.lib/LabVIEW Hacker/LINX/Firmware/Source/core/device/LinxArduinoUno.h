@@ -34,7 +34,7 @@
 #define NUM_UART_CHANS 1
 #define NUM_UART_SPEEDS 13
 
-#define NUM_SERVO_CHANS 14
+#define NUM_SERVO_CHANS NUM_DIGITAL_CHANS
 
 /****************************************************************************************
 **  Includes
@@ -78,10 +78,10 @@ class LinxArduinoUno : public LinxArduino
 		//UART
 		static unsigned char m_UartChans[NUM_UART_CHANS];
 		static unsigned long m_UartSupportedSpeeds[NUM_UART_SPEEDS];
-		
+				
 		//Servo		
 		static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
-		static Servo* m_Servos[NUM_SERVO_CHANS];
+		static Servo* m_Servos[NUM_SERVO_CHANS];		
 		
 		/****************************************************************************************
 		**  Constructors /  Destructor

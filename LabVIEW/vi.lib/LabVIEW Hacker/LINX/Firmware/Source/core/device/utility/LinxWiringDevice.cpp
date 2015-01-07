@@ -680,6 +680,7 @@ int LinxWiringDevice::ServoClose(unsigned char numChans, unsigned char* chans)
 	for(int i=0; i<numChans; i++)
 	{
 		Servos[chans[i]]->detach();
+		Servos[chans[i]] = 0;
 	}
 	return L_OK;
 }

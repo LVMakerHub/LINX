@@ -34,7 +34,7 @@
 #define NUM_UART_CHANS 2
 #define NUM_UART_SPEEDS 11
 
-#define NUM_SERVO_CHANS 14
+#define NUM_SERVO_CHANS NUM_DIGITAL_CHANS
 
 /****************************************************************************************
 **  Includes

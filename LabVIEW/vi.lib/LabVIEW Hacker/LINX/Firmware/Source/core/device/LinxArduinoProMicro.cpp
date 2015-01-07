@@ -53,6 +53,9 @@ unsigned char LinxArduinoProMicro::m_I2cRefCount[NUM_I2C_CHANS];
 unsigned char LinxArduinoProMicro::m_UartChans[NUM_UART_CHANS] = {0};
 unsigned long LinxArduinoProMicro::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
 
+//SERVO
+Servo* LinxArduinoProMicro::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};		//Initialize To Null Pointers
+
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
@@ -113,6 +116,11 @@ LinxArduinoProMicro::LinxArduinoProMicro()
 	//CAN
 	NumCanChans = 0;
 	CanChans = 0;
+	
+	//SERVO
+	NumServoChans = NUM_SERVO_CHANS;	
+	ServoChans = m_DigitalChans;
+	Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()
 	#if DEBUG_ENABLED > 0
