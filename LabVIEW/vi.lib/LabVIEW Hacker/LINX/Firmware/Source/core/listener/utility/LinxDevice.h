@@ -16,6 +16,7 @@
 **  Includes
 ****************************************************************************************/		
 
+
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/		
@@ -220,6 +221,7 @@ class LinxDevice
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
 		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration) = 0;
 		
 		//PWM
 		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;

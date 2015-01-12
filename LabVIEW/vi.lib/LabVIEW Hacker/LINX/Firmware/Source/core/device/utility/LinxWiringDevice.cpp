@@ -211,6 +211,29 @@ int LinxWiringDevice::DigitalRead(unsigned char numPins, unsigned char* pins, un
 	return L_OK;
 }
 
+
+int LinxWiringDevice::DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration)
+{
+	if(freq > 0)
+	{
+		pinMode(channel, OUTPUT);
+		if(duration > 0)
+		{
+			tone(channel, freq, duration);
+		}
+		else
+		{
+			tone(channel, freq);
+		}
+	}
+	else
+	{
+		noTone(channel);
+	}	
+	
+	return L_OK;
+}
+
 //--------------------------------------------------------PWM-----------------------------------------------------------
 
 int LinxWiringDevice::PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values)
@@ -656,7 +679,8 @@ int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
 		{
 			//Servo Not Yet Intialized On Specified Channel, Init
 			Servos[pin] = new Servo();
-			Servos[pin]->attach(pin);			
+			Servos[pin]->attach(pin);
+						
 			DebugPrint("Created New Servo On Channel ");
 			DebugPrint(pin, DEC);
 		}
@@ -666,14 +690,24 @@ int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
 
 int LinxWiringDevice::ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths)
 {
+	Servos[2]->writeMicroseconds(1800);
+	/*
 	for(int i=0; i<numChans; i++)
 	{		
 		DebugPrintln((unsigned long)Servos[chans[i]], DEC);		
 		DebugPrintln(pulseWidths[i], DEC);
-		Servos[chans[i]]->writeMicroseconds((int)pulseWidths[i]);
+		//Servos[chans[i]]->writeMicroseconds(pulseWidths[i]);
+		
 	}
-	return L_OK;
+	*/
+	
+	extern int __heap_start, *__brkval; 
+  int v; 
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
+	//return L_OK;
 }
+
+
 
 int LinxWiringDevice::ServoClose(unsigned char numChans, unsigned char* chans)
 {

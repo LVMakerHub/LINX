@@ -61,6 +61,7 @@ class LinxWiringDevice : public LinxDevice
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values);
 		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		
 		//PWM
 		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values);

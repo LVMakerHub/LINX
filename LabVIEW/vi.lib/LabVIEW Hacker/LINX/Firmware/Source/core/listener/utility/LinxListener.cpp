@@ -404,7 +404,15 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, (commandPacketBuffer[1]-7), status); 
 			break;
 			
-		//case 0x0043: //TODO Write Square Wave
+		case 0x0043: //Write Square Wave
+		{
+			unsigned long freq = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
+			unsigned long duration = (unsigned long)((commandPacketBuffer[11] << 24) | (commandPacketBuffer[12] << 16) | (commandPacketBuffer[13] << 8) | commandPacketBuffer[14]);			
+			status = LinxDev->DigitalWriteSquareWave(commandPacketBuffer[6], freq, duration);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		}
+			
 		//case 0x0044: //TODO Read Pulse Width
 			
 		//---0x0045 to 0x005F Reserved---
