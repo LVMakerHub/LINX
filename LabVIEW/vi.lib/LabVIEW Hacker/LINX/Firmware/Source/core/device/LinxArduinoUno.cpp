@@ -81,6 +81,7 @@ LinxArduinoUno::LinxArduinoUno()
 	NumAiChans = NUM_AI_CHANS;
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
+	AiRefSet = AI_REFV;
 		
 	AiRefDefault = AI_REFV;
 	AiRefSet = AI_REFV;
@@ -130,6 +131,7 @@ LinxArduinoUno::LinxArduinoUno()
 	
 	//SERVO
 	NumServoChans = NUM_SERVO_CHANS;	
+	//ServoChans = m_DigitalChans;
 	ServoChans = m_DigitalChans;
 	Servos = m_Servos;
 	

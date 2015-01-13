@@ -15,7 +15,7 @@
 /****************************************************************************************
 ** Defines
 ****************************************************************************************/
-#define LISTENER_BUFFER_SIZE 128
+#define LISTENER_BUFFER_SIZE 64
 
 /****************************************************************************************
 ** Includes
@@ -63,7 +63,7 @@ class LinxListener
 		unsigned char recBuffer[LISTENER_BUFFER_SIZE];
 		unsigned char sendBuffer[LISTENER_BUFFER_SIZE];
 		
-		int (*customCommands[64])(unsigned char, unsigned char*, unsigned char*, unsigned char*);
+		int (*customCommands[16])(unsigned char, unsigned char*, unsigned char*, unsigned char*);
 		
 		
 		/****************************************************************************************

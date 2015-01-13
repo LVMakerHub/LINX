@@ -60,6 +60,9 @@
 				<Item Name="Generic Device.ctl" Type="VI" URL="../Private/Type Defs/Devices/Generic Device.ctl"/>
 			</Item>
 			<Item Name="Peripherals" Type="Folder">
+				<Item Name="Analog" Type="Folder">
+					<Item Name="Analog Reference Mode.ctl" Type="VI" URL="/&lt;vilib&gt;/LabVIEW Hacker/LINX/Private/Device/Peripheral/Analog/Analog Reference Mode.ctl"/>
+				</Item>
 				<Item Name="Digital" Type="Folder">
 					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
 					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>

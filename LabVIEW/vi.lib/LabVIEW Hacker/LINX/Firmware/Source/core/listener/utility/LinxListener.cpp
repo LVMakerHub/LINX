@@ -171,7 +171,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		
 		case 0x0006: //Set UART Listener Interface Max Baud
 		{
-			unsigned long targetBaud = (unsigned long)((commandPacketBuffer[6] << 24) | (commandPacketBuffer[7] << 16) | (commandPacketBuffer[8] << 8) | commandPacketBuffer[9]);
+			unsigned long targetBaud = (unsigned long)((unsigned long)(commandPacketBuffer[6] << 24) | (unsigned long)(commandPacketBuffer[7] << 16) | (unsigned long)(commandPacketBuffer[8] << 8) | (unsigned long)commandPacketBuffer[9]);
 			unsigned long actualBaud = 0;
 			status = LinxDev->UartSetBaudRate(ListenerChan, targetBaud, &actualBaud);
 			LinxDev->DelayMs(1000);
@@ -406,14 +406,31 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			
 		case 0x0043: //Write Square Wave
 		{
-			unsigned long freq = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
-			unsigned long duration = (unsigned long)((commandPacketBuffer[11] << 24) | (commandPacketBuffer[12] << 16) | (commandPacketBuffer[13] << 8) | commandPacketBuffer[14]);			
+			unsigned long freq = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
+			unsigned long duration = (unsigned long)(((unsigned long)commandPacketBuffer[11] << 24) | (unsigned long)(commandPacketBuffer[12] << 16) | (unsigned long)(commandPacketBuffer[13] << 8) | (unsigned long)commandPacketBuffer[14]);			
 			status = LinxDev->DigitalWriteSquareWave(commandPacketBuffer[6], freq, duration);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
 		}
 			
-		//case 0x0044: //TODO Read Pulse Width
+		case 0x0044: //Read Pulse Width
+		{
+			unsigned long timeout = (unsigned long)(((unsigned long)commandPacketBuffer[10]<<24) | ((unsigned long)commandPacketBuffer[11]<<16) | ((unsigned long)commandPacketBuffer[12]<<8) | ((unsigned long)commandPacketBuffer[13]));
+					
+			//LinxDev->DebugPrint("Timeout = ");
+			//LinxDev->DebugPrintln(timeout, DEC);
+						
+			unsigned long width;
+			status = LinxDev->DigitalReadPulseWidth(commandPacketBuffer[7], commandPacketBuffer[8], commandPacketBuffer[6], commandPacketBuffer[9], timeout, &width);
+			
+			responsePacketBuffer[5] = ((width>>24) & 0xFF);  
+			responsePacketBuffer[6] = ((width>>16) & 0xFF);   
+			responsePacketBuffer[7] = ((width>>8) & 0xFF);    
+			responsePacketBuffer[8] = ((width) & 0xFF);
+			
+			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, status); 
+			break;
+		}
 			
 		//---0x0045 to 0x005F Reserved---
 		
@@ -422,7 +439,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		****************************************************************************************/	
 		case 0x0060: //Set AI Ref Voltage
 		{			
-			unsigned long voltage = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
+			unsigned long voltage = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
 			status =  LinxDev->AnalogSetRef(commandPacketBuffer[6], voltage);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
@@ -487,7 +504,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		****************************************************************************************/	
 		case 0x00C0: // UART Open
 		{
-			unsigned long targetBaud = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
+			unsigned long targetBaud = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
 			unsigned long actualBaud = 0;
 			
 			status = LinxDev->UartOpen(commandPacketBuffer[6], targetBaud, &actualBaud);
@@ -500,7 +517,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		}
 		case 0x00C1: // UART Set Buad Rate
 		{
-			unsigned long targetBaud = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
+			unsigned long targetBaud = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
 			unsigned long actualBaud = 0;
 			status = LinxDev->UartSetBaudRate(commandPacketBuffer[6], targetBaud, &actualBaud);
 			responsePacketBuffer[5] = (actualBaud>>24) & 0xFF;												//actualBaud MSB
@@ -549,7 +566,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		case 0x00E1: // I2C Set Speed
 		{
-			unsigned long targetSpeed = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
+			unsigned long targetSpeed = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
 			unsigned long actualSpeed = 0;
 			status = LinxDev->I2cSetSpeed(commandPacketBuffer[6], targetSpeed, &actualSpeed);
 			
@@ -590,7 +607,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			
 		case 0x0102: // SPI Set Clock Frequency				
 		{
-			unsigned long targetSpeed = (unsigned long)((commandPacketBuffer[7] << 24) | (commandPacketBuffer[8] << 16) | (commandPacketBuffer[9] << 8) | commandPacketBuffer[10]);
+			unsigned long targetSpeed = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
 			unsigned long actualSpeed = 0;
 			status = LinxDev->SpiSetSpeed( commandPacketBuffer[6], targetSpeed, &actualSpeed );
 			//Build Response Packet
@@ -634,21 +651,31 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		** SERVO
 		****************************************************************************************/	
 		case 0x0140: // Servo Init
-			LinxDev->DebugPrintln("Opening Servo");
+			//LinxDev->DebugPrintln("Opening Servo");
 			status = LinxDev->ServoOpen((commandPacketBuffer[1]-7), &commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
-			LinxDev->DebugPrintln("Servo Open...");
+			//LinxDev->DebugPrintln("Done Creating Servos...");
 			break;
 		case 0x0141: // Servo Set Pulse Width
 		{
 			//Convert Big Endian Packet To Little Endian (uC)
 			unsigned char* valPtr = &commandPacketBuffer[7+commandPacketBuffer[6]];		//Pointer To First Byte In Packet That Represents A Servo Value
-			unsigned short tempVals[commandPacketBuffer[6] / 2];										//Temporary Array To Store Unsigned Shorts Built From Bytes
+			unsigned short tempVals[commandPacketBuffer[6]];											//Temporary Array To Store Unsigned Shorts Built From Bytes
+			
+			//LinxDev->DebugPrint("valPtr offset :  ");
+			//LinxDev->DebugPrintln(7+commandPacketBuffer[6]);
+			
 			
 			for(int i=0; i<commandPacketBuffer[6]; i++)
 			{				
-				tempVals[i] = *(valPtr + (i*2))<<8  | *(valPtr + i*2 + 1);										//Create Unsigned Short From Bytes (Swap To Fix Endianess)								
-				
+				tempVals[i] = *(valPtr + (i*2))<<8  | *(valPtr + (i*2) + 1);								//Create Unsigned Short From Bytes (Swap To Fix Endianess)							
+			}
+			
+			//TODO REMOVE DEBUG PRINT
+			//LinxDev->DebugPrintln("::tempVals::");
+			
+			for(int i=0; i<commandPacketBuffer[6]; i++)
+			{
 				LinxDev->DebugPrintln(tempVals[i], DEC);
 			}
 			

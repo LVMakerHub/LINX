@@ -78,10 +78,10 @@ class LinxArduinoUno : public LinxArduino
 		//UART
 		static unsigned char m_UartChans[NUM_UART_CHANS];
 		static unsigned long m_UartSupportedSpeeds[NUM_UART_SPEEDS];
-				
+		
 		//Servo		
 		static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
-		static Servo* m_Servos[NUM_SERVO_CHANS];		
+		static Servo* m_Servos[NUM_SERVO_CHANS];
 		
 		/****************************************************************************************
 		**  Constructors /  Destructor

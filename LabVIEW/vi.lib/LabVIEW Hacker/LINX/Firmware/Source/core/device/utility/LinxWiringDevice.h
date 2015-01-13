@@ -18,6 +18,7 @@
 #include "LinxDevice.h"
 #include <Servo.h>
 
+
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
@@ -44,7 +45,7 @@ class LinxWiringDevice : public LinxDevice
 		
 		unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
 		
-		Servo** Servos ;											//Array Servo Pointers
+		Servo** Servos;											//Array Servo Pointers
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
@@ -62,6 +63,7 @@ class LinxWiringDevice : public LinxDevice
 		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values);
 		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
+		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
 		
 		//PWM
 		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values);

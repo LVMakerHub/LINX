@@ -21,7 +21,7 @@
 #define NUM_AI_CHANS 6
 #define AI_RES_BITS 10
 #define AI_REFV 5000000
-#define  NUM_AI_INT_REFS 1
+#define NUM_AI_INT_REFS 1
 
 #define NUM_DIGITAL_CHANS 14
 
@@ -56,9 +56,9 @@ class LinxArduinoLeonardo : public LinxArduino
 		//AI
 		static const unsigned char m_AiChans[NUM_AI_CHANS];
 		static const unsigned long m_AiRefIntVals[NUM_AI_INT_REFS];
-		static int m_AiRefCodes[NUM_AI_INT_REFS];
+		static const int m_AiRefCodes[NUM_AI_INT_REFS];
 		
-		//AI
+		//AO
 		//None
 		
 		//DIGITAL

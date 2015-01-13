@@ -27,7 +27,8 @@ const unsigned char LinxArduinoMega2560::m_DeviceName[DEVICE_NAME_LEN] = "Arduin
 
 //AI
 const unsigned char LinxArduinoMega2560::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-
+const unsigned long LinxArduinoMega2560::m_AiRefIntVals[NUM_AI_INT_REFS] = {1100000, 2560000};
+const int LinxArduinoMega2560::m_AiRefCodes[NUM_AI_INT_REFS] = {INTERNAL1V1, INTERNAL2V56};
 //AO
 //None
 
@@ -79,7 +80,16 @@ LinxArduinoMega2560::LinxArduinoMega2560()
 	NumAiChans = NUM_AI_CHANS;
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
-	AiRef = AI_REFV;
+		
+	AiRefDefault = AI_REFV;
+	AiRefSet = AI_REFV;
+	AiRefCodes = m_AiRefCodes;
+	
+	NumAiRefIntVals = NUM_AI_INT_REFS;
+	AiRefIntVals = m_AiRefIntVals;
+	
+	AiRefExtMin = 0;
+	AiRefExtMax = 5000000;
 	
 	//AO
 	NumAoChans = 0;

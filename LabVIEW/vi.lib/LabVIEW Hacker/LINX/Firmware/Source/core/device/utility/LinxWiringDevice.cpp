@@ -46,6 +46,7 @@ LinxWiringDevice::LinxWiringDevice()
 	
 	//Load User Config Data From Non Volatile Storage
 	userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
+	
 }
 
 
@@ -232,6 +233,47 @@ int LinxWiringDevice::DigitalWriteSquareWave(unsigned char channel, unsigned lon
 	}	
 	
 	return L_OK;
+}
+
+int LinxWiringDevice::DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width)
+{
+	//Stimulus
+	if(stimType == 1)
+	{
+		//High->Low->High
+		pinMode(stimChan, OUTPUT);
+		
+		digitalWrite(stimChan, HIGH);
+		delay(1);
+		digitalWrite(stimChan, LOW);
+		delay(1);
+		digitalWrite(stimChan, HIGH);		
+	}
+	else if(stimType == 2)
+	{
+		//Low->High->Low
+		pinMode(stimChan, OUTPUT);
+		
+		digitalWrite(stimChan, LOW);
+		delay(1);
+		digitalWrite(stimChan, HIGH);
+		delay(1);
+		digitalWrite(stimChan, LOW);		
+	}
+	
+	//Read Pulse
+	pinMode(respChan, INPUT);
+	
+	if(respType == 0)
+	{
+		*width = pulseIn(respChan, LOW, timeout);
+	}
+	else if(respType == 1)
+	{
+		*width = pulseIn(respChan, HIGH, timeout);
+	}	
+	
+	return L_OK;	
 }
 
 //--------------------------------------------------------PWM-----------------------------------------------------------
@@ -665,10 +707,6 @@ int LinxWiringDevice::UartClose(unsigned char channel)
 	return L_OK;
 }
 
-
-//unsigned char NumServoChans;
-//const unsigned char* ServoChans;
-
 //--------------------------------------------------------SERVO----------------------------------------------------------
 int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
 {
@@ -680,9 +718,9 @@ int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
 			//Servo Not Yet Intialized On Specified Channel, Init
 			Servos[pin] = new Servo();
 			Servos[pin]->attach(pin);
-						
+			
 			DebugPrint("Created New Servo On Channel ");
-			DebugPrint(pin, DEC);
+			DebugPrintln(pin, DEC);
 		}
 	}
 	return L_OK;
@@ -690,21 +728,18 @@ int LinxWiringDevice::ServoOpen(unsigned char numChans, unsigned char* chans)
 
 int LinxWiringDevice::ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths)
 {
-	Servos[2]->writeMicroseconds(1800);
-	/*
-	for(int i=0; i<numChans; i++)
-	{		
-		DebugPrintln((unsigned long)Servos[chans[i]], DEC);		
-		DebugPrintln(pulseWidths[i], DEC);
-		//Servos[chans[i]]->writeMicroseconds(pulseWidths[i]);
-		
-	}
-	*/
 	
-	extern int __heap_start, *__brkval; 
-  int v; 
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
-	//return L_OK;
+	for(int i=0; i<numChans; i++)
+	{	
+		
+		DebugPrint("Servo ");
+		DebugPrint((unsigned long)Servos[chans[i]], DEC);
+		DebugPrint(" : ");
+		DebugPrintln(pulseWidths[i], DEC);
+		Servos[chans[i]]->writeMicroseconds(pulseWidths[i]);		
+	}
+	
+	return L_OK;
 }
 
 
