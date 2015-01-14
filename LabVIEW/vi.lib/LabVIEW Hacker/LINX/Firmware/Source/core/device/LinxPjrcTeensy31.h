@@ -20,6 +20,7 @@
 #define NUM_AI_CHANS 21
 #define AI_RES_BITS 12
 #define AI_REFV 3300000
+#define NUM_AI_INT_REFS 0
 
 #define NUM_DIGITAL_CHANS 24
 
@@ -53,6 +54,8 @@ class LinxPjrcTeensy31 : public LinxPjrc
 		
 		//AI
 		static const unsigned char m_AiChans[NUM_AI_CHANS];
+		static const unsigned long m_AiRefIntVals[NUM_AI_INT_REFS];
+		static const int m_AiRefCodes[NUM_AI_INT_REFS];
 		
 		//AI
 		//None

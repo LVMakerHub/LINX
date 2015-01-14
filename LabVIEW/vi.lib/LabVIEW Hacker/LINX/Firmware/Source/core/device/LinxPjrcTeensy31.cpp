@@ -27,6 +27,8 @@ const unsigned char LinxPjrcTeensy31::m_DeviceName[DEVICE_NAME_LEN] = "PJRC Teen
 
 //AI
 const unsigned char LinxPjrcTeensy31::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}; 
+const unsigned long LinxPjrcTeensy31::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
+const int LinxPjrcTeensy31::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
 //AO
 //None
@@ -79,7 +81,17 @@ LinxPjrcTeensy31::LinxPjrcTeensy31()
 	NumAiChans = NUM_AI_CHANS;
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
-	AiRef = AI_REFV;
+	AiRefSet = AI_REFV;
+		
+	AiRefDefault = AI_REFV;
+	AiRefSet = AI_REFV;
+	AiRefCodes = m_AiRefCodes;
+	
+	NumAiRefIntVals = NUM_AI_INT_REFS;
+	AiRefIntVals = m_AiRefIntVals;
+	
+	AiRefExtMin = 0;
+	AiRefExtMax = 3300000;
 	
 	//AO
 	NumAoChans = 0;
