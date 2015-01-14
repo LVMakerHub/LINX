@@ -103,6 +103,7 @@
 			<Item Name="SPI Set CS Logic Level.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Logic Level.vi"/>
 			<Item Name="SPI Set CS Pin.vi" Type="VI" URL="../Peripheral/SPI/SPI Set CS Pin.vi"/>
 			<Item Name="SPI Set Bit Order.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Bit Order.vi"/>
+			<Item Name="SPI Set Frame Size.vi" Type="VI" URL="../Peripheral/SPI/SPI Set Frame Size.vi"/>
 		</Item>
 		<Item Name="UART" Type="Folder">
 			<Item Name="UART Open.vi" Type="VI" URL="../Peripheral/UART/UART Open.vi"/>

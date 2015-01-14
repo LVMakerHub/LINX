@@ -28,7 +28,7 @@ const unsigned char LinxArduinoLeonardo::m_DeviceName[DEVICE_NAME_LEN] = "Arduin
 //AI
 const unsigned char LinxArduinoLeonardo::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5};
 const unsigned long LinxArduinoLeonardo::m_AiRefIntVals[NUM_AI_INT_REFS] = {1100000};
-int LinxArduinoLeonardo::m_AiRefCodes[NUM_AI_INT_REFS] = {INTERNAL};
+const int LinxArduinoLeonardo::m_AiRefCodes[NUM_AI_INT_REFS] = {INTERNAL};
 
 //AO
 //None

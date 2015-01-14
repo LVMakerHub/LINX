@@ -131,7 +131,6 @@ LinxArduinoUno::LinxArduinoUno()
 	
 	//SERVO
 	NumServoChans = NUM_SERVO_CHANS;	
-	//ServoChans = m_DigitalChans;
 	ServoChans = m_DigitalChans;
 	Servos = m_Servos;
 	

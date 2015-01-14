@@ -186,7 +186,6 @@
 			<Item Name="SPI" Type="Folder">
 				<Item Name="SPI Configure.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Configure.vi"/>
 				<Item Name="SPI Open.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Open.vi"/>
-				<Item Name="SPI Set Frame Size.vi" Type="VI" URL="../Private/Device/Peripheral/SPI/SPI Set Frame Size.vi"/>
 				<Item Name="SPI Write Read 1 Frame.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read 1 Frame.vi"/>
 				<Item Name="SPI Write Read N Frames.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read N Frames.vi"/>
 				<Item Name="SPI Write Read.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Write Read.vi"/>

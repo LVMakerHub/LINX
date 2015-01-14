@@ -14,6 +14,7 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <EEPROM.h>
+#include <Servo.h>
 
 #include <WiFiShieldOrPmodWiFi_G.h>
 #include <DNETcK.h>

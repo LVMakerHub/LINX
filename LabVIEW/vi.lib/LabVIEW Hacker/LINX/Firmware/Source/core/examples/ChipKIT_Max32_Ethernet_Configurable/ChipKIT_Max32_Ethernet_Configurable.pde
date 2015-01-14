@@ -15,6 +15,7 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <EEPROM.h>
+#include <Servo.h>
 
 #include <NetworkShield.h> 
 #include <DNETcK.h>
