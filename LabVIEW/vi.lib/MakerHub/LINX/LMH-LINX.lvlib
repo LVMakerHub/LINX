@@ -15,9 +15,15 @@
 		<Item Name="LINX - Blink (Simple).vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Blink (Simple).vi"/>
 		<Item Name="LINX - BlinkM Smart LED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - BlinkM Smart LED.vi"/>
 		<Item Name="LINX - chipKIT Basic IO Shield.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - chipKIT Basic IO Shield.vi"/>
+		<Item Name="LINX - Digital Read 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Read 1 Channel.vi"/>
+		<Item Name="LINX - Digital Read N Channels.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Read N Channels.vi"/>
+		<Item Name="LINX - Digital Write Square Wave.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Write Square Wave.vi"/>
 		<Item Name="LINX - DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - DS1307 Real Time Clock.vi"/>
+		<Item Name="LINX - MMA8452Q Accelerometer.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - MMA8452Q Accelerometer.vi"/>
 		<Item Name="LINX - Photocell.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Photocell.vi"/>
-		<Item Name="LINX - Servo.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Servo.vi"/>
+		<Item Name="LINX - PWM 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PWM 1 Channel.vi"/>
+		<Item Name="LINX - PWM N Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PWM N Channel.vi"/>
+		<Item Name="LINX - Servo 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Servo 1 Channel.vi"/>
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Set RGB LED Color.vi"/>
 		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Seven Segment Display.vi"/>
 		<Item Name="LINX - SSD1306 OLED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - SSD1306 OLED.vi"/>
@@ -144,7 +150,7 @@
 			<Item Name="All Firmware Data FGV.vi" Type="VI" URL="../Private/Utilties/All Firmware Data FGV.vi"/>
 			<Item Name="Copy Firmware Libraries.vi" Type="VI" URL="../Private/Utilties/Copy Firmware Libraries.vi"/>
 			<Item Name="Generate Firmware Libraries.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Generate Firmware Libraries.vi"/>
-			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="../Private/Utilties/LINX Firmware Wizard Config.ini"/>
+			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="../Private/Utilties/Post-Install Custom Action.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
@@ -207,6 +213,9 @@
 				</Item>
 				<Item Name="MMA8451" Type="Folder">
 					<Item Name="MMA8451.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/MMA8451/MMA8451.lvlib"/>
+				</Item>
+				<Item Name="MMA8452" Type="Folder">
+					<Item Name="MMA8452.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/MMA8452/MMA8452.lvlib"/>
 				</Item>
 				<Item Name="MPU60X0" Type="Folder">
 					<Item Name="MPU60X0.lvlib" Type="Library" URL="../Public/Sensors/Accelerometer/MPU60X0/MPU60X0.lvlib"/>
