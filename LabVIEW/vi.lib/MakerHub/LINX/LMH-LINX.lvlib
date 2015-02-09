@@ -26,6 +26,7 @@
 		<Item Name="LINX - Servo 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Servo 1 Channel.vi"/>
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Set RGB LED Color.vi"/>
 		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Seven Segment Display.vi"/>
+		<Item Name="LINX - SPI Loopback.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - SPI Loopback.vi"/>
 		<Item Name="LINX - SSD1306 OLED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - SSD1306 OLED.vi"/>
 		<Item Name="LINX - Thermistor Read.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Thermistor Read.vi"/>
 		<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Thumbstick Read.vi"/>

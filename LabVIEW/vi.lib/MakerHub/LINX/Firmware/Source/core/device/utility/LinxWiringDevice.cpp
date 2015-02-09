@@ -311,21 +311,25 @@ int LinxWiringDevice::SpiSetMode(unsigned char channel, unsigned char mode)
 
 int LinxWiringDevice::SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
 {
-	int index = 0;
-	//Loop Over All Supported SPI Speeds
-	for(index=0; index < NumSpiSpeeds; index++)
+	//Loop Over All Supported SPI Speeds (SPI Speeds Should Be Fastest -> Slowest)
+	for(int index=0; index < NumSpiSpeeds; index++)
 	{
-			
-			if(speed < *(SpiSupportedSpeeds+index))
+			//If Target Speed Is greater or equal to the current supported speed use current supported speed (it's the fastest supported speed that is less or equal to the target)
+			if(speed >= *(SpiSupportedSpeeds+index))
 			{
-				index = index - 1; //Use Fastest Speed Below Target Speed
+				*actualSpeed = *(SpiSupportedSpeeds+index);
+				SPI.setClockDivider(*(SpiSpeedCodes+index));
 				break;
 			}
-			//If Target Speed Is Higher Than Max Speed Use Max Speed	
-
-			SPI.setClockDivider(*(SpiSupportedSpeeds+index));
+			if(index == NumSpiSpeeds-1)
+			{
+				//Target speed is slower than slowest supported.  Use slowest supported
+				*actualSpeed = *(SpiSupportedSpeeds+index);
+				SPI.setClockDivider(*(SpiSpeedCodes+index));
+			}
 	}
-	return 0;
+	
+	return L_OK;
 }
 
 int LinxWiringDevice::SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)

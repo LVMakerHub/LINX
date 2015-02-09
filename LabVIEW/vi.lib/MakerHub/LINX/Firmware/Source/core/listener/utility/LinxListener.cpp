@@ -400,9 +400,12 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 			
 		case 0x0042: // Digital Read
+		{
+			unsigned char numRespBytes = ((commandPacketBuffer[1]-7)-1 >> 3) +1;
 			status = LinxDev->DigitalRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[5]);
-			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, (commandPacketBuffer[1]-7), status); 
+			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numRespBytes, status); 
 			break;
+		}
 			
 		case 0x0043: //Write Square Wave
 		{
@@ -607,14 +610,16 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			
 		case 0x0102: // SPI Set Clock Frequency				
 		{
-			unsigned long targetSpeed = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
+			unsigned long targetSpeed = (unsigned long) ( (unsigned long)commandPacketBuffer[7] << 24 | (unsigned long)commandPacketBuffer[8] << 16 | (unsigned long)commandPacketBuffer[9] << 8 | (unsigned long)commandPacketBuffer[10] );
 			unsigned long actualSpeed = 0;
 			status = LinxDev->SpiSetSpeed( commandPacketBuffer[6], targetSpeed, &actualSpeed );
-			//Build Response Packet
+			
+			//Build Response Packet			
 			responsePacketBuffer[5] = (actualSpeed>>24) & 0xFF;		//Actual Speed MSB
 			responsePacketBuffer[6] = (actualSpeed>>16) & 0xFF;		//...
 			responsePacketBuffer[7] = (actualSpeed>>8) & 0xFF;			//...
-			responsePacketBuffer[8] = actualSpeed & 0xFF;					//Actual Speed LSB		
+			responsePacketBuffer[8] = actualSpeed & 0xFF;					//Actual Speed LSB			
+			
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 4, L_OK); 
 			break;		
 		}	
@@ -635,7 +640,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		case 0x0107: // SPI Write Read
 		{
 			status = LinxDev->SpiWriteRead(commandPacketBuffer[6], commandPacketBuffer[7], (commandPacketBuffer[1]-11)/commandPacketBuffer[7], commandPacketBuffer[8], commandPacketBuffer[9], &commandPacketBuffer[10], &responsePacketBuffer[5]);
-			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, commandPacketBuffer[7]*commandPacketBuffer[8], status); 
+			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, commandPacketBuffer[1]-11, status); 
 			break;
 		}
 		
