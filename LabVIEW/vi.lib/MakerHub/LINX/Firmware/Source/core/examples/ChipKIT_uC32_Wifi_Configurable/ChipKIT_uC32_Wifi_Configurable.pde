@@ -1,5 +1,5 @@
 /****************************************************************************************	
-**  This is example LINX firmware for use with the chipKIT WF32 with the WIFI
+**  This is example LINX firmware for use with the chipKIT uC32 with the WIFI
 **  interface enabled.
 **
 **  For more information see:           www.labviewmakerhub.com/linx
@@ -7,7 +7,7 @@
 **  
 **  Written By Sam Kristoff
 **
-**  BSD2 license.
+**  BSD2 License.
 ****************************************************************************************/
 
 //Include All Peripheral Libraries Used By LINX
@@ -21,31 +21,31 @@
 #include <DWIFIcK.h>
 
 //Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
-//Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
-#include <LinxChipkitWf32.h>
+//Also Include Desired LINX Listener From Sketch>>Import Library 
+#include <LinxChipkitUc32.h>
 #include <LinxChipkitWifiListener.h>
  
 //Create A Pointer To The LINX Device Object We Instantiate In Setup()
-LinxChipkitWf32* LinxDevice;
+LinxChipkitUc32* LinxDevice;
 
 //Initialize LINX Device And Listener
 void setup()
 {
   //Instantiate The LINX Device
-  LinxDevice = new LinxChipkitWf32();
+  LinxDevice = new LinxChipkitUc32();
   
-  //The LINX Listener Is Pre Instantiated.  
-  //Set SSID (Network Name), Security Type, Passphrase/Key, And Call Start With Desired Device IP and Port
-  LinxWifiConnection.SetSsid("YOUR_NETWORK_NAME");
-  LinxWifiConnection.SetSecurity(WPA2_PASSPHRASE);    //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
-  LinxWifiConnection.SetPassphrase("PASSPHRASE");    //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
-  LinxWifiConnection.Start(LinxDevice, 192, 168, 1, 128, 44300);  //Start With Fixed IP and Port.  When Using This Method You Cannot Update The IP/Port Using LINX VIs
+  //The LINX Serial Listener Is Included In WIFI Listener And Pre Instantiated.  This Is Necissary For Configuring Wifi Settings.
+  LinxSerialConnection.Start(LinxDevice, 0);  
+  
+  //Start Wifi Listener.  Settings (IP, SSID, etc) Will Be Read From Non Volatile Storage And Can Be Set Using LINX VIs Via USB
+  LinxWifiConnection.Start(LinxDevice);  
 }
 
 void loop()
 {
   //Listen For New Packets From LabVIEW
   LinxWifiConnection.CheckForCommands();
+  LinxSerialConnection.CheckForCommands();
   
   //Your Code Here, But It will Slow Down The Connection With LabVIEW
 }
