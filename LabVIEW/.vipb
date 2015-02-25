@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-02-25 09:49:01" Creator="lvadmin" Comments="" ID="6e487d6513f4429017db047049593f0b">
+<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-02-25 10:38:04" Creator="lvadmin" Comments="" ID="62f8a69b813775ac5a5f11ab3e658753">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>2.0.0.87</Library_Version>
+    <Library_Version>2.0.0.88</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\Builds\LINX\Installers</Library_Output_Folder>
