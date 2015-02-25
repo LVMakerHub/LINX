@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-02-16 11:07:04" Creator="lvadmin" Comments="" ID="ad28eba630280b0920a3f91c218b7fd2">
+<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-02-25 09:49:01" Creator="lvadmin" Comments="" ID="6e487d6513f4429017db047049593f0b">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>2.0.0.86</Library_Version>
+    <Library_Version>2.0.0.87</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\Builds\LINX\Installers</Library_Output_Folder>
@@ -29,12 +29,12 @@
     </Custom_Action_VIs>
     <VI_Package_Configuration_File>.vipc</VI_Package_Configuration_File>
     <Description>
-      <One_Line_Description_Summary>Interface With Common Embedded Platforms Such As Arduino, chipKIT and NI myRIO.</One_Line_Description_Summary>
-      <Description>LINX provides a unified LabVIEW API for interfacing with common embedded platforms such as chipKIT, Arduino, myRIO and more. LINX's hardware abstraction layer provides support for hardware peripherals as well as common sensors, and enables the same code to interface with a chipKIT or Arduino and run headlessly on myRIO with no modifications.</Description>
+      <One_Line_Description_Summary>Interact with the world using LabVIEW to control embedded platforms like Arduino and chipKIT and myRIO.</One_Line_Description_Summary>
+      <Description>LINX provides easy to use VIs for interacting with common embeddded platforms like Arduino, chipKIT and myRIO. Use the built in sensor VIs to start getting data to your PC in seconds or use the peripheral VIs to access your devices digital I/O, analog I/O, SPI, I2C, UART, PWM and more.</Description>
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewmakerhub.com/linx</URL>
-      <Release_Notes>LINX 2.0 Beta
+      <Release_Notes>LINX 2.0
 
 Firmware
 -Completly re-written to enable more code re-use between devices
