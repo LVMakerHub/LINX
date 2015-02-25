@@ -77,7 +77,6 @@ int LinxListener::CheckForCommands()
 			break;
 		case CLOSE:    			
 			Close();
-			State = START;
 			break;	
 		case EXIT:
 			Exit();

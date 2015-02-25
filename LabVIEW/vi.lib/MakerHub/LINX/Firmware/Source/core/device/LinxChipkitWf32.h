@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for chipKIT Uno32
+**  LINX header for chipKIT WF32
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -17,7 +17,7 @@
 ****************************************************************************************/	
 #define DEVICE_NAME_LEN 13
 
-#define NUM_AI_CHANS 12
+#define NUM_AI_CHANS 13
 #define AI_RES_BITS 10
 #define AI_REFV 3300000
 #define  NUM_AI_INT_REFS 0

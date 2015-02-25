@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-01-28 13:26:14" Creator="lvadmin" Comments="" ID="0f8c12ceebf298dcdddbc4739c6588f4">
+<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-02-16 11:07:04" Creator="lvadmin" Comments="" ID="ad28eba630280b0920a3f91c218b7fd2">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>2.0.0.85</Library_Version>
+    <Library_Version>2.0.0.86</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\Builds\LINX\Installers</Library_Output_Folder>
@@ -33,7 +33,7 @@
       <Description>LINX provides a unified LabVIEW API for interfacing with common embedded platforms such as chipKIT, Arduino, myRIO and more. LINX's hardware abstraction layer provides support for hardware peripherals as well as common sensors, and enables the same code to interface with a chipKIT or Arduino and run headlessly on myRIO with no modifications.</Description>
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
-      <URL>www.labviewhacker.com/linx</URL>
+      <URL>www.labviewmakerhub.com/linx</URL>
       <Release_Notes>LINX 2.0 Beta
 
 Firmware
@@ -43,9 +43,14 @@ Firmware
 -Added support for Teensy 3.0 and 3.1
 -Added examples for each device configuration in MPIDE and Arduino IDE
 -Added new method of implementing custom commands with function points and stock Custom Command VI.
+-Misc bug fixes.
+
+Devices:
+Added support for Sparkfun Red Board
 
 Sensors:
 -Added support for MMA8451 Acceleromter - Original Code Contributed by SEbstein
+-Added support for MMA8452
 -Added support for MPU-6050 (Accelerometer / Gyro)
 -Added auto populating palette for community sensors
 -Added Servo Support
@@ -57,6 +62,8 @@ Peripheral:
 
 Examples:
 -Added Analog Read N Channel Example
+-Added  Digital IO N Channel Examples
+-Added PWM N Channel Example
 -Added SPI Example
 
 Misc
