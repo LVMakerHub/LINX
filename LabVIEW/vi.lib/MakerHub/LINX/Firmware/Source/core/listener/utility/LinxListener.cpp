@@ -217,6 +217,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		   break;
 			
 		case 0x0011: // Disconnect
+			State = CLOSE;
 			status = L_DISCONNECT;
 			break;
 			

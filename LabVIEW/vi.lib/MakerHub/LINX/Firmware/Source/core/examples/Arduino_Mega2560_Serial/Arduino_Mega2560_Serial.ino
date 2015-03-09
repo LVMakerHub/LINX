@@ -16,7 +16,7 @@
 #include <EEPROM.h>
 #include <Servo.h>
 
-//Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxArduinoMega2560.h)
+//Include Device Specific Header From Sketch>>Import Library (In This Case LinxArduinoMega2560.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
 #include <LinxArduinoMega2560.h>
 #include <LinxSerialListener.h>

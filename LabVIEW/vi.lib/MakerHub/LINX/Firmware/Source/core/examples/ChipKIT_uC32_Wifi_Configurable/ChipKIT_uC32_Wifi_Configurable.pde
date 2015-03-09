@@ -16,11 +16,11 @@
 #include <EEPROM.h>
 #include <Servo.h>
 
-#include <WiFiShieldOrPmodWiFi_G.h>
-#include <DNETcK.h>
-#include <DWIFIcK.h>
+#include <MRF24G.h>
+#include <DEIPcK.h>
+#include <DEWFcK.h>
 
-//Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
+//Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library 
 #include <LinxChipkitUc32.h>
 #include <LinxChipkitWifiListener.h>

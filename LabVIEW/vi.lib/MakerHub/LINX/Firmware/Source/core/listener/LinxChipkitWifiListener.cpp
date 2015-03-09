@@ -21,14 +21,17 @@
 #include "utility\LinxDnetckListener.h"
 #include "LinxChipkitWifiListener.h"
 
-#include <DNETcK.h> 
-#include <DWIFIcK.h> 
+#include <DEIPcK.h> 
+#include <DEWFcK.h> 
 /****************************************************************************************
 **  Constructors
 ****************************************************************************************/
 LinxChipkitWifiListener::LinxChipkitWifiListener()
 {
 	State = START;
+	
+	wifiState = INIT;
+	LinxWifiConnectStatus = DEWFcK::INVALID_CONNECTION_ID;
 	
 	unsigned char wifiServerFail = 0;
 	
@@ -66,6 +69,7 @@ int LinxChipkitWifiListener::SetPassphrase(const char pw[])
 //Start With IP And Port Saved In NVS
 int LinxChipkitWifiListener::Start(LinxDevice* linxDev)
 {
+		
 	LinxDev = linxDev;
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With NVS Data");
 	
@@ -85,12 +89,14 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev)
 	LinxWifiSecurity = (SecurityType)LinxDev->NonVolatileRead(NVS_WIFI_SECURITY_TYPE);
 	
 	IPv4 deviceIpAddress = {LinxDev->NonVolatileRead(NVS_WIFI_IP), LinxDev->NonVolatileRead(NVS_WIFI_IP+1), LinxDev->NonVolatileRead(NVS_WIFI_IP+2), LinxDev->NonVolatileRead(NVS_WIFI_IP+3)};
-	LinxDev->WifiIp = deviceIpAddress.rgbIP[0]<<24 | deviceIpAddress.rgbIP[1] <<16 | deviceIpAddress.rgbIP[2] << 8 | deviceIpAddress.rgbIP[3];
+	LinxDev->WifiIp = deviceIpAddress.u8[0]<<24 | deviceIpAddress.u8[1] <<16 | deviceIpAddress.u8[2] << 8 | deviceIpAddress.u8[3];
 	unsigned short port = (LinxDev->NonVolatileRead(NVS_WIFI_PORT) << 8) +  (LinxDev->NonVolatileRead(NVS_WIFI_PORT+1)) ;
+		
+	LinxTcpPort = port;
+		
+	PrintWifiInfo(deviceIpAddress, port);
 	
-	
-	
-	StartStage2(deviceIpAddress, port);
+	State = START;
 	
 	return L_OK;
 }
@@ -101,23 +107,23 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsig
 	
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With Fixed IP Address");
 		
+	LinxDev->WifiIp = ip3<<24 | ip2 <<16 | ip1 << 8 | ip0;
 	IPv4 deviceIpAddress = {ip3, ip2, ip1, ip0};
 	
-	StartStage2(deviceIpAddress, port);
+	LinxTcpPort = port;
 	
+	
+	PrintWifiInfo(deviceIpAddress, port);
+	
+	State = START;
+	
+	LinxDev->DebugPrint("Connecting To Wifi Network");
 	return L_OK;
 	
 }
 
-
-//Common Part Of Network Stack Bring Up
-int LinxChipkitWifiListener::StartStage2(IPv4 deviceIpAddress, unsigned short port)
+int LinxChipkitWifiListener::PrintWifiInfo(IPv4 deviceIpAddress, unsigned short port)
 {
-	
-	LinxTcpPort = port;
-
-	int LinxWifiConnectionId = DWIFIcK::INVALID_CONNECTION_ID;
-
 	//SSID
 	const char * szSsid; 
 	szSsid = LinxWifiSsid;
@@ -125,27 +131,20 @@ int LinxChipkitWifiListener::StartStage2(IPv4 deviceIpAddress, unsigned short po
 	//PW
 	const char * szPassPhrase;
 	szPassPhrase = LinxWifiPw;  
-
-	DWIFIcK::WPA2KEY key;
-	
-	for(int i=0; i<64; i++)
-	{
-		key.rgbKey[i] = LinxWifiPw[i];
-	}
-	
+		
 	//LINX WIFI DEBUG INFO
 	LinxDev->DebugPrintln("");
 	LinxDev->DebugPrintln("");
 	LinxDev->DebugPrintln(".: LINX WIFI SETTINNGS :.");
 	
 	LinxDev->DebugPrint("IP Address : ");
-	LinxDev->DebugPrint(deviceIpAddress.rgbIP[0], DEC);
+	LinxDev->DebugPrint(deviceIpAddress.u8[0], DEC);
 	LinxDev->DebugPrint(".");
-	LinxDev->DebugPrint(deviceIpAddress.rgbIP[1], DEC);
+	LinxDev->DebugPrint(deviceIpAddress.u8[1], DEC);
 	LinxDev->DebugPrint(".");
-	LinxDev->DebugPrint(deviceIpAddress.rgbIP[2], DEC);
+	LinxDev->DebugPrint(deviceIpAddress.u8[2], DEC);
 	LinxDev->DebugPrint(".");
-	LinxDev->DebugPrintln(deviceIpAddress.rgbIP[3], DEC);
+	LinxDev->DebugPrintln(deviceIpAddress.u8[3], DEC);
 	
 	LinxDev->DebugPrint("Port       : ");
 	LinxDev->DebugPrintln(LinxTcpPort, DEC);
@@ -183,20 +182,59 @@ int LinxChipkitWifiListener::StartStage2(IPv4 deviceIpAddress, unsigned short po
 	
 	LinxDev->DebugPrintln("");
 	LinxDev->DebugPrintln("");	
+	
+	return L_OK;
+}
 
+	
+
+int LinxChipkitWifiListener::Init()
+{
+	//This case will be called repeatedly until the device connects to the network and starts listening.
+	/*
+	switch(wifiState)
+	{
+		case INIT:
+			LinxWifiConnectStatus = DEWFcK::INVALID_CONNECTION_ID;
+			wifiState = CONNECT;			
+		break;
+		
+		case CONNECT:
+			
+		break;
+	}
+	*/
+	
+	
+
+	//SSID
+	const char * szSsid; 
+	szSsid = LinxWifiSsid;
+
+	//PW
+	const char * szPassPhrase;
+	szPassPhrase = LinxWifiPw;  
+
+	char key[64];
+	
+	for(int i=0; i<64; i++)
+	{
+		key[i] = LinxWifiPw[i];
+	}
+		
 	switch(LinxWifiSecurity)
 	{
 		case NONE:
 			//No Security		
-			LinxWifiConnectionId = DWIFIcK::connect(szSsid, &LinxTcpStatus);
+			LinxWifiConnectStatus = deIPcK.wfConnect(szSsid, &LinxTcpStatus);
 			break;
 		case WPA2_PASSPHRASE:
 			//WPA2 Passphrase
-			LinxWifiConnectionId = DWIFIcK::connect(szSsid, szPassPhrase, &LinxTcpStatus);
+			LinxWifiConnectStatus = deIPcK.wfConnect(szSsid, szPassPhrase, &LinxTcpStatus);
 			break;
 		case WPA2_KEY:
 			//WPA2 Key  --Untested--
-			LinxWifiConnectionId = DWIFIcK::connect(szSsid, szPassPhrase, &LinxTcpStatus);
+			LinxWifiConnectStatus = deIPcK.wfConnect(szSsid, szPassPhrase, &LinxTcpStatus);
 			break;
 		case WEP40:
 			//TODO
@@ -208,91 +246,80 @@ int LinxChipkitWifiListener::StartStage2(IPv4 deviceIpAddress, unsigned short po
 			break;     
 	}
 
-	if(LinxWifiConnectionId != DWIFIcK::INVALID_CONNECTION_ID)
-	{	
-		LinxDev->DebugPrintln("Connecting To Wifi Network");		
+	//Connect To Network
+	if(LinxWifiConnectStatus)
+	{
 		
-		if(DNETcK::isInitialized(&LinxTcpStatus))
-		{			
-			LinxDev->DebugPrintln("TCP Stack Initialized");			
-			State = LISTENING;
+		
+		IPv4 deviceIpAddress;// = {192, 168, 1, 6};
+		deviceIpAddress.u8[0] = LinxDev->WifiIp>>24 & 0xFF;
+		deviceIpAddress.u8[1] = LinxDev->WifiIp>>16 & 0xFF;
+		deviceIpAddress.u8[2] = LinxDev->WifiIp>>8 & 0xFF;
+		deviceIpAddress.u8[3] = LinxDev->WifiIp & 0xFF;
+		
+		LinxDev->DebugPrintln(deviceIpAddress.u8[0], DEC);
+		LinxDev->DebugPrintln(deviceIpAddress.u8[1], DEC);
+		LinxDev->DebugPrintln(deviceIpAddress.u8[2], DEC);
+		LinxDev->DebugPrintln(deviceIpAddress.u8[3], DEC);
+		
+		LinxDev->DebugPrintln("");
+		LinxDev->DebugPrintln("Connected To Wifi Network");
+		deIPcK.begin(deviceIpAddress);
+		
+		//Listen For Connection On Specified Port
+		if(deIPcK.tcpStartListening(LinxTcpPort, LinxTcpServer))
+		{		
+			LinxDev->DebugPrintln("Adding Socket...");
+			LinxTcpServer.addSocket(LinxTcpClient);
+			State = AVAILABLE;			
 		}
-		else if(DNETcK::isStatusAnError(LinxTcpStatus))
-		{			
-			LinxDev->DebugPrint("Error in initializing, status: ");
-			LinxDev->DebugPrintln(LinxTcpStatus, DEC);			
-			State = EXIT;
-		}		
 	}
-	else
-	{   
-		LinxDev->DebugPrint("Unable to connection, status: ");
+	else if(IsIPStatusAnError(LinxTcpStatus))
+	{
+		LinxDev->DebugPrint("Unable To Connect, Status ");
 		LinxDev->DebugPrintln(LinxTcpStatus, DEC);
-		State = EXIT;
-	}
-	
-	// intialize the stack with a static IP
-	DNETcK::begin(deviceIpAddress); 
-	
-	 //Listen For Connection On Specified Port
-	if(LinxTcpServer.startListening(LinxTcpPort))
-	{
-		State = LISTENING;
-		  
-		LinxDev->DebugPrint("WIFI Starting To Listen On Port ");
-		LinxDev->DebugPrintln(LinxTcpPort, DEC);
+		State = CLOSE;
 	}
 	else
 	{
-		LinxDev->DebugPrint("Unable To Start Listenging On Wifi Port ");
-		LinxDev->DebugPrintln(LinxTcpPort);
-		
-		State = EXIT;        
+		LinxDev->DebugPrint(".");	
 	}
-		
-	return L_OK;
+	//LINXDev->delay(100);	
+
 }
 
+
 int LinxChipkitWifiListener::Listen()
-{
-	if( (LinxTcpClientCount = LinxTcpServer.availableClients()) > 0)
+{	
+	if(LinxTcpServer.isListening() > 0)
 	{
-		//Should Move To Available But There Is Nothing To Do There For Now
-		State = ACCEPT;		
+		State = AVAILABLE;
 	}
-	else
-	{
-		//No New Clients
-	}	
-	
+			
 	return L_OK;
 }
 
 int LinxChipkitWifiListener::Available()
 {
-	//Not Used
+	if((LinxTcpServer.availableClients() > 0))
+	{
+		LinxDev->DebugPrintln("Available Client");
+		State = ACCEPT;
+	}
 	return L_OK;
 }
 
 int LinxChipkitWifiListener::Accept()
 {
-	//Accept The Client Connection
-	
-	//Close Any Previous Connections Just In Case
-	LinxTcpClient.close();
-
-	if(LinxTcpServer.acceptClient(&LinxTcpClient))
+	if((LinxTcpClientPtr = LinxTcpServer.acceptClient()) != NULL && LinxTcpClientPtr->isConnected())
 	{
+		LinxDev->DebugPrintln("Client Connected");
 		State = CONNECTED;
-		LinxTcpStartTime= (unsigned) LinxDev->GetMilliSeconds();		 
-		LinxDev->DebugPrintln("Client Connected...");		
+		LinxTcpStartTime = (unsigned)millis();
 	}
 	else
 	{
-		State = CLOSE;		
-		LinxDev->DebugPrintln("Failed To Accept Wifi Connection...");
-		LinxDev->DebugPrint("Wifi Status => ");         
-		LinxDev->DebugPrintln(LinxTcpStatus, DEC);		
+		State = CLOSE;
 	}
 	
 	return L_OK;
@@ -300,56 +327,67 @@ int LinxChipkitWifiListener::Accept()
 
 int LinxChipkitWifiListener::Connected()
 {
-	//Read Wifi TCP Bytes	
+	//Read Wifi TCP Bytes
+	
 	
 	//If There Are Bytes Available Have A Look, If Not Loop (Remain In Read Unless Timeout)
-	if(LinxTcpClient.available() > 0)
+	if(LinxTcpClientPtr->available() > 0)
 	{
 		//Read First Byte, Check If It Is SoF (0xFF)
-		if ( (recBuffer[0] = LinxTcpClient.readByte()) == 0xFF)
-		{               
-			LinxDev->DebugPrintln("Network Stack :: SoF Received");
+		if ( (recBuffer[0] = LinxTcpClientPtr->readByte()) == 0xFF)
+		{
+			//LinxDev->DebugPrintln("Network Stack :: SoF Received");
 			
 			//SoF Received, Reset LinxTcpStartTime
 			LinxTcpStartTime = (unsigned)millis();
 
 			//SoF Received Wait For Packet Size
-			while(LinxTcpClient.available() < 1)
+			while(LinxTcpClientPtr->available() < 1)
 			{
 				if( ((unsigned)millis() - LinxTcpStartTime) > LinxTcpTimeout)
 				{
 					State = CLOSE;
 					LinxDev->DebugPrintln("Network Stack :: Rx Timeout (0)");
-				}             
+					break;
+				}				
 			}
 			
-			recBuffer[1] = LinxTcpClient.readByte();
+			recBuffer[1] = LinxTcpClientPtr->readByte();
 			
-			LinxDev->DebugPrintln("Network Stack :: Packet Size Received");
-
-			//Read Remainder Of Packet As It Comes In
-			for (int i=0; i< recBuffer[1]-2; i++)
+			//LinxDev->DebugPrint("Network Stack :: Packet Size Received : ");
+			//LinxDev->DebugPrintln(recBuffer[1], HEX);
+			
+			//Wait For Rest Of Packet
+			while(LinxTcpClientPtr->available() < recBuffer[1]-2)
 			{
-				while(LinxTcpClient.available() < 1)
+				if( ((unsigned)millis() - LinxTcpStartTime) > LinxTcpTimeout)
 				{
-					if( ((unsigned)millis() - LinxTcpStartTime) > LinxTcpTimeout)
-					{
-						State = CLOSE;
-						LinxDev->DebugPrintln("Network Stack :: Rx Timeout (1)");
-					}
-				} 
-				recBuffer[i+2] = LinxTcpClient.readByte();
+					State = CLOSE;
+					LinxDev->DebugPrintln("Network Stack :: Rx Timeout (1)");
+					break;
+				}				
 			}
-			LinxDev->DebugPrintln("Network Stack :: Full Packet Received");
+			
+			//Read Packet
+			LinxTcpClientPtr->readStream(&recBuffer[2],  recBuffer[1]-2);
+			
+			
+			//Debug Print RX Packet			
+			LinxDev->DebugPrintPacket(RX, recBuffer);
+			
 
 			//Checksum
 			if(ChecksumPassed(recBuffer))
 			{			
-				LinxDev->DebugPrintln("Network Stack :: Packet Checksum Passed");
+				//LinxDev->DebugPrintln("Network Stack :: Packet Checksum Passed");
 				
 				//Process Command And Respond
 				ProcessCommand(recBuffer, sendBuffer);
-				LinxTcpClient.writeStream(sendBuffer, sendBuffer[1]);            
+				
+				LinxDev->DebugPrintPacket(TX, sendBuffer);  //Debug Print TX Packet
+				
+				LinxTcpClientPtr->writeStream(sendBuffer, sendBuffer[1]);  
+				
 			}
 			else
 			{
@@ -370,16 +408,17 @@ int LinxChipkitWifiListener::Connected()
 	else if( ((unsigned)millis() - LinxTcpStartTime) > LinxTcpTimeout)
 	{
 		State = CLOSE;
-		LinxDev->DebugPrintln("Network Stack :: Ethernet Timeout");             
+		LinxDev->DebugPrintln("Network Stack :: Wifi Timeout");             
 	}
 	else
 	{
 		//No Data To Read But No Timeout Either, Loop To Read Again
-		State = CONNECTED;
+		//State = CONNECTED;
+		//Serial.println("No Packet...");
 		//LinxTcpStartTime = (unsigned) millis();
 		
-		LinxDev->DebugPrintln(((unsigned)millis() - LinxTcpStartTime), DEC);  
-		LinxDev->DebugPrintln(" mS With No Data");      
+		//LinxDev->DebugPrintln(((unsigned)millis() - LinxTcpStartTime), DEC);  
+		//LinxDev->DebugPrintln(" mS With No Data");      
 	} 
 	
 	return L_OK;
@@ -389,7 +428,8 @@ int LinxChipkitWifiListener::Close()
 {
 	//Close TCP Connection, Return To Listening State	
 	LinxDev->DebugPrintln("Closing Wifi TCP Connection...");
-	LinxTcpClient.close();
+	LinxTcpClientPtr->close();
+	LinxTcpServer.addSocket(*LinxTcpClientPtr);
 	State = LISTENING;
 
 	return L_OK;
@@ -412,23 +452,29 @@ int LinxChipkitWifiListener::CheckForCommands()
 	switch(State)
 	{				
 		case START:    
-			Start(LinxDev, IpAddress.rgbIP[3], IpAddress.rgbIP[2], IpAddress.rgbIP[1], IpAddress.rgbIP[0], LinxTcpPort);
+			//Start(LinxDev, IpAddress.u8[3], IpAddress.u8[2], IpAddress.u8[1], IpAddress.u8[0], LinxTcpPort);
+			Init();
+			//LinxDev->DebugPrintln("..........START..........");
 			break;
 		case LISTENING:    
 			Listen();
+			//LinxDev->DebugPrintln("..........LISTENING..........");
 			break;
 		case AVAILABLE:    
 			Available();
+			//LinxDev->DebugPrintln("..........AVAILABLE..........");
 			break;
 		case ACCEPT:    
 			Accept();
+			//LinxDev->DebugPrintln("..........ACCEPT..........");
 			break;
 		case CONNECTED:    
 			Connected();
+			//LinxDev->DebugPrintln("..........CONNECTED..........");
 			break;
 		case CLOSE:    			
 			Close();
-			State = START;
+			//LinxDev->DebugPrintln("..........CLOSE..........");
 			break;	
 		case EXIT:
 			Exit();
@@ -436,9 +482,9 @@ int LinxChipkitWifiListener::CheckForCommands()
 	}
 	
 	//Every Iteration Run Periodic Network Tasks
-	 DNETcK::periodicTasks(); 
+	 DEIPcK::periodicTasks(); 
 	
-	return 0;
+	return L_OK;
 }
 
 // Pre Instantiate Object
