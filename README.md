@@ -1,8 +1,9 @@
-LVH-LINX
+LINX
 ========
 
-LabVIEW Hacker LINX
+Interact with the world using LabVIEW to control embedded platforms like Arduino and chipKIT and myRIO.
 
-The files in the Github Repo above represent the latest daily changes and may not be stable.  Most users should download the latest released version of LINX from: 
+LINX provides easy to use VIs for interacting with common embedded platforms like Arduino, chipKIT and myRIO. Use the built in sensor VIs to start getting data to your PC in seconds or use the peripheral VIs to access your devices digital I/O, analog I/O, SPI, I2C, UART, PWM and more.
 
-https://www.labviewhacker.com/linx
+Getting Started:
+https://www.labviewmakerhub.com/linx
