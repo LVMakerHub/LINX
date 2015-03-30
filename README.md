@@ -1,4 +1,4 @@
-#LINX
+LINX
 ========
 
 ###Interact with the world using LabVIEW to control embedded platforms like Arduino and chipKIT and myRIO.
