@@ -1,7 +1,7 @@
 Installers
 
 /logs
-/LabVIEW/vi.lib/LabVIEW Hacker/LINX/*.aliases
-/LabVIEW/vi.lib/LabVIEW Hacker/LINX/*.lvlps
-/LabVIEW/vi.lib/LabVIEW Hacker/LINX/Firmware/Logs
-/LabVIEW/vi.lib/LabVIEW Hacker/LINX/Firmware/Source/bin
+/LabVIEW/vi.lib/MakerHub/LINX/*.aliases
+/LabVIEW/vi.lib/MakerHub/LINX/*.lvlps
+/LabVIEW/vi.lib/MakerHub/LINX/Firmware/Logs
+/LabVIEW/vi.lib/MakerHub/LINX/Firmware/Source/bin
