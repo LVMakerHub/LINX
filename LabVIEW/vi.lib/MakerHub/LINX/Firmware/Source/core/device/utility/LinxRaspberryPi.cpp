@@ -5,7 +5,7 @@
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
-**
+** 
 ** BSD2 License.
 ****************************************************************************************/	
 
@@ -19,6 +19,9 @@
 #include "LinxDevice.h"
 #include "LinxRaspberryPi.h"
 
+#include <fcntl.h>
+#include <sstream>
+#include<stdio.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -51,7 +54,7 @@ LinxRaspberryPi::~LinxRaspberryPi()
 
 
 /****************************************************************************************
-**  Functions
+**  Public Functions
 ****************************************************************************************/
 	
 	//--------------------------------------------------------ANALOG-------------------------------------------------------
@@ -68,7 +71,13 @@ LinxRaspberryPi::~LinxRaspberryPi()
 	//--------------------------------------------------------DIGITAL-------------------------------------------------------
 	int LinxRaspberryPi::DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		for(int i=0; i<numPins; i++)
+		{		
+			GpioSetDir(pins[i], 1);
+			GpioWrite( pins[i], (values[i/8] >> i%8) & 0x01);
+		}
+		
+		return L_OK;
 	}
 	
 	int LinxRaspberryPi::DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
@@ -227,4 +236,139 @@ LinxRaspberryPi::~LinxRaspberryPi()
 	{
 		return L_FUNCTION_NOT_SUPPORTED;
 	}
+
+/****************************************************************************************
+**  Private Functions
+****************************************************************************************/
+	int LinxRaspberryPi::GpioExport (const unsigned char numGpioChans, const unsigned char*  gpioChans, int* digitalDirHandles, int* digitalValueHandles)
+	{	
+		//Open Export File
+		int exportFile = open("/sys/class/gpio/export", O_RDWR);	
+		
+		char buff[3];	
+		
+		//Export GPIO Pins And Open Handles To Direction And Value
+		for(int i=0; i<numGpioChans; i++)
+		{		
+			//Export GPIO Pin
+			snprintf(buff, 3, "%d",  gpioChans[i]);
+			write(exportFile, buff, 3);
+			
+			//Open And Save GPIO Dir Handle
+			char dirFilePath [40];
+			snprintf(dirFilePath, 40, "/sys/class/gpio/gpio%d/direction", gpioChans[i]);
+			int handle = open(dirFilePath, O_RDWR);
+			if( handle > 0)
+			{
+				digitalDirHandles[i] = handle;
+			}
+			else
+			{
+				//Unable To Open Dir Handle
+				printf("Unable To Open %s\n", dirFilePath);
+			}
+			
+			
+			//Open And Save GPIO Value Handle
+			char valueFilePath [40];
+			snprintf(valueFilePath, 40, "/sys/class/gpio/gpio%d/value", gpioChans[i]);
+			digitalValueHandles[i] = open(valueFilePath, O_RDWR);
+		}
+
+		//Close Export File
+		close(exportFile);		
+		
+		return L_OK;
+	}
 	
+	int LinxRaspberryPi::GpioUnexport(const unsigned char*  gpioChans, const unsigned char numGpioChans)
+	{
+		//Open Unexport File
+		int unexportFile = open("/sys/class/gpio/unexport", O_RDWR);	
+		
+		char buff[3];	
+		
+		//Export GPIO Pins
+		for(int i=0; i<numGpioChans; i++)
+		{
+			snprintf(buff, 3, "%d",  gpioChans[i]);
+			write(unexportFile, buff, 3);
+		}
+		
+		return L_OK;
+	}
+	
+	int LinxRaspberryPi::GpioSetDir(unsigned char pin, unsigned char mode)
+	{
+		int pinIndex = GetDigitalChanIndex(pin);
+		
+		if(pinIndex < 0)
+		{
+			return LDIGITAL_PIN_DNE;
+		}
+		else
+		{
+			int dirHandle = DigitalDirHandles[pinIndex];
+			
+			if(mode == INPUT)
+			{
+				write(dirHandle, "in", 2);
+			}
+			else if (mode == OUTPUT)
+			{
+				write(dirHandle, "out", 3);
+			}
+			else
+			{
+				//TODO ERROR
+			}
+		}
+			
+		return L_OK;
+	}
+	
+	int LinxRaspberryPi::GpioWrite(unsigned char pin, unsigned char val)
+	{		
+		int pinIndex = GetDigitalChanIndex(pin);
+		
+		if(pinIndex < 0)
+		{
+			return LDIGITAL_PIN_DNE;
+		}
+		else
+		{
+			int valueHandle = DigitalValueHandles[pinIndex];
+			
+			if(val == HIGH)
+			{
+				write(valueHandle, "1\00", 2);
+			}
+			else if (val == LOW)
+			{
+				write(valueHandle, "0\00", 2);
+			}
+			else
+			{
+				//TODO ERROR
+			}
+		}
+			
+		return L_OK;
+	}
+		
+	int LinxRaspberryPi::GetDigitalChanIndex(unsigned char chanNum)
+	{
+		for(int i=0; i< NumDigitalChans; i++)
+		{
+			if(DigitalChans[i] == chanNum)
+			{
+				return i;
+			}		
+		}
+		return -1;
+	}
+
+
+
+
+

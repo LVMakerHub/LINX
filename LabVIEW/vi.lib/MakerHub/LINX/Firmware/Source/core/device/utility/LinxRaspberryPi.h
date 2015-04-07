@@ -28,6 +28,10 @@ class LinxRaspberryPi : public LinxDevice
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
+		//DIO
+		int* DigitalDirHandles;								//File Handles For Digital Pin Directions
+		int* DigitalValueHandles;							//File Handles For Digital Pin Values
+		
 		unsigned char NumAiRefIntVals;					//Number Of Internal AI Reference Voltages
 		const unsigned long* AiRefIntVals;				//Supported AI Reference Voltages (uV)
 		const int* AiRefCodes;								//AI Ref Values (AI Ref Macros In Wiring Case)
@@ -107,14 +111,19 @@ class LinxRaspberryPi : public LinxDevice
 		
 		
 	protected:
-		/****************************************************************************************
-		**  Variables
-		****************************************************************************************/		
-				
-		/****************************************************************************************
-		**  Functions
-		****************************************************************************************/
-		
+	/****************************************************************************************
+	**  Variables
+	****************************************************************************************/		
+			
+	/****************************************************************************************
+	**  Functions
+	****************************************************************************************/
+	virtual int GpioExport (const unsigned char numGpioChans, const unsigned char*  gpioChans, int* digitalDirHandles, int* digitalValueHandles);
+	virtual int GpioUnexport(const unsigned char*  gpioChans, const unsigned char numGpioChans);
+	virtual int GpioSetDir(unsigned char pin, unsigned char mode);
+	virtual int GpioWrite(unsigned char pin, unsigned char val);
+	virtual int GetDigitalChanIndex(unsigned char chanNum);
+			
 	private:
 	/****************************************************************************************
 	**  Functions
