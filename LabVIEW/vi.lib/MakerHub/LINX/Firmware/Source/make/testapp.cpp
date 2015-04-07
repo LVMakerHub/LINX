@@ -2,19 +2,21 @@
 
 #include "LinxDevice.h"
 #include "LinxRaspberryPi.h"
+#include "LinxRaspberryPi2B.h"
 
 
-LinxRaspberryPi* myPi;
+LinxRaspberryPi2B* LinxDev;
 
 int main()
 {
-	myPi = new LinxRaspberryPi();
+	LinxDev = new LinxRaspberryPi2B();
 	std::cout << "\r\nHello World!\r\n\r\n";
 	
 	for(int i=0; i<10; i++)
 	{	
-		std::cout << myPi->GetMilliSeconds();
-		myPi->DelayMs(100);
+		
+		std::cout << LinxDev->GetMilliSeconds();
+		LinxDev->DelayMs(100);
 		std::cout << "\r\n";
 	}
 }

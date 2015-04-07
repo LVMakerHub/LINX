@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for Sparkfun Red Board
+**  LINX header for Raspberry Pi 2 Model B
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -9,40 +9,40 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_REDBOARD_H
-#define LINX_REDBOARD_H
+#ifndef LINX_RASPBERRYPI2B_H
+#define LINX_RASPBERRYPI2B_H
 
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/	
-#define DEVICE_NAME_LEN 9
+#define DEVICE_NAME_LEN 23
 
-#define NUM_AI_CHANS 6
-#define AI_RES_BITS 10
-#define AI_REFV 5000000
-#define NUM_AI_INT_REFS 1
+#define NUM_AI_CHANS 0
+#define AI_RES_BITS 0
+#define AI_REFV 0
+#define NUM_AI_INT_REFS 0
 
-#define NUM_DIGITAL_CHANS 14
+#define NUM_DIGITAL_CHANS 26
 
-#define NUM_PWM_CHANS 6
+#define NUM_PWM_CHANS 0
 
-#define NUM_SPI_CHANS 1
-#define NUM_SPI_SPEEDS 7
+#define NUM_SPI_CHANS 2
+#define NUM_SPI_SPEEDS 13
 
-#define NUM_I2C_CHANS 1
+#define NUM_I2C_CHANS 2
 
 #define NUM_UART_CHANS 1
-#define NUM_UART_SPEEDS 13
+#define NUM_UART_SPEEDS 19
 
-#define NUM_SERVO_CHANS NUM_DIGITAL_CHANS
+#define NUM_SERVO_CHANS 0
 
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/	
 #include "utility/LinxDevice.h"
-#include "utility/LinxWiringDevice.h"
+#include "utility/LinxRaspberryPi.h"
 	
-class LinxRedboard : public LinxWiringDevice
+class LinxRaspberryPi2B : public LinxRaspberryPi
 {
 	public:	
 		/****************************************************************************************
@@ -60,34 +60,44 @@ class LinxRedboard : public LinxWiringDevice
 		//None
 		
 		//DIGITAL
-		static const unsigned char m_DigitalChans[NUM_DIGITAL_CHANS];	
+		static const unsigned char m_DigitalChans[NUM_DIGITAL_CHANS];
+		static int m_DigitalDirHandles[NUM_DIGITAL_CHANS];
+		static int m_DigitalValueHandles[NUM_DIGITAL_CHANS];
 		
 		//PWM
 		static const unsigned char m_PwmChans[NUM_PWM_CHANS];			
 		
 		//SPI
 		static const unsigned char m_SpiChans[NUM_SPI_CHANS];
+		static const char m_SpiPaths[NUM_SPI_CHANS][SPI_PATH_LEN];
 		static unsigned long m_SpiSupportedSpeeds[NUM_SPI_SPEEDS];
 		static int m_SpiSpeedCodes[NUM_SPI_SPEEDS];
+		static int m_SpiHandles[NUM_SPI_CHANS];
 		
 		//I2C
 		static unsigned char m_I2cChans[NUM_I2C_CHANS];
-		static unsigned char m_I2cRefCount[NUM_I2C_CHANS];						
+		static unsigned char m_I2cRefCount[NUM_I2C_CHANS];	
+	    static int m_I2cHandles[NUM_I2C_CHANS];		
+		static const char m_I2cPaths[NUM_I2C_CHANS][I2C_PATH_LEN];
 		
 		//UART
 		static unsigned char m_UartChans[NUM_UART_CHANS];
 		static unsigned long m_UartSupportedSpeeds[NUM_UART_SPEEDS];
+		static unsigned long m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS];
+		static int m_UartHandles[NUM_UART_CHANS];
+		static const char m_UartPaths[NUM_UART_CHANS][UART_PATH_LEN];
+
 		
 		//Servo		
-		static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
-		static Servo* m_Servos[NUM_SERVO_CHANS];
+		//static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
+		//static Servo* m_Servos[NUM_SERVO_CHANS];
 		
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
-		LinxRedboard();
+		LinxRaspberryPi2B();
 		
-		~LinxRedboard();
+		~LinxRaspberryPi2B();
 			
 		/****************************************************************************************
 		**  Functions
@@ -108,4 +118,4 @@ class LinxRedboard : public LinxWiringDevice
 };
 
 
-#endif //LINX_REDBOARD
+#endif //LINX_RASPBERRYPI2B

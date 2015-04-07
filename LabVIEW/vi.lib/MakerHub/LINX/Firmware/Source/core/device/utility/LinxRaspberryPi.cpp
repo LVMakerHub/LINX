@@ -240,7 +240,7 @@ LinxRaspberryPi::~LinxRaspberryPi()
 /****************************************************************************************
 **  Private Functions
 ****************************************************************************************/
-	int LinxRaspberryPi::GpioExport (const unsigned char numGpioChans, const unsigned char*  gpioChans, int* digitalDirHandles, int* digitalValueHandles)
+	int LinxRaspberryPi::GpioExport (const unsigned char numGpioChans, const unsigned char* gpioChans, int* digitalDirHandles, int* digitalValueHandles)
 	{	
 		//Open Export File
 		int exportFile = open("/sys/class/gpio/export", O_RDWR);	
@@ -260,19 +260,29 @@ LinxRaspberryPi::~LinxRaspberryPi()
 			int handle = open(dirFilePath, O_RDWR);
 			if( handle > 0)
 			{
+				//Store Dir Handle
 				digitalDirHandles[i] = handle;
+				
+				//Open Value Handle//Open And Save GPIO Value Handle
+				char valueFilePath [40];
+				snprintf(valueFilePath, 40, "/sys/class/gpio/gpio%d/value", gpioChans[i]);
+				int vHandle = open(valueFilePath, O_RDWR);
+				if(vHandle > 0)
+				{
+					//Store Value Handle
+					digitalValueHandles[i] = vHandle;
+				}
+				else
+				{
+					//DEBUG - Unable To Open Dir Handle
+					printf("Unable To Open %s\n", valueFilePath);
+				}
 			}
 			else
 			{
-				//Unable To Open Dir Handle
+				//DEBUG - Unable To Open Dir Handle
 				printf("Unable To Open %s\n", dirFilePath);
 			}
-			
-			
-			//Open And Save GPIO Value Handle
-			char valueFilePath [40];
-			snprintf(valueFilePath, 40, "/sys/class/gpio/gpio%d/value", gpioChans[i]);
-			digitalValueHandles[i] = open(valueFilePath, O_RDWR);
 		}
 
 		//Close Export File
@@ -351,11 +361,12 @@ LinxRaspberryPi::~LinxRaspberryPi()
 			{
 				//TODO ERROR
 			}
-		}
 			
+		}
 		return L_OK;
 	}
-		
+	
+	//chanNum is the device specific 'pin number'.  Pins are stored in the contiguous array DigitalChans.  This function find the index of the specified pin in the DigitalChans array.  The same index can be used to access the channel handles.
 	int LinxRaspberryPi::GetDigitalChanIndex(unsigned char chanNum)
 	{
 		for(int i=0; i< NumDigitalChans; i++)
