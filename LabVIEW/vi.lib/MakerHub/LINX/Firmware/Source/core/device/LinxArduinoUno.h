@@ -1,8 +1,8 @@
 /****************************************************************************************
 **  LINX header for Arduino Uno
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -22,7 +22,7 @@
 #define AI_REFV 5000000
 #define NUM_AI_INT_REFS 1
 
-#define NUM_DIGITAL_CHANS 14
+#define NUM_DIGITAL_CHANS 20
 
 #define NUM_PWM_CHANS 6
 

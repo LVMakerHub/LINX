@@ -1,8 +1,8 @@
 /****************************************************************************************
 **  LINX Arduino Uno code
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -34,7 +34,7 @@ const int LinxArduinoUno::m_AiRefCodes[NUM_AI_INT_REFS] = {INTERNAL};
 //None
 
 //DIGITAL
-const unsigned char LinxArduinoUno::m_DigitalChans[NUM_DIGITAL_CHANS] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+const unsigned char LinxArduinoUno::m_DigitalChans[NUM_DIGITAL_CHANS] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
 
 //PWM
 const unsigned char LinxArduinoUno::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10, 11};

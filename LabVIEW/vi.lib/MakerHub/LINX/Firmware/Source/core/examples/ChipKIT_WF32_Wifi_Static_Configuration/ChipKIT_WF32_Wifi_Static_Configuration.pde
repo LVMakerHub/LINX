@@ -2,8 +2,8 @@
 **  This is example LINX firmware for use with the chipKIT WF32 with the WIFI
 **  interface enabled.
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -16,9 +16,9 @@
 #include <EEPROM.h>
 #include <Servo.h>
 
-#include <WiFiShieldOrPmodWiFi_G.h>
-#include <DNETcK.h>
-#include <DWIFIcK.h>
+#include <MRF24G.h>
+#include <DEIPcK.h>
+#include <DEWFcK.h>
 
 //Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)

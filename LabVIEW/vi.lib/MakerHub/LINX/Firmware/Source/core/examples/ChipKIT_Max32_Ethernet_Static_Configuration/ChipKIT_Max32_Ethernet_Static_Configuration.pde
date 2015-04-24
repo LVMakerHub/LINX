@@ -2,8 +2,8 @@
 **  This is example LINX firmware for use with the chipKIT Max32 with the ethernet
 **  interface enabled.
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -17,7 +17,7 @@
 #include <Servo.h>
 
 #include <NetworkShield.h> 
-#include <DNETcK.h>
+#include <DEIPcK.h>
 
 //Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)

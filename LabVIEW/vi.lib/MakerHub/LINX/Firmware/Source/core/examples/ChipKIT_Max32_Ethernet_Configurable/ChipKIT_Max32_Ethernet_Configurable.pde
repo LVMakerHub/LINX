@@ -3,8 +3,8 @@
 **  interface enabled.  This firware does not specify the IP address or Port which must be
 **  set using LINX VIs (for example using the firmware wizard).
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -18,7 +18,7 @@
 #include <Servo.h>
 
 #include <NetworkShield.h> 
-#include <DNETcK.h>
+#include <DEIPcK.h>
 
 //Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)

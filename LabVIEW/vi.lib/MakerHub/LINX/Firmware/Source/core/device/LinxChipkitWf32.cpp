@@ -1,8 +1,8 @@
 /****************************************************************************************
 **  LINX code for chipKIT WF32
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -26,7 +26,7 @@
 const unsigned char LinxChipkitWf32::m_DeviceName[DEVICE_NAME_LEN] = "ChipKIT WF32";
 
 //AI
-const unsigned char LinxChipkitWf32::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+const unsigned char LinxChipkitWf32::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13};
 const unsigned long LinxChipkitWf32::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
 int LinxChipkitWf32::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 

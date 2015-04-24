@@ -1,8 +1,8 @@
 /****************************************************************************************
 **  LINX header for ChipKIT Network Shield listener.
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -23,7 +23,7 @@
 #include "LinxSerialListener.h"
 #include "utility\LinxListener.h"
 #include "utility\LinxDevice.h"
-#include "utility\LinxDnetckListener.h"
+#include "utility\LinxDEIPcKListener.h"
 
 /****************************************************************************************
 **  Type Defs
@@ -32,7 +32,7 @@
 /****************************************************************************************
 **  Classes
 ****************************************************************************************/		
-class LinxChipkitNetworkShieldListener : public LinxDnetckListener
+class LinxChipkitNetworkShieldListener : public LinxDEIPcKListener
 {
 	public:
 		/****************************************************************************************

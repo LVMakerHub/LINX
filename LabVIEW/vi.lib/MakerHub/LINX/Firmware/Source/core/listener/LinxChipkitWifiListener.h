@@ -1,8 +1,8 @@
 /****************************************************************************************
 **  LINX header for ChipKIT Wifi listener.
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -29,17 +29,20 @@
 **  Type Defs
 ****************************************************************************************/		
 enum SecurityType {NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104};
+enum WifiStartState {INIT, CONNECT, LISTEN};
 
 /****************************************************************************************
 **  Classes
 ****************************************************************************************/		
-class LinxChipkitWifiListener : public LinxDnetckListener
+class LinxChipkitWifiListener : public LinxDEIPcKListener
 {
 	public:
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
 		LinxListenerState State;
+		WifiStartState wifiState;
+		int LinxWifiConnectStatus;
 		
 		unsigned long LinxWifiIp;
 		unsigned short LinxWifiPort;
@@ -66,7 +69,8 @@ class LinxChipkitWifiListener : public LinxDnetckListener
 		
 		virtual int Start(LinxDevice* linxDev);
 		virtual int Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port);
-		virtual int StartStage2(IPv4 deviceIpAddress, unsigned short port);
+		virtual int PrintWifiInfo(IPv4 deviceIpAddress, unsigned short port);
+		virtual int Init();
 		virtual int Listen();			
 		virtual int Available();	
 		virtual int Accept();				

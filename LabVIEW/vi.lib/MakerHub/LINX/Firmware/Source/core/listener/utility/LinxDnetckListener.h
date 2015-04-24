@@ -1,16 +1,16 @@
 /****************************************************************************************
-**  LINX header for DNETcK listener.
+**  LINX header for DEIPcK listener.
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_DNETCK_LISTENER_H
-#define LINX_DNETCK_LISTENER_H
+#ifndef LINX_DEIPcK_LISTENER_H
+#define LINX_DEIPcK_LISTENER_H
 
 /****************************************************************************************
 **  Defines
@@ -22,7 +22,7 @@
 ****************************************************************************************/		
 #include "LinxListener.h"
 #include "LinxDevice.h"
-#include <DNETcK.h> 
+#include <DEIPcK.h> 
 
 /****************************************************************************************
 **  Type Defs
@@ -31,7 +31,7 @@
 /****************************************************************************************
 **  Classes
 ****************************************************************************************/		
-class LinxDnetckListener : public LinxListener
+class LinxDEIPcKListener : public LinxListener
 {
 	public:
 		/****************************************************************************************
@@ -42,17 +42,18 @@ class LinxDnetckListener : public LinxListener
 		IPv4 IpAddress;
 		unsigned short LinxTcpPort;
 		
-		TcpServer LinxTcpServer;
-		TcpClient LinxTcpClient;
+		TCPServer LinxTcpServer;
+		TCPSocket LinxTcpClient;
+		TCPSocket * LinxTcpClientPtr;
 		int LinxTcpClientCount;		
 		unsigned int LinxTcpStartTime;
 		unsigned int LinxTcpTimeout;
-		DNETcK::STATUS LinxTcpStatus;
+		IPSTATUS LinxTcpStatus;
 		
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
-		LinxDnetckListener();		//Default Constructor
+		LinxDEIPcKListener();		//Default Constructor
 		
 		/****************************************************************************************
 		**  Functions
@@ -78,4 +79,4 @@ class LinxDnetckListener : public LinxListener
 	
 };
 
-#endif //LINX_DNETCK_LISTENER_H
+#endif //LINX_DEIPcK_LISTENER_H

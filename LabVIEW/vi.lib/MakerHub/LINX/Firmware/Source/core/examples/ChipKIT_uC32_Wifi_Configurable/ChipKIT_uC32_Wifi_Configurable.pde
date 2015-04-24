@@ -1,5 +1,5 @@
 /****************************************************************************************	
-**  This is example LINX firmware for use with the chipKIT WF32 with the WIFI
+**  This is example LINX firmware for use with the chipKIT uC32 with the WIFI
 **  interface enabled.
 **
 **  For more information see:           www.labviewmakerhub.com/linx
@@ -22,17 +22,17 @@
 
 //Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library 
-#include <LinxChipkitWf32.h>
+#include <LinxChipkitUc32.h>
 #include <LinxChipkitWifiListener.h>
  
 //Create A Pointer To The LINX Device Object We Instantiate In Setup()
-LinxChipkitWf32* LinxDevice;
+LinxChipkitUc32* LinxDevice;
 
 //Initialize LINX Device And Listener
 void setup()
 {
   //Instantiate The LINX Device
-  LinxDevice = new LinxChipkitWf32();
+  LinxDevice = new LinxChipkitUc32();
   
   //The LINX Serial Listener Is Included In WIFI Listener And Pre Instantiated.  This Is Necissary For Configuring Wifi Settings.
   LinxSerialConnection.Start(LinxDevice, 0);  

@@ -1,8 +1,8 @@
 /****************************************************************************************
 **  LINX ChipKIT Network Shield listener code.
 **
-**  For more information see:           www.labviewhacker.com/linx
-**  For support visit the forums at:    www.labviewhacker.com/forums/linx
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -18,10 +18,10 @@
 
 #include "utility\LinxDevice.h"
 #include "utility\LinxListener.h"
-#include "utility\LinxDnetckListener.h"
+#include "utility\LinxDEIPcKListener.h"
 #include "LinxChipkitNetworkShieldListener.h"
 
-#include <DNETcK.h> 
+#include <DEIPcK.h> 
 
 /****************************************************************************************
 **  Constructors
@@ -91,7 +91,7 @@ int LinxChipkitNetworkShieldListener::StartStage2(IPv4 deviceIpAddress, unsigned
 	LinxDev->DebugPrintln("");
 	
 	//Start Ethernet Stack
-	DNETcK::begin(deviceIpAddress);
+	DEIPcK::begin(deviceIpAddress);
 	 
 	//Listen For Connection On Specified Port
 	if(LinxTcpServer.startListening(port))
@@ -120,7 +120,7 @@ int LinxChipkitNetworkShieldListener::Listen()
 		State = AVAILABLE;
 		
 	}
-	else if(DNETcK::isStatusAnError(LinxTcpStatus))
+	else if(DEIPcK::isStatusAnError(LinxTcpStatus))
 	{
 		State = EXIT;
 	}
@@ -302,7 +302,7 @@ int LinxChipkitNetworkShieldListener::CheckForCommands()
 	}
 	
 	//Every Iteration Run Periodic Network Tasks
-	 DNETcK::periodicTasks(); 
+	 DEIPcK::periodicTasks(); 
 	
 	return 0;
 }
