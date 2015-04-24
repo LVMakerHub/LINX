@@ -25,6 +25,14 @@
 	#include <WProgram.h>
 #endif
 
+//Not all wiring devices have these...
+#ifndef EXTERNAL
+	#define EXTERNAL 0
+#endif
+#ifndef DEFAULT
+	#define DEFAULT 0
+#endif
+
 #include <SPI.h>
 #include <Wire.h>
 #include <EEPROM.h>

@@ -1,5 +1,5 @@
 /****************************************************************************************	
-**  This is example LINX firmware for use with the Arduino Pro Micro with the serial 
+**  This is example LINX firmware for use with the Sparkfun Redboard with the serial 
 **  interface enabled.
 **
 **  For more information see:           www.labviewmakerhub.com/linx
@@ -14,20 +14,21 @@
 #include <SPI.h>
 #include <Wire.h>
 #include <EEPROM.h>
+#include <Servo.h>
 
-//Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
+//Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
-#include <LinxArduinoProMicro.h>
+#include <LinxTM4C123G.h>
 #include <LinxSerialListener.h>
  
 //Create A Pointer To The LINX Device Object We Instantiate In Setup()
-LinxArduinoProMicro* LinxDevice;
+TM4C123G* LinxDevice;
 
 //Initialize LINX Device And Listener
 void setup()
 {
   //Instantiate The LINX Device
-  LinxDevice = new LinxArduinoProMicro();
+  LinxDevice = new TM4C123G();
   
   //The LINXT Listener Is Pre Instantiated, Call Start And Pass A Pointer To The LINX Device And The UART Channel To Listen On
   LinxSerialConnection.Start(LinxDevice, 0);  

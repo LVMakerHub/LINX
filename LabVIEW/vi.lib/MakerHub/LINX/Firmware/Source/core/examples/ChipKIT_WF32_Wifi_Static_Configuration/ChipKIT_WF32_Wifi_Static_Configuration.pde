@@ -20,7 +20,7 @@
 #include <DEIPcK.h>
 #include <DEWFcK.h>
 
-//Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
+//Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
 #include <LinxChipkitWf32.h>
 #include <LinxChipkitWifiListener.h>
@@ -34,11 +34,14 @@ void setup()
   //Instantiate The LINX Device
   LinxDevice = new LinxChipkitWf32();
   
+   //The LINX Serial Listener Is Included In WIFI Listener And Pre Instantiated.
+  LinxSerialConnection.Start(LinxDevice, 0);  
+  
   //The LINX Listener Is Pre Instantiated.  
   //Set SSID (Network Name), Security Type, Passphrase/Key, And Call Start With Desired Device IP and Port
   LinxWifiConnection.SetSsid("YOUR_NETWORK_NAME");
-  LinxWifiConnection.SetSecurity(WPA2_PASSPHRASE);    //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
-  LinxWifiConnection.SetPassphrase("PASSPHRASE");    //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
+  LinxWifiConnection.SetSecurity(WPA2_PASSPHRASE);    		   //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
+  LinxWifiConnection.SetPassphrase("PASSPHRASE");    			   //NONE, WPA2_PASSPHRASE, WPA2_KEY, WEP40, WEO104
   LinxWifiConnection.Start(LinxDevice, 192, 168, 1, 128, 44300);  //Start With Fixed IP and Port.  When Using This Method You Cannot Update The IP/Port Using LINX VIs
 }
 

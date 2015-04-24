@@ -17,6 +17,7 @@
 		<Item Name="LINX - chipKIT Basic IO Shield.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - chipKIT Basic IO Shield.vi"/>
 		<Item Name="LINX - Digital Read 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Read 1 Channel.vi"/>
 		<Item Name="LINX - Digital Read N Channels.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Read N Channels.vi"/>
+		<Item Name="LINX - Digital Write N Channels.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Write N Channels.vi"/>
 		<Item Name="LINX - Digital Write Square Wave.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Write Square Wave.vi"/>
 		<Item Name="LINX - DS1307 Real Time Clock.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - DS1307 Real Time Clock.vi"/>
 		<Item Name="LINX - MMA8452Q Accelerometer.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - MMA8452Q Accelerometer.vi"/>
@@ -26,11 +27,16 @@
 		<Item Name="LINX - Servo 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Servo 1 Channel.vi"/>
 		<Item Name="LINX - Set RGB LED Color.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Set RGB LED Color.vi"/>
 		<Item Name="LINX - Seven Segment Display.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Seven Segment Display.vi"/>
+		<Item Name="LINX - SPI Loopback.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - SPI Loopback.vi"/>
 		<Item Name="LINX - SSD1306 OLED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - SSD1306 OLED.vi"/>
 		<Item Name="LINX - Thermistor Read.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Thermistor Read.vi"/>
 		<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Thumbstick Read.vi"/>
 		<Item Name="LINX - TMP3x.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - TMP3x.vi"/>
 		<Item Name="LINX - Ultrasonic.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Ultrasonic.vi"/>
+	</Item>
+	<Item Name="Help" Type="Folder">
+		<Item Name="Forums.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Forums.vi"/>
+		<Item Name="Help.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Help.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
@@ -141,7 +147,6 @@
 			<Item Name="Get Devices In Family.vi" Type="VI" URL="../Private/Utilties/Get Devices In Family.vi"/>
 			<Item Name="Check myRIO Status.vi" Type="VI" URL="../Private/Utilties/Check myRIO Status.vi"/>
 			<Item Name="Clean Error Call Chain.vi" Type="VI" URL="../Private/Utilties/Clean Error Call Chain.vi"/>
-			<Item Name="LINX Help.vi" Type="VI" URL="../../../../help/MakerHub/LINX/LINX Help.vi"/>
 			<Item Name="Enter Leonardo Bootloader.vi" Type="VI" URL="../Private/Utilties/Enter Leonardo Bootloader.vi"/>
 			<Item Name="Set Device Name.vi" Type="VI" URL="../Private/Utilties/Set Device Name.vi"/>
 			<Item Name="Load All Firmware Config Data.vi" Type="VI" URL="../Private/Utilties/Load All Firmware Config Data.vi"/>

@@ -20,7 +20,7 @@
 #include <DEIPcK.h>
 #include <DEWFcK.h>
 
-//Include Device Sepcific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
+//Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library 
 #include <LinxChipkitWf32.h>
 #include <LinxChipkitWifiListener.h>
@@ -34,7 +34,7 @@ void setup()
   //Instantiate The LINX Device
   LinxDevice = new LinxChipkitWf32();
   
-  //The LINX Serial Listener Is Included In WIFI Listener And Pre Instantiated.  This Is Necissary For Configuring Wifi Settings.
+  //The LINX Serial Listener Is Included In WIFI Listener And Pre Instantiated.  This Is Necessary For Configuring Wifi Settings.
   LinxSerialConnection.Start(LinxDevice, 0);  
   
   //Start Wifi Listener.  Settings (IP, SSID, etc) Will Be Read From Non Volatile Storage And Can Be Set Using LINX VIs Via USB

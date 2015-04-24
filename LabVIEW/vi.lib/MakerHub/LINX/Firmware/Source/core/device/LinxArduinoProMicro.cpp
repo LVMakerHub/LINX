@@ -27,6 +27,8 @@ const unsigned char LinxArduinoProMicro::m_DeviceName[DEVICE_NAME_LEN] = "Arduin
 
 //AI
 const unsigned char LinxArduinoProMicro::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 6, 7, 8, 9, 10};
+const unsigned long LinxArduinoProMicro::m_AiRefIntVals[NUM_AI_INT_REFS] = {1100000};
+const int LinxArduinoProMicro::m_AiRefCodes[NUM_AI_INT_REFS] = {INTERNAL};
 
 //AO
 //None
@@ -79,7 +81,17 @@ LinxArduinoProMicro::LinxArduinoProMicro()
 	NumAiChans = NUM_AI_CHANS;
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
-	AiRef = AI_REFV;
+	AiRefSet = AI_REFV;
+	
+	AiRefDefault = AI_REFV;
+	AiRefSet = AI_REFV;
+	AiRefCodes = m_AiRefCodes;
+	
+	NumAiRefIntVals = NUM_AI_INT_REFS;
+	AiRefIntVals = m_AiRefIntVals;
+	
+	AiRefExtMin = 0;
+	AiRefExtMax = 5000000;
 	
 	//AO
 	NumAoChans = 0;
@@ -91,8 +103,7 @@ LinxArduinoProMicro::LinxArduinoProMicro()
 	
 	//QE
 	NumQeChans = 0;
-	QeChans = 0;
-	
+	QeChans = 0;	
 	
 	//UART
 	NumUartChans = NUM_UART_CHANS;
