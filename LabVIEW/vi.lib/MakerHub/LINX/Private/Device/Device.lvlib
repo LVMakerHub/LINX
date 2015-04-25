@@ -118,6 +118,12 @@
 			<Item Name="Servo Open.vi" Type="VI" URL="../Peripheral/Servo/Servo Open.vi"/>
 			<Item Name="Servo Set Pulse Width.vi" Type="VI" URL="../Peripheral/Servo/Servo Set Pulse Width.vi"/>
 		</Item>
+		<Item Name="WS2812" Type="Folder">
+			<Item Name="WS2812 Write One Pixel.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Write One Pixel.vi"/>
+			<Item Name="WS2812 Open.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Open.vi"/>
+			<Item Name="WS2812 Write N Pixels.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Write N Pixels.vi"/>
+			<Item Name="WS2812 Refresh.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Refresh.vi"/>
+		</Item>
 	</Item>
 	<Item Name="Type Defs" Type="Folder">
 		<Item Name="Pulse Polarity.ctl" Type="VI" URL="../Type Defs/Pulse Polarity.ctl"/>

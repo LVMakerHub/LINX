@@ -712,6 +712,10 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			status = LinxDev->WS2812Refresh();
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
+		case 0x0164: // WS2812 Close
+			status = LinxDev->WS2812Close();
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
 		
 		/****************************************************************************************
 		** Default

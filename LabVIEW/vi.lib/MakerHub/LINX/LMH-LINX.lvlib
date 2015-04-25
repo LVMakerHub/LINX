@@ -272,6 +272,11 @@
 					<Item Name="Servo.lvlib" Type="Library" URL="../Public/Sensors/Motion/Servo/Servo.lvlib"/>
 				</Item>
 			</Item>
+			<Item Name="Lights" Type="Folder">
+				<Item Name="WS2812" Type="Folder">
+					<Item Name="WS2812.lvlib" Type="Library" URL="../Public/Sensors/Lights/WS2812/WS2812.lvlib"/>
+				</Item>
+			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>

@@ -201,12 +201,17 @@ int LinxDevice::WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
-int LinxDevice::WS2812WriteNPixels(unsigned short startPixel, unsigned short endPixel, unsigned char* data, unsigned char refresh)
+int LinxDevice::WS2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
 int LinxDevice::WS2812Refresh()
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxDevice::WS2812Close()
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }

@@ -15,6 +15,7 @@
 #include <Wire.h>
 #include <EEPROM.h>
 #include <Servo.h>
+#include <WS2812.h>
 
 #include <MRF24G.h>
 #include <DEIPcK.h>

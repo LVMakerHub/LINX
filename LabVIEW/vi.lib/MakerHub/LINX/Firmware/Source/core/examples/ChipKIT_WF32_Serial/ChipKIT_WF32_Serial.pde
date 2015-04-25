@@ -15,6 +15,7 @@
 #include <Wire.h>
 #include <EEPROM.h>
 #include <Servo.h>
+#include <WS2812.h>
 
 //Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
