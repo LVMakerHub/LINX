@@ -18,6 +18,8 @@
 	#define NUM_SPI_CHANS 1
 	#define NUM_UART_CHANS 2
 	#define DEVICE_FAMILY 1
+	
+	#define LINXWIFI
 
 	#define ARDUINO_VERSION 23
 

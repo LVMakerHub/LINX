@@ -694,6 +694,26 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		
 		/****************************************************************************************
+		** WS2812
+		****************************************************************************************/	
+		case 0x0160: // WS2812 Open
+			status = LinxDev->WS2812Open((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), commandPacketBuffer[8]);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		case 0x0161: // WS2812 Write One Pixel
+			status = LinxDev->WS2812WriteOnePixel((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), commandPacketBuffer[8], commandPacketBuffer[9], commandPacketBuffer[10], commandPacketBuffer[11]);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		case 0x0162: // WS2812 Write N Pixels
+			status = LinxDev->WS2812WriteNPixels((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), (commandPacketBuffer[8]<<8 | commandPacketBuffer[9]), &commandPacketBuffer[11], commandPacketBuffer[10]);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		case 0x0163: // WS2812 Refresh
+			status = LinxDev->WS2812Refresh();
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		
+		/****************************************************************************************
 		** Default
 		****************************************************************************************/	
 		default: //Default Case

@@ -15,6 +15,8 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
+//This Makes It Easy For IDE Users To Define Necissary Settings In One Place
+//When Using Make Files Define LINXCONFIG To Ignore Config.h File
 
 /****************************************************************************************
 **  Defines
@@ -268,6 +270,12 @@ class LinxDevice
 		virtual int ServoOpen(unsigned char numChans, unsigned char* chans) = 0;
 		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths) = 0;
 		virtual int ServoClose(unsigned char numChans, unsigned char* chans) = 0;
+		
+		//WS2812
+		virtual int WS2812Open(unsigned short numLeds, unsigned char dataChan);
+		virtual int WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh);
+		virtual int WS2812WriteNPixels(unsigned short startPixel, unsigned short endPixel, unsigned char* data, unsigned char refresh);
+		virtual int WS2812Refresh();
 				
 		//General
 		unsigned char ReverseBits(unsigned char b);

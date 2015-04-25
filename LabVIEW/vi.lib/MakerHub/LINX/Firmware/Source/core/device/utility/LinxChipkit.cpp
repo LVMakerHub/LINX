@@ -21,3 +21,27 @@ LinxChipkit::LinxChipkit()
 {
 	DeviceFamily = 0x01;	//Digilent Family Code
 }
+
+//----------------- WS2812 Functions -----------------------------
+
+#ifdef _BOARD_WF32_ | _BOARD_MEGA_
+int LinxChipkit::WS2812Open(unsigned short numLeds, unsigned char dataChan)
+{
+	return L_OK;
+}
+
+int LinxChipkit::WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh)
+{
+	return L_OK;
+}
+
+int LinxChipkit::WS2812WriteNPixels(unsigned short startPixel, unsigned short endPixel, unsigned char* data, unsigned char refresh)
+{
+	return L_OK;
+}
+
+int LinxChipkit::WS2812Refresh()
+{
+	return L_OK;
+}
+#endif // _BOARD_WF32_ | _BOARD_MEGA_

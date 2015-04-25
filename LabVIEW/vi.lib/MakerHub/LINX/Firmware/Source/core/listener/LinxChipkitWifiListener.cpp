@@ -473,7 +473,7 @@ int LinxChipkitWifiListener::CheckForCommands()
 			break;				
 	}
 	
-	//Every Iteration Run Periodic Network Tasks
+	 //Every Iteration Run Periodic Network Tasks
 	 DEIPcK::periodicTasks(); 
 	
 	return L_OK;
