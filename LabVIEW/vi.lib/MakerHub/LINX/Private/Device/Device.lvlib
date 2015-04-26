@@ -123,6 +123,7 @@
 			<Item Name="WS2812 Open.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Open.vi"/>
 			<Item Name="WS2812 Write N Pixels.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Write N Pixels.vi"/>
 			<Item Name="WS2812 Refresh.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Refresh.vi"/>
+			<Item Name="WS2812 Close.vi" Type="VI" URL="../Peripheral/WS2812/WS2812 Close.vi"/>
 		</Item>
 	</Item>
 	<Item Name="Type Defs" Type="Folder">

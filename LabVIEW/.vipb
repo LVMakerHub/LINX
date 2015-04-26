@@ -1,7 +1,7 @@
-<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-03-11 12:47:46" Creator="lvadmin" Comments="" ID="b8f48b6db48249c0ab124acac2bca10e">
+<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-04-26 10:28:51" Creator="lvadmin" Comments="" ID="af515a2585e36da5d70a4b0964ce87f8">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>2.0.0.91</Library_Version>
+    <Library_Version>2.0.0.92</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
     <Library_Output_Folder>..\..\Builds\LINX\Installers</Library_Output_Folder>
@@ -34,7 +34,9 @@
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewmakerhub.com/linx</URL>
-      <Release_Notes>LINX 2.0
+      <Release_Notes>Added support for WS2812 on chipKIT WF32 (support for more devices may be added later).
+
+LINX 2.0
 
 Firmware
 -Completly re-written to enable more code re-use between devices

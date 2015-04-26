@@ -6,6 +6,7 @@
 
 </Property>
 	<Item Name="Examples" Type="Folder">
+		<Property Name="NI.SortType" Type="Int">3</Property>
 		<Item Name="LINX - AD9850.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - AD9850.vi"/>
 		<Item Name="LINX - Analog Read 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Analog Read 1 Channel.vi"/>
 		<Item Name="LINX - Analog Read N Channels.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Analog Read N Channels.vi"/>
@@ -33,6 +34,9 @@
 		<Item Name="LINX - Thumbstick Read.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Thumbstick Read.vi"/>
 		<Item Name="LINX - TMP3x.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - TMP3x.vi"/>
 		<Item Name="LINX - Ultrasonic.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Ultrasonic.vi"/>
+		<Item Name="LINX - WS2812 Strip Controller.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - WS2812 Strip Controller.vi"/>
+		<Item Name="LINX - WS2812 Write N LEDs.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - WS2812 Write N LEDs.vi"/>
+		<Item Name="LINX - WS2812 Write One LED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - WS2812 Write One LED.vi"/>
 	</Item>
 	<Item Name="Help" Type="Folder">
 		<Item Name="Forums.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Forums.vi"/>

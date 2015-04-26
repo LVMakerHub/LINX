@@ -35,22 +35,7 @@ LinxChipkit::LinxChipkit()
 	unsigned short m_numPixels = 0;
 	
 	int LinxChipkit::WS2812Open(unsigned short numLeds, unsigned char dataChan)
-	{	
-		DebugPrintln("");
-		DebugPrintln("");
-		DebugPrint("OPENING WS2812 ");
-		DebugPrint(numLeds, DEC);
-		DebugPrintln("");
-		
-		DebugPrint("Allocating m_WS2812Buffer ");
-		DebugPrint(numLeds * sizeof(WS2812::GRB), DEC);
-		
-		DebugPrintln("");
-		DebugPrint("Allocating m_rgbPatternBuffer");
-		DebugPrint(CBWS2812PATBUF(numLeds), DEC);
-		DebugPrintln("");
-		
-		
+	{			
 		m_numPixels = numLeds;
 		m_WS2812Buffer = (WS2812::GRB*)malloc(numLeds * sizeof(WS2812::GRB));
 		m_rgbPatternBuffer = (uint8_t*)malloc(CBWS2812PATBUF(numLeds));
@@ -112,7 +97,9 @@ LinxChipkit::LinxChipkit()
 	
 	 int LinxChipkit::WS2812Close()
 	 {
-		//TODO
+		free(m_WS2812Buffer);
+		free(m_rgbPatternBuffer);
+		
 		return L_OK;
 	 }
 #endif // _BOARD_WF32_ | _BOARD_MEGA_
