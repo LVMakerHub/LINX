@@ -190,6 +190,33 @@ void LinxDevice::UartWriteln(unsigned char channel, long n, int base)
 	UartWriteln(channel);
 }
 
+//----------------- WS2812 Functions -----------------------------
+int LinxDevice::WS2812Open(unsigned short numLeds, unsigned char dataChan)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxDevice::WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxDevice::WS2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxDevice::WS2812Refresh()
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxDevice::WS2812Close()
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+
 
 //----------------- DEBUG Functions -----------------------------
 void  LinxDevice::DebugPrint(char c)

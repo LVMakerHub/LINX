@@ -16,6 +16,7 @@
 #include <Wire.h>
 #include <EEPROM.h>
 #include <Servo.h>
+#include <WS2812.h>
 
 #include <NetworkShield.h> 
 #include <DEIPcK.h>

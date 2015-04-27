@@ -92,8 +92,6 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev)
 	LinxDev->WifiIp = deviceIpAddress.u8[0]<<24 | deviceIpAddress.u8[1] <<16 | deviceIpAddress.u8[2] << 8 | deviceIpAddress.u8[3];
 	unsigned short port = (LinxDev->NonVolatileRead(NVS_WIFI_PORT) << 8) +  (LinxDev->NonVolatileRead(NVS_WIFI_PORT+1)) ;
 		
-	LinxTcpPort = port;
-		
 	PrintWifiInfo(deviceIpAddress, port);
 	
 	State = START;
@@ -107,11 +105,7 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsig
 	
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With Fixed IP Address");
 		
-	LinxDev->WifiIp = ip3<<24 | ip2 <<16 | ip1 << 8 | ip0;
 	IPv4 deviceIpAddress = {ip3, ip2, ip1, ip0};
-	
-	LinxTcpPort = port;
-	
 	
 	PrintWifiInfo(deviceIpAddress, port);
 	
@@ -124,6 +118,8 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsig
 
 int LinxChipkitWifiListener::PrintWifiInfo(IPv4 deviceIpAddress, unsigned short port)
 {
+	LinxTcpPort = port;	
+
 	//SSID
 	const char * szSsid; 
 	szSsid = LinxWifiSsid;
@@ -249,19 +245,11 @@ int LinxChipkitWifiListener::Init()
 	//Connect To Network
 	if(LinxWifiConnectStatus)
 	{
-		
-		
-		IPv4 deviceIpAddress;// = {192, 168, 1, 6};
+		IPv4 deviceIpAddress;
 		deviceIpAddress.u8[0] = LinxDev->WifiIp>>24 & 0xFF;
 		deviceIpAddress.u8[1] = LinxDev->WifiIp>>16 & 0xFF;
 		deviceIpAddress.u8[2] = LinxDev->WifiIp>>8 & 0xFF;
 		deviceIpAddress.u8[3] = LinxDev->WifiIp & 0xFF;
-		
-		LinxDev->DebugPrintln(deviceIpAddress.u8[0], DEC);
-		LinxDev->DebugPrintln(deviceIpAddress.u8[1], DEC);
-		LinxDev->DebugPrintln(deviceIpAddress.u8[2], DEC);
-		LinxDev->DebugPrintln(deviceIpAddress.u8[3], DEC);
-		
 		LinxDev->DebugPrintln("");
 		LinxDev->DebugPrintln("Connected To Wifi Network");
 		deIPcK.begin(deviceIpAddress);
@@ -372,8 +360,15 @@ int LinxChipkitWifiListener::Connected()
 			LinxTcpClientPtr->readStream(&recBuffer[2],  recBuffer[1]-2);
 			
 			
-			//Debug Print RX Packet			
-			LinxDev->DebugPrintPacket(RX, recBuffer);
+			//DEBUG PRINT PACKET			
+			LinxDev->DebugPrint("RX <= ");
+			for(int i=0; i<recBuffer[1]; i++)
+			{
+				LinxDev->DebugPrint("[");
+				LinxDev->DebugPrint(recBuffer[i], HEX);
+				LinxDev->DebugPrint("] ");
+			}
+			LinxDev->DebugPrintln("");
 			
 
 			//Checksum
@@ -383,9 +378,6 @@ int LinxChipkitWifiListener::Connected()
 				
 				//Process Command And Respond
 				ProcessCommand(recBuffer, sendBuffer);
-				
-				LinxDev->DebugPrintPacket(TX, sendBuffer);  //Debug Print TX Packet
-				
 				LinxTcpClientPtr->writeStream(sendBuffer, sendBuffer[1]);  
 				
 			}
@@ -470,7 +462,7 @@ int LinxChipkitWifiListener::CheckForCommands()
 			break;
 		case CONNECTED:    
 			Connected();
-			//LinxDev->DebugPrintln("..........CONNECTED..........");
+			LinxDev->DebugPrintln("..........CONNECTED..........");
 			break;
 		case CLOSE:    			
 			Close();
@@ -481,7 +473,7 @@ int LinxChipkitWifiListener::CheckForCommands()
 			break;				
 	}
 	
-	//Every Iteration Run Periodic Network Tasks
+	 //Every Iteration Run Periodic Network Tasks
 	 DEIPcK::periodicTasks(); 
 	
 	return L_OK;
