@@ -37,7 +37,7 @@ class LinxDEIPcKListener : public LinxListener
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-		LinxListenerState State;		
+		//LinxListenerState State;		
 		
 		IPv4 IpAddress;
 		unsigned short LinxTcpPort;

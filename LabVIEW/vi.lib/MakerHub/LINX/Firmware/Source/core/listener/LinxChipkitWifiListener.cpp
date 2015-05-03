@@ -106,6 +106,7 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsig
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With Fixed IP Address");
 		
 	IPv4 deviceIpAddress = {ip3, ip2, ip1, ip0};
+	LinxDev->WifiIp = ip3<<24 | ip2<<16 | ip1<< 8 | ip0;
 	
 	PrintWifiInfo(deviceIpAddress, port);
 	
@@ -377,8 +378,12 @@ int LinxChipkitWifiListener::Connected()
 				//LinxDev->DebugPrintln("Network Stack :: Packet Checksum Passed");
 				
 				//Process Command And Respond
-				ProcessCommand(recBuffer, sendBuffer);
-				LinxTcpClientPtr->writeStream(sendBuffer, sendBuffer[1]);  
+				LinxStatus m_status = (LinxStatus)ProcessCommand(recBuffer, sendBuffer);
+				if(m_status == L_DISCONNECT)
+				{
+					State = CLOSE;
+				}
+				LinxTcpClientPtr->writeStream(sendBuffer, 256);    //Send at least 139 bytes to force chipKIT Wifi stack to send immediately...still looking into this
 				
 			}
 			else
@@ -399,8 +404,11 @@ int LinxChipkitWifiListener::Connected()
 	//Check For Timeout
 	else if( ((unsigned)millis() - LinxTcpStartTime) > LinxTcpTimeout)
 	{
-		State = CLOSE;
+		//Time Out		
 		LinxDev->DebugPrintln("Network Stack :: Wifi Timeout");             
+		
+		State = CLOSE;
+		
 	}
 	else
 	{
@@ -418,12 +426,49 @@ int LinxChipkitWifiListener::Connected()
 
 int LinxChipkitWifiListener::Close()
 {
+	
 	//Close TCP Connection, Return To Listening State	
 	LinxDev->DebugPrintln("Closing Wifi TCP Connection...");
 	LinxTcpClientPtr->close();
 	LinxTcpServer.addSocket(*LinxTcpClientPtr);
+		
+	//Assume Wifi Stack Is Ok, But Check For Errors
 	State = LISTENING;
-
+	
+	// Check If IP Stack Is Still Running.
+	if(deIPcK.isIPReady((uint32_t*)&LinxWifiConnectStatus))
+	{
+		// still not listening, only reason is that we have no sockets available. However, some may have been added but just haven't finished closing yet
+		if(LinxTcpServer.isListening() == 0)
+		{
+			LinxDev->DebugPrintln("All sockets in use, waiting for more sockets");
+		}
+	}
+	// lost the IP Stack, restart
+	else if(IsIPStatusAnError(LinxWifiConnectStatus))
+	{
+		LinxDev->DebugPrintln("Lost IP Stack, error: 0x");
+		LinxDev->DebugPrintln(LinxWifiConnectStatus, HEX);
+		LinxDev->DebugPrintln("Restarting IP Stack");
+		
+		//Shutdown Wifi Stack
+		LinxTcpClientPtr->close();
+		LinxTcpServer.close();
+		deIPcK.end();
+		deIPcK.wfDisconnect();
+		
+		//Restart Wifi Stack
+		State = START;
+		
+	}
+	 // not fatal loss of the IP stack, maybe reconnecting to WiFi
+	else
+	{
+		Serial.print("Non-fatal loss if IP Stack, status: 0x");
+		Serial.println(LinxWifiConnectStatus, HEX);
+		Serial.println("Waiting reconnect");
+	}
+	
 	return L_OK;
 }
 
@@ -450,15 +495,15 @@ int LinxChipkitWifiListener::CheckForCommands()
 			break;
 		case LISTENING:    
 			Listen();
-			//LinxDev->DebugPrintln("..........LISTENING..........");
+			LinxDev->DebugPrintln("..........LISTENING..........");
 			break;
 		case AVAILABLE:    
 			Available();
-			//LinxDev->DebugPrintln("..........AVAILABLE..........");
+			LinxDev->DebugPrintln("..........AVAILABLE..........");
 			break;
 		case ACCEPT:    
 			Accept();
-			//LinxDev->DebugPrintln("..........ACCEPT..........");
+			LinxDev->DebugPrintln("..........ACCEPT..........");
 			break;
 		case CONNECTED:    
 			Connected();
@@ -466,16 +511,15 @@ int LinxChipkitWifiListener::CheckForCommands()
 			break;
 		case CLOSE:    			
 			Close();
-			//LinxDev->DebugPrintln("..........CLOSE..........");
+			LinxDev->DebugPrintln("..........CLOSE..........");
 			break;	
 		case EXIT:
 			Exit();
 			break;				
 	}
 	
-	 //Every Iteration Run Periodic Network Tasks
-	 DEIPcK::periodicTasks(); 
-	
+	//Every Iteration Run Periodic Network Tasks
+	DEIPcK::periodicTasks(); 
 	return L_OK;
 }
 

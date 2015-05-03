@@ -217,8 +217,11 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		   break;
 			
 		case 0x0011: // Disconnect
+			LinxDev->DebugPrintln("Close Command");
+			LinxDev->DebugPrintln("");
 			State = CLOSE;
 			status = L_DISCONNECT;
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 			
 		case 0x0012: //Set Device User Id	

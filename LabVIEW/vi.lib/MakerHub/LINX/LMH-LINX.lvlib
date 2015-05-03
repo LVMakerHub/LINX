@@ -161,6 +161,7 @@
 			<Item Name="Generate Firmware Libraries.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Generate Firmware Libraries.vi"/>
 			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="../Private/Utilties/Post-Install Custom Action.vi"/>
+			<Item Name="Fast Find COM Ports.vi" Type="VI" URL="../Private/Device/Utilities/Fast Find COM Ports.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
