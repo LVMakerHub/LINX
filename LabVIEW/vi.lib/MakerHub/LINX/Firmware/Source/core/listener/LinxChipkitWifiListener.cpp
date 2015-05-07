@@ -383,7 +383,8 @@ int LinxChipkitWifiListener::Connected()
 				{
 					State = CLOSE;
 				}
-				LinxTcpClientPtr->writeStream(sendBuffer, 256);    //Send at least 139 bytes to force chipKIT Wifi stack to send immediately...still looking into this
+				LinxTcpClientPtr->writeStream(sendBuffer, sendBuffer[1]);
+				LinxTcpClientPtr->flush();	//Force data to be sent over network immediately rather than being buffered for up to 250 ms (stack default)
 				
 			}
 			else
