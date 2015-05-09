@@ -33,9 +33,12 @@ LinxChipkit::LinxChipkit()
 	WS2812::GRB* m_WS2812Buffer;
 	uint8_t* m_rgbPatternBuffer;
 	unsigned short m_numPixels = 0;
-	
-	int LinxChipkit::WS2812Open(unsigned short numLeds, unsigned char dataChan)
-	{			
+#endif // _BOARD_WF32_ | _BOARD_MEGA_
+
+
+int LinxChipkit::WS2812Open(unsigned short numLeds, unsigned char dataChan)
+{
+	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		m_numPixels = numLeds;
 		m_WS2812Buffer = (WS2812::GRB*)malloc(numLeds * sizeof(WS2812::GRB));
 		m_rgbPatternBuffer = (uint8_t*)malloc(CBWS2812PATBUF(numLeds));
@@ -53,10 +56,14 @@ LinxChipkit::LinxChipkit()
 		}
 		
 		return L_OK;
-	}
+	#else
+		return L_FUNCTION_NOT_SUPPORTED;
+	#endif
+}
 
-	int LinxChipkit::WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh)
-	{
+int LinxChipkit::WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh)
+{
+	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		m_WS2812Buffer[pixelIndex].red = red;
 		m_WS2812Buffer[pixelIndex].green = green;
 		m_WS2812Buffer[pixelIndex].blue = blue;
@@ -67,10 +74,14 @@ LinxChipkit::LinxChipkit()
 		}
 		
 		return L_OK;
-	}
+	#else
+		return L_FUNCTION_NOT_SUPPORTED;
+	#endif
+}
 
-	int LinxChipkit::WS2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh)
-	{
+int LinxChipkit::WS2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh)
+{
+	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		if(startPixel+numPixels <= m_numPixels)
 		{
 			memcpy(&m_WS2812Buffer[startPixel], data, sizeof(WS2812::GRB)*numPixels);
@@ -86,20 +97,32 @@ LinxChipkit::LinxChipkit()
 		}
 		
 		return L_OK;
-	}
+	#else
+		return L_FUNCTION_NOT_SUPPORTED;
+	#endif
+}
 
-	int LinxChipkit::WS2812Refresh()
-	{
+int LinxChipkit::WS2812Refresh()
+{
+	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		while(!m_ws2812.updateLEDs(m_WS2812Buffer));
 
 		return L_OK;
-	}
-	
-	 int LinxChipkit::WS2812Close()
-	 {
+	#else
+		return L_FUNCTION_NOT_SUPPORTED;
+	#endif
+}
+
+ int LinxChipkit::WS2812Close()
+ {
+	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		free(m_WS2812Buffer);
 		free(m_rgbPatternBuffer);
 		
-		return L_OK;
-	 }
-#endif // _BOARD_WF32_ | _BOARD_MEGA_
+		return L_OK
+	#else
+		return L_FUNCTION_NOT_SUPPORTED;
+	#endif
+		
+ }
+
