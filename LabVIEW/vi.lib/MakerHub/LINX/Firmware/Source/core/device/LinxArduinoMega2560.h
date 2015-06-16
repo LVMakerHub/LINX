@@ -9,8 +9,8 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_ARDUINO_UNO_H
-#define LINX_ARDUINO_UNO_H
+#ifndef LINX_ARDUINO_MEGA2560_H
+#define LINX_ARDUINO_MEGA2560_H
 
 
 /****************************************************************************************
@@ -110,4 +110,4 @@ class LinxArduinoMega2560 : public LinxArduino
 };
 
 
-#endif //LINX_ARDUINO_UNO_H
+#endif //LINX_ARDUINO_MEGA2560_H
