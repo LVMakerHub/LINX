@@ -282,6 +282,36 @@
 					<Item Name="WS2812.lvlib" Type="Library" URL="../Public/Sensors/Lights/WS2812/WS2812.lvlib"/>
 				</Item>
 			</Item>
+			<Item Name="Pmods" Type="Folder">
+				<Item Name="ACL" Type="Folder">
+					<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/ACL/dir.mnu"/>
+					<Item Name="PmodACLClose.vi" Type="VI" URL="../Public/Sensors/Pmods/ACL/PmodACLClose.vi"/>
+					<Item Name="PmodACLOpen.vi" Type="VI" URL="../Public/Sensors/Pmods/ACL/PmodACLOpen.vi"/>
+					<Item Name="PmodACLRead.vi" Type="VI" URL="../Public/Sensors/Pmods/ACL/PmodACLRead.vi"/>
+					<Item Name="PmodACL.lvlib" Type="Library" URL="../Public/Sensors/Pmods/ACL/PmodACL.lvlib"/>
+				</Item>
+				<Item Name="ALS" Type="Folder">
+					<Item Name="PmodALS.lvlib" Type="Library" URL="../Public/Sensors/Pmods/ALS/PmodALS.lvlib"/>
+					<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/ALS/dir.mnu"/>
+				</Item>
+				<Item Name="CMPS" Type="Folder">
+					<Item Name="PmodCMPS.lvlib" Type="Library" URL="../Public/Sensors/Pmods/CMPS/PmodCMPS.lvlib"/>
+					<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/CMPS/dir.mnu"/>
+				</Item>
+				<Item Name="GYRO" Type="Folder">
+					<Item Name="GYRO.lvlib" Type="Library" URL="../Public/Sensors/Pmods/GYRO/GYRO.lvlib"/>
+					<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/GYRO/dir.mnu"/>
+				</Item>
+				<Item Name="MIC3" Type="Folder">
+					<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/MIC3/dir.mnu"/>
+					<Item Name="PmodMIC3.lvlib" Type="Library" URL="../Public/Sensors/Pmods/MIC3/PmodMIC3.lvlib"/>
+				</Item>
+				<Item Name="TC1" Type="Folder">
+					<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/TC1/dir.mnu"/>
+					<Item Name="PmodTC1.lvlib" Type="Library" URL="../Public/Sensors/Pmods/TC1/PmodTC1.lvlib"/>
+				</Item>
+				<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/dir.mnu"/>
+			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>

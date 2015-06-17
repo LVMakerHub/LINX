@@ -48,8 +48,8 @@
 LinxWiringDevice::LinxWiringDevice()
 {
 	//LINX API Version
-	LinxApiMajor = 1;
-	LinxApiMinor = 2;
+	LinxApiMajor = 2;
+	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	
 	//Load User Config Data From Non Volatile Storage
@@ -313,7 +313,22 @@ int LinxWiringDevice::SpiSetBitOrder(unsigned char channel, unsigned char bitOrd
 
 int LinxWiringDevice::SpiSetMode(unsigned char channel, unsigned char mode)
 {
-	 SPI.setDataMode(mode);
+	 switch(mode)
+	 {
+		case 0: 
+			SPI.setDataMode(SPI_MODE0);
+			break;
+		case 1: 
+			SPI.setDataMode(SPI_MODE1);
+			break;
+		case 2: 
+			SPI.setDataMode(SPI_MODE2);
+			break;
+		case 3: 
+			SPI.setDataMode(SPI_MODE3);
+			break;
+	 }
+	
 	return 0;
 }
 
@@ -345,23 +360,25 @@ int LinxWiringDevice::SpiWriteRead(unsigned char channel, unsigned char frameSiz
 	//Set CS Pin As DO
 	pinMode(csChan, OUTPUT);
 	
-	//Set CS Pin Before Starting SPI Transfer
+	//Set CS Pin Idle Before Starting SPI Transfer
 	digitalWrite(csChan, (~csLL & 0x01) );  
 
 	//Loop Over Frames
 	for(int i=0; i<numFrames; i++)
 	{
+		//Start of frame, set CS Pin Active
+		digitalWrite(csChan, (csLL & 0x01) );
+		
 		//Loop Over Bytes In Frame
 		for(int j=0; j<frameSize; j++)
 		{
 			//Transfer Data
 			unsigned char byteNum = (i*frameSize) + j;
 			recBuffer[byteNum] = SPI.transfer(sendBuffer[byteNum]);
-		}
-		
-		//Frame Complete, Toggle CS
-		digitalWrite(csChan, (csLL & 0x01) );
-	}		
+		}		
+		//Frame Complete, Set CS idel
+		digitalWrite(csChan, (~csLL & 0x01) );
+	}	
 	return 0;
 }
 

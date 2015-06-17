@@ -69,8 +69,8 @@ LinxPjrcTeensy30::LinxPjrcTeensy30()
 	DeviceName =  m_DeviceName;
 
 	//LINX API Version
-	LinxApiMajor = 1;
-	LinxApiMinor = 2;
+	LinxApiMajor = 2;
+	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	
 	//DIGITAL
