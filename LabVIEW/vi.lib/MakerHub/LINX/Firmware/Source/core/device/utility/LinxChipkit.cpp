@@ -119,7 +119,7 @@ int LinxChipkit::WS2812Refresh()
 		free(m_WS2812Buffer);
 		free(m_rgbPatternBuffer);
 		
-		return L_OK
+		return L_OK;
 	#else
 		return L_FUNCTION_NOT_SUPPORTED;
 	#endif
