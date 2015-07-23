@@ -259,6 +259,9 @@
 				<Item Name="AD9850" Type="Folder">
 					<Item Name="AD9850.lvlib" Type="Library" URL="../Public/Sensors/Signal Generation/AD9850/AD9850.lvlib"/>
 				</Item>
+				<Item Name="LTC2631" Type="Folder">
+					<Item Name="LTC2631.lvlib" Type="Library" URL="../Public/Sensors/Signal Generation/LTC2631/LTC2631.lvlib"/>
+				</Item>
 			</Item>
 			<Item Name="Temperature" Type="Folder">
 				<Item Name="TCN75A" Type="Folder">
@@ -285,9 +288,6 @@
 			<Item Name="Pmods" Type="Folder">
 				<Item Name="ACL" Type="Folder">
 					<Item Name="dir.mnu" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Pmods/ACL/dir.mnu"/>
-					<Item Name="PmodACLClose.vi" Type="VI" URL="../Public/Sensors/Pmods/ACL/PmodACLClose.vi"/>
-					<Item Name="PmodACLOpen.vi" Type="VI" URL="../Public/Sensors/Pmods/ACL/PmodACLOpen.vi"/>
-					<Item Name="PmodACLRead.vi" Type="VI" URL="../Public/Sensors/Pmods/ACL/PmodACLRead.vi"/>
 					<Item Name="PmodACL.lvlib" Type="Library" URL="../Public/Sensors/Pmods/ACL/PmodACL.lvlib"/>
 				</Item>
 				<Item Name="ALS" Type="Folder">

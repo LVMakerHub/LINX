@@ -1,0 +1,17 @@
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+*.class
+*.svn
+build/upload.properties
+build/windows/work/
+build/linux/work/
+build/macosx/work/
+build/linux/dist/*.tar.gz
+build/linux/*.tgz
+test-bin
+*.iml
+

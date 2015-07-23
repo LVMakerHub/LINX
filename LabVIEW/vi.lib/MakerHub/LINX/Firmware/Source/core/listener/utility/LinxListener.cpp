@@ -445,7 +445,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		****************************************************************************************/	
 		case 0x0060: //Set AI Ref Voltage
 		{			
-			unsigned long voltage = (unsigned long)((unsigned long)(commandPacketBuffer[7] << 24) | (unsigned long)(commandPacketBuffer[8] << 16) | (unsigned long)(commandPacketBuffer[9] << 8) | (unsigned long)commandPacketBuffer[10]);
+			unsigned long voltage = (unsigned long)(((unsigned long)commandPacketBuffer[7]<<24) | ((unsigned long)commandPacketBuffer[8]<<16) | ((unsigned long)commandPacketBuffer[9]<<8) | ((unsigned long)commandPacketBuffer[10]));
 			status =  LinxDev->AnalogSetRef(commandPacketBuffer[6], voltage);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
