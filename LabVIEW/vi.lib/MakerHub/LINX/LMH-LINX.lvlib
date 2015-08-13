@@ -239,11 +239,11 @@
 				<Item Name="SSD1306" Type="Folder">
 					<Item Name="SSD1306.lvlib" Type="Library" URL="../Public/Sensors/Display/SSD1306/SSD1306.lvlib"/>
 				</Item>
-				<Item Name="Seven Segment Display.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Display/Seven Segment Display.vi"/>
+				<Item Name="Seven Segment Display.vi" Type="VI" URL="../Public/Sensors/Display/Seven Segment Display.vi"/>
 			</Item>
 			<Item Name="Distance" Type="Folder">
 				<Item Name="Ultrasonic" Type="Folder">
-					<Item Name="Ultrasonic.lvlib" Type="Library" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Distance/Ultrasonic/Ultrasonic.lvlib"/>
+					<Item Name="Ultrasonic.lvlib" Type="Library" URL="../Public/Sensors/Distance/Ultrasonic/Ultrasonic.lvlib"/>
 				</Item>
 			</Item>
 			<Item Name="Lights" Type="Folder">
@@ -251,9 +251,9 @@
 					<Item Name="WS2812.lvlib" Type="Library" URL="../Public/Sensors/Lights/WS2812/WS2812.lvlib"/>
 				</Item>
 				<Item Name="BlinkM" Type="Folder">
-					<Item Name="BlinkM.lvlib" Type="Library" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Lights/BlinkM/BlinkM.lvlib"/>
+					<Item Name="BlinkM.lvlib" Type="Library" URL="../Public/Sensors/Lights/BlinkM/BlinkM.lvlib"/>
 				</Item>
-				<Item Name="RGB LED.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Lights/RGB LED.vi"/>
+				<Item Name="RGB LED.vi" Type="VI" URL="../Public/Sensors/Lights/RGB LED.vi"/>
 			</Item>
 			<Item Name="Mindstorms" Type="Folder">
 				<Item Name="HiTechnic" Type="Folder">
@@ -262,10 +262,10 @@
 			</Item>
 			<Item Name="Misc" Type="Folder">
 				<Item Name="DS1307" Type="Folder">
-					<Item Name="DS1307.lvlib" Type="Library" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Misc/DS1307/DS1307.lvlib"/>
+					<Item Name="DS1307.lvlib" Type="Library" URL="../Public/Sensors/Misc/DS1307/DS1307.lvlib"/>
 				</Item>
-				<Item Name="Photocell.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Misc/Photocell.vi"/>
-				<Item Name="Thumbstick.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Misc/Thumbstick.vi"/>
+				<Item Name="Photocell.vi" Type="VI" URL="../Public/Sensors/Misc/Photocell.vi"/>
+				<Item Name="Thumbstick.vi" Type="VI" URL="../Public/Sensors/Misc/Thumbstick.vi"/>
 			</Item>
 			<Item Name="Motion" Type="Folder">
 				<Item Name="Servo" Type="Folder">
@@ -315,7 +315,7 @@
 					<Property Name="NI.SortType" Type="Int">3</Property>
 					<Item Name="TMP3x.lvlib" Type="Library" URL="../Public/Sensors/Temperature/TMP3x/TMP3x.lvlib"/>
 				</Item>
-				<Item Name="Thermistor.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Sensors/Temperature/Thermistor.vi"/>
+				<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Temperature/Thermistor.vi"/>
 			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
