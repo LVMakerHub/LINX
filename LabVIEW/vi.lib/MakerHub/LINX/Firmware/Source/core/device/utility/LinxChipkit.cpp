@@ -36,7 +36,7 @@ LinxChipkit::LinxChipkit()
 #endif // _BOARD_WF32_ | _BOARD_MEGA_
 
 
-int LinxChipkit::WS2812Open(unsigned short numLeds, unsigned char dataChan)
+int LinxChipkit::Ws2812Open(unsigned short numLeds, unsigned char dataChan)
 {
 	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		m_numPixels = numLeds;
@@ -61,7 +61,7 @@ int LinxChipkit::WS2812Open(unsigned short numLeds, unsigned char dataChan)
 	#endif
 }
 
-int LinxChipkit::WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh)
+int LinxChipkit::Ws2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh)
 {
 	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		m_WS2812Buffer[pixelIndex].red = red;
@@ -79,7 +79,7 @@ int LinxChipkit::WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char re
 	#endif
 }
 
-int LinxChipkit::WS2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh)
+int LinxChipkit::Ws2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh)
 {
 	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		if(startPixel+numPixels <= m_numPixels)
@@ -102,7 +102,7 @@ int LinxChipkit::WS2812WriteNPixels(unsigned short startPixel, unsigned short nu
 	#endif
 }
 
-int LinxChipkit::WS2812Refresh()
+int LinxChipkit::Ws2812Refresh()
 {
 	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		while(!m_ws2812.updateLEDs(m_WS2812Buffer));
@@ -113,7 +113,7 @@ int LinxChipkit::WS2812Refresh()
 	#endif
 }
 
- int LinxChipkit::WS2812Close()
+ int LinxChipkit::Ws2812Close()
  {
 	#ifdef _BOARD_WF32_ | _BOARD_MEGA_
 		free(m_WS2812Buffer);

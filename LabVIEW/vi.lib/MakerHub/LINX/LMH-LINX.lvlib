@@ -162,6 +162,9 @@
 			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="../Private/Utilties/Post-Install Custom Action.vi"/>
 			<Item Name="Fast Find COM Ports.vi" Type="VI" URL="../Private/Device/Utilities/Fast Find COM Ports.vi"/>
+			<Item Name="Open Local.vi" Type="VI" URL="../Public/Utilities/Open Local.vi"/>
+			<Item Name="Open Serial.vi" Type="VI" URL="../Public/Utilities/Open Serial.vi"/>
+			<Item Name="Open TCP.vi" Type="VI" URL="../Public/Utilities/Open TCP.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
@@ -321,5 +324,6 @@
 		</Item>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
+		<Item Name="Open.vi" Type="VI" URL="../Public/Open.vi"/>
 	</Item>
 </Library>

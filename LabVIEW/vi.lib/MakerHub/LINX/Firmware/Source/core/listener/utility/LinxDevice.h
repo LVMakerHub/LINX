@@ -217,17 +217,17 @@ class LinxDevice
 		****************************************************************************************/
 		
 		//Analog
-		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage) = 0;
 		
 		//DIGITAL
-		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
-		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration) = 0;
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width) = 0;
 		
 		//PWM
-		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel) = 0;
@@ -268,16 +268,16 @@ class LinxDevice
 		virtual int UartClose(unsigned char channel) = 0;
 		
 		//Servo
-		virtual int ServoOpen(unsigned char numChans, unsigned char* chans) = 0;
-		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths) = 0;
-		virtual int ServoClose(unsigned char numChans, unsigned char* chans) = 0;
+		virtual int ServoOpen(unsigned char numChans, unsigned char* channels) = 0;
+		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* channels, unsigned short* pulseWidths) = 0;
+		virtual int ServoClose(unsigned char numChans, unsigned char* channels) = 0;
 		
 		//WS2812
-		virtual int WS2812Open(unsigned short numLeds, unsigned char dataChan);
-		virtual int WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh);
-		virtual int WS2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh);
-		virtual int WS2812Refresh();
-		virtual int WS2812Close();
+		virtual int Ws2812Open(unsigned short numLeds, unsigned char dataChan);
+		virtual int Ws2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh);
+		virtual int Ws2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh);
+		virtual int Ws2812Refresh();
+		virtual int Ws2812Close();
 				
 		//General
 		unsigned char ReverseBits(unsigned char b);

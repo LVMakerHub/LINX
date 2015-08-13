@@ -45,7 +45,7 @@ class LinxWiringDevice : public LinxDevice
 		
 		unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
 		
-		Servo** Servos;											//Array Servo Pointers
+		Servo** Servos;										//Array Servo Pointers
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
@@ -56,17 +56,17 @@ class LinxWiringDevice : public LinxDevice
 		****************************************************************************************/
 		
 		//Analog
-		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage);
 		
 		//DIGITAL
-		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values);
-		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
 		
 		//PWM
-		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel);
