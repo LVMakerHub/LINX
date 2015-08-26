@@ -40,8 +40,8 @@
 		<Item Name="LINX - WS2812 Write One LED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - WS2812 Write One LED.vi"/>
 	</Item>
 	<Item Name="Help" Type="Folder">
-		<Item Name="Forums.vi" Type="VI" URL="/&lt;helpdir&gt;/MakerHub/LINX/Forums.vi"/>
-		<Item Name="Help.vi" Type="VI" URL="/&lt;helpdir&gt;/MakerHub/LINX/Help.vi"/>
+		<Item Name="Forums.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Forums.vi"/>
+		<Item Name="Help.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Help.vi"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Type Defs" Type="Folder">
@@ -160,12 +160,12 @@
 			<Item Name="All Firmware Data FGV.vi" Type="VI" URL="../Private/Utilties/All Firmware Data FGV.vi"/>
 			<Item Name="Copy Firmware Libraries.vi" Type="VI" URL="../Private/Utilties/Copy Firmware Libraries.vi"/>
 			<Item Name="Generate Firmware Libraries.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Generate Firmware Libraries.vi"/>
-			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="../Private/Utilties/Post-Install Custom Action.vi"/>
 			<Item Name="Fast Find COM Ports.vi" Type="VI" URL="../Private/Device/Utilities/Fast Find COM Ports.vi"/>
 			<Item Name="Open Local.vi" Type="VI" URL="../Public/Utilities/Open Local.vi"/>
 			<Item Name="Open Serial.vi" Type="VI" URL="../Public/Utilities/Open Serial.vi"/>
 			<Item Name="Open TCP.vi" Type="VI" URL="../Public/Utilities/Open TCP.vi"/>
+			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="../Private/Utilties/LINX Firmware Wizard Config.ini"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>

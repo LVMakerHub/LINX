@@ -14,6 +14,9 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="VIPM" Type="Folder">
+			<Item Name="Clear INI Settings.vi" Type="VI" URL="../Private/Utilties/Clear INI Settings.vi"/>
+		</Item>
 		<Item Name="LMH-LINX.lvlib" Type="Library" URL="../LMH-LINX.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
