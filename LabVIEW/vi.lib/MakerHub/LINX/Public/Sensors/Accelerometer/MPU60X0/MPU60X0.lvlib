@@ -16,9 +16,10 @@
 		<Item Name="Set Fullscale Accel Range.vi" Type="VI" URL="../Set Fullscale Accel Range.vi"/>
 		<Item Name="Set Fullscale Gyro Range.vi" Type="VI" URL="../Set Fullscale Gyro Range.vi"/>
 		<Item Name="Set Sleep Enabled.vi" Type="VI" URL="../Set Sleep Enabled.vi"/>
+		<Item Name="Clock Source.ctl" Type="VI" URL="../Clock Source.ctl"/>
 	</Item>
 	<Item Name="DeviceAddresses.ctl" Type="VI" URL="../DeviceAddresses.ctl"/>
-	<Item Name="Read.vi" Type="VI" URL="../Read.vi"/>
 	<Item Name="Open.vi" Type="VI" URL="../Open.vi"/>
+	<Item Name="Read.vi" Type="VI" URL="../Read.vi"/>
 	<Item Name="Close.vi" Type="VI" URL="../Close.vi"/>
 </Library>

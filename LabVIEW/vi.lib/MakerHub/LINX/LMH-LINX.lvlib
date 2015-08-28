@@ -163,9 +163,9 @@
 			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="../Private/Utilties/Post-Install Custom Action.vi"/>
 			<Item Name="Fast Find COM Ports.vi" Type="VI" URL="../Private/Device/Utilities/Fast Find COM Ports.vi"/>
 			<Item Name="Open Local.vi" Type="VI" URL="../Public/Utilities/Open Local.vi"/>
-			<Item Name="Open Serial.vi" Type="VI" URL="../Public/Utilities/Open Serial.vi"/>
 			<Item Name="Open TCP.vi" Type="VI" URL="../Public/Utilities/Open TCP.vi"/>
-			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="../Private/Utilties/LINX Firmware Wizard Config.ini"/>
+			<Item Name="Open Serial.vi" Type="VI" URL="../Public/Utilities/Open Serial.vi"/>
+			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
@@ -199,9 +199,9 @@
 				<Item Name="I2C Write.vi" Type="VI" URL="../Public/Peripherals/I2C/I2C Write.vi"/>
 			</Item>
 			<Item Name="PWM" Type="Folder">
-				<Item Name="Set Duty Cycle 1 Chan.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle 1 Chan.vi"/>
-				<Item Name="Set Duty Cycle N Chans.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle N Chans.vi"/>
-				<Item Name="Set Duty Cycle.vi" Type="VI" URL="../Public/Peripherals/PWM/Set Duty Cycle.vi"/>
+				<Item Name="PWM Set Duty Cycle 1 Chan.vi" Type="VI" URL="../Public/Peripherals/PWM/PWM Set Duty Cycle 1 Chan.vi"/>
+				<Item Name="PWM Set Duty Cycle N Chans.vi" Type="VI" URL="../Public/Peripherals/PWM/PWM Set Duty Cycle N Chans.vi"/>
+				<Item Name="PWM Set Duty Cycle.vi" Type="VI" URL="../Public/Peripherals/PWM/PWM Set Duty Cycle.vi"/>
 			</Item>
 			<Item Name="SPI" Type="Folder">
 				<Item Name="SPI Configure.vi" Type="VI" URL="../Public/Peripherals/SPI/SPI Configure.vi"/>
@@ -214,8 +214,12 @@
 				<Item Name="UART Close.vi" Type="VI" URL="../Public/Peripherals/UART/UART Close.vi"/>
 				<Item Name="UART Get Bytes Available.vi" Type="VI" URL="../Public/Peripherals/UART/UART Get Bytes Available.vi"/>
 				<Item Name="UART Open.vi" Type="VI" URL="../Public/Peripherals/UART/UART Open.vi"/>
+				<Item Name="UART Read Byte Array.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read Byte Array.vi"/>
+				<Item Name="UART Read String.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read String.vi"/>
 				<Item Name="UART Read.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read.vi"/>
 				<Item Name="UART Set Baud Rate.vi" Type="VI" URL="../Public/Peripherals/UART/UART Set Baud Rate.vi"/>
+				<Item Name="UART Write Byte Array.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write Byte Array.vi"/>
+				<Item Name="UART Write String.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write String.vi"/>
 				<Item Name="UART Write.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write.vi"/>
 			</Item>
 		</Item>
