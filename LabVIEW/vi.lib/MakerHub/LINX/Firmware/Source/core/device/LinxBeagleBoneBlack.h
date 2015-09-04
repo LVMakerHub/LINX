@@ -18,7 +18,7 @@
 ****************************************************************************************/	
 #define DEVICE_NAME_LEN 17
 
-#define NUM_AI_CHANS 7
+#define NUM_AI_CHANS 8
 #define AI_RES_BITS 12
 #define AI_REFV 1800000
 #define NUM_AI_INT_REFS 0
@@ -30,7 +30,7 @@
 #define NUM_SPI_CHANS 2
 #define NUM_SPI_SPEEDS 13
 
-#define NUM_I2C_CHANS 2
+#define NUM_I2C_CHANS 3
 
 #define NUM_UART_CHANS 6
 #define NUM_UART_SPEEDS 19
@@ -42,6 +42,9 @@
 ****************************************************************************************/	
 #include "utility/LinxDevice.h"
 #include "utility/LinxBeagleBone.h"
+#include <map>
+
+using namespace std;
 	
 class LinxBeagleBoneBlack : public LinxBeagleBone
 {
@@ -55,15 +58,15 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		//AI
 		static const unsigned char m_AiChans[NUM_AI_CHANS];
 		static const unsigned long m_AiRefIntVals[NUM_AI_INT_REFS];
-		static const int m_AiRefCodes[NUM_AI_INT_REFS];
+		static const int m_AiRefCodes[NUM_AI_INT_REFS];		
+		static int m_AiHandles[NUM_AI_CHANS];		
+		static const char m_AiPaths[NUM_AI_CHANS][AI_PATH_LEN];
 		
 		//AO
 		//None
 		
 		//DIGITAL
 		static const unsigned char m_DigitalChans[NUM_DIGITAL_CHANS];
-		static int m_DigitalDirHandles[NUM_DIGITAL_CHANS];
-		static int m_DigitalValueHandles[NUM_DIGITAL_CHANS];
 		
 		//PWM
 		static const unsigned char m_PwmChans[NUM_PWM_CHANS];			
@@ -79,7 +82,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static unsigned char m_I2cChans[NUM_I2C_CHANS];
 		static unsigned char m_I2cRefCount[NUM_I2C_CHANS];	
 	    static int m_I2cHandles[NUM_I2C_CHANS];		
-		//static const char m_I2cPaths[NUM_I2C_CHANS][I2C_PATH_LEN];
+		static const char m_I2cPaths[NUM_I2C_CHANS][I2C_PATH_LEN];
 		
 		//UART
 		static unsigned char m_UartChans[NUM_UART_CHANS];
@@ -109,7 +112,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-				
+		const char* overlaySlotsPath;		//The overlay slot export path
 		
 		/****************************************************************************************
 		**  Functions

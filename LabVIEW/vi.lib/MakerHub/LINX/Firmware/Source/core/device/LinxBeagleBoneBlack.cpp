@@ -12,7 +12,13 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
+#include <iostream>
+#include <unistd.h>
+#include <fstream>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <termios.h>		//UART Support
+#include <map>
 
 #include "utility/LinxDevice.h"
 #include "utility/LinxBeagleBone.h"
@@ -25,7 +31,9 @@
 const unsigned char LinxBeagleBoneBlack::m_DeviceName[DEVICE_NAME_LEN] = "BeagleBone Black";
 
 //AI
-const unsigned char LinxBeagleBoneBlack::m_AiChans[NUM_AI_CHANS] = {};
+const unsigned char LinxBeagleBoneBlack::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7};
+const char LinxBeagleBoneBlack::m_AiPaths[NUM_AI_CHANS][AI_PATH_LEN] = {"/sys/bus/iio/devices/iio:device0/in_voltage0_raw", "/sys/bus/iio/devices/iio:device0/in_voltage1_raw", "/sys/bus/iio/devices/iio:device0/in_voltage2_raw", "/sys/bus/iio/devices/iio:device0/in_voltage3_raw", "/sys/bus/iio/devices/iio:device0/in_voltage4_raw", "/sys/bus/iio/devices/iio:device0/in_voltage5_raw", "/sys/bus/iio/devices/iio:device0/in_voltage6_raw", "/sys/bus/iio/devices/iio:device0/in_voltage7_raw"};
+int LinxBeagleBoneBlack::m_AiHandles[NUM_AI_CHANS];
 const unsigned long LinxBeagleBoneBlack::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
 const int LinxBeagleBoneBlack::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
@@ -34,8 +42,8 @@ const int LinxBeagleBoneBlack::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
 //DIGITAL
 const unsigned char LinxBeagleBoneBlack::m_DigitalChans[NUM_DIGITAL_CHANS] = {2, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 20, 22, 23, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 49, 50, 51, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 86, 87, 88, 89, 110, 111, 112, 113, 115, 117};
-int LinxBeagleBoneBlack::m_DigitalDirHandles[NUM_DIGITAL_CHANS];
-int LinxBeagleBoneBlack::m_DigitalValueHandles[NUM_DIGITAL_CHANS];
+//int LinxBeagleBoneBlack::m_DigitalDirHandles[NUM_DIGITAL_CHANS];
+//int LinxBeagleBoneBlack::m_DigitalValueHandles[NUM_DIGITAL_CHANS];
 
 //PWM
 const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {};
@@ -51,13 +59,13 @@ unsigned long LinxBeagleBoneBlack::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {7629,
 int LinxBeagleBoneBlack::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
 
 //I2C
-unsigned char LinxBeagleBoneBlack::m_I2cChans[NUM_I2C_CHANS] = {0, 1};
+unsigned char LinxBeagleBoneBlack::m_I2cChans[NUM_I2C_CHANS] = {1, 2};
 int LinxBeagleBoneBlack::m_I2cHandles[NUM_I2C_CHANS];
-//const char LinxBeagleBoneBlack::m_I2cPaths[NUM_I2C_CHANS][I2C_PATH_LEN] = { "/dev/i2c-0\00", "/dev/i2c-1\00" };
+const char LinxBeagleBoneBlack::m_I2cPaths[NUM_I2C_CHANS][I2C_PATH_LEN] = {"/dev/i2c-0\00", "/dev/i2c-2\00", "/dev/i2c-1\00" };		//Out of order numbering is correct for BBB!!
 unsigned char LinxBeagleBoneBlack::m_I2cRefCount[NUM_I2C_CHANS];			
 
 //UART
-unsigned char LinxBeagleBoneBlack::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3};
+unsigned char LinxBeagleBoneBlack::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3, 4, 5};
 int LinxBeagleBoneBlack::m_UartHandles[NUM_UART_CHANS];
 const char LinxBeagleBoneBlack::m_UartPaths[NUM_UART_CHANS][UART_PATH_LEN] = { "/dev/ttyO0\00", "/dev/ttyO1\00", "/dev/ttyO2\00", "/dev/ttyO3\00", "/dev/ttyO4\00", "/dev/ttyO5\00"};
 unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {0, 50, 75, 110, 134, 150, 200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400};
@@ -87,10 +95,13 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		
 	//AI
 	NumAiChans = NUM_AI_CHANS;
+	AiPaths = m_AiPaths;
+	AiHandles = m_AiHandles;
+	
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
 	AiRefSet = AI_REFV;
-		
+	
 	AiRefDefault = AI_REFV;
 	AiRefSet = AI_REFV;
 	AiRefCodes = m_AiRefCodes;
@@ -128,6 +139,8 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	NumI2cChans = NUM_I2C_CHANS;	
 	I2cChans = m_I2cChans;
 	I2cRefCount = m_I2cRefCount;
+	I2cPaths = m_I2cPaths;
+	I2cHandles = m_I2cHandles;
 		
 	//SPI
 	NumSpiChans = NUM_SPI_CHANS;	
@@ -146,16 +159,65 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()
-	#if DEBUG_ENABLED > 0
+	#ifdef DEBUG_ENABLED
 		EnableDebug(DEBUG_ENABLED);
 	#endif
+	
+	//Export Dev Tree Overlay For AI If It DNE And Open AI Handles
+	if(!FileExists("/sys/bus/iio/devices/iio:device0"))
+	{		
+		if(!LoadDto("BB-ADC", 6))
+		{
+			DebugPrintln("AI Fail - Failed To Load BB-ADC DTO");			
+		}
+		else
+		{
+			//Open AI Handles
+			for(int i=0; i<NUM_AI_CHANS; i++)
+			{
+				int handle = open(AiPaths[i], O_RDWR);
+				if(handle < 0)
+				{
+					DebugPrintln("AI Fail - Failed Open AI Channel Handle");
+				}
+				else
+				{
+					AiHandles[i] = handle;
+				}
+			}
+		}
+	}
+	
+	
+	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
+	{
+		char dirPath[64];
+		sprintf(dirPath, "/sys/class/gpio/gpio%d/direction", DigitalChans[i]);
+		
+		char valuePath[64];
+		sprintf(valuePath, "/sys/class/gpio/gpio%d/value", DigitalChans[i]);
+				
+		DigitalDirHandles[DigitalChans[i]] = open(dirPath, O_RDWR);
+		DigitalValueHandles[DigitalChans[i]] = open(valuePath, O_RDWR);
+	}
+	
 }
 
 //Destructor
 LinxBeagleBoneBlack::~LinxBeagleBoneBlack()
 {
-	//Handle Any Device Clean Up Here.
-	//UartClose();
+	//Close AI Handles
+	for(int i=0; i<NUM_AI_CHANS; i++)
+	{
+		close(AiHandles[i]);
+	}
+	
+	//Close GPIO Handles
+	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
+	{
+		close(DigitalDirHandles[i]);
+		close(DigitalValueHandles[i]);
+	}	
 }
 
 /****************************************************************************************

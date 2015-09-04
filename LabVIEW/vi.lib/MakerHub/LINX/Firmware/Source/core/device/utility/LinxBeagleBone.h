@@ -16,6 +16,7 @@
 **  Defines
 ****************************************************************************************/		
 #define DIGITAL_PIN_LEN 3
+#define AI_PATH_LEN 64
 #define SPI_PATH_LEN 64
 #define I2C_PATH_LEN 64
 #define UART_PATH_LEN 64
@@ -24,6 +25,7 @@
 **  Includes
 ****************************************************************************************/		
 #include "LinxDevice.h"
+#include <map>
 
 /****************************************************************************************
 **  Variables
@@ -36,27 +38,33 @@ class LinxBeagleBone : public LinxDevice
 		**  Variables
 		****************************************************************************************/
 		//DIO
-		int* DigitalDirHandles;								//File Handles For Digital Pin Directions
-		int* DigitalValueHandles;							//File Handles For Digital Pin Values
+		std::map<unsigned char, int> DigitalDirHandles;			//File Handles For Digital Pin Directions
+		std::map<unsigned char, int> DigitalValueHandles;		//File Handles For Digital Pin Values
+					
 		
-		unsigned char NumAiRefIntVals;					//Number Of Internal AI Reference Voltages
-		const unsigned long* AiRefIntVals;				//Supported AI Reference Voltages (uV)
-		const int* AiRefCodes;								//AI Ref Values (AI Ref Macros In Wiring Case)
+		unsigned char NumAiRefIntVals;							//Number Of Internal AI Reference Voltages
+		const unsigned long* AiRefIntVals;						//Supported AI Reference Voltages (uV)
+		const int* AiRefCodes;										//AI Ref Values (AI Ref Macros In Wiring Case)
 		
-		unsigned long AiRefExtMin;							//Min External AI Ref Value (uV)
-		unsigned long AiRefExtMax;					    //Max External AI Ref Value (uV)		
+		unsigned long AiRefExtMin;									//Min External AI Ref Value (uV)
+		unsigned long AiRefExtMax;					   			 //Max External AI Ref Value (uV)		
 		
-		unsigned char NumUartSpeeds;					//Number Of Support UART Buads
-		unsigned long* UartSupportedSpeeds;			//Supported UART Bauds Frequencies
-		const char (*UartPaths)[UART_PATH_LEN];  //UART Channel File Paths
-		int* UartHandles;										//UART File Handles
-		unsigned long* UartSupportedSpeedsCodes;//Supported UART Baud Divider Codes
+		int* AiHandles;													//AI File Handles
+		const char (*AiPaths)[AI_PATH_LEN];					//AI Channel File Paths
 		
-		unsigned char NumSpiSpeeds;					//Number Of Supported SPI Speeds
-		unsigned long* SpiSupportedSpeeds;			//Supported SPI Clock Frequencies
-		int* SpiSpeedCodes;									//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		unsigned char NumUartSpeeds;							//Number Of Support UART Buads
+		unsigned long* UartSupportedSpeeds;				//Supported UART Bauds Frequencies
+		const char (*UartPaths)[UART_PATH_LEN];  		//UART Channel File Paths
+		int* UartHandles;												//UART File Handles
+		unsigned long* UartSupportedSpeedsCodes;	//Supported UART Baud Divider Codes
 		
-		unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
+		unsigned char NumSpiSpeeds;							//Number Of Supported SPI Speeds
+		unsigned long* SpiSupportedSpeeds;				//Supported SPI Clock Frequencies
+		int* SpiSpeedCodes;											//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		
+		unsigned char* I2cRefCount;								//Number Opens - Closes On I2C Channel
+		int* I2cHandles;													//I2C File Handles
+		const char (*I2cPaths)[I2C_PATH_LEN];				//I2C Channel File Paths
 		
 		/****************************************************************************************
 		**  Constructors
@@ -68,18 +76,24 @@ class LinxBeagleBone : public LinxDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
+		//Helper
+		bool FileExists(const char* path);
+		bool LoadDto(const char* dtoName, int dtoNameSize);
+		
+		
 		//Analog
-		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage);
 		
 		//DIGITAL
-		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values);
-		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
 		
 		//PWM
-		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel);
@@ -123,6 +137,7 @@ class LinxBeagleBone : public LinxDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
+		virtual int digitalSmartOpen(unsigned char numChans, unsigned char* channels, unsigned char direction);
 };
 		
 #endif //LINX_BEAGLEBONE_H

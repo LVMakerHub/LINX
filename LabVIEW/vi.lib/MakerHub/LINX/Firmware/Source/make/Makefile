@@ -14,6 +14,9 @@ testapp:
 bbb:
 	g++ $(INC) LinxBeagleBoneBlack_TestApp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -o ../bin/BeagleBoneBlack_TestApp.out 
 	
+bbb_debug:
+	g++ $(INC) LinxBeagleBoneBlack_TestApp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../bin/BeagleBoneBlack_TestApp_Debug.out 
+	
 #serial: 
 #	g++ LinxSerialDaemon.cpp listener/LinxListener.cpp listener/LinxSerialListener.cpp device/LinxDevice.cpp device/raspberrypi/LinxRaspberryPi.cpp device/raspberrypi/LinxRaspberryPi-B.cpp -lrt -DLINXDEVICE=LinxRaspberryPiB -DDEBUG_ENABLED=1 -o serialdebug.out
 

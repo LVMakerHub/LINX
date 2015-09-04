@@ -19,15 +19,23 @@
 #include "LinxDevice.h"
 #include "LinxBeagleBone.h"
 
+#include <map>
 #include <fcntl.h>
 #include <time.h>
+#include <iostream>
 #include <unistd.h>
+#include <fstream>
+#include <sys/stat.h>
 #include <termios.h>	
 #include <sys/ioctl.h>
+#include <linux/i2c-dev.h>
+
+using namespace std;
 
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
+const char* overlaySlotsPath = "/sys/devices/bone_capemgr.9/slots";
 
 /****************************************************************************************
 **  Constructors / Destructors 
@@ -42,21 +50,163 @@ LinxBeagleBone::LinxBeagleBone()
 	// TODO Load User Config Data From Non Volatile Storage
 	//userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
 	
+	
+	
 }
 
 LinxBeagleBone::~LinxBeagleBone()
 {
-		
+	
 }
+/****************************************************************************************
+**  Private Functions
+****************************************************************************************/
+
+//Open Direction And Value Handles If They Are Not Already Open And Set Direction
+int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* channels, unsigned char direction)
+{
+	for(int i=0; i<numChans; i++)
+	{
+		
+		//Open Direction Handle If It Is Not Already
+		//char dirPath[64];
+		//sprintf(dirPath, "/sys/class/gpio/gpio%d/direction", channels[i]);
+		
+		if(DigitalDirHandles[channels[i]] == 0)
+		{			
+			//DigitalDirHandles[channels[i]] = open(dirPath, O_RDWR);
+			DigitalDirHandles[channels[i]] = open("/sys/class/gpio/gpio66/direction", O_RDWR);
+			if(DigitalDirHandles[channels[i]] == 0)
+			{
+				DebugPrintln("Digital Fail - Unable To Open Direction File Handles");
+				return L_UNKNOWN_ERROR;
+			}
+		}
+		
+		//Open Value Handle If It Is Not Already
+		//char valuePath[64];
+		//sprintf(valuePath, "/sys/class/gpio/gpio%d/value", channels[i]);
+		
+		if(DigitalValueHandles[channels[i]] == 0)
+		{
+			//DigitalValueHandles[channels[i]] = open(valuePath, O_RDWR);
+			DigitalValueHandles[channels[i]] = open( "/sys/class/gpio/gpio66/value", O_RDWR);
+			if(DigitalValueHandles[channels[i]] == 0)
+			{
+				DebugPrintln("Digital Fail - Unable To Open Value File Handles");
+				return L_UNKNOWN_ERROR;
+			}
+		}
+		
+		//Set Direction
+		if(direction == OUTPUT)
+		{
+			//Set As Output
+			write(DigitalDirHandles[channels[i]], "out", 3);			
+		}
+		else
+		{
+			//Set As Input
+			write(DigitalDirHandles[channels[i]], "in", 2);	
+		}
+	}
+	return L_OK;
+}
+
 
 /****************************************************************************************
 **  Public Functions
 ****************************************************************************************/
+	//--------------------------------------------------------HELPERS-------------------------------------------------------
+	bool LinxBeagleBone::FileExists(const char* path)
+	{
+		struct stat buffer;   
+		return (stat(path, &buffer) == 0); 
+	}
+	
+	bool LinxBeagleBone::LoadDto(const char* dtoName, int dtoNameSize)
+	{
+		int handle = open(overlaySlotsPath,  O_RDWR | O_NDELAY);
+		if(handle > 0)
+		{
+			write(handle, dtoName, dtoNameSize);
+			close(handle);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	
+	/*
+	unsigned char LinxBeagleBone::GetGpioIndex(unsigned char channel)
+	{
+		for(int i=0; i< NumDigitalChans; i++)
+		{
+			if(DigitalChans[i] == channel)
+			{
+				return i;
+			}		
+		}
+		DebugPrintln("GPIO Fail - Unable To Find Channel Index");
+		return -1;
+	}
+	*/
+		
 	
 	//--------------------------------------------------------ANALOG-------------------------------------------------------
-	int LinxBeagleBone::AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
+	int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+	
+		unsigned int analogValue = 0;
+		unsigned char responseByteOffset = 0;
+		unsigned char responseBitsRemaining = 8; 
+		unsigned char dataBitsRemaining = AiResolution;
+		fstream fs;	//AI File Handle
+		
+		values[responseByteOffset] = 0x00;    //Clear First	Response Byte   
+
+		//Loop Over All AI channels In Command Packet
+		for(int i=0; i<numChans; i++)
+		{
+			//Acquire AI Sample
+			
+			fs.open(AiPaths[channels[i]], fstream::in);
+			fs >> analogValue;
+			fs.close();
+			
+			
+			//TODO analogValue = AiHandles[i];
+			
+			dataBitsRemaining = AiResolution;
+
+			//Byte Packet AI Values In Response Packet
+			while(dataBitsRemaining > 0)
+			{
+				*(values+responseByteOffset) |= ( (analogValue>>(AiResolution - dataBitsRemaining)) << (8 - responseBitsRemaining) );
+				//*(values+responseByteOffset) = 69;
+
+				if(responseBitsRemaining > dataBitsRemaining)
+				{
+					//Current Byte Still Has Empty Bits
+					responseBitsRemaining -= dataBitsRemaining;
+					dataBitsRemaining = 0;
+				}
+				else
+				{
+					//Current Byte Full
+					dataBitsRemaining = dataBitsRemaining - responseBitsRemaining;
+					responseByteOffset++;
+					responseBitsRemaining = 8;
+					values[responseByteOffset] = 0x00;    //Clear Next Response Byte     
+				}
+			}
+		}
+		
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::AnalogSetRef(unsigned char mode, unsigned long voltage)
@@ -65,13 +215,42 @@ LinxBeagleBone::~LinxBeagleBone()
 	}
 
 	//--------------------------------------------------------DIGITAL-------------------------------------------------------
-	int LinxBeagleBone::DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values)
-	{
+	int LinxBeagleBone::DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values)
+	{		
 		return L_FUNCTION_NOT_SUPPORTED;
 	}
 	
-	int LinxBeagleBone::DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
+	int LinxBeagleBone::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
+		if(digitalSmartOpen(numChans, channels, OUTPUT) != L_OK)
+		{
+			DebugPrintln("Smart Open Failed");
+			return L_UNKNOWN_ERROR;			
+		}
+				
+		for(int i=0; i<numChans; i++)
+		{
+			//Set Value
+			if( ((values[i/8] >> i%8) & 0x01) == 0)
+			{
+				write(DigitalValueHandles[channels[i]], "0", 1);
+			}
+			else
+			{
+				write(DigitalValueHandles[channels[i]], "1", 1);
+			}
+		}
+			
+		return L_OK;
+	}
+	
+	int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+	{
+		for(int i=0; i<numChans; i++)
+		{
+			//Set As Output
+			write(DigitalDirHandles[channels[i]], "out", 3);
+		}
 		return L_FUNCTION_NOT_SUPPORTED;
 	}
 	
@@ -87,7 +266,7 @@ LinxBeagleBone::~LinxBeagleBone()
 	
 	
 	//--------------------------------------------------------PWM-------------------------------------------------------
-	int LinxBeagleBone::PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values)
+	int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
 		return L_FUNCTION_NOT_SUPPORTED;
 	}
@@ -123,7 +302,45 @@ LinxBeagleBone::~LinxBeagleBone()
 	//--------------------------------------------------------I2C-------------------------------------------------------
 	int LinxBeagleBone::I2cOpenMaster(unsigned char channel)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		//Export Dev Tree Overlay If Device DNE
+		if(!FileExists(I2cPaths[channel]))
+		{
+			switch(channel)
+			{
+				case 0:
+					//Internal I2C, Do Nothing
+					break;
+				case 1:
+					if(!LoadDto("BB-I2C1", 7))		
+					{
+						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
+						return  LI2C_OPEN_FAIL;
+					}
+					break;
+				case 2:
+					if(!LoadDto("BB-I2C2", 7))
+					{
+						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
+						return  LI2C_OPEN_FAIL;
+					}
+					break;
+				default:
+					return  LI2C_OPEN_FAIL;
+					break;
+			}
+		}
+		
+		int handle = open(I2cPaths[channel], O_RDWR);
+		if (handle < 0)
+		{
+			DebugPrintln("I2C Fail - Failed To Open I2C Channel");
+			return  LI2C_OPEN_FAIL;
+		}
+		else
+		{
+			I2cHandles[channel] = handle;
+		}
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
@@ -133,23 +350,121 @@ LinxBeagleBone::~LinxBeagleBone()
 	
 	int LinxBeagleBone::I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		//Check EOF - Currently Only Support 0x00
+		if(eofConfig != EOF_STOP)
+		{
+			DebugPrintln("I2C Fail - EOF Not Supported");
+			return LI2C_EOF;	
+		}
+		
+		//Set Slave Address
+		if (ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+		{
+			//Failed To Set Slave Address
+			DebugPrintln("I2C Fail - Failed To Set Slave Address");
+			return LI2C_SADDR;
+		}
+			
+		//Write Data
+		if(write(I2cHandles[channel], sendBuffer, numBytes) != numBytes)
+		{
+			DebugPrintln("I2C Fail - Failed To Write All Data");
+			return LI2C_WRITE_FAIL;
+		}
+		
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		//Check EOF - Currently Only Support 0x00
+		if(eofConfig != EOF_STOP)
+		{
+			return LI2C_EOF;	
+		}
+		
+		//Set Slave Address
+		if (ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+		{
+			//Failed To Set Slave Address
+			return LI2C_SADDR;
+		}
+		
+		if(read(I2cHandles[channel], recBuffer, numBytes) < numBytes)
+		{
+			return LI2C_READ_FAIL;	
+		}
+		
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::I2cClose(unsigned char channel)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		//Close I2C Channel
+		if(close(I2cHandles[channel]) < 0)
+		{
+			return LI2C_CLOSE_FAIL;
+		}
+		
+		return L_OK;
 	}
 	
 	
 	//--------------------------------------------------------UART-------------------------------------------------------
 	int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 	{
+		//Export Dev Tree Overlay If Device DNE
+		if(!FileExists(UartPaths[channel]))
+		{
+			switch(channel)
+			{
+				case 0:
+					if(!LoadDto("BB-UART0", 8))		
+					{
+						DebugPrintln("UART Fail - Failed To Load BB-UART0 DTO");
+						return  LUART_OPEN_FAIL;
+					}
+					break;
+				case 1:
+					if(!LoadDto("BB-UART1", 8))		
+					{
+						DebugPrintln("UART Fail - Failed To Load BB-UART1 DTO");
+						return  LUART_OPEN_FAIL;
+					}
+					break;
+				case 2:
+					if(!LoadDto("BB-UART2", 8))		
+					{
+						DebugPrintln("UART Fail - Failed To Load BB-UART2 DTO");
+						return  LUART_OPEN_FAIL;
+					}
+					break;
+				case 3:
+					if(!LoadDto("BB-UART3", 8))		
+					{
+						DebugPrintln("UART Fail - Failed To Load BB-UART3 DTO");
+						return  LUART_OPEN_FAIL;
+					}
+					break;
+				case 4:
+					if(!LoadDto("BB-UART4", 8))		
+					{
+						DebugPrintln("UART Fail - Failed To Load BB-UART4 DTO");
+						return  LUART_OPEN_FAIL;
+					}
+					break;
+				case 5:
+					if(!LoadDto("BB-UART5", 8))		
+					{
+						DebugPrintln("UART Fail - Failed To Load BB-UART5 DTO");
+						return  LUART_OPEN_FAIL;
+					}
+					break;
+				default:
+					return  LUART_OPEN_FAIL;
+					break;
+			}
+		}
 		
 		//Open UART	
 		int handle = open(UartPaths[channel],  O_RDWR | O_NDELAY);
@@ -308,3 +623,5 @@ LinxBeagleBone::~LinxBeagleBone()
 	{
 		return L_FUNCTION_NOT_SUPPORTED;
 	}
+	
+	
