@@ -43,7 +43,7 @@ const int LinxBeagleBoneBlack::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 //DIGITAL
 const unsigned char LinxBeagleBoneBlack::m_DigitalChans[NUM_DIGITAL_CHANS] = {2, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 20, 22, 23, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 49, 50, 51, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 86, 87, 88, 89, 110, 111, 112, 113, 115, 117};
 //int LinxBeagleBoneBlack::m_DigitalDirHandles[NUM_DIGITAL_CHANS];
-//int LinxBeagleBoneBlack::m_DigitalValueHandles[NUM_DIGITAL_CHANS];
+//int LinxBeagleBoneBlack::m_DigitalValueHandles[NUM_DIGITAL_CHANS];		//These Are Now A Map In LinxBeagleBone
 
 //PWM
 const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {};
@@ -83,11 +83,11 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	DeviceID = 0x01;			//Raspberry Pi 2 Model B
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
-
+ 
 	//LINX API Version
 	LinxApiMajor = 2;
 	LinxApiMinor = 0;
-	LinxApiSubminor = 0;
+	LinxApiSubminor = 0; 
 	
 	//DIGITAL
 	NumDigitalChans = NUM_DIGITAL_CHANS;			
@@ -164,9 +164,9 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	#endif
 	
 	//Export Dev Tree Overlay For AI If It DNE And Open AI Handles
-	if(!FileExists("/sys/bus/iio/devices/iio:device0"))
+	if(!fileExists("/sys/bus/iio/devices/iio:device0"))
 	{		
-		if(!LoadDto("BB-ADC", 6))
+		if(!loadDto("BB-ADC", 6))
 		{
 			DebugPrintln("AI Fail - Failed To Load BB-ADC DTO");			
 		}
@@ -188,7 +188,8 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		}
 	}
 	
-	
+	//Open All Digital Channels - !!This Is Now Handled By Smart Open!!
+	/*
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
 		char dirPath[64];
@@ -200,6 +201,19 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		DigitalDirHandles[DigitalChans[i]] = open(dirPath, O_RDWR);
 		DigitalValueHandles[DigitalChans[i]] = open(valuePath, O_RDWR);
 	}
+	*/
+	
+	//Export GPIO - Set All Digital Handles To NULL
+	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
+	{
+		FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
+		fprintf(digitalExportHandle, "%d", DigitalChans[i]);
+		fclose(digitalExportHandle);
+		
+		DigitalDirHandles[DigitalChans[i]] = NULL;
+		DigitalValueHandles[DigitalChans[i]] = NULL;
+	}
+	
 	
 }
 
@@ -215,8 +229,8 @@ LinxBeagleBoneBlack::~LinxBeagleBoneBlack()
 	//Close GPIO Handles
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
-		close(DigitalDirHandles[i]);
-		close(DigitalValueHandles[i]);
+		fclose(DigitalDirHandles[i]);
+		fclose(DigitalValueHandles[i]);
 	}	
 }
 

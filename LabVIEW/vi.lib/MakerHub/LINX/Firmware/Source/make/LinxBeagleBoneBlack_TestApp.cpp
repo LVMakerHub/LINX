@@ -172,29 +172,96 @@ int main()
 	}
 	*********************************/
 	
-	/****************************** Timed Blink */
+	
+	
+	///*DI TEST
+	unsigned char inChans[1] = {69};
+	unsigned char outChans[1] = {66};
+	
+	unsigned char vals[1];
+	
+	unsigned long startTime = LinxDev->GetMilliSeconds();
+	LinxDev->DebugPrintln(startTime, DEC);
+	for(int i=0; i<100000; i++)  
+	{			
+		LinxDev->DigitalRead(1, inChans, vals);
+		//vals[0] = (vals[0] >> 7) & 0x01;
+		//LinxDev->DigitalWrite(1, outChans, vals);
+		//LinxDev->DebugPrintln(vals[0], DEC);
+		//usleep(1000);
+	}
+	unsigned long endTime = LinxDev->GetMilliSeconds();
+	LinxDev->DebugPrintln(endTime, DEC);
+	LinxDev->DebugPrint("100000 Samples In ");
+	LinxDev->DebugPrint((endTime-startTime), DEC);
+	LinxDev->DebugPrint("mS. ");
+	//LinxDev->DebugPrint(10000/((endTime-startTime)/1000), DEC);
+	//LinxDev->DebugPrint("Samples Per Second.");
+	
+	
+	//*///DI TEST
+	
+	/* Simple DI Read
+	unsigned char diVal;
+	FILE* handle = fopen("/sys/class/gpio/gpio69/value", "r+w+");
+	fscanf(handle, "%u", &diVal);
+	
+	LinxDev->DebugPrintln(diVal, DEC);
+	*/// Simple DI Read
+
+
+	/****************************** Timed Blink *
+	unsigned char chans[2] = {66, 69};
+	
+	
+	//Warm Up
+	LinxDev->DigitalWrite(2, chans, on);
+		
 	unsigned long startTime = LinxDev->GetMilliSeconds();
 	LinxDev->DebugPrintln(startTime, DEC);
 	
-	unsigned char chans[1] = {66};
-	unsigned char on[1] = {0xFF};
-	unsigned char off[1] = {0x00};
-	
-	for(int i=0; i<100000; i++)
+	for(int i=0; i<100000; i++)  
 	{			
-		LinxDev->DigitalWrite(1, chans, on);	
+		LinxDev->DigitalWrite(2, chans, on);	
 		//usleep(250000);
-		LinxDev->DigitalWrite(1, chans, off);		
+		LinxDev->DigitalWrite(2, chans, off);		
 		//usleep(250000);
 	}
 	
 	
 	unsigned long endTime = LinxDev->GetMilliSeconds();
 	LinxDev->DebugPrintln(endTime, DEC);
-	LinxDev->DebugPrint("1000000 Samples In ");
+	LinxDev->DebugPrint("2000000 Samples In ");
 	LinxDev->DebugPrint((endTime-startTime), DEC);
 	LinxDev->DebugPrint("mS. ");
 	//LinxDev->DebugPrint(10000/((endTime-startTime)/1000), DEC);
 	//LinxDev->DebugPrint("Samples Per Second.");
+	****************************** Timed Blink */
+	
+	
+	//int x = open("/sys/class/gpio/gpio69/direction", O_RDWR);
+	//write(x, "out", 3);	
+	//close(x);
+	
+	//FILE* y = fopen("/sys/class/gpio/gpio69/direction", "w");
+	//fprintf(y, "out");
+	//fclose(y);
+	
+	/*
+	FILE* y = fopen("/sys/class/gpio/gpio66/value", "w");
+	fprintf(y, "1");
+	fflush(y);
+	usleep(250000);
+	fprintf(y, "0");
+	fflush(y);
+	usleep(250000);
+	fprintf(y, "1");
+	fflush(y);
+	usleep(250000);
+	fprintf(y, "0");
+	fflush(y);
+	usleep(250000);
+	*/
+	
 	
 }

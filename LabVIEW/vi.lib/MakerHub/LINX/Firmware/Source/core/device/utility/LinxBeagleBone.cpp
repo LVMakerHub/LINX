@@ -22,6 +22,7 @@
 #include <map>
 #include <fcntl.h>
 #include <time.h>
+#include <math.h>
 #include <iostream>
 #include <unistd.h>
 #include <fstream>
@@ -63,99 +64,70 @@ LinxBeagleBone::~LinxBeagleBone()
 ****************************************************************************************/
 
 //Open Direction And Value Handles If They Are Not Already Open And Set Direction
-int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* channels, unsigned char direction)
+int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* channels)
 {
 	for(int i=0; i<numChans; i++)
-	{
-		
-		//Open Direction Handle If It Is Not Already
-		//char dirPath[64];
-		//sprintf(dirPath, "/sys/class/gpio/gpio%d/direction", channels[i]);
-		
-		if(DigitalDirHandles[channels[i]] == 0)
-		{			
-			//DigitalDirHandles[channels[i]] = open(dirPath, O_RDWR);
-			DigitalDirHandles[channels[i]] = open("/sys/class/gpio/gpio66/direction", O_RDWR);
-			if(DigitalDirHandles[channels[i]] == 0)
+	{		
+		//Open Direction Handle If It Is Not Already		
+		if(DigitalDirHandles[channels[i]] == NULL)
+		{
+			DebugPrintln("Opening Digital Direction Handle");
+			char dirPath[64];
+			sprintf(dirPath, "/sys/class/gpio/gpio%d/direction", channels[i]);
+			DigitalDirHandles[channels[i]] = fopen(dirPath, "r+w+");
+			
+			if(DigitalDirHandles[channels[i]] == NULL)
 			{
 				DebugPrintln("Digital Fail - Unable To Open Direction File Handles");
 				return L_UNKNOWN_ERROR;
 			}
 		}
 		
-		//Open Value Handle If It Is Not Already
-		//char valuePath[64];
-		//sprintf(valuePath, "/sys/class/gpio/gpio%d/value", channels[i]);
-		
-		if(DigitalValueHandles[channels[i]] == 0)
+		//Open Value Handle If It Is Not Already		
+		if(DigitalValueHandles[channels[i]] == NULL)
 		{
-			//DigitalValueHandles[channels[i]] = open(valuePath, O_RDWR);
-			DigitalValueHandles[channels[i]] = open( "/sys/class/gpio/gpio66/value", O_RDWR);
-			if(DigitalValueHandles[channels[i]] == 0)
+			DebugPrintln("Opening Digital Value Handle");
+			char valuePath[64];
+			sprintf(valuePath, "/sys/class/gpio/gpio%d/value", channels[i]);
+			DigitalValueHandles[channels[i]] = fopen(valuePath, "r+w+");
+			
+			if(DigitalValueHandles[channels[i]] == NULL)
 			{
 				DebugPrintln("Digital Fail - Unable To Open Value File Handles");
 				return L_UNKNOWN_ERROR;
 			}
-		}
-		
-		//Set Direction
-		if(direction == OUTPUT)
-		{
-			//Set As Output
-			write(DigitalDirHandles[channels[i]], "out", 3);			
-		}
-		else
-		{
-			//Set As Input
-			write(DigitalDirHandles[channels[i]], "in", 2);	
-		}
+		}	
 	}
 	return L_OK;
+}
+
+//Return True If File Specified By path Exists.
+bool LinxBeagleBone::fileExists(const char* path)
+{
+	struct stat buffer;   
+	return (stat(path, &buffer) == 0); 
+}
+
+//Load Device Tree Overlay
+bool LinxBeagleBone::loadDto(const char* dtoName, int dtoNameSize)
+{
+	int handle = open(overlaySlotsPath,  O_RDWR | O_NDELAY);
+	if(handle > 0)
+	{
+		write(handle, dtoName, dtoNameSize);
+		close(handle);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
 /****************************************************************************************
 **  Public Functions
 ****************************************************************************************/
-	//--------------------------------------------------------HELPERS-------------------------------------------------------
-	bool LinxBeagleBone::FileExists(const char* path)
-	{
-		struct stat buffer;   
-		return (stat(path, &buffer) == 0); 
-	}
-	
-	bool LinxBeagleBone::LoadDto(const char* dtoName, int dtoNameSize)
-	{
-		int handle = open(overlaySlotsPath,  O_RDWR | O_NDELAY);
-		if(handle > 0)
-		{
-			write(handle, dtoName, dtoNameSize);
-			close(handle);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	
-	
-	/*
-	unsigned char LinxBeagleBone::GetGpioIndex(unsigned char channel)
-	{
-		for(int i=0; i< NumDigitalChans; i++)
-		{
-			if(DigitalChans[i] == channel)
-			{
-				return i;
-			}		
-		}
-		DebugPrintln("GPIO Fail - Unable To Find Channel Index");
-		return -1;
-	}
-	*/
-		
 	
 	//--------------------------------------------------------ANALOG-------------------------------------------------------
 	int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
@@ -216,28 +188,84 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 
 	//--------------------------------------------------------DIGITAL-------------------------------------------------------
 	int LinxBeagleBone::DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values)
-	{		
-		return L_FUNCTION_NOT_SUPPORTED;
+	{
+		if(digitalSmartOpen(numChans, channels) != L_OK)
+		{
+			DebugPrintln("Smart Open Failed");
+			return L_UNKNOWN_ERROR;			
+		}
+		
+		//DebugPrint("Setting Direction Of Channel ");
+		//DebugPrintln(channels[0], DEC);
+		
+		//Avoid Divide By Zero By Doing First Iteration
+		if( (values[0] & 0x01) == OUTPUT)
+		{
+			//Set As Output
+			fprintf(DigitalDirHandles[channels[0]], "out");		
+			fflush(DigitalDirHandles[channels[0]]);
+			//DebugPrintln("OUTPUT");
+		}
+		else
+		{
+			//Set As Input
+			fprintf(DigitalDirHandles[channels[0]], "in");	
+			fflush(DigitalDirHandles[channels[0]]);
+			//DebugPrintln("INPUT");
+		}
+			
+		//Set Directions
+		for(int i=1; i<numChans; i++)
+		{
+			//DebugPrint("Setting Direction Of Channel ");
+			//DebugPrintln(channels[i], DEC);
+			
+			if( ((values[i/8] >> i%8) & 0x01) == OUTPUT)
+			{
+				//Set As Output
+				fprintf(DigitalDirHandles[channels[i]], "out");		
+				fflush(DigitalDirHandles[channels[i]]);
+				//DebugPrintln("OUTPUT");
+			}
+			else
+			{
+				//Set As Input
+				fprintf(DigitalDirHandles[channels[i]], "in");	
+				fflush(DigitalDirHandles[channels[i]]);
+				//DebugPrintln("INPUT");
+			}
+		}
+		
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
-		if(digitalSmartOpen(numChans, channels, OUTPUT) != L_OK)
+		//Generate Bit Packed Output Direction Array
+		int numDirBytes = (int)ceil(numChans/8.0);		
+		unsigned char directions[numDirBytes];
+		for(int i=0; i< numDirBytes; i++)
 		{
-			DebugPrintln("Smart Open Failed");
-			return L_UNKNOWN_ERROR;			
+			directions[i] = 0xFF;
+		}	
+		
+		if(DigitalSetDirection(numChans, channels, directions) != L_OK)
+		{
+			DebugPrintln("Digital Write Fail - Set Direction Failed");
 		}
 				
 		for(int i=0; i<numChans; i++)
 		{
 			//Set Value
-			if( ((values[i/8] >> i%8) & 0x01) == 0)
+			if( ((values[i/8] >> i%8) & 0x01) == LOW)
 			{
-				write(DigitalValueHandles[channels[i]], "0", 1);
+				fprintf(DigitalValueHandles[channels[i]], "0");
+				fflush(DigitalValueHandles[channels[i]]);
 			}
 			else
 			{
-				write(DigitalValueHandles[channels[i]], "1", 1);
+				fprintf(DigitalValueHandles[channels[i]], "1");
+				fflush(DigitalValueHandles[channels[i]]);
 			}
 		}
 			
@@ -246,12 +274,59 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 	
 	int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
+		//Generate Bit Packed Input Direction Array
+		int numDirBytes = (int)ceil(numChans/8.0);		
+		unsigned char directions[numDirBytes];
+		for(int i=0; i< numDirBytes; i++)
+		{
+			directions[i] = 0x00;
+		}
+		
+		//Set Directions To Inputs
+		if(DigitalSetDirection(numChans, channels, directions) != L_OK)
+		{
+			DebugPrintln("Digital Write Fail - Set Direction Failed");
+		}
+		
+		
+		unsigned char bitOffset = 8;
+		unsigned char byteOffset = 0;
+		unsigned char retVal = 0;
+		unsigned char diVal = 69;
+		
+		//Loop Over channels To Read
 		for(int i=0; i<numChans; i++)
 		{
-			//Set As Output
-			write(DigitalDirHandles[channels[i]], "out", 3);
+			
+			//If bitOffset Is 0 We Have To Start A New Byte, Store Old Byte And Increment OFfsets
+			if(bitOffset == 0)
+			{
+				//Insert retVal Into Response Buffer
+				values[byteOffset] = retVal;
+				retVal = 0x00;
+				byteOffset++;
+				bitOffset = 7;      
+			}
+			else
+			{
+				bitOffset--;
+			}
+			
+			//Reopen Value Handle
+			char valPath[64];
+			sprintf(valPath, "/sys/class/gpio/gpio%d/value", channels[i]);
+			DigitalValueHandles[channels[i]] = freopen(valPath, "r+w+", DigitalValueHandles[channels[i]]);
+			
+			//Read From Next Pin
+			fscanf(DigitalValueHandles[channels[i]], "%u", &diVal);
+						
+			retVal = retVal | (diVal << bitOffset);	//Read Pin And Insert Value Into retVal
 		}
-		return L_FUNCTION_NOT_SUPPORTED;
+	
+		//Store Last Byte
+		values[byteOffset] = retVal;
+			
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration)
@@ -303,7 +378,7 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 	int LinxBeagleBone::I2cOpenMaster(unsigned char channel)
 	{
 		//Export Dev Tree Overlay If Device DNE
-		if(!FileExists(I2cPaths[channel]))
+		if(!fileExists(I2cPaths[channel]))
 		{
 			switch(channel)
 			{
@@ -311,14 +386,14 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 					//Internal I2C, Do Nothing
 					break;
 				case 1:
-					if(!LoadDto("BB-I2C1", 7))		
+					if(!loadDto("BB-I2C1", 7))		
 					{
 						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
 						return  LI2C_OPEN_FAIL;
 					}
 					break;
 				case 2:
-					if(!LoadDto("BB-I2C2", 7))
+					if(!loadDto("BB-I2C2", 7))
 					{
 						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
 						return  LI2C_OPEN_FAIL;
@@ -414,47 +489,47 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 	int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 	{
 		//Export Dev Tree Overlay If Device DNE
-		if(!FileExists(UartPaths[channel]))
+		if(!fileExists(UartPaths[channel]))
 		{
 			switch(channel)
 			{
 				case 0:
-					if(!LoadDto("BB-UART0", 8))		
+					if(!loadDto("BB-UART0", 8))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART0 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 1:
-					if(!LoadDto("BB-UART1", 8))		
+					if(!loadDto("BB-UART1", 8))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART1 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 2:
-					if(!LoadDto("BB-UART2", 8))		
+					if(!loadDto("BB-UART2", 8))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART2 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 3:
-					if(!LoadDto("BB-UART3", 8))		
+					if(!loadDto("BB-UART3", 8))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART3 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 4:
-					if(!LoadDto("BB-UART4", 8))		
+					if(!loadDto("BB-UART4", 8))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART4 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 5:
-					if(!LoadDto("BB-UART5", 8))		
+					if(!loadDto("BB-UART5", 8))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART5 DTO");
 						return  LUART_OPEN_FAIL;

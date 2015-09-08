@@ -25,6 +25,7 @@
 **  Includes
 ****************************************************************************************/		
 #include "LinxDevice.h"
+#include <stdio.h>
 #include <map>
 
 /****************************************************************************************
@@ -38,8 +39,8 @@ class LinxBeagleBone : public LinxDevice
 		**  Variables
 		****************************************************************************************/
 		//DIO
-		std::map<unsigned char, int> DigitalDirHandles;			//File Handles For Digital Pin Directions
-		std::map<unsigned char, int> DigitalValueHandles;		//File Handles For Digital Pin Values
+		std::map<unsigned char, FILE*> DigitalDirHandles;			//File Handles For Digital Pin Directions
+		std::map<unsigned char, FILE*> DigitalValueHandles;		//File Handles For Digital Pin Values
 					
 		
 		unsigned char NumAiRefIntVals;							//Number Of Internal AI Reference Voltages
@@ -137,7 +138,9 @@ class LinxBeagleBone : public LinxDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		virtual int digitalSmartOpen(unsigned char numChans, unsigned char* channels, unsigned char direction);
+		virtual int digitalSmartOpen(unsigned char numChans, unsigned char* channels);
+		bool fileExists(const char* path);
+		bool loadDto(const char* dtoName, int dtoNameSize);
 };
 		
 #endif //LINX_BEAGLEBONE_H
