@@ -42,11 +42,11 @@ const int LinxBeagleBoneBlack::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
 //DIGITAL
 const unsigned char LinxBeagleBoneBlack::m_DigitalChans[NUM_DIGITAL_CHANS] = {2, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 20, 22, 23, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 49, 50, 51, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 86, 87, 88, 89, 110, 111, 112, 113, 115, 117};
-//int LinxBeagleBoneBlack::m_DigitalDirHandles[NUM_DIGITAL_CHANS];
-//int LinxBeagleBoneBlack::m_DigitalValueHandles[NUM_DIGITAL_CHANS];		//These Are Now A Map In LinxBeagleBone
 
 //PWM
-const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {};
+const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {13, 19, 60, 62};
+const char LinxBeagleBoneBlack::m_PwmDirPaths[NUM_PWM_CHANS][PWM_PATH_LEN] = {"/sys/devices/ocp.3/pwm_test_P8_13.18/", "/sys/devices/ocp.3/pwm_test_P8_19.19/", "/sys/devices/ocp.3/pwm_test_P9_14.16/", "/sys/devices/ocp.3/pwm_test_P9_16.17/"};
+const char LinxBeagleBoneBlack::m_PwmDtoNames[NUM_PWM_CHANS][PWM_DTO_NAME_LEN] = {"bone_pwm_P8_13", "bone_pwm_P8_19", "bone_pwm_P9_14", "bone_pwm_P9_16"};
 
 //QE
 //None
@@ -119,7 +119,9 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//PWM
 	NumPwmChans = NUM_PWM_CHANS;
 	PwmChans = m_PwmChans;
-	
+	PwmDirPaths = m_PwmDirPaths;
+	PwmDtoNames = m_PwmDtoNames;
+		
 	//QE
 	NumQeChans = 0;
 	QeChans = 0;
@@ -163,46 +165,44 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		EnableDebug(DEBUG_ENABLED);
 	#endif
 	
+	//---------------------------- ANALOG ----------------------------
 	//Export Dev Tree Overlay For AI If It DNE And Open AI Handles
+	bool dtoLoaded = false;
 	if(!fileExists("/sys/bus/iio/devices/iio:device0"))
-	{		
-		if(!loadDto("BB-ADC", 6))
+	{
+		if(loadDto("BB-ADC"))
 		{
-			DebugPrintln("AI Fail - Failed To Load BB-ADC DTO");			
+			dtoLoaded = true;			
 		}
 		else
 		{
-			//Open AI Handles
-			for(int i=0; i<NUM_AI_CHANS; i++)
+			DebugPrintln("AI Fail - Failed To Load BB-ADC DTO");
+		}
+	}
+	else
+	{
+		//DTO Already Loaded
+		dtoLoaded = true;
+	}
+	
+	if(dtoLoaded)
+	{
+		//Open AI Handles
+		for(int i=0; i<NUM_AI_CHANS; i++)
+		{
+			int handle = open(AiPaths[i], O_RDWR);
+			if(handle < 0)
 			{
-				int handle = open(AiPaths[i], O_RDWR);
-				if(handle < 0)
-				{
-					DebugPrintln("AI Fail - Failed Open AI Channel Handle");
-				}
-				else
-				{
-					AiHandles[i] = handle;
-				}
+				DebugPrintln("AI Fail - Failed Open AI Channel Handle");
+			}
+			else
+			{
+				AiHandles[i] = handle;
 			}
 		}
 	}
 	
-	//Open All Digital Channels - !!This Is Now Handled By Smart Open!!
-	/*
-	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
-	{
-		char dirPath[64];
-		sprintf(dirPath, "/sys/class/gpio/gpio%d/direction", DigitalChans[i]);
-		
-		char valuePath[64];
-		sprintf(valuePath, "/sys/class/gpio/gpio%d/value", DigitalChans[i]);
-				
-		DigitalDirHandles[DigitalChans[i]] = open(dirPath, O_RDWR);
-		DigitalValueHandles[DigitalChans[i]] = open(valuePath, O_RDWR);
-	}
-	*/
-	
+	//---------------------------- DIGITAL ----------------------------
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
@@ -214,6 +214,57 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		DigitalValueHandles[DigitalChans[i]] = NULL;
 	}
 	
+	//---------------------------- PWM ----------------------------
+	//Export PWM - Open Freq and Duty Cycle Handles
+	
+	for(int i=0; i< NUM_PWM_CHANS; i++)
+	{
+		//Load DTO If Necessary
+		if(!fileExists(PwmDirPaths[i], "period"))
+		{
+			DebugPrintln("Loading PWM DTO");
+			if(!loadDto(PwmDtoNames[i]))
+			{
+				DebugPrint("PWM Fail - Failed To Load PWM DTO ");
+				DebugPrintln(PwmDtoNames[i]);
+			}
+			else
+			{
+				//DTO Successfully Loaded, Open PWM Handles
+				char path[128];
+				sprintf(path, "%s%s", PwmDirPaths[i], "period");
+				PwmPeriodHandles[PwmChans[i]] = fopen(path, "r+w+");
+				
+				sprintf(path, "%s%s", PwmDirPaths[i], "duty");
+				PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
+			}
+		}
+		else
+		{
+			DebugPrintln("PWM DTO Already Loaded");
+			//DTO Was Already Loaded, Open PWM Handles
+			char path[128];
+			sprintf(path, "%s%s", PwmDirPaths[i], "period");
+			PwmPeriodHandles[PwmChans[i]] = fopen(path, "r+w+");
+			
+			sprintf(path, "%s%s", PwmDirPaths[i], "duty");
+			PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
+			
+			//Set Defaults
+			FILE* handle;
+			
+			sprintf(path, "%s%s", PwmDirPaths[i], "polarity");
+			handle = fopen(path, "r+w+");
+			fprintf(handle, "0");		//Set To Non Inverting (ie Duty Cycle = % On)
+			fclose(handle);
+				
+			sprintf(path, "%s%s", PwmDirPaths[i], "duty");
+			handle = fopen(path, "r+w+");
+			fprintf(handle, "0");		//Turn PWM Output Off
+			fclose(handle);			
+		}
+		
+	}	
 	
 }
 

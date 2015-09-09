@@ -16,6 +16,8 @@
 **  Defines
 ****************************************************************************************/		
 #define DIGITAL_PIN_LEN 3
+#define PWM_PATH_LEN 64
+#define PWM_DTO_NAME_LEN 32
 #define AI_PATH_LEN 64
 #define SPI_PATH_LEN 64
 #define I2C_PATH_LEN 64
@@ -39,9 +41,14 @@ class LinxBeagleBone : public LinxDevice
 		**  Variables
 		****************************************************************************************/
 		//DIO
-		std::map<unsigned char, FILE*> DigitalDirHandles;			//File Handles For Digital Pin Directions
-		std::map<unsigned char, FILE*> DigitalValueHandles;		//File Handles For Digital Pin Values
-					
+		std::map<unsigned char, FILE*> DigitalDirHandles;					//File Handles For Digital Pin Directions
+		std::map<unsigned char, FILE*> DigitalValueHandles;				//File Handles For Digital Pin Values
+		
+		//PWM
+		std::map<unsigned char, FILE*> PwmPeriodHandles;				//File Handles For PWM Period Values
+		std::map<unsigned char, FILE*> PwmDutyCycleHandles;		//File Handles For PWM Duty Cycle Values		
+		const char (*PwmDirPaths)[PWM_PATH_LEN];							//Path To PWM Directories
+		const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		
 		unsigned char NumAiRefIntVals;							//Number Of Internal AI Reference Voltages
 		const unsigned long* AiRefIntVals;						//Supported AI Reference Voltages (uV)
@@ -77,11 +84,6 @@ class LinxBeagleBone : public LinxDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		//Helper
-		bool FileExists(const char* path);
-		bool LoadDto(const char* dtoName, int dtoNameSize);
-		
-		
 		//Analog
 		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage);
@@ -140,7 +142,8 @@ class LinxBeagleBone : public LinxDevice
 		****************************************************************************************/
 		virtual int digitalSmartOpen(unsigned char numChans, unsigned char* channels);
 		bool fileExists(const char* path);
-		bool loadDto(const char* dtoName, int dtoNameSize);
+		bool fileExists(const char* directory, const char* fileName);
+		bool loadDto(const char* dtoName);
 };
 		
 #endif //LINX_BEAGLEBONE_H

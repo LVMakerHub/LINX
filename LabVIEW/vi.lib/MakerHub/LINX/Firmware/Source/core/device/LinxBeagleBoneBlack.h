@@ -25,7 +25,7 @@
 
 #define NUM_DIGITAL_CHANS 65
 
-#define NUM_PWM_CHANS 8
+#define NUM_PWM_CHANS 4
 
 #define NUM_SPI_CHANS 2
 #define NUM_SPI_SPEEDS 13
@@ -69,7 +69,9 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static const unsigned char m_DigitalChans[NUM_DIGITAL_CHANS];
 		
 		//PWM
-		static const unsigned char m_PwmChans[NUM_PWM_CHANS];			
+		static const unsigned char m_PwmChans[NUM_PWM_CHANS];
+		static const char m_PwmDirPaths[NUM_PWM_CHANS][PWM_PATH_LEN];
+		static const char m_PwmDtoNames[NUM_PWM_CHANS][PWM_DTO_NAME_LEN];
 		
 		//SPI
 		static const unsigned char m_SpiChans[NUM_SPI_CHANS];

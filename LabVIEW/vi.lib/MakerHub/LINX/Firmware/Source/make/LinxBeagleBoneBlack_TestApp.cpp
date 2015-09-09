@@ -70,7 +70,7 @@ int main()
 	
 	//AI Read Test
 	
-	/*
+	/**************************************************************************
 	int x = open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw",  O_RDWR | O_NDELAY);
 	char aiBuffer[4];
 	for(int i=0; i<10000; i++)
@@ -157,6 +157,12 @@ int main()
 	
 	//LinxDev->DebugPrintln(DigitalValueHandle[0], DEC);
 	
+	unsigned char chans[1] = {13};
+	unsigned char vals[1] = {192};
+	usleep(1000000);
+	LinxDev->PwmSetDutyCycle(1, chans, vals);
+	usleep(1000000);
+	
 	
 	/****************************** BLINK!!!
 	unsigned char chans[1] = {66};
@@ -172,9 +178,19 @@ int main()
 	}
 	*********************************/
 	
+	/*
+	if(fileExists("/root/debian/test.txt))
+	{
+		cout << "Yes";
+	}
+	else
+	{
+		cout << "No";
+	}
+	*/
 	
+	/*DI TEST
 	
-	///*DI TEST
 	unsigned char inChans[1] = {69};
 	unsigned char outChans[1] = {66};
 	
@@ -199,7 +215,7 @@ int main()
 	//LinxDev->DebugPrint("Samples Per Second.");
 	
 	
-	//*///DI TEST
+	*///DI TEST
 	
 	/* Simple DI Read
 	unsigned char diVal;

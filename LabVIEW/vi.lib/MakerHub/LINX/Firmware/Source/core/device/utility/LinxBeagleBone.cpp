@@ -50,9 +50,6 @@ LinxBeagleBone::LinxBeagleBone()
 	
 	// TODO Load User Config Data From Non Volatile Storage
 	//userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
-	
-	
-	
 }
 
 LinxBeagleBone::~LinxBeagleBone()
@@ -108,9 +105,31 @@ bool LinxBeagleBone::fileExists(const char* path)
 	return (stat(path, &buffer) == 0); 
 }
 
-//Load Device Tree Overlay
-bool LinxBeagleBone::loadDto(const char* dtoName, int dtoNameSize)
+bool LinxBeagleBone::fileExists(const char* directory, const char* fileName)
 {
+	char fullPath[128];
+	sprintf(fullPath, "%s%s", directory, fileName);				
+	struct stat buffer;
+	return (stat(fullPath, &buffer) == 0); 
+}
+
+//Load Device Tree Overlay
+bool LinxBeagleBone::loadDto(const char* dtoName)
+{	
+	FILE* slotsHandle = fopen("overlaySlotsPath", "r+w+");
+	if(slotsHandle != NULL)
+	{
+		fprintf(slotsHandle, "%s", dtoName);
+		fclose(slotsHandle);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+	
+	
+	/*
 	int handle = open(overlaySlotsPath,  O_RDWR | O_NDELAY);
 	if(handle > 0)
 	{
@@ -122,6 +141,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName, int dtoNameSize)
 	{
 		return false;
 	}
+	*/
 }
 
 
@@ -282,12 +302,11 @@ bool LinxBeagleBone::loadDto(const char* dtoName, int dtoNameSize)
 			directions[i] = 0x00;
 		}
 		
-		//Set Directions To Inputs
+		//Set Directions To Inputs		
 		if(DigitalSetDirection(numChans, channels, directions) != L_OK)
 		{
 			DebugPrintln("Digital Write Fail - Set Direction Failed");
 		}
-		
 		
 		unsigned char bitOffset = 8;
 		unsigned char byteOffset = 0;
@@ -343,9 +362,29 @@ bool LinxBeagleBone::loadDto(const char* dtoName, int dtoNameSize)
 	//--------------------------------------------------------PWM-------------------------------------------------------
 	int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
+		
+		for(int i=0; i<numChans; i++)
+		{
+			if(values[i] == 0)
+			{
+				//fprintf(PwmDutyCycleHandles[channels[i]], "0");
+			}
+			else if(values[i] == 255)
+			{
+				//fprintf(PwmDutyCycleHandles[channels[i]], "%u", period);
+			}
+			else
+			{
+				unsigned long  dutyCycle= period*(values[i] / 255.0);
+				DebugPrint("Setting Duty Cylce = ");
+				DebugPrintln(dutyCycle, DEC);
+				fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
+				fflush(PwmDutyCycleHandles[channels[i]]);
+			}		
+		}
+		return L_OK;
 	}
-	
 	
 	//--------------------------------------------------------SPI-------------------------------------------------------
 	int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
@@ -386,14 +425,14 @@ bool LinxBeagleBone::loadDto(const char* dtoName, int dtoNameSize)
 					//Internal I2C, Do Nothing
 					break;
 				case 1:
-					if(!loadDto("BB-I2C1", 7))		
+					if(!loadDto("BB-I2C1"))		
 					{
 						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
 						return  LI2C_OPEN_FAIL;
 					}
 					break;
 				case 2:
-					if(!loadDto("BB-I2C2", 7))
+					if(!loadDto("BB-I2C2"))
 					{
 						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
 						return  LI2C_OPEN_FAIL;
@@ -494,42 +533,42 @@ bool LinxBeagleBone::loadDto(const char* dtoName, int dtoNameSize)
 			switch(channel)
 			{
 				case 0:
-					if(!loadDto("BB-UART0", 8))		
+					if(!loadDto("BB-UART0"))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART0 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 1:
-					if(!loadDto("BB-UART1", 8))		
+					if(!loadDto("BB-UART1"))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART1 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 2:
-					if(!loadDto("BB-UART2", 8))		
+					if(!loadDto("BB-UART2"))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART2 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 3:
-					if(!loadDto("BB-UART3", 8))		
+					if(!loadDto("BB-UART3"))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART3 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 4:
-					if(!loadDto("BB-UART4", 8))		
+					if(!loadDto("BB-UART4"))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART4 DTO");
 						return  LUART_OPEN_FAIL;
 					}
 					break;
 				case 5:
-					if(!loadDto("BB-UART5", 8))		
+					if(!loadDto("BB-UART5"))		
 					{
 						DebugPrintln("UART Fail - Failed To Load BB-UART5 DTO");
 						return  LUART_OPEN_FAIL;
