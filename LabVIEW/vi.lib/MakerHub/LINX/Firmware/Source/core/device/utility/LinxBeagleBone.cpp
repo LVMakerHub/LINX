@@ -110,13 +110,33 @@ bool LinxBeagleBone::fileExists(const char* directory, const char* fileName)
 	char fullPath[128];
 	sprintf(fullPath, "%s%s", directory, fileName);				
 	struct stat buffer;
-	return (stat(fullPath, &buffer) == 0); 
+	return (stat(fullPath, &buffer) == 0);  
+}
+
+bool LinxBeagleBone::fileExists(const char* directory, const char* fileName, unsigned long timeout)
+{
+	char fullPath[128];
+	sprintf(fullPath, "%s%s", directory, fileName);				
+	struct stat buffer;
+	
+	unsigned long startTime = GetMilliSeconds();
+	while(GetMilliSeconds()-startTime < timeout)
+	{
+		if(stat(fullPath, &buffer) == 0)
+		{
+			DebugPrint("DTO Took ");
+			DebugPrintln(GetMilliSeconds()-startTime < timeout, DEC);
+			return true;
+		}
+	}
+	DebugPrintln("Timeout");
+	return false;
 }
 
 //Load Device Tree Overlay
 bool LinxBeagleBone::loadDto(const char* dtoName)
 {	
-	FILE* slotsHandle = fopen("overlaySlotsPath", "r+w+");
+	FILE* slotsHandle = fopen(overlaySlotsPath, "r+w+");
 	if(slotsHandle != NULL)
 	{
 		fprintf(slotsHandle, "%s", dtoName);
@@ -380,7 +400,9 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 				DebugPrint("Setting Duty Cylce = ");
 				DebugPrintln(dutyCycle, DEC);
 				fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
+				DebugPrint("Duty Cycle Set");
 				fflush(PwmDutyCycleHandles[channels[i]]);
+				DebugPrint("Flushing...");
 			}		
 		}
 		return L_OK;

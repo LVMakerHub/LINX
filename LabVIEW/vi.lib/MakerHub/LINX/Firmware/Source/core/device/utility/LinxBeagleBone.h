@@ -143,6 +143,7 @@ class LinxBeagleBone : public LinxDevice
 		virtual int digitalSmartOpen(unsigned char numChans, unsigned char* channels);
 		bool fileExists(const char* path);
 		bool fileExists(const char* directory, const char* fileName);
+		bool fileExists(const char* directory, const char* fileName, unsigned long timout);
 		bool loadDto(const char* dtoName);
 };
 		

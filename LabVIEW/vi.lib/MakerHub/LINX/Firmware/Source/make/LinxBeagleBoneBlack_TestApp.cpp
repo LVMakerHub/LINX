@@ -158,9 +158,11 @@ int main()
 	//LinxDev->DebugPrintln(DigitalValueHandle[0], DEC);
 	
 	unsigned char chans[1] = {13};
-	unsigned char vals[1] = {192};
+	unsigned char vals[1] = {128};
 	usleep(1000000);
+	LinxDev->DebugPrintln("About To Set Duty Cycle");
 	LinxDev->PwmSetDutyCycle(1, chans, vals);
+	LinxDev->DebugPrintln("Done Setting Duty Cycle");
 	usleep(1000000);
 	
 	

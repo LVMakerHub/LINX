@@ -45,7 +45,7 @@ const unsigned char LinxBeagleBoneBlack::m_DigitalChans[NUM_DIGITAL_CHANS] = {2,
 
 //PWM
 const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {13, 19, 60, 62};
-const char LinxBeagleBoneBlack::m_PwmDirPaths[NUM_PWM_CHANS][PWM_PATH_LEN] = {"/sys/devices/ocp.3/pwm_test_P8_13.18/", "/sys/devices/ocp.3/pwm_test_P8_19.19/", "/sys/devices/ocp.3/pwm_test_P9_14.16/", "/sys/devices/ocp.3/pwm_test_P9_16.17/"};
+const char LinxBeagleBoneBlack::m_PwmDirPaths[NUM_PWM_CHANS][PWM_PATH_LEN] = {"/sys/devices/ocp.3/pwm_test_P8_13.16/", "/sys/devices/ocp.3/pwm_test_P8_19.17/", "/sys/devices/ocp.3/pwm_test_P9_14.18/", "/sys/devices/ocp.3/pwm_test_P9_16.19/"};
 const char LinxBeagleBoneBlack::m_PwmDtoNames[NUM_PWM_CHANS][PWM_DTO_NAME_LEN] = {"bone_pwm_P8_13", "bone_pwm_P8_19", "bone_pwm_P9_14", "bone_pwm_P9_16"};
 
 //QE
@@ -217,6 +217,12 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//---------------------------- PWM ----------------------------
 	//Export PWM - Open Freq and Duty Cycle Handles
 	
+	//Load AM33xx_PWM DTO If No PWM Channels Have Been Exported Since Boot
+	if(!fileExists(PwmDirPaths[0], "period"))
+	{
+		loadDto("am33xx_pwm");
+	}
+		
 	for(int i=0; i< NUM_PWM_CHANS; i++)
 	{
 		//Load DTO If Necessary
@@ -230,13 +236,20 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			}
 			else
 			{
+				//Wait for DTO to Load
+				fileExists(PwmDirPaths[0], "period", 3000); 
+				
 				//DTO Successfully Loaded, Open PWM Handles
 				char path[128];
 				sprintf(path, "%s%s", PwmDirPaths[i], "period");
+				DebugPrint("Opening ");
+				DebugPrintln(path);
 				PwmPeriodHandles[PwmChans[i]] = fopen(path, "r+w+");
+				DebugPrintln("Period Handle Open... ");
 				
 				sprintf(path, "%s%s", PwmDirPaths[i], "duty");
 				PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
+				DebugPrintln("Period Duty Cylce Handle Open... ");
 			}
 		}
 		else
@@ -249,22 +262,22 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			
 			sprintf(path, "%s%s", PwmDirPaths[i], "duty");
 			PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
-			
-			//Set Defaults
-			FILE* handle;
-			
-			sprintf(path, "%s%s", PwmDirPaths[i], "polarity");
-			handle = fopen(path, "r+w+");
-			fprintf(handle, "0");		//Set To Non Inverting (ie Duty Cycle = % On)
-			fclose(handle);
-				
-			sprintf(path, "%s%s", PwmDirPaths[i], "duty");
-			handle = fopen(path, "r+w+");
-			fprintf(handle, "0");		//Turn PWM Output Off
-			fclose(handle);			
 		}
+	
+		//Set Defaults
+		FILE* handle;
+		char path[128];
 		
-	}	
+		sprintf(path, "%s%s", PwmDirPaths[i], "polarity");
+		handle = fopen(path, "r+w+");
+		fprintf(handle, "0");		//Set To Non Inverting (ie Duty Cycle = % On)
+		fclose(handle);
+			
+		sprintf(path, "%s%s", PwmDirPaths[i], "duty");
+		handle = fopen(path, "r+w+");
+		fprintf(handle, "0");		//Turn PWM Output Off
+		fclose(handle);
+	}
 	
 }
 
