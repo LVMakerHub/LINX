@@ -19,10 +19,13 @@
 #include <fcntl.h>
 #include <termios.h>		//UART Support
 #include <map>
+#include <string>
 
 #include "utility/LinxDevice.h"
 #include "utility/LinxBeagleBone.h"
 #include "LinxBeagleBoneBlack.h"
+
+using namespace std;
 
 /****************************************************************************************
 **  Member Variables
@@ -52,17 +55,13 @@ const char LinxBeagleBoneBlack::m_PwmDtoNames[NUM_PWM_CHANS][PWM_DTO_NAME_LEN] =
 //None
 
 //SPI
-const unsigned char LinxBeagleBoneBlack::m_SpiChans[NUM_SPI_CHANS] = {0, 1};
-int  LinxBeagleBoneBlack::m_SpiHandles[NUM_SPI_CHANS];
-//const char LinxBeagleBoneBlack::m_SpiPaths[NUM_SPI_CHANS][SPI_PATH_LEN] = { "/dev/spidev0.0\00"};	//TODO ADD SECOND CHANNEL
+unsigned char LinxBeagleBoneBlack::m_SpiChans[NUM_SPI_CHANS] = {0};
 unsigned long LinxBeagleBoneBlack::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
 int LinxBeagleBoneBlack::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
 
 //I2C
 unsigned char LinxBeagleBoneBlack::m_I2cChans[NUM_I2C_CHANS] = {1, 2};
-int LinxBeagleBoneBlack::m_I2cHandles[NUM_I2C_CHANS];
-const char LinxBeagleBoneBlack::m_I2cPaths[NUM_I2C_CHANS][I2C_PATH_LEN] = {"/dev/i2c-0\00", "/dev/i2c-2\00", "/dev/i2c-1\00" };		//Out of order numbering is correct for BBB!!
-unsigned char LinxBeagleBoneBlack::m_I2cRefCount[NUM_I2C_CHANS];			
+unsigned char LinxBeagleBoneBlack::m_I2cRefCount[NUM_I2C_CHANS];		
 
 //UART
 unsigned char LinxBeagleBoneBlack::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3, 4, 5};
@@ -140,9 +139,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//I2C
 	NumI2cChans = NUM_I2C_CHANS;	
 	I2cChans = m_I2cChans;
-	I2cRefCount = m_I2cRefCount;
-	I2cPaths = m_I2cPaths;
-	I2cHandles = m_I2cHandles;
+	I2cRefCount = m_I2cRefCount;	
 		
 	//SPI
 	NumSpiChans = NUM_SPI_CHANS;	
@@ -165,7 +162,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		EnableDebug(DEBUG_ENABLED);
 	#endif
 	
-	//---------------------------- ANALOG ----------------------------
+	//------------------------------------- ANALOG -------------------------------------
 	//Export Dev Tree Overlay For AI If It DNE And Open AI Handles
 	bool dtoLoaded = false;
 	if(!fileExists("/sys/bus/iio/devices/iio:device0"))
@@ -202,7 +199,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		}
 	}
 	
-	//---------------------------- DIGITAL ----------------------------
+	//------------------------------------- DIGITAL -------------------------------------
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
@@ -214,7 +211,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		DigitalValueHandles[DigitalChans[i]] = NULL;
 	}
 	
-	//---------------------------- PWM ----------------------------
+	//------------------------------------- PWM -------------------------------------
 	//Export PWM - Open Freq and Duty Cycle Handles
 	
 	//Load AM33xx_PWM DTO If No PWM Channels Have Been Exported Since Boot
@@ -236,20 +233,21 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			}
 			else
 			{
-				//Wait for DTO to Load
-				fileExists(PwmDirPaths[0], "period", 3000); 
-				
-				//DTO Successfully Loaded, Open PWM Handles
-				char path[128];
-				sprintf(path, "%s%s", PwmDirPaths[i], "period");
-				DebugPrint("Opening ");
-				DebugPrintln(path);
-				PwmPeriodHandles[PwmChans[i]] = fopen(path, "r+w+");
-				DebugPrintln("Period Handle Open... ");
-				
-				sprintf(path, "%s%s", PwmDirPaths[i], "duty");
-				PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
-				DebugPrintln("Period Duty Cylce Handle Open... ");
+				//Make Sure DTO Has Time To Load Before Opening Handles
+				if(fileExists(PwmDirPaths[0], "period", 3000))
+				{
+					//DTO Successfully Loaded, Open PWM Handles
+					char path[128];
+					sprintf(path, "%s%s", PwmDirPaths[i], "period");
+					DebugPrint("Opening ");
+					DebugPrintln(path);
+					PwmPeriodHandles[PwmChans[i]] = fopen(path, "r+w+");
+					DebugPrintln("Period Handle Open... ");
+					
+					sprintf(path, "%s%s", PwmDirPaths[i], "duty");
+					PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
+					DebugPrintln("Period Duty Cylce Handle Open... ");
+				}
 			}
 		}
 		else
@@ -277,6 +275,40 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		handle = fopen(path, "r+w+");
 		fprintf(handle, "0");		//Turn PWM Output Off
 		fclose(handle);
+	}
+	
+	//------------------------------------- I2C -------------------------------------
+	//Store I2C Master Paths In Map
+	string m_I2cPaths[NUM_I2C_CHANS] = {"/dev/i2c-0\00", "/dev/i2c-2\00", "/dev/i2c-1\00" };		//Out of order numbering is correct for BBB!!
+	string m_I2cDtoNames[NUM_I2C_CHANS] = {"BB-I2C0", "BB-I2C1", "BB-I2C2" };
+	for(int i=0; i<NUM_I2C_CHANS; i++)
+	{	
+		I2cPaths[I2cChans[i]] = m_I2cPaths[i];
+		I2cDtoNames[I2cChans[i]] = m_I2cDtoNames[i];
+	}
+	
+	//------------------------------------- SPI ------------------------------------
+	
+	//Load SPIDEV0 DTO, This Loads /dev/spidev1.x, Which is BBB SPI0 Pins
+	if(!fileExists("/dev/spidev0.0"))
+	{
+		DebugPrintln("Loading SPI-0 DTO");
+		if(!loadDto("BB-SPIDEV0"))
+		{
+			DebugPrintln("Failed To Load SPI-0 DTO");
+		}		
+	}	
+	
+	//Load SPI Paths and DTO Names, Configure SPI Master Default Values
+	string m_SpiPaths[NUM_SPI_CHANS] = { "/dev/spidev0.0"};
+	string m_SpiDtoNames[NUM_SPI_CHANS] = { "BB-SPIDEV0"};
+	for(int i=0; i<NUM_SPI_CHANS; i++)
+	{
+		SpiDtoNames[SpiChans[i]] = m_SpiDtoNames[i];
+				
+		SpiBitOrders[SpiChans[i]] = MSBFIRST;		//MSB First
+		SpiSetSpeeds[SpiChans[i]] = 1000000;		//1MHz
+		SpiPaths[SpiChans[i]] = m_SpiPaths[i];
 	}
 	
 }

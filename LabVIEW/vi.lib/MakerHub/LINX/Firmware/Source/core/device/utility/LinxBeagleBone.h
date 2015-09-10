@@ -29,6 +29,9 @@
 #include "LinxDevice.h"
 #include <stdio.h>
 #include <map>
+#include <string>
+
+using namespace std;
 
 /****************************************************************************************
 **  Variables
@@ -41,38 +44,46 @@ class LinxBeagleBone : public LinxDevice
 		**  Variables
 		****************************************************************************************/
 		//DIO
-		std::map<unsigned char, FILE*> DigitalDirHandles;					//File Handles For Digital Pin Directions
-		std::map<unsigned char, FILE*> DigitalValueHandles;				//File Handles For Digital Pin Values
+		map<unsigned char, FILE*> DigitalDirHandles;							//File Handles For Digital Pin Directions
+		map<unsigned char, FILE*> DigitalValueHandles;						//File Handles For Digital Pin Values
 		
 		//PWM
-		std::map<unsigned char, FILE*> PwmPeriodHandles;				//File Handles For PWM Period Values
-		std::map<unsigned char, FILE*> PwmDutyCycleHandles;		//File Handles For PWM Duty Cycle Values		
+		map<unsigned char, FILE*> PwmPeriodHandles;						//File Handles For PWM Period Values
+		map<unsigned char, FILE*> PwmDutyCycleHandles;				//File Handles For PWM Duty Cycle Values		
 		const char (*PwmDirPaths)[PWM_PATH_LEN];							//Path To PWM Directories
 		const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		
-		unsigned char NumAiRefIntVals;							//Number Of Internal AI Reference Voltages
-		const unsigned long* AiRefIntVals;						//Supported AI Reference Voltages (uV)
-		const int* AiRefCodes;										//AI Ref Values (AI Ref Macros In Wiring Case)
+		unsigned char NumAiRefIntVals;												//Number Of Internal AI Reference Voltages
+		const unsigned long* AiRefIntVals;											//Supported AI Reference Voltages (uV)
+		const int* AiRefCodes;															//AI Ref Values (AI Ref Macros In Wiring Case)
 		
-		unsigned long AiRefExtMin;									//Min External AI Ref Value (uV)
-		unsigned long AiRefExtMax;					   			 //Max External AI Ref Value (uV)		
+		unsigned long AiRefExtMin;														//Min External AI Ref Value (uV)
+		unsigned long AiRefExtMax;					   								 //Max External AI Ref Value (uV)		
 		
-		int* AiHandles;													//AI File Handles
-		const char (*AiPaths)[AI_PATH_LEN];					//AI Channel File Paths
+		int* AiHandles;																		//AI File Handles
+		const char (*AiPaths)[AI_PATH_LEN];										//AI Channel File Paths
 		
-		unsigned char NumUartSpeeds;							//Number Of Support UART Buads
-		unsigned long* UartSupportedSpeeds;				//Supported UART Bauds Frequencies
-		const char (*UartPaths)[UART_PATH_LEN];  		//UART Channel File Paths
-		int* UartHandles;												//UART File Handles
-		unsigned long* UartSupportedSpeedsCodes;	//Supported UART Baud Divider Codes
+		unsigned char NumUartSpeeds;												//Number Of Support UART Buads
+		unsigned long* UartSupportedSpeeds;										//Supported UART Bauds Frequencies
+		const char (*UartPaths)[UART_PATH_LEN];  							//UART Channel File Paths
+		int* UartHandles;																	//UART File Handles
+		unsigned long* UartSupportedSpeedsCodes;							//Supported UART Baud Divider Codes
 		
-		unsigned char NumSpiSpeeds;							//Number Of Supported SPI Speeds
-		unsigned long* SpiSupportedSpeeds;				//Supported SPI Clock Frequencies
-		int* SpiSpeedCodes;											//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		map<unsigned char, string> SpiDtoNames;  							//Device Tree Overlay Names For SPI Master(s)
+		map<unsigned char, string> SpiPaths;  									//File Paths For SPI Master(s)		
+		map<unsigned char, int> SpiHandles;										//File Handles For SPI Master(s)
+		unsigned char NumSpiSpeeds;												//Number Of Supported SPI Speeds
+		unsigned long* SpiSupportedSpeeds;										//Supported SPI Clock Frequencies
+		int* SpiSpeedCodes;																//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		map<unsigned char, unsigned char> SpiBitOrders;					//Stores Bit Orders For SPI Channels (LSBFIRST / MSBFIRST)
+		map<unsigned char, unsigned long> SpiSetSpeeds; 				//Stores The Set Clock Rate Of Each SPI Channel
 		
-		unsigned char* I2cRefCount;								//Number Opens - Closes On I2C Channel
-		int* I2cHandles;													//I2C File Handles
-		const char (*I2cPaths)[I2C_PATH_LEN];				//I2C Channel File Paths
+		map<unsigned char, string> I2cPaths;										//File Paths For I2C Master(s)
+		map<unsigned char, int> I2cHandles;										//File Handles For I2C Master(s)
+		map<unsigned char, string> I2cDtoNames;								//Device Tree Overlay Names For I2C Master(s)
+		unsigned char* I2cRefCount;													//Number Opens - Closes On I2C Channel
+		
+		
 		
 		/****************************************************************************************
 		**  Constructors

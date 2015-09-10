@@ -30,6 +30,7 @@
 #include <termios.h>	
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
+#include <linux/spi/spidev.h>
 
 using namespace std;
 
@@ -411,27 +412,118 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	//--------------------------------------------------------SPI-------------------------------------------------------
 	int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		//Load SPI DTO If Necissary
+		if(!fileExists(SpiPaths[channel].c_str()))
+		{
+			if(!loadDto(SpiDtoNames[channel].c_str()))		
+			{
+				DebugPrint("SPI Fail - Failed To Load SPI DTO");
+				return  LSPI_OPEN_FAIL;
+			}
+		}
+		
+		SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
+		
+		if(SpiHandles[channel] == NULL)
+		{
+			return LSPI_OPEN_FAIL;
+		}
+		else
+		{
+			//Default To Mode 0 With No CS (LINX Uses GPIO When Performing Write)
+			unsigned long spi_Mode = SPI_NO_CS | SPI_MODE_0;
+			if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)					
+			{
+				return LSPI_OPEN_FAIL;
+			}
+		}
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::SpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		SpiBitOrders[channel] = bitOrder;
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::SpiSetMode(unsigned char channel, unsigned char mode)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		unsigned long spi_Mode = SPI_NO_CS | (unsigned long) mode;
+		if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode < 0))
+		{
+			DebugPrintln("Failed To Set SPI Mode");
+			return  L_UNKNOWN_ERROR;
+		}		
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
-	{
-		return L_FUNCTION_NOT_SUPPORTED;
+	{	
+		int index = 0;
+		//Loop Over All Supported SPI Speeds
+		for(index=0; index < NumSpiSpeeds; index++)
+		{
+				
+				if(speed < *(SpiSupportedSpeeds+index))
+				{
+					index = index - 1; //Use Fastest Speed Below Target Speed
+					break;
+				}
+				//If Target Speed Is Higher Than Max Speed Use Max Speed			
+		}
+		SpiSetSpeeds[channel] = *(SpiSupportedSpeeds+index);
+		*actualSpeed = *(SpiSupportedSpeeds+index);
+		
+		return L_OK;
 	}
 	
 	int LinxBeagleBone::SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		unsigned char nextByte = 0;	//First Byte Of Next SPI Frame	
+	
+		//SPI Hardware Only Supports MSb First Transfer.  If  Configured for LSb First Reverse Bits In Software
+		if( *(SpiBitOrders+channel) == LSBFIRST )
+		{
+			for(int i=0; i< frameSize*numFrames; i++)
+			{			
+				sendBuffer[i] = ReverseBits(sendBuffer[i]);
+			}
+		}
+		
+		struct spi_ioc_transfer transfer;
+		
+		//Set CS As Output And Make Sure GPIO CS Starts Idle	
+		GpioSetDir(csChan, OUTPUT);	
+		GpioWrite(csChan, (~csLL & 0x01) );
+		
+		for(int i=0; i< numFrames; i++)
+		{
+			//Setup Transfer
+			transfer.tx_buf = (unsigned long)(sendBuffer+nextByte);
+			transfer.rx_buf = (unsigned long)(recBuffer+nextByte);
+			transfer.len = frameSize;
+			transfer.delay_usecs = 0;
+			transfer.speed_hz = SpiSetSpeeds[channel];
+			//transfer.speed_hz = 3000000;
+			transfer.bits_per_word = 8;
+		
+			//CS Active
+			GpioWrite(csChan, csLL);
+			
+			//Transfer Data
+			int retVal = ioctl(SpiHandles[channel], SPI_IOC_MESSAGE(1), &transfer);
+			
+			//CS Idle
+			GpioWrite(csChan, (~csLL & 0x01) );
+			
+			if (retVal < 1)
+			{
+				DEBUG((char*)"Failed To Send SPI Data");
+				return  L_UNKNOWN_ERROR;
+			}
+		}	
+	
+		return L_OK;
 	}
 	
 	
@@ -439,8 +531,9 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	int LinxBeagleBone::I2cOpenMaster(unsigned char channel)
 	{
 		//Export Dev Tree Overlay If Device DNE
-		if(!fileExists(I2cPaths[channel]))
+		if(!fileExists(I2cPaths[channel].c_str()))
 		{
+			/*
 			switch(channel)
 			{
 				case 0:
@@ -464,9 +557,15 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 					return  LI2C_OPEN_FAIL;
 					break;
 			}
+			*/
+			if(!loadDto(I2cDtoNames[channel].c_str()))		
+			{
+				DebugPrint("I2C Fail - Failed To Load BB-I2C DTO");
+				return  LI2C_OPEN_FAIL;
+			}
 		}
 		
-		int handle = open(I2cPaths[channel], O_RDWR);
+		int handle = open(I2cPaths[channel].c_str(), O_RDWR);
 		if (handle < 0)
 		{
 			DebugPrintln("I2C Fail - Failed To Open I2C Channel");

@@ -27,7 +27,7 @@
 
 #define NUM_PWM_CHANS 4
 
-#define NUM_SPI_CHANS 2
+#define NUM_SPI_CHANS 1
 #define NUM_SPI_SPEEDS 13
 
 #define NUM_I2C_CHANS 3
@@ -43,6 +43,7 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxBeagleBone.h"
 #include <map>
+#include <string>
 
 using namespace std;
 	
@@ -74,17 +75,16 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static const char m_PwmDtoNames[NUM_PWM_CHANS][PWM_DTO_NAME_LEN];
 		
 		//SPI
-		static const unsigned char m_SpiChans[NUM_SPI_CHANS];
-		//static const char m_SpiPaths[NUM_SPI_CHANS][SPI_PATH_LEN];
+		static unsigned char m_SpiChans[NUM_SPI_CHANS];
+		static int m_SpiHandles[NUM_SPI_CHANS];
 		static unsigned long m_SpiSupportedSpeeds[NUM_SPI_SPEEDS];
 		static int m_SpiSpeedCodes[NUM_SPI_SPEEDS];
-		static int m_SpiHandles[NUM_SPI_CHANS];
+		
 		
 		//I2C
 		static unsigned char m_I2cChans[NUM_I2C_CHANS];
 		static unsigned char m_I2cRefCount[NUM_I2C_CHANS];	
-	    static int m_I2cHandles[NUM_I2C_CHANS];		
-		static const char m_I2cPaths[NUM_I2C_CHANS][I2C_PATH_LEN];
+	    static int m_I2cHandles[NUM_I2C_CHANS];				
 		
 		//UART
 		static unsigned char m_UartChans[NUM_UART_CHANS];
