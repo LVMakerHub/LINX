@@ -44,6 +44,7 @@ class LinxBeagleBone : public LinxDevice
 		**  Variables
 		****************************************************************************************/
 		//DIO
+		map<unsigned char, unsigned char> DigitalChannels;				//Maps LINX DIO Channel Numbers To BB GPIO Channels
 		map<unsigned char, FILE*> DigitalDirHandles;							//File Handles For Digital Pin Directions
 		map<unsigned char, FILE*> DigitalValueHandles;						//File Handles For Digital Pin Values
 		
@@ -102,6 +103,7 @@ class LinxBeagleBone : public LinxDevice
 		//DIGITAL
 		virtual int DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		virtual int DigitalWrite(unsigned char channel, unsigned char value);
 		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);

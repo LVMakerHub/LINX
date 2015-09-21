@@ -1,6 +1,7 @@
 INC=-I../core/device/utility -I../core/device/
 
 all: release debug main
+
 	
 #release:
 #	g++ LinxTcpDaemon.cpp  listener/LinxTcpListener.cpp listener/linux/LinxTcpListenerLinux.cpp   device/raspberrypi/LinxRaspberryPi-B.cpp -lrt -o LinxRelease.out
@@ -16,6 +17,26 @@ bbb:
 	
 bbb_debug:
 	g++ $(INC) LinxBeagleBoneBlack_TestApp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../bin/BeagleBoneBlack_TestApp_Debug.out 
+
+#-----------------------TEST-----------------------
+tests: dio-test i2c-test spi-test
+
+dio-test:
+	g++ $(INC) ../test/dio-test.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../test/bin/diotest.out 
+
+i2c-test:
+	g++ $(INC) ../test/i2c-test.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../test/bin/i2ctest.out 
+	
+spi-test:
+	g++ $(INC) ../test/spi-test.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../test/bin/spitest.out 
+
+	
+#-----------------------C++ Examples-----------------------
+blink:
+	g++ $(INC) ../test/blink.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../test/bin/blink.out 
+	
+analogRead:
+	g++ $(INC) ../test/analogRead.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../test/bin/analogRead.out 
 	
 #serial: 
 #	g++ LinxSerialDaemon.cpp listener/LinxListener.cpp listener/LinxSerialListener.cpp device/LinxDevice.cpp device/raspberrypi/LinxRaspberryPi.cpp device/raspberrypi/LinxRaspberryPi-B.cpp -lrt -DLINXDEVICE=LinxRaspberryPiB -DDEBUG_ENABLED=1 -o serialdebug.out

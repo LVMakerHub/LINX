@@ -23,14 +23,14 @@
 #define AI_REFV 1800000
 #define NUM_AI_INT_REFS 0
 
-#define NUM_DIGITAL_CHANS 65
+#define NUM_DIGITAL_CHANS 24
 
 #define NUM_PWM_CHANS 4
 
 #define NUM_SPI_CHANS 1
 #define NUM_SPI_SPEEDS 13
 
-#define NUM_I2C_CHANS 3
+#define NUM_I2C_CHANS 2
 
 #define NUM_UART_CHANS 6
 #define NUM_UART_SPEEDS 19
@@ -68,6 +68,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		
 		//DIGITAL
 		static const unsigned char m_DigitalChans[NUM_DIGITAL_CHANS];
+		static const unsigned char m_gpioChan[NUM_DIGITAL_CHANS];
 		
 		//PWM
 		static const unsigned char m_PwmChans[NUM_PWM_CHANS];

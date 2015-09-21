@@ -106,7 +106,8 @@ typedef enum DioStatus
 
 typedef enum SPIStatus
 {
-	LSPI_OPEN_FAIL
+	LSPI_OPEN_FAIL,
+	LSPI_TRANSFER_FAIL
 }SPIStatus;
 
 typedef enum I2CStatus

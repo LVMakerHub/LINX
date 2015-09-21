@@ -44,7 +44,10 @@ const int LinxBeagleBoneBlack::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 //None
 
 //DIGITAL
-const unsigned char LinxBeagleBoneBlack::m_DigitalChans[NUM_DIGITAL_CHANS] = {2, 3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 20, 22, 23, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 49, 50, 51, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 86, 87, 88, 89, 110, 111, 112, 113, 115, 117};
+//const unsigned char LinxBeagleBoneBlack::m_DigitalChans[NUM_DIGITAL_CHANS] = {3, 4, 5, 7, 8, 9, 10, 11, 14, 15, 20, 22, 23, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 49, 50, 51, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 86, 87, 88, 89, 110, 111, 112, 113, 115, 117};
+
+const unsigned char LinxBeagleBoneBlack::m_DigitalChans[NUM_DIGITAL_CHANS] = { 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 26, 57, 58, 59, 61, 67, 68, 69, 70, 73, 76, 87, 88};
+const unsigned char LinxBeagleBoneBlack::m_gpioChan[NUM_DIGITAL_CHANS] =     {66, 67, 69, 68, 45, 44, 26, 47, 46, 27, 65, 61, 30, 60, 31, 48, 3, 2, 49, 15, 115, 112, 20 ,7};
 
 //PWM
 const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {13, 19, 60, 62};
@@ -204,11 +207,12 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
 		FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
-		fprintf(digitalExportHandle, "%d", DigitalChans[i]);
+		fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
 		fclose(digitalExportHandle);
 		
-		DigitalDirHandles[DigitalChans[i]] = NULL;
-		DigitalValueHandles[DigitalChans[i]] = NULL;
+		DigitalDirHandles[m_DigitalChans[i]] = NULL;
+		DigitalValueHandles[m_DigitalChans[i]] = NULL;
+		DigitalChannels[m_DigitalChans[i]] = m_gpioChan[i];
 	}
 	
 	//------------------------------------- PWM -------------------------------------
@@ -279,8 +283,8 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	
 	//------------------------------------- I2C -------------------------------------
 	//Store I2C Master Paths In Map
-	string m_I2cPaths[NUM_I2C_CHANS] = {"/dev/i2c-0\00", "/dev/i2c-2\00", "/dev/i2c-1\00" };		//Out of order numbering is correct for BBB!!
-	string m_I2cDtoNames[NUM_I2C_CHANS] = {"BB-I2C0", "BB-I2C1", "BB-I2C2" };
+	string m_I2cPaths[NUM_I2C_CHANS] = {"/dev/i2c-2", "/dev/i2c-1" };		//Out of order numbering is correct for BBB!!
+	string m_I2cDtoNames[NUM_I2C_CHANS] = {"BB-I2C1", "BB-I2C2" };
 	for(int i=0; i<NUM_I2C_CHANS; i++)
 	{	
 		I2cPaths[I2cChans[i]] = m_I2cPaths[i];
@@ -288,7 +292,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	}
 	
 	//------------------------------------- SPI ------------------------------------
-	
+	/**   HANDLED IN SPI OPEN ****
 	//Load SPIDEV0 DTO, This Loads /dev/spidev1.x, Which is BBB SPI0 Pins
 	if(!fileExists("/dev/spidev0.0"))
 	{
@@ -298,16 +302,17 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			DebugPrintln("Failed To Load SPI-0 DTO");
 		}		
 	}	
+	*/
 	
 	//Load SPI Paths and DTO Names, Configure SPI Master Default Values
-	string m_SpiPaths[NUM_SPI_CHANS] = { "/dev/spidev0.0"};
+	string m_SpiPaths[NUM_SPI_CHANS] = { "/dev/spidev1.1"};
 	string m_SpiDtoNames[NUM_SPI_CHANS] = { "BB-SPIDEV0"};
 	for(int i=0; i<NUM_SPI_CHANS; i++)
 	{
 		SpiDtoNames[SpiChans[i]] = m_SpiDtoNames[i];
 				
 		SpiBitOrders[SpiChans[i]] = MSBFIRST;		//MSB First
-		SpiSetSpeeds[SpiChans[i]] = 1000000;		//1MHz
+		SpiSetSpeeds[SpiChans[i]] = 4000000;
 		SpiPaths[SpiChans[i]] = m_SpiPaths[i];
 	}
 	

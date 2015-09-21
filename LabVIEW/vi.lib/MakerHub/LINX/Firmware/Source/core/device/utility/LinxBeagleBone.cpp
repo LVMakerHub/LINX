@@ -69,9 +69,14 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 		//Open Direction Handle If It Is Not Already		
 		if(DigitalDirHandles[channels[i]] == NULL)
 		{
-			DebugPrintln("Opening Digital Direction Handle");
+			DebugPrint("Opening Digital Direction Handle For LINX DIO ");
+			DebugPrint(channels[i], DEC);
+			DebugPrint("(GPIO ");
+			DebugPrint(DigitalChannels[channels[i]], DEC);
+			DebugPrintln(")");
+			
 			char dirPath[64];
-			sprintf(dirPath, "/sys/class/gpio/gpio%d/direction", channels[i]);
+			sprintf(dirPath, "/sys/class/gpio/gpio%d/direction", DigitalChannels[channels[i]]);
 			DigitalDirHandles[channels[i]] = fopen(dirPath, "r+w+");
 			
 			if(DigitalDirHandles[channels[i]] == NULL)
@@ -86,7 +91,7 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 		{
 			DebugPrintln("Opening Digital Value Handle");
 			char valuePath[64];
-			sprintf(valuePath, "/sys/class/gpio/gpio%d/value", channels[i]);
+			sprintf(valuePath, "/sys/class/gpio/gpio%d/value", DigitalChannels[channels[i]]);
 			DigitalValueHandles[channels[i]] = fopen(valuePath, "r+w+");
 			
 			if(DigitalValueHandles[channels[i]] == NULL)
@@ -313,6 +318,11 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		return L_OK;
 	}
 	
+	int LinxBeagleBone::DigitalWrite(unsigned char channel, unsigned char value)
+	{
+		return DigitalWrite(1, &channel, &value);	
+	}
+	
 	int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
 		//Generate Bit Packed Input Direction Array
@@ -431,11 +441,23 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		else
 		{
 			//Default To Mode 0 With No CS (LINX Uses GPIO When Performing Write)
-			unsigned long spi_Mode = SPI_NO_CS | SPI_MODE_0;
+			unsigned long spi_Mode = SPI_MODE_0;			
 			if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)					
 			{
+				DebugPrint("SPI Fail - Failed To Set SPI Mode - ");
+				DebugPrintln(spi_Mode, BIN);
 				return LSPI_OPEN_FAIL;
 			}
+			
+			//Default Max Speed To 
+			unsigned long speed = 25000;			
+			if (ioctl(SpiHandles[channel], SPI_IOC_WR_MAX_SPEED_HZ, &speed) > 0)
+			{			
+				DebugPrint("SPI Fail - Failed To Set SPI Max Speed - ");
+				DebugPrintln(speed, DEC);
+				return LSPI_OPEN_FAIL;
+			}			
+			
 		}
 		return L_OK;
 	}
@@ -472,7 +494,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 				//If Target Speed Is Higher Than Max Speed Use Max Speed			
 		}
 		SpiSetSpeeds[channel] = *(SpiSupportedSpeeds+index);
-		*actualSpeed = *(SpiSupportedSpeeds+index);
+		*actualSpeed = *(SpiSupportedSpeeds+index); 
 		
 		return L_OK;
 	}
@@ -482,7 +504,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		unsigned char nextByte = 0;	//First Byte Of Next SPI Frame	
 	
 		//SPI Hardware Only Supports MSb First Transfer.  If  Configured for LSb First Reverse Bits In Software
-		if( *(SpiBitOrders+channel) == LSBFIRST )
+		if( SpiBitOrders[channel] == LSBFIRST )
 		{
 			for(int i=0; i< frameSize*numFrames; i++)
 			{			
@@ -492,9 +514,8 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		
 		struct spi_ioc_transfer transfer;
 		
-		//Set CS As Output And Make Sure GPIO CS Starts Idle	
-		GpioSetDir(csChan, OUTPUT);	
-		GpioWrite(csChan, (~csLL & 0x01) );
+		//Set CS As Output And Make Sure CS Starts Idle	
+		DigitalWrite(csChan, (~csLL & 0x01) );
 		
 		for(int i=0; i< numFrames; i++)
 		{
@@ -503,25 +524,27 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 			transfer.rx_buf = (unsigned long)(recBuffer+nextByte);
 			transfer.len = frameSize;
 			transfer.delay_usecs = 0;
-			transfer.speed_hz = SpiSetSpeeds[channel];
-			//transfer.speed_hz = 3000000;
+			//transfer.speed_hz = SpiSetSpeeds[channel];
+			transfer.speed_hz = 25000;
 			transfer.bits_per_word = 8;
 		
 			//CS Active
-			GpioWrite(csChan, csLL);
+			DigitalWrite(csChan, csLL);			
 			
 			//Transfer Data
 			int retVal = ioctl(SpiHandles[channel], SPI_IOC_MESSAGE(1), &transfer);
 			
 			//CS Idle
-			GpioWrite(csChan, (~csLL & 0x01) );
+			DigitalWrite(csChan, (~csLL & 0x01) );
 			
-			if (retVal < 1)
+			if (retVal < 0)
 			{
-				DEBUG((char*)"Failed To Send SPI Data");
-				return  L_UNKNOWN_ERROR;
+				DebugPrintln("SPI Fail - Failed To Transfer Data");
+				return  LSPI_TRANSFER_FAIL;
 			}
-		}	
+			
+			nextByte += frameSize;			
+		}
 	
 		return L_OK;
 	}
@@ -558,9 +581,11 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 					break;
 			}
 			*/
+			DebugPrint("I2C - Loading DTO ");
+			DebugPrintln(I2cDtoNames[channel].c_str());
 			if(!loadDto(I2cDtoNames[channel].c_str()))		
 			{
-				DebugPrint("I2C Fail - Failed To Load BB-I2C DTO");
+				DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
 				return  LI2C_OPEN_FAIL;
 			}
 		}
