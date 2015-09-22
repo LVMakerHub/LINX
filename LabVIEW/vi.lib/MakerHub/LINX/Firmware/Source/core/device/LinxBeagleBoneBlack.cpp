@@ -58,6 +58,8 @@ const char LinxBeagleBoneBlack::m_PwmDtoNames[NUM_PWM_CHANS][PWM_DTO_NAME_LEN] =
 //None
 
 //SPI
+string m_SpiPaths[NUM_SPI_CHANS] = { "/dev/spidev1.1"};
+string m_SpiDtoNames[NUM_SPI_CHANS] = { "BB-SPIDEV0"};
 unsigned char LinxBeagleBoneBlack::m_SpiChans[NUM_SPI_CHANS] = {0};
 unsigned long LinxBeagleBoneBlack::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
 int LinxBeagleBoneBlack::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
@@ -304,9 +306,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	}	
 	*/
 	
-	//Load SPI Paths and DTO Names, Configure SPI Master Default Values
-	string m_SpiPaths[NUM_SPI_CHANS] = { "/dev/spidev1.1"};
-	string m_SpiDtoNames[NUM_SPI_CHANS] = { "BB-SPIDEV0"};
+	//Load SPI Paths and DTO Names, Configure SPI Master Default Values	
 	for(int i=0; i<NUM_SPI_CHANS; i++)
 	{
 		SpiDtoNames[SpiChans[i]] = m_SpiDtoNames[i];

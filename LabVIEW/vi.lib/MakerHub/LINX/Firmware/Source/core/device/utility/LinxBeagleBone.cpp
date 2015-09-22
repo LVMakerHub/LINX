@@ -394,28 +394,32 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
 		unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
+		unsigned long dutyCycle = 0;		
 		
 		for(int i=0; i<numChans; i++)
 		{
 			if(values[i] == 0)
-			{
-				//fprintf(PwmDutyCycleHandles[channels[i]], "0");
+			{				
+				dutyCycle = 0;
 			}
 			else if(values[i] == 255)
 			{
-				//fprintf(PwmDutyCycleHandles[channels[i]], "%u", period);
+				dutyCycle = period;		
 			}
 			else
 			{
-				unsigned long  dutyCycle= period*(values[i] / 255.0);
-				DebugPrint("Setting Duty Cylce = ");
-				DebugPrintln(dutyCycle, DEC);
-				fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
-				DebugPrint("Duty Cycle Set");
-				fflush(PwmDutyCycleHandles[channels[i]]);
-				DebugPrint("Flushing...");
-			}		
+				dutyCycle= period*(values[i] / 255.0);
+			}
+			
+			//Update Output
+			DebugPrint("Setting Duty Cylce = ");
+			DebugPrint(dutyCycle, DEC);
+			fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
+			DebugPrint(" ... Duty Cycle Set ... ");
+			fflush(PwmDutyCycleHandles[channels[i]]);
+			DebugPrintln("Flushing.");
 		}
+		
 		return L_OK;
 	}
 	
@@ -555,32 +559,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	{
 		//Export Dev Tree Overlay If Device DNE
 		if(!fileExists(I2cPaths[channel].c_str()))
-		{
-			/*
-			switch(channel)
-			{
-				case 0:
-					//Internal I2C, Do Nothing
-					break;
-				case 1:
-					if(!loadDto("BB-I2C1"))		
-					{
-						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
-						return  LI2C_OPEN_FAIL;
-					}
-					break;
-				case 2:
-					if(!loadDto("BB-I2C2"))
-					{
-						DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
-						return  LI2C_OPEN_FAIL;
-					}
-					break;
-				default:
-					return  LI2C_OPEN_FAIL;
-					break;
-			}
-			*/
+		{		
 			DebugPrint("I2C - Loading DTO ");
 			DebugPrintln(I2cDtoNames[channel].c_str());
 			if(!loadDto(I2cDtoNames[channel].c_str()))		
@@ -618,8 +597,8 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		}
 		
 		//Set Slave Address
-		if (ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
-		{
+		if (int x = ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+		{			
 			//Failed To Set Slave Address
 			DebugPrintln("I2C Fail - Failed To Set Slave Address");
 			return LI2C_SADDR;
