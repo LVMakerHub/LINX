@@ -69,16 +69,16 @@ int LinxListener::CheckForCommands()
 {
 	switch(State)
 	{
-		case START:    
+		case START: 			
 			Start();
 			break;
-		case CONNECTED:    
+		case CONNECTED:
 			Connected();
 			break;
-		case CLOSE:    			
+		case CLOSE:
 			Close();
 			break;	
-		case EXIT:
+		case EXIT:		
 			Exit();
 			break;
 		default:
@@ -218,8 +218,6 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			
 		case 0x0011: // Disconnect
 			LinxDev->DebugPrintln("Close Command");
-			LinxDev->DebugPrintln("");
-			State = CLOSE;
 			status = L_DISCONNECT;
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;

@@ -72,8 +72,8 @@ unsigned char LinxBeagleBoneBlack::m_I2cRefCount[NUM_I2C_CHANS];
 unsigned char LinxBeagleBoneBlack::m_UartChans[NUM_UART_CHANS] = {0, 1, 2, 3, 4, 5};
 int LinxBeagleBoneBlack::m_UartHandles[NUM_UART_CHANS];
 const char LinxBeagleBoneBlack::m_UartPaths[NUM_UART_CHANS][UART_PATH_LEN] = { "/dev/ttyO0\00", "/dev/ttyO1\00", "/dev/ttyO2\00", "/dev/ttyO3\00", "/dev/ttyO4\00", "/dev/ttyO5\00"};
-unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {0, 50, 75, 110, 134, 150, 200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400};
-unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200, B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200, B230400};
+unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {0, 50, 75, 110, 134, 150, 200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 38400, 57600, 115200};
+unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200, B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200};
 
 //SERVO
 //Servo* LinxBeagleBoneBlack::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};			//Initialize To Null Pointers
@@ -163,7 +163,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()
-	#ifdef DEBUG_ENABLED
+	#if DEBUG_ENABLED >= 0
 		EnableDebug(DEBUG_ENABLED);
 	#endif
 	

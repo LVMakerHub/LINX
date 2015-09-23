@@ -1,16 +1,16 @@
-INC=-I../core/device/utility -I../core/device/
+INC=-I../core/device/utility -I../core/device/ -I../core/listener
 
 all: release debug main
 
+Listeners: beagleBoneBlackSerial
 	
-#release:
-#	g++ LinxTcpDaemon.cpp  listener/LinxTcpListener.cpp listener/linux/LinxTcpListenerLinux.cpp   device/raspberrypi/LinxRaspberryPi-B.cpp -lrt -o LinxRelease.out
+#----------------------- Listeners -----------------------
 	
-pi:
-	g++ $(INC) testapp.cpp ../core/device/config/LinxRaspberryPiConfig.h ../core/device/utility/LinxRaspberryPi.h ../core/device/utility/LinxRaspberryPi.cpp -DLINXCONFIG=1 -o ../bin/pi.out
+#pi:
+#	g++ $(INC) testapp.cpp ../core/device/config/LinxRaspberryPiConfig.h ../core/device/utility/LinxRaspberryPi.h ../core/device/utility/LinxRaspberryPi.cpp -DLINXCONFIG=1 -o ../bin/pi.out
 	
-testapp:
-	g++ $(INC) testapp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxRaspberryPi.cpp ../core/device/LinxRaspberryPi2B.cpp -lrt -DLINXCONFIG -o ../bin/testapp.out
+beagleBoneBlackSerial:
+	g++ $(INC) ../core/examples/Beagle_Bone_Black_Serial/src/Beagle_Bone_Black_Serial.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp ../core/listener/utility/LinxListener.cpp ../core/listener/LinxSerialListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../core/examples/Beagle_Bone_Black_Serial/bin/beagleBoneBlackSerial.out
 	
 bbb:
 	g++ $(INC) LinxBeagleBoneBlack_TestApp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -o ../bin/BeagleBoneBlack_TestApp.out 

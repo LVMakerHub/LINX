@@ -19,8 +19,6 @@
 
 using namespace std;
 
-#define I2C_CHAN 1
-
 LinxBeagleBoneBlack* LinxDev;
 
 int main()

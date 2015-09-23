@@ -41,6 +41,7 @@ unsigned char LinxDevice::ReverseBits(unsigned char b)
 //-------------------Default Empty Functions--------------------------------
 void LinxDevice::EnableDebug(unsigned char channel)
 {
+	fprintf(stdout, "Enabling Debugging");
 	unsigned long actualBaud = 0;
 	
 	UartOpen(channel, 115200, &actualBaud);
@@ -54,7 +55,7 @@ void LinxDevice::DelayMs(unsigned long ms)
 
 void LinxDevice::DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer)
 {
-	#ifdef DEBUG_ENABLED				
+	#if DEBUG_ENABLED >= 0
 		if(direction == RX)
 		{		
 			DebugPrint("Received :: ");
@@ -221,112 +222,112 @@ int LinxDevice::Ws2812Close()
 //----------------- DEBUG Functions -----------------------------
 void  LinxDevice::DebugPrint(char c)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, c);
 	#endif
 }
 
 void  LinxDevice::DebugPrint(const char s[])
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, s);
 	#endif
 }
 
 void  LinxDevice::DebugPrint(unsigned char c)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, c);
 	#endif
 }
 
 void  LinxDevice::DebugPrint(int n)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, n);
 	#endif
 }
 
 void  LinxDevice::DebugPrint(unsigned int n)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, n);
 	#endif
 }
 
 void  LinxDevice::DebugPrint(long n)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, n);
 	#endif
 }
 
 void  LinxDevice::DebugPrint(unsigned long n)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, n);
 	#endif
 }
 
 void  LinxDevice::DebugPrint(long n, int base)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWrite(DEBUG_ENABLED, n, base);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln()
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln(char c)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED, c);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln(const char s[])
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED, s);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln(unsigned char c)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED, c);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln(int n)
 {	
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED, n);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln(long n)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED, n);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln(unsigned long n)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED, n);
 	#endif
 }
 
 void  LinxDevice::DebugPrintln(long n, int base)
 {
-	#ifdef DEBUG_ENABLED	
+	#if DEBUG_ENABLED >= 0
 		UartWriteln(DEBUG_ENABLED, n, base);
 	#endif
 }

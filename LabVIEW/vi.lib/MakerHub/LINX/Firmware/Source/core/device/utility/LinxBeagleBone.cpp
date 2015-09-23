@@ -732,16 +732,21 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		for(index=0; index < NumUartSpeeds; index++)
 		{				
 			if(baudRate < *(UartSupportedSpeeds+index))
-			{
-				index = index - 1; //Use Fastest Baud Less Or Equal To Target Baud
+			{		
+				//Previous Index Was Closest Supported Baud Without Going Over, Index Will Be Decremented Accordingly Below.
 				break;
-			}
-			//If Target Baud Is Higher Than Max Baud Use Max Baud			
+			}	
+		}
+		
+		//Once Loop Completes Index Is One Higher Than The Correct Baud, But Could Be Zero So Check And Decrement Accordingly
+		//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud
+		if(index != 0)
+		{
+			index = index -1;
 		}
 		
 		//Store Actual Baud Used
 		*actualBaud = (unsigned long) *(UartSupportedSpeeds+index);
-		// DEBUG printf("Baud = %d\n", *(UartSupportedSpeeds+index));
 		
 		//Set Baud Rate
 		struct termios options;	
