@@ -59,7 +59,7 @@ int LinxSerialListener::Connected()
 	//LinxDev->DebugPrintln(" bytes");
 	
 	if(bytesAvailable >= 2)
-	{	
+	{
 		//Check for valid SoF
 		unsigned char bytesRead = 0;
 		LinxDev->UartRead(ListenerChan, 2, recBuffer, &bytesRead);	
@@ -121,6 +121,11 @@ int LinxSerialListener::Connected()
 			LinxDev->UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead); 
 		}
 	}
+	else
+	{
+		//No New Packet
+		LinxDev->DelayMs(30);
+	}
 	
 	return 0;
 }
@@ -128,6 +133,8 @@ int LinxSerialListener::Connected()
 int LinxSerialListener::Close()
 {
 	LinxDev->UartClose(ListenerChan);
+	State = START;
+	return 0;
 }
 
 int LinxSerialListener::Exit()
@@ -149,12 +156,10 @@ int LinxSerialListener::CheckForCommands()
 		case CLOSE:    			
 			LinxDev->DebugPrintln("State - Close");
 			Close();
-			State = START;
 			break;	
 		case EXIT:
 			LinxDev->DebugPrintln("State - Exit");
 			Exit();
-			exit(-1);
 			break;				
 	}
 }

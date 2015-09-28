@@ -233,6 +233,7 @@ class LinxDevice
 		
 		//PWM
 		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values);
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel) = 0;
@@ -303,6 +304,7 @@ class LinxDevice
 		virtual void DebugPrint(long n);
 		virtual void DebugPrint(unsigned long n);
 		virtual void DebugPrint(long n, int base);
+		
 		virtual void DebugPrintln();
 		virtual void DebugPrintln(char c);
 		virtual void DebugPrintln(const char s[]);
@@ -311,6 +313,7 @@ class LinxDevice
 		virtual void DebugPrintln(long n);
 		virtual void DebugPrintln(unsigned long n);
 		virtual void DebugPrintln(long n, int base);
+
 		
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
 				

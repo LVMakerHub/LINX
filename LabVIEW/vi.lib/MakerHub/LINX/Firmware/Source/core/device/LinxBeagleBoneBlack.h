@@ -23,7 +23,7 @@
 #define AI_REFV 1800000
 #define NUM_AI_INT_REFS 0
 
-#define NUM_DIGITAL_CHANS 24
+#define NUM_DIGITAL_CHANS 16
 
 #define NUM_PWM_CHANS 4
 
@@ -32,7 +32,7 @@
 
 #define NUM_I2C_CHANS 2
 
-#define NUM_UART_CHANS 6
+#define NUM_UART_CHANS 3
 #define NUM_UART_SPEEDS 18
 
 #define NUM_SERVO_CHANS 0
@@ -72,16 +72,15 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		
 		//PWM
 		static const unsigned char m_PwmChans[NUM_PWM_CHANS];
-		static const char m_PwmDirPaths[NUM_PWM_CHANS][PWM_PATH_LEN];
-		static const char m_PwmDtoNames[NUM_PWM_CHANS][PWM_DTO_NAME_LEN];
+		static const string m_PwmDirPaths[NUM_PWM_CHANS];
+		static const string m_PwmDtoNames[NUM_PWM_CHANS];
 		
 		//SPI
 		static unsigned char m_SpiChans[NUM_SPI_CHANS];
 		static int m_SpiHandles[NUM_SPI_CHANS];
 		static unsigned long m_SpiSupportedSpeeds[NUM_SPI_SPEEDS];
 		static int m_SpiSpeedCodes[NUM_SPI_SPEEDS];
-		
-		
+				
 		//I2C
 		static unsigned char m_I2cChans[NUM_I2C_CHANS];
 		static unsigned char m_I2cRefCount[NUM_I2C_CHANS];	
@@ -92,7 +91,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static unsigned long m_UartSupportedSpeeds[NUM_UART_SPEEDS];
 		static unsigned long m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS];
 		static int m_UartHandles[NUM_UART_CHANS];
-		static const char m_UartPaths[NUM_UART_CHANS][UART_PATH_LEN];
+		static string m_UartPaths[NUM_UART_CHANS];
 
 		
 		//Servo		

@@ -49,27 +49,31 @@ class LinxBeagleBone : public LinxDevice
 		map<unsigned char, FILE*> DigitalValueHandles;						//File Handles For Digital Pin Values
 		
 		//PWM
+		map<unsigned char, string> PwmDirPaths;								//PWM Device Tree Overlay Names	
+		map<unsigned char, string> PwmDtoNames;							//PWM Device Tree Overlay Names	
 		map<unsigned char, FILE*> PwmPeriodHandles;						//File Handles For PWM Period Values
 		map<unsigned char, FILE*> PwmDutyCycleHandles;				//File Handles For PWM Duty Cycle Values		
-		const char (*PwmDirPaths)[PWM_PATH_LEN];							//Path To PWM Directories
-		const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
+		//const char (*PwmDirPaths)[PWM_PATH_LEN];						//Path To PWM Directories
+		//const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		
+		//AI
 		unsigned char NumAiRefIntVals;												//Number Of Internal AI Reference Voltages
 		const unsigned long* AiRefIntVals;											//Supported AI Reference Voltages (uV)
-		const int* AiRefCodes;															//AI Ref Values (AI Ref Macros In Wiring Case)
-		
+		const int* AiRefCodes;															//AI Ref Values (AI Ref Macros In Wiring Case)		
 		unsigned long AiRefExtMin;														//Min External AI Ref Value (uV)
 		unsigned long AiRefExtMax;					   								 //Max External AI Ref Value (uV)		
-		
 		int* AiHandles;																		//AI File Handles
 		const char (*AiPaths)[AI_PATH_LEN];										//AI Channel File Paths
 		
+		//UART		
+		map<unsigned char, string> UartPaths;									//UART Channel File Paths
+		map<unsigned char, int> UartHandles;									//File Handles For UARTs - Must Be Int For Termios Functions
+		map<unsigned char, string> UartDtoNames;							//UART Device Tree Overlay Names	
 		unsigned char NumUartSpeeds;												//Number Of Support UART Buads
 		unsigned long* UartSupportedSpeeds;										//Supported UART Bauds Frequencies
-		const char (*UartPaths)[UART_PATH_LEN];  							//UART Channel File Paths
-		int* UartHandles;																	//UART File Handles
 		unsigned long* UartSupportedSpeedsCodes;							//Supported UART Baud Divider Codes
 		
+		//SPI
 		map<unsigned char, string> SpiDtoNames;  							//Device Tree Overlay Names For SPI Master(s)
 		map<unsigned char, string> SpiPaths;  									//File Paths For SPI Master(s)		
 		map<unsigned char, int> SpiHandles;										//File Handles For SPI Master(s)
@@ -79,11 +83,11 @@ class LinxBeagleBone : public LinxDevice
 		map<unsigned char, unsigned char> SpiBitOrders;					//Stores Bit Orders For SPI Channels (LSBFIRST / MSBFIRST)
 		map<unsigned char, unsigned long> SpiSetSpeeds; 				//Stores The Set Clock Rate Of Each SPI Channel
 		
+		//I2C
 		map<unsigned char, string> I2cPaths;										//File Paths For I2C Master(s)
 		map<unsigned char, int> I2cHandles;										//File Handles For I2C Master(s)
 		map<unsigned char, string> I2cDtoNames;								//Device Tree Overlay Names For I2C Master(s)
 		unsigned char* I2cRefCount;													//Number Opens - Closes On I2C Channel
-		
 		
 		
 		/****************************************************************************************
@@ -108,7 +112,7 @@ class LinxBeagleBone : public LinxDevice
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
 		
-		//PWM
+		//PWM		
 		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		
 		//SPI
@@ -154,6 +158,7 @@ class LinxBeagleBone : public LinxDevice
 		**  Functions
 		****************************************************************************************/
 		virtual int digitalSmartOpen(unsigned char numChans, unsigned char* channels);
+		virtual int pwmSmartOpen(unsigned char numChans, unsigned char* channels);
 		bool fileExists(const char* path);
 		bool fileExists(const char* directory, const char* fileName);
 		bool fileExists(const char* directory, const char* fileName, unsigned long timout);

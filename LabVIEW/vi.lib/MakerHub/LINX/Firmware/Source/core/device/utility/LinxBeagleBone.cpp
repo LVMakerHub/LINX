@@ -99,9 +99,37 @@ int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* chan
 				DebugPrintln("Digital Fail - Unable To Open Value File Handles");
 				return L_UNKNOWN_ERROR;
 			}
-		}	
+		}
 	}
 	return L_OK;
+}
+
+//Open Direction And Value Handles If They Are Not Already Open And Set Direction
+int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels)
+{
+	for(int i=0; i<numChans; i++)
+	{		
+		//Open Period Handle If It Is Not Already		
+		if(PwmPeriodHandles[channels[i]] == NULL)
+		{
+			char periodPath[64];
+			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), "period");
+			DebugPrint("Opening ");
+			DebugPrintln(periodPath);
+			PwmPeriodHandles[channels[i]] = fopen(periodPath, "r+w+");
+		}
+		
+		//Open Duty Cycle Handle If It Is Not Already		
+		if(PwmDutyCycleHandles[channels[i]] == NULL)
+		{
+			char dutyCyclePath[64];
+			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), "duty");
+			DebugPrint("Opening ");
+			DebugPrintln(dutyCyclePath);
+			PwmDutyCycleHandles[channels[i]] = fopen(dutyCyclePath, "r+w+");
+		}
+	}	
+	return L_OK;		
 }
 
 //Return True If File Specified By path Exists.
@@ -342,7 +370,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		unsigned char bitOffset = 8;
 		unsigned char byteOffset = 0;
 		unsigned char retVal = 0;
-		unsigned char diVal = 69;
+		int diVal = 0;
 		
 		//Loop Over channels To Read
 		for(int i=0; i<numChans; i++)
@@ -364,13 +392,17 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 			
 			//Reopen Value Handle
 			char valPath[64];
-			sprintf(valPath, "/sys/class/gpio/gpio%d/value", channels[i]);
+			sprintf(valPath, "/sys/class/gpio/gpio%d/value", DigitalChannels[channels[i]]);
 			DigitalValueHandles[channels[i]] = freopen(valPath, "r+w+", DigitalValueHandles[channels[i]]);
 			
 			//Read From Next Pin
 			fscanf(DigitalValueHandles[channels[i]], "%u", &diVal);
+			
+			//DebugPrint("Value = ");
+			//DebugPrintln((unsigned char)diVal, DEC);
+			
 						
-			retVal = retVal | (diVal << bitOffset);	//Read Pin And Insert Value Into retVal
+			retVal = retVal | ((unsigned char)diVal << bitOffset);	//Read Pin And Insert Value Into retVal
 		}
 	
 		//Store Last Byte
@@ -394,7 +426,10 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 	{
 		unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
-		unsigned long dutyCycle = 0;		
+		unsigned long dutyCycle = 0;
+		
+		//Smart Open PWM Channels
+		pwmSmartOpen(numChans, channels);
 		
 		for(int i=0; i<numChans; i++)
 		{
@@ -412,7 +447,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 			}
 			
 			//Update Output
-			DebugPrint("Setting Duty Cylce = ");
+			DebugPrint("Setting Duty Cycle = ");
 			DebugPrint(dutyCycle, DEC);
 			fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
 			DebugPrint(" ... Duty Cycle Set ... ");
@@ -474,8 +509,8 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	
 	int LinxBeagleBone::SpiSetMode(unsigned char channel, unsigned char mode)
 	{
-		unsigned long spi_Mode = SPI_NO_CS | (unsigned long) mode;
-		if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode < 0))
+		unsigned long spi_Mode = (unsigned long) mode;
+		if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)
 		{
 			DebugPrintln("Failed To Set SPI Mode");
 			return  L_UNKNOWN_ERROR;
@@ -652,73 +687,49 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	//--------------------------------------------------------UART-------------------------------------------------------
 	int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 	{
-		//Export Dev Tree Overlay If Device DNE
-		if(!fileExists(UartPaths[channel]))
+		
+		DebugPrintln("UART Open");
+		
+		//Load DTO If Needed
+		if(!fileExists(UartPaths[channel].c_str()))
 		{
-			switch(channel)
+			if(!loadDto(UartDtoNames[channel].c_str()))	
 			{
-				case 0:
-					if(!loadDto("BB-UART0"))		
-					{
-						DebugPrintln("UART Fail - Failed To Load BB-UART0 DTO");
-						return  LUART_OPEN_FAIL;
-					}
-					break;
-				case 1:
-					if(!loadDto("BB-UART1"))		
-					{
-						DebugPrintln("UART Fail - Failed To Load BB-UART1 DTO");
-						return  LUART_OPEN_FAIL;
-					}
-					break;
-				case 2:
-					if(!loadDto("BB-UART2"))		
-					{
-						DebugPrintln("UART Fail - Failed To Load BB-UART2 DTO");
-						return  LUART_OPEN_FAIL;
-					}
-					break;
-				case 3:
-					if(!loadDto("BB-UART3"))		
-					{
-						DebugPrintln("UART Fail - Failed To Load BB-UART3 DTO");
-						return  LUART_OPEN_FAIL;
-					}
-					break;
-				case 4:
-					if(!loadDto("BB-UART4"))		
-					{
-						DebugPrintln("UART Fail - Failed To Load BB-UART4 DTO");
-						return  LUART_OPEN_FAIL;
-					}
-					break;
-				case 5:
-					if(!loadDto("BB-UART5"))		
-					{
-						DebugPrintln("UART Fail - Failed To Load BB-UART5 DTO");
-						return  LUART_OPEN_FAIL;
-					}
-					break;
-				default:
-					return  LUART_OPEN_FAIL;
-					break;
+				DebugPrint("UART Fail - Failed To Load ");
+				DebugPrint(UartDtoNames[channel].c_str());
+				DebugPrintln(" DTO");
+				return  LUART_OPEN_FAIL;
+			}			
+		}
+		
+		//Open UART	Handle If Not Already Open
+		
+	if(UartHandles[channel] <= 0)
+		{
+			int handle = open(UartPaths[channel].c_str(),  O_RDWR);
+				
+			if (handle <= 0)
+			{
+				DebugPrint("UART Fail - Failed To Open UART Handle -  ");
+				DebugPrintln(UartPaths[channel].c_str());
+				return  LUART_OPEN_FAIL;
+			}
+			else
+			{
+				UartHandles[channel] = handle;
 			}
 		}
+		/*else
+		{
+			DebugPrint("UART ");		
+			DebugPrint(channel, DEC);
+			DebugPrintln(" already Open.");		
+		}*/
 		
-		//Open UART	
-		int handle = open(UartPaths[channel],  O_RDWR | O_NDELAY);
-				
-		if (handle <= 0)
+		if(UartSetBaudRate(channel, baudRate, actualBaud) != L_OK)
 		{
-			//DEBUG((char*)"Failed To Open UART Channel");
-			return  LUART_OPEN_FAIL;
-		}	
-		else
-		{
-			UartHandles[channel] = handle;
+			DebugPrintln("Failed to set baud rate");
 		}
-		
-		UartSetBaudRate(channel, baudRate, actualBaud);
 		
 		return L_OK;
 	}
@@ -816,6 +827,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		{
 			return LUART_CLOSE_FAIL;
 		}
+		UartHandles[channel] = 0;
 		return  L_OK;
 	}
 	

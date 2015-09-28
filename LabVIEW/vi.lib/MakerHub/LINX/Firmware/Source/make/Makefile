@@ -11,6 +11,12 @@ Listeners: beagleBoneBlackSerial
 	
 beagleBoneBlackSerial:
 	g++ $(INC) ../core/examples/Beagle_Bone_Black_Serial/src/Beagle_Bone_Black_Serial.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp ../core/listener/utility/LinxListener.cpp ../core/listener/LinxSerialListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../core/examples/Beagle_Bone_Black_Serial/bin/beagleBoneBlackSerial.out
+
+beagleBoneBlackTcp:
+	g++ $(INC) ../core/examples/Beagle_Bone_Black_Tcp/src/Beagle_Bone_Black_Tcp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp ../core/listener/utility/LinxListener.cpp ../core/listener/LinxLinuxTcpListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../core/examples/Beagle_Bone_Black_Tcp/bin/beagleBoneBlackTcp.out
+	
+beagleBoneBlackConfigurable:
+	g++ $(INC) ../core/examples/Beagle_Bone_Black_Configurable/src/Beagle_Bone_Black_Configurable.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp ../core/listener/utility/LinxListener.cpp  ../core/listener/LinxSerialListener.cpp ../core/listener/LinxLinuxTcpListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../core/examples/Beagle_Bone_Black_Configurable/bin/beagleBoneBlackConfigurable.out
 	
 bbb:
 	g++ $(INC) LinxBeagleBoneBlack_TestApp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -o ../bin/BeagleBoneBlack_TestApp.out 

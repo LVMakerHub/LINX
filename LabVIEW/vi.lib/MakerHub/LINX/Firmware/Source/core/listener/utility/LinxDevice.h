@@ -15,7 +15,11 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-
+//This Makes It Easy For IDE Users To Define Necessary Settings In One Place
+//When Using Make Files Define LINXCONFIG To Ignore Config.h File
+#ifndef LINXCONFIG
+	#include "../config/LinxConfig.h"
+#endif
 
 /****************************************************************************************
 **  Defines
@@ -102,7 +106,8 @@ typedef enum DioStatus
 
 typedef enum SPIStatus
 {
-	
+	LSPI_OPEN_FAIL,
+	LSPI_TRANSFER_FAIL
 }SPIStatus;
 
 typedef enum I2CStatus
@@ -228,6 +233,7 @@ class LinxDevice
 		
 		//PWM
 		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values);
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel) = 0;
