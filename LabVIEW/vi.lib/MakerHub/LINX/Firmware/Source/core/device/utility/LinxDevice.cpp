@@ -38,10 +38,9 @@ unsigned char LinxDevice::ReverseBits(unsigned char b)
 	return b;
 }
 
-//-------------------Default Empty Functions--------------------------------
+
 void LinxDevice::EnableDebug(unsigned char channel)
 {
-	fprintf(stdout, "Enabling Debugging\n");
 	unsigned long actualBaud = 0;
 	
 	UartOpen(channel, 115200, &actualBaud);
@@ -87,6 +86,7 @@ int LinxDevice::PwmSetFrequency(unsigned char numChans, unsigned char* channels,
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
+
 // ---------------- UART Functions ------------------ 
 
 void LinxDevice::UartWrite(unsigned char channel, unsigned char b)

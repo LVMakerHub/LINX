@@ -51,7 +51,7 @@ const unsigned char LinxBeagleBoneBlack::m_gpioChan[NUM_DIGITAL_CHANS] =     {66
 const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {13, 19, 60, 62};
 const string LinxBeagleBoneBlack::m_PwmDirPaths[NUM_PWM_CHANS] = {"/sys/devices/ocp.3/pwm_test_P8_13.16/", "/sys/devices/ocp.3/pwm_test_P8_19.17/", "/sys/devices/ocp.3/pwm_test_P9_14.18/", "/sys/devices/ocp.3/pwm_test_P9_16.19/"};
 const string LinxBeagleBoneBlack::m_PwmDtoNames[NUM_PWM_CHANS] = {"bone_pwm_P8_13", "bone_pwm_P8_19", "bone_pwm_P9_14", "bone_pwm_P9_16"};
-
+unsigned long m_PwmDefaultFrequency = 3000;
 //QE
 //None
 
@@ -213,12 +213,14 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	}
 	
 	//------------------------------------- PWM -------------------------------------
-	//Export PWM - Open Freq and Duty Cycle Handles
-	
+	//Export PWM - Open Freq and Duty Cycle Handles	
+	PwmDefaultFrequency = m_PwmDefaultFrequency;
 	
 	for(int i=0; i< NUM_PWM_CHANS; i++)
 	{
 		PwmDirPaths[m_PwmChans[i]] = m_PwmDirPaths[i];
+		PwmDefaultFrequency = m_PwmDefaultFrequency;
+		PwmFrequencies[m_PwmChans[i]] = m_PwmDefaultFrequency;
 		
 		//Load AM33xx_PWM DTO If No PWM Channels Have Been Exported Since Boot
 		if(!fileExists(m_PwmDirPaths[i].c_str(), "period"))
@@ -241,66 +243,6 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		}
 	}
 	
-	/*
-	for(int i=0; i< NUM_PWM_CHANS; i++)
-	{
-		//Load DTO If Necessary
-		if(!fileExists(PwmDirPaths[i], "period"))
-		{
-			DebugPrintln("Loading PWM DTO");
-			if(!loadDto(PwmDtoNames[i]))
-			{
-				DebugPrint("PWM Fail - Failed To Load PWM DTO ");
-				DebugPrintln(PwmDtoNames[i]);
-			}
-			else
-			{
-				//Make Sure DTO Has Time To Load Before Opening Handles
-				if(fileExists(PwmDirPaths[0], "period", 3000))
-				{
-					//DTO Successfully Loaded, Open PWM Handles
-					char path[128];
-					sprintf(path, "%s%s", PwmDirPaths[i], "period");
-					DebugPrint("Opening ");
-					DebugPrintln(path);
-					PwmPeriodHandles[PwmChans[i]] = fopen(path, "r+w+");
-					DebugPrintln("Period Handle Open... ");
-					
-					sprintf(path, "%s%s", PwmDirPaths[i], "duty");
-					PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
-					DebugPrintln("Period Duty Cylce Handle Open... ");
-				}
-			}
-		}
-		else
-		{
-			DebugPrintln("PWM DTO Already Loaded");
-			//DTO Was Already Loaded, Open PWM Handles
-			char path[128];
-			sprintf(path, "%s%s", PwmDirPaths[i], "period");
-			PwmPeriodHandles[PwmChans[i]] = fopen(path, "r+w+");
-			
-			sprintf(path, "%s%s", PwmDirPaths[i], "duty");
-			PwmDutyCycleHandles[PwmChans[i]] = fopen(path, "r+w+");
-		}
-	
-		//Set Defaults
-		FILE* handle;
-		char path[128];
-		
-		sprintf(path, "%s%s", PwmDirPaths[i], "polarity");
-		handle = fopen(path, "r+w+");
-		fprintf(handle, "0");		//Set To Non Inverting (ie Duty Cycle = % On)
-		fclose(handle);
-			
-		sprintf(path, "%s%s", PwmDirPaths[i], "duty");
-		handle = fopen(path, "r+w+");
-		fprintf(handle, "0");		//Turn PWM Output Off
-		fclose(handle);
-		
-	}
-	*/
-	
 	//------------------------------------- I2C -------------------------------------
 	//Store I2C Master Paths In Map
 	for(int i=0; i<NUM_I2C_CHANS; i++)
@@ -319,17 +261,6 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	
 	
 	//------------------------------------- SPI ------------------------------------
-	/**   HANDLED IN SPI OPEN ****
-	//Load SPIDEV0 DTO, This Loads /dev/spidev1.x, Which is BBB SPI0 Pins
-	if(!fileExists("/dev/spidev0.0"))
-	{
-		DebugPrintln("Loading SPI-0 DTO");
-		if(!loadDto("BB-SPIDEV0"))
-		{
-			DebugPrintln("Failed To Load SPI-0 DTO");
-		}		
-	}	
-	*/
 	
 	//Load SPI Paths and DTO Names, Configure SPI Master Default Values	
 	for(int i=0; i<NUM_SPI_CHANS; i++)

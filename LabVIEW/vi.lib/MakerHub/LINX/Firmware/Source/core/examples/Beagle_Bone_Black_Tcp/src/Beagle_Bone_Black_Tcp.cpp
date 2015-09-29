@@ -19,7 +19,7 @@ int main()
 	LinxTcpConnection.Start(LinxDevice, 44300);
 
 	//Check for and process commands
-	fprintf(stdout, "Firing Up TCP Listener\n");
+	fprintf(stdout, "Starting LINX TCP Listener\n");
 
 	while(1)
 	{

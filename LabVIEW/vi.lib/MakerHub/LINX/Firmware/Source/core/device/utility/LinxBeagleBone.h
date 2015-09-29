@@ -53,6 +53,8 @@ class LinxBeagleBone : public LinxDevice
 		map<unsigned char, string> PwmDtoNames;							//PWM Device Tree Overlay Names	
 		map<unsigned char, FILE*> PwmPeriodHandles;						//File Handles For PWM Period Values
 		map<unsigned char, FILE*> PwmDutyCycleHandles;				//File Handles For PWM Duty Cycle Values		
+		map<unsigned char, unsigned long> PwmFrequencies;				//Current PWM Period Values
+		unsigned long PwmDefaultFrequency;										//Default Frequency For PWM Channels (Hz)
 		//const char (*PwmDirPaths)[PWM_PATH_LEN];						//Path To PWM Directories
 		//const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		

@@ -29,28 +29,47 @@ int main(int argc, char* argv[])
 	
 	if(parseInputTokens(LinxDev, argc, argv) >= 0)
 	{	
-		//Listen for serial packets
-		if(uartListenerPort > -1)
+		if(uartListenerPort > -1 && tcpListenerPort > -1)
+		{
+			while(1)
+			{
+				LinxSerialConnection.CheckForCommands();
+				LinxTcpConnection.CheckForCommands();
+			}
+		}
+		else if(uartListenerPort > -1)
 		{
 			while(1)
 			{
 				LinxSerialConnection.CheckForCommands();
 			}
+			
 		}
 		else if(tcpListenerPort > -1)
 		{
-			LinxTcpConnection.CheckForCommands();
+			while(1)
+			{
+				LinxTcpConnection.CheckForCommands();
+			}
 		}
-	}	
+		else
+		{
+			cout << "No bus specified.\n";
+			printUsage(argv);
+			return -1;
+		}
+	}
 	return 0;
 }
 
 int parseInputTokens(LinxDevice* linxDev, int argc, char* argv[])
 {
+	cout << "\n";
+	
 	//Loop Over All Tokens
-	for(int i=1; i< argc; i++)
+	for(int i=1; i<argc; i++)
 	{
-		cout << argv[i];
+		//cout << argv[i];
 		
 		bool match = false;
 		for(int j=0; j<NUMTOKENS; j++)
@@ -84,28 +103,44 @@ int parseInputTokens(LinxDevice* linxDev, int argc, char* argv[])
 						else
 						{
 							uartListenerPort = atoi(argv[i+1]);
-														
+							bool validPort = false;
+							
 							for(int i=0; i<linxDev->NumUartChans; i++)
 							{
 								if(uartListenerPort == linxDev->UartChans[i])
-								{									
-									cout << "Valid Port";
+								{	
 									LinxSerialConnection.Start(LinxDev, (unsigned char)uartListenerPort);
-									return 0;
+									validPort = true;
+									break;
 								}
-							}			
-							cout << "Invalid port.";
-							printUsage(argv);
-							return -1;
+							}
+							if(!validPort)
+							{
+								//Invalid Port, Print Usage
+								cout << "Invalid port.\n";
+								printUsage(argv);
+								return -1;
+							}
+							break;
 						}
 						break;
 					case 9:	//-tcp
-						uartListenerPort = atoi(argv[i+1]);
+						if(i+1 >= argc)
+						{
+							cout << "\n"<< "Missing port\n";
+							printUsage(argv);
+							return -1;
+						}
+						else
+						{
+							tcpListenerPort = atoi(argv[i+1]);
+							cout << "\n"<< "Listening on " << (unsigned short)tcpListenerPort << "\n";
+							LinxTcpConnection.Start(LinxDev, 44300);
+						}
 						break;
 					default:
 						break;
 				}
-				break;
 			}
 		}
 		if(!match)
@@ -120,8 +155,9 @@ int parseInputTokens(LinxDevice* linxDev, int argc, char* argv[])
 void printUsage(char* argv[])
 {
 	cout << "\nusage: " << argv[0] << " -serial [port]\n";
+	cout << "   or: " << argv[0] << " -serial [port] -tcp [port]\n";
 	cout << "   or: " << argv[0] << " -tcp [port]\n\n";
 	cout << "Available options are:\n";
 	cout << "  -serial\t 0, 1, or 4\n";
-	cout << "  -tcp  \t 44300 is recommended, but any available TCP port should work\n";
+	cout << "  -tcp  \t Any valid, unused TCP port. (ex 44300)\n\n";
 }

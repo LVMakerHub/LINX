@@ -117,6 +117,12 @@ int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels
 			DebugPrint("Opening ");
 			DebugPrintln(periodPath);
 			PwmPeriodHandles[channels[i]] = fopen(periodPath, "r+w+");
+			
+			//Initialize PWM Period
+			fprintf(PwmPeriodHandles[channels[i]], "%u", (unsigned long)(1000000000.0/PwmDefaultFrequency));	
+			DebugPrint("Setting Default Frequency = ");
+			DebugPrintln((unsigned long)(1000000000.0/PwmDefaultFrequency), DEC);
+			fflush(PwmPeriodHandles[channels[i]]);
 		}
 		
 		//Open Duty Cycle Handle If It Is Not Already		
@@ -456,6 +462,11 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		}
 		
 		return L_OK;
+	}
+	
+	int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values)
+	{		
+		return L_FUNCTION_NOT_SUPPORTED;
 	}
 	
 	//--------------------------------------------------------SPI-------------------------------------------------------
