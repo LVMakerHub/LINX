@@ -137,7 +137,6 @@ int LinxSerialListener::CheckForCommands()
 			break;	
 		case EXIT:
 			Exit();
-			exit(-1);
 			break;				
 	}
 }
