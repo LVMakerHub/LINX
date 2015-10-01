@@ -143,7 +143,7 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 	//Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()
-	#if DEBUG_ENABLED > 0
+	#if DEBUG_ENABLED >= 0
 		EnableDebug(DEBUG_ENABLED);
 	#endif
 }
