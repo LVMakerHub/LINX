@@ -96,6 +96,7 @@ int LinxSerialListener::Connected()
 			if(ChecksumPassed(recBuffer))
 			{		
 				LinxDev->DebugPrintPacket(RX, recBuffer);
+				
 				//Process Packet
 				int status = ProcessCommand(recBuffer, sendBuffer);
 				if(status == L_DISCONNECT)

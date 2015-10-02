@@ -15,13 +15,16 @@
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/		
+/*
 #define DIGITAL_PIN_LEN 3
 #define PWM_PATH_LEN 64
 #define PWM_DTO_NAME_LEN 32
-#define AI_PATH_LEN 64
+
 #define SPI_PATH_LEN 64
 #define I2C_PATH_LEN 64
 #define UART_PATH_LEN 64
+*/
+#define AI_PATH_LEN 64
 
 /****************************************************************************************
 **  Includes

@@ -106,7 +106,7 @@ typedef enum DioStatus
 
 typedef enum SPIStatus
 {
-	LSPI_OPEN_FAIL,
+	LSPI_OPEN_FAIL=128,
 	LSPI_TRANSFER_FAIL
 }SPIStatus;
 

@@ -18,18 +18,30 @@ beagleBoneBlackTcp:
 beagleBoneBlackConfigurable:
 	g++ $(INC) ../core/examples/Beagle_Bone_Black_Configurable/src/Beagle_Bone_Black_Configurable.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp ../core/listener/utility/LinxListener.cpp  ../core/listener/LinxSerialListener.cpp ../core/listener/LinxLinuxTcpListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/Beagle_Bone_Black_Configurable/bin/beagleBoneBlackConfigurable.out
 	
-bbb:
-	g++ $(INC) LinxBeagleBoneBlack_TestApp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -o ../bin/BeagleBoneBlack_TestApp.out 
+raspberryPi2BSerial:
+	g++ $(INC) ../core/examples/RaspberryPi_2_B_Serial/src/RaspberryPi_2_B_Serial.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxRaspberryPi.cpp ../core/device/LinxRaspberryPi2B.cpp ../core/listener/utility/LinxListener.cpp ../core/listener/LinxSerialListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_2_B_Serial/bin/raspberryPi2BSerial.out
 	
-bbb_debug:
-	g++ $(INC) LinxBeagleBoneBlack_TestApp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../bin/BeagleBoneBlack_TestApp_Debug.out 
+raspberryPi2BTcp:
+	g++ $(INC) ../core/examples/RaspberryPi_2_B_Tcp/src/RaspberryPi_2_B_Tcp.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxRaspberryPi.cpp ../core/device/LinxRaspberryPi2B.cpp ../core/listener/utility/LinxListener.cpp ../core/listener/LinxLinuxTcpListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_2_B_Tcp/bin/raspberryPi2BTcp.out
 
+raspberryPi2BConfigurable:
+	g++ $(INC) ../core/examples/RaspberryPi_2_B_Configurable/src/RaspberryPi_2_B_Configurable.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxRaspberryPi.cpp ../core/device/LinxRaspberryPi2B.cpp ../core/listener/utility/LinxListener.cpp  ../core/listener/LinxSerialListener.cpp ../core/listener/LinxLinuxTcpListener.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_2_B_Configurable/bin/raspberryPi2BConfigurable.out
+	
 #----------------------- Tests -----------------------
 tests: dio-test i2c-test spi-test
 
 dio-test:
 	g++ $(INC) ../tests/src/dio-test.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../tests/bin/diotest.out 
 
+rpi2DioTest:
+	g++ $(INC) ../tests/src/rpi2/rpi2DioTest.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxRaspberryPi.cpp ../core/device/LinxRaspberryPi2B.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../tests/bin/rpi2/dioTest.out 
+	
+rpi2UartTest:
+	g++ $(INC) ../tests/src/rpi2/rpi2UartTest.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxRaspberryPi.cpp ../core/device/LinxRaspberryPi2B.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../tests/bin/rpi2/uartTest.out 
+	
+rpi2SpiTest:
+	g++ -g $(INC) ../tests/src/rpi2/rpi2SpiTest.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxRaspberryPi.cpp ../core/device/LinxRaspberryPi2B.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../tests/bin/rpi2/spiTest.out 
+	
 i2c-test:
 	g++ $(INC) ../tests/src/i2c-test.cpp ../core/device/utility/LinxDevice.cpp ../core/device/utility/LinxBeagleBone.cpp ../core/device/LinxBeagleBoneBlack.cpp -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../tests/bin/i2ctest.out 
 

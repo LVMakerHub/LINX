@@ -601,7 +601,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		** SPI
 		****************************************************************************************/	
 		case 0x0100: // SPI Open Master
-			LinxDev->SpiOpenMaster(commandPacketBuffer[6]);
+			status = LinxDev->SpiOpenMaster(commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 		case 0x0101: // SPI Set Bit Order

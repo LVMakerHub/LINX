@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for Raspberry Pi
+**  LINX header for Raspberry Pi Family
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -15,48 +15,77 @@
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/		
-#define DIGITAL_PIN_LEN 3
-#define SPI_PATH_LEN 64
-#define I2C_PATH_LEN 64
-#define UART_PATH_LEN 64
 
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
 #include "LinxDevice.h"
+#include <stdio.h>
+#include <map>
+#include <string>
 
+using namespace std;
 
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
-
 class LinxRaspberryPi : public LinxDevice
 {
 	public:	
 		/****************************************************************************************
 		**  Variables
-		****************************************************************************************/		
+		****************************************************************************************/
 		//DIO
-		int* DigitalDirHandles;								//File Handles For Digital Pin Directions
-		int* DigitalValueHandles;							//File Handles For Digital Pin Values
+		map<unsigned char, unsigned char> DigitalChannels;				//Maps LINX DIO Channel Numbers To BB GPIO Channels
+		map<unsigned char, unsigned char> DigitalDirs;						//Current DIO Direction Values
+		map<unsigned char, FILE*> DigitalDirHandles;							//File Handles For Digital Pin Directions
+		map<unsigned char, FILE*> DigitalValueHandles;						//File Handles For Digital Pin Values
 		
-		unsigned char NumAiRefIntVals;					//Number Of Internal AI Reference Voltages
-		const unsigned long* AiRefIntVals;				//Supported AI Reference Voltages (uV)
-		const int* AiRefCodes;								//AI Ref Values (AI Ref Macros In Wiring Case)
+		//PWM
+		map<unsigned char, string> PwmDirPaths;								//PWM Device Tree Overlay Names	
+		map<unsigned char, string> PwmDtoNames;							//PWM Device Tree Overlay Names	
+		map<unsigned char, FILE*> PwmPeriodHandles;						//File Handles For PWM Period Values
+		map<unsigned char, FILE*> PwmDutyCycleHandles;				//File Handles For PWM Duty Cycle Values		
+		map<unsigned char, unsigned long> PwmFrequencies;				//Current PWM Period Values
+		unsigned long PwmDefaultFrequency;										//Default Frequency For PWM Channels (Hz)
+		//const char (*PwmDirPaths)[PWM_PATH_LEN];						//Path To PWM Directories
+		//const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		
-		unsigned long AiRefExtMin;							//Min External AI Ref Value (uV)
-		unsigned long AiRefExtMax;					    //Max External AI Ref Value (uV)		
+		//AI
+		unsigned char NumAiRefIntVals;												//Number Of Internal AI Reference Voltages
+		const unsigned long* AiRefIntVals;											//Supported AI Reference Voltages (uV)
+		const int* AiRefCodes;															//AI Ref Values (AI Ref Macros In Wiring Case)		
+		unsigned long AiRefExtMin;														//Min External AI Ref Value (uV)
+		unsigned long AiRefExtMax;					   								 //Max External AI Ref Value (uV)		
+		int* AiHandles;																		//AI File Handles
+		//const char (*AiPaths)[AI_PATH_LEN];										//AI Channel File Paths
 		
-		unsigned char NumUartSpeeds;					//Number Of Support UART Buads
-		unsigned long* UartSupportedSpeeds;			//Supported UART Bauds Frequencies
+		//UART		
+		map<unsigned char, string> UartPaths;									//UART Channel File Paths
+		map<unsigned char, int> UartHandles;									//File Handles For UARTs - Must Be Int For Termios Functions
+		map<unsigned char, string> UartDtoNames;							//UART Device Tree Overlay Names	
+		unsigned char NumUartSpeeds;												//Number Of Support UART Buads
+		unsigned long* UartSupportedSpeeds;										//Supported UART Bauds Frequencies
+		unsigned long* UartSupportedSpeedsCodes;							//Supported UART Baud Divider Codes
 		
-		unsigned char NumSpiSpeeds;					//Number Of Supported SPI Speeds
-		unsigned long* SpiSupportedSpeeds;			//Supported SPI Clock Frequencies
-		int* SpiSpeedCodes;									//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		//SPI
+		map<unsigned char, string> SpiDtoNames;  							//Device Tree Overlay Names For SPI Master(s)
+		map<unsigned char, string> SpiPaths;  									//File Paths For SPI Master(s)		
+		map<unsigned char, int> SpiHandles;										//File Handles For SPI Master(s)
+		unsigned char NumSpiSpeeds;												//Number Of Supported SPI Speeds
+		unsigned long* SpiSupportedSpeeds;										//Supported SPI Clock Frequencies
+		int* SpiSpeedCodes;																//SPI Speed Values (Clock Divider Macros In Wiring Case)
+		map<unsigned char, unsigned char> SpiBitOrders;					//Stores Bit Orders For SPI Channels (LSBFIRST / MSBFIRST)
+		map<unsigned char, unsigned long> SpiSetSpeeds; 				//Stores The Set Clock Rate Of Each SPI Channel
+		unsigned long SpiDefaultSpeed; 												//Stores The Default Clock Rate Used When Opening An SPI Channel
 		
-		unsigned char* I2cRefCount;						//Number Opens - Closes On I2C Channel
+		//I2C
+		map<unsigned char, string> I2cPaths;										//File Paths For I2C Master(s)
+		map<unsigned char, int> I2cHandles;										//File Handles For I2C Master(s)
+		map<unsigned char, string> I2cDtoNames;								//Device Tree Overlay Names For I2C Master(s)
+		unsigned char* I2cRefCount;													//Number Opens - Closes On I2C Channel
 		
-		//Servo** Servos;										//Array Servo Pointers
+		
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
@@ -67,19 +96,21 @@ class LinxRaspberryPi : public LinxDevice
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		
 		//Analog
-		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage);
 		
 		//DIGITAL
-		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values);
-		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		virtual int DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		virtual int DigitalWrite(unsigned char channel, unsigned char value);
+		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
+		virtual int DigitalRead(unsigned char channel, unsigned char* value);
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
 		
-		//PWM
-		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values);
+		//PWM		
+		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel);
@@ -115,30 +146,19 @@ class LinxRaspberryPi : public LinxDevice
 		virtual void NonVolatileWrite(int address, unsigned char data);
 		virtual unsigned char NonVolatileRead(int address);
 		
-		//Debug
-		
-		
 	protected:
-	/****************************************************************************************
-	**  Variables
-	****************************************************************************************/		
-			
-	/****************************************************************************************
-	**  Functions
-	****************************************************************************************/
-	virtual int GpioExport (const unsigned char numGpioChans, const unsigned char*  gpioChans, int* digitalDirHandles, int* digitalValueHandles);
-	virtual int GpioUnexport(const unsigned char*  gpioChans, const unsigned char numGpioChans);
-	virtual int GpioSetDir(unsigned char pin, unsigned char mode);
-	virtual int GpioWrite(unsigned char pin, unsigned char val);
-	virtual int GetDigitalChanIndex(unsigned char chanNum);
-			
-	private:
-	/****************************************************************************************
-	**  Functions
-	****************************************************************************************/
-	
+		/****************************************************************************************
+		**  Variables
+		****************************************************************************************/		
 				
+		/****************************************************************************************
+		**  Functions
+		****************************************************************************************/
+		virtual int digitalSmartOpen(unsigned char numChans, unsigned char* channels);
+		virtual int pwmSmartOpen(unsigned char numChans, unsigned char* channels);
+		bool fileExists(const char* path);
+		bool fileExists(const char* directory, const char* fileName);
+		bool fileExists(const char* directory, const char* fileName, unsigned long timout);
 };
-
 
 #endif //LINX_RASPBERRYPI_H

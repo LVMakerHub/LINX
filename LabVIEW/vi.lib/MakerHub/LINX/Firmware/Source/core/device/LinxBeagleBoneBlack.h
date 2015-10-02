@@ -12,7 +12,6 @@
 #ifndef LINX_BEAGLEBONEBLACK_H
 #define LINX_BEAGLEBONEBLACK_H
 
-
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/	
@@ -83,8 +82,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 				
 		//I2C
 		static unsigned char m_I2cChans[NUM_I2C_CHANS];
-		static unsigned char m_I2cRefCount[NUM_I2C_CHANS];	
-	    static int m_I2cHandles[NUM_I2C_CHANS];				
+		static unsigned char m_I2cRefCount[NUM_I2C_CHANS];
 		
 		//UART
 		static unsigned char m_UartChans[NUM_UART_CHANS];
@@ -122,6 +120,5 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		
 		
 };
-
 
 #endif //LINX_BEAGLEBONEBLACK_H

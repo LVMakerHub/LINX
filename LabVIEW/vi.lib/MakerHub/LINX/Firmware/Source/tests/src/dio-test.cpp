@@ -1,8 +1,10 @@
 #include <iostream>
 
 #include "LinxDevice.h"
+
 #include "LinxBeagleBone.h"
 #include "LinxBeagleBoneBlack.h"
+
 
 #include <stdio.h>
 #include <fcntl.h>

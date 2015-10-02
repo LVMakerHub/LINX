@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "LinxDevice.h"
-#include "LinxBeagleBone.h"
-#include "LinxBeagleBoneBlack.h"
+#include "LinxRaspberryPi.h"
+#include "LinxRaspberryPi2B.h"
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -20,14 +20,16 @@
 using namespace std;
 
 
-LinxBeagleBoneBlack* LinxDev;
+LinxRaspberryPi2B* LinxDev;
 
 int main()
 {
-	LinxDev = new LinxBeagleBoneBlack();
+	LinxDev = new LinxRaspberryPi2B();
 	cout << "\r\n.: DIO Test :.\r\n\r\n";
 	
-	unsigned char chan[1] = {8};
+	LinxDev->DebugPrintln("Hello World!");
+	
+	unsigned char chan[1] = {7};
 	unsigned char onVal[1] = {0xFF};
 	unsigned char offVal[1] = {0x00};
 	

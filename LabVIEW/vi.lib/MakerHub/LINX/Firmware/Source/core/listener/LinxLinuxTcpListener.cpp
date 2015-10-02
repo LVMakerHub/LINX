@@ -167,7 +167,9 @@ int LinxLinuxTcpListener::Connected()
 				{
 					//Check Checksum
 					if(ChecksumPassed(recBuffer))
-					{					
+					{				
+						LinxDev->DebugPrintPacket(RX, recBuffer);
+						
 						//Process Packet Handle Any Networking Packets
 						int status = ProcessCommand(recBuffer, sendBuffer);
 						if(status == L_DISCONNECT)
@@ -179,6 +181,7 @@ int LinxLinuxTcpListener::Connected()
 										
 						
 						//Send Response Packet
+						LinxDev->DebugPrintPacket(TX, sendBuffer);
 						unsigned char bytesToSend = sendBuffer[1];
 						if( send(ClientSocket, sendBuffer, bytesToSend, 0) != bytesToSend)
 						{

@@ -123,14 +123,11 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//PWM
 	NumPwmChans = NUM_PWM_CHANS;
 	PwmChans = m_PwmChans;
-	//PwmDirPaths = m_PwmDirPaths;
-	//PwmDtoNames = m_PwmDtoNames;
 		
 	//QE
 	NumQeChans = 0;
 	QeChans = 0;
-	
-	
+		
 	//UART
 	NumUartChans = NUM_UART_CHANS;
 	UartChans = m_UartChans;	
@@ -138,8 +135,6 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	NumUartSpeeds = NUM_UART_SPEEDS;
 	UartSupportedSpeeds = m_UartSupportedSpeeds;
 	UartSupportedSpeedsCodes = m_UartSupportedSpeedsCodes;
-	//UartPaths = m_UartPaths;
-	//UartHandles = m_UartHandles;
 
 	//I2C
 	NumI2cChans = NUM_I2C_CHANS;	

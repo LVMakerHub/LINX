@@ -275,44 +275,39 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 			return L_UNKNOWN_ERROR;			
 		}
 		
-		//DebugPrint("Setting Direction Of Channel ");
-		//DebugPrintln(channels[0], DEC);
-		
+		//Set Direction Only If Necessary
 		//Avoid Divide By Zero By Doing First Iteration
-		if( (values[0] & 0x01) == OUTPUT)
+		if( (values[0] & 0x01) == OUTPUT && DigitalDirs[channels[0]] != OUTPUT)
 		{
 			//Set As Output
 			fprintf(DigitalDirHandles[channels[0]], "out");		
 			fflush(DigitalDirHandles[channels[0]]);
-			//DebugPrintln("OUTPUT");
+			DigitalDirs[channels[0]] = OUTPUT;		
 		}
-		else
+		else if((values[0] & 0x01) == INPUT && DigitalDirs[channels[0]] != INPUT)
 		{
 			//Set As Input
 			fprintf(DigitalDirHandles[channels[0]], "in");	
 			fflush(DigitalDirHandles[channels[0]]);
-			//DebugPrintln("INPUT");
+			DigitalDirs[channels[0]] = INPUT;
 		}
 			
 		//Set Directions
 		for(int i=1; i<numChans; i++)
-		{
-			//DebugPrint("Setting Direction Of Channel ");
-			//DebugPrintln(channels[i], DEC);
-			
-			if( ((values[i/8] >> i%8) & 0x01) == OUTPUT)
+		{		
+			if( ((values[i/8] >> i%8) & 0x01) == OUTPUT && DigitalDirs[channels[i]] != OUTPUT)
 			{
 				//Set As Output
 				fprintf(DigitalDirHandles[channels[i]], "out");		
 				fflush(DigitalDirHandles[channels[i]]);
-				//DebugPrintln("OUTPUT");
+				DigitalDirs[channels[i]] = OUTPUT;				
 			}
-			else
+			else if( (values[i] & 0x01) == INPUT && DigitalDirs[channels[i]] != INPUT)
 			{
 				//Set As Input
 				fprintf(DigitalDirHandles[channels[i]], "in");	
 				fflush(DigitalDirHandles[channels[i]]);
-				//DebugPrintln("INPUT");
+				DigitalDirs[channels[i]] = INPUT;
 			}
 		}
 		
@@ -354,7 +349,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 	
 	int LinxBeagleBone::DigitalWrite(unsigned char channel, unsigned char value)
 	{
-		return DigitalWrite(1, &channel, &value);	
+		return DigitalWrite(1, &channel, &value);
 	}
 	
 	int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)

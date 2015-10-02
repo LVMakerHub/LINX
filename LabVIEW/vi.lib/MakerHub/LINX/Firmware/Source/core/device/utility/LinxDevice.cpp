@@ -40,7 +40,7 @@ unsigned char LinxDevice::ReverseBits(unsigned char b)
 
 
 void LinxDevice::EnableDebug(unsigned char channel)
-{
+{	
 	unsigned long actualBaud = 0;
 	
 	UartOpen(channel, 115200, &actualBaud);
