@@ -48,6 +48,7 @@ class LinxBeagleBone : public LinxDevice
 		****************************************************************************************/
 		//DIO
 		map<unsigned char, unsigned char> DigitalChannels;				//Maps LINX DIO Channel Numbers To BB GPIO Channels
+		map<unsigned char, unsigned char> DigitalDirs;						//Current DIO Direction Values
 		map<unsigned char, FILE*> DigitalDirHandles;							//File Handles For Digital Pin Directions
 		map<unsigned char, FILE*> DigitalValueHandles;						//File Handles For Digital Pin Values
 		
@@ -62,13 +63,15 @@ class LinxBeagleBone : public LinxDevice
 		//const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		
 		//AI
+		map<unsigned char, FILE*> AiValueHandles;							//AI Value Handles
+		map<unsigned char, string> AiValuePaths;								//AI Value Paths
 		unsigned char NumAiRefIntVals;												//Number Of Internal AI Reference Voltages
 		const unsigned long* AiRefIntVals;											//Supported AI Reference Voltages (uV)
 		const int* AiRefCodes;															//AI Ref Values (AI Ref Macros In Wiring Case)		
 		unsigned long AiRefExtMin;														//Min External AI Ref Value (uV)
 		unsigned long AiRefExtMax;					   								 //Max External AI Ref Value (uV)		
-		int* AiHandles;																		//AI File Handles
-		const char (*AiPaths)[AI_PATH_LEN];										//AI Channel File Paths
+		//int* AiHandles;																		//AI File Handles
+		//const char (*AiPaths)[AI_PATH_LEN];										//AI Channel File Paths
 		
 		//UART		
 		map<unsigned char, string> UartPaths;									//UART Channel File Paths

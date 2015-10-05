@@ -35,8 +35,8 @@ const unsigned char LinxBeagleBoneBlack::m_DeviceName[DEVICE_NAME_LEN] = "Beagle
 
 //AI
 const unsigned char LinxBeagleBoneBlack::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7};
-const char LinxBeagleBoneBlack::m_AiPaths[NUM_AI_CHANS][AI_PATH_LEN] = {"/sys/bus/iio/devices/iio:device0/in_voltage0_raw", "/sys/bus/iio/devices/iio:device0/in_voltage1_raw", "/sys/bus/iio/devices/iio:device0/in_voltage2_raw", "/sys/bus/iio/devices/iio:device0/in_voltage3_raw", "/sys/bus/iio/devices/iio:device0/in_voltage4_raw", "/sys/bus/iio/devices/iio:device0/in_voltage5_raw", "/sys/bus/iio/devices/iio:device0/in_voltage6_raw", "/sys/bus/iio/devices/iio:device0/in_voltage7_raw"};
-int LinxBeagleBoneBlack::m_AiHandles[NUM_AI_CHANS];
+const string LinxBeagleBoneBlack::m_AiValuePaths[NUM_AI_CHANS] = {"/sys/bus/iio/devices/iio:device0/in_voltage0_raw", "/sys/bus/iio/devices/iio:device0/in_voltage1_raw", "/sys/bus/iio/devices/iio:device0/in_voltage2_raw", "/sys/bus/iio/devices/iio:device0/in_voltage3_raw", "/sys/bus/iio/devices/iio:device0/in_voltage4_raw", "/sys/bus/iio/devices/iio:device0/in_voltage5_raw", "/sys/bus/iio/devices/iio:device0/in_voltage6_raw", "/sys/bus/iio/devices/iio:device0/in_voltage7_raw"};
+//int LinxBeagleBoneBlack::m_AiHandles[NUM_AI_CHANS];
 const unsigned long LinxBeagleBoneBlack::m_AiRefIntVals[NUM_AI_INT_REFS] = {};
 const int LinxBeagleBoneBlack::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
@@ -100,8 +100,6 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		
 	//AI
 	NumAiChans = NUM_AI_CHANS;
-	AiPaths = m_AiPaths;
-	AiHandles = m_AiHandles;
 	
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
@@ -178,18 +176,16 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	
 	if(dtoLoaded)
 	{
-		//Open AI Handles
+		//Open AI Handles		
 		for(int i=0; i<NUM_AI_CHANS; i++)
 		{
-			int handle = open(AiPaths[i], O_RDWR);
-			if(handle < 0)
+			AiValuePaths[m_AiChans[i]] = m_AiValuePaths[i];
+			AiValueHandles[m_AiChans[i]] = fopen(m_AiValuePaths[i].c_str(), "r+");
+			
+			if(AiValueHandles[m_AiChans[i]] <= 0)
 			{
 				DebugPrintln("AI Fail - Failed Open AI Channel Handle");
-			}
-			else
-			{
-				AiHandles[i] = handle;
-			}
+			}			
 		}
 	}
 	
@@ -278,7 +274,7 @@ LinxBeagleBoneBlack::~LinxBeagleBoneBlack()
 	//Close AI Handles
 	for(int i=0; i<NUM_AI_CHANS; i++)
 	{
-		close(AiHandles[i]);
+		fclose(AiValueHandles[i]);
 	}
 	
 	//Close GPIO Handles

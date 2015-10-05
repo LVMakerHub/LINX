@@ -59,8 +59,8 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static const unsigned char m_AiChans[NUM_AI_CHANS];
 		static const unsigned long m_AiRefIntVals[NUM_AI_INT_REFS];
 		static const int m_AiRefCodes[NUM_AI_INT_REFS];		
-		static int m_AiHandles[NUM_AI_CHANS];		
-		static const char m_AiPaths[NUM_AI_CHANS][AI_PATH_LEN];
+		static FILE* m_AiValueHandles[NUM_AI_CHANS];		
+		static const string m_AiValuePaths[NUM_AI_CHANS];
 		
 		//AO
 		//None

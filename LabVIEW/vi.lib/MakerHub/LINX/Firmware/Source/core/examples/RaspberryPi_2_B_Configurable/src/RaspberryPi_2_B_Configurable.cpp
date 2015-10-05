@@ -34,6 +34,8 @@ LinxRaspberryPi2B* LinxDev;
 
 int main(int argc, char* argv[])
 {
+	
+
 	//Instantiate The LINX Device
 	LinxDev = new LinxRaspberryPi2B();
 	
@@ -121,7 +123,8 @@ int parseInputTokens(LinxDevice* linxDev, int argc, char* argv[])
 							{
 								if(uartListenerPort == linxDev->UartChans[i])
 								{	
-									cout << "\n"<< "Listening on UART " << (unsigned short)uartListenerPort << "\n";
+									cout << "\n\n ..:: LINX ::..\n\n";
+									cout << "Listening on UART " << (unsigned short)uartListenerPort << "\n";
 									LinxSerialConnection.Start(LinxDev, (unsigned char)uartListenerPort);
 									validPort = true;
 									break;
@@ -147,7 +150,8 @@ int parseInputTokens(LinxDevice* linxDev, int argc, char* argv[])
 						else
 						{
 							tcpListenerPort = atoi(argv[i+1]);
-							cout << "\n"<< "Listening on TCP Port " << (unsigned short)tcpListenerPort << "\n";
+							cout << "\n\n ..:: LINX ::..\n\n";
+							cout << "Listening on TCP Port " << (unsigned short)tcpListenerPort << "\n";
 							LinxTcpConnection.Start(LinxDev, tcpListenerPort);
 						}
 						break;

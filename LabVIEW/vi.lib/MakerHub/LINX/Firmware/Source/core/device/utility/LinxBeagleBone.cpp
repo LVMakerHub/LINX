@@ -196,7 +196,7 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 
-	unsigned int analogValue = 0;
+	//unsigned int analogValue = 0;
 	unsigned char responseByteOffset = 0;
 	unsigned char responseBitsRemaining = 8; 
 	unsigned char dataBitsRemaining = AiResolution;
@@ -208,16 +208,22 @@ int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, 
 	for(int i=0; i<numChans; i++)
 	{
 		//Acquire AI Sample
+		int aiVal = 0;
+		AiValueHandles[channels[i]] = freopen(AiValuePaths[i].c_str(), "r+", AiValueHandles[channels[i]]);
+		fscanf(AiValueHandles[channels[i]], "%u", &aiVal);
+		
+		/*
 		fs.open(AiPaths[channels[i]], fstream::in);
 		fs >> analogValue;
 		fs.close();
+		*/
 		
 		dataBitsRemaining = AiResolution;
 
 		//Byte Packet AI Values In Response Packet
 		while(dataBitsRemaining > 0)
 		{
-			*(values+responseByteOffset) |= ( (analogValue>>(AiResolution - dataBitsRemaining)) << (8 - responseBitsRemaining) );
+			*(values+responseByteOffset) |= ( ((unsigned int)aiVal>>(AiResolution - dataBitsRemaining)) << (8 - responseBitsRemaining) );
 			//*(values+responseByteOffset) = 69;
 
 			if(responseBitsRemaining > dataBitsRemaining)
