@@ -2,7 +2,9 @@ INC=-I../core/device/utility -I../core/device/ -I../core/listener
 
 all: release debug main
 
-Listeners: beagleBoneBlackSerial
+beagleBoneBlackAll: beagleBoneBlackSerial beagleBoneBlackTcp beagleBoneBlackConfigurable
+
+raspberryPi2BAll: raspberryPi2BSerial raspberryPi2BTcp raspberryPi2BConfigurable
 	
 #----------------------- Listeners -----------------------
 	

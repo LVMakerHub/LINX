@@ -183,25 +183,8 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		fclose(slotsHandle);
 		return true;
 	}
-	else
-	{
-		return false;
-	}
 	
-	
-	/*
-	int handle = open(overlaySlotsPath,  O_RDWR | O_NDELAY);
-	if(handle > 0)
-	{
-		write(handle, dtoName, dtoNameSize);
-		close(handle);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-	*/
+	return false;	
 }
 
 
@@ -209,681 +192,676 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 **  Public Functions
 ****************************************************************************************/
 	
-	//--------------------------------------------------------ANALOG-------------------------------------------------------
-	int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
-	{
+//--------------------------------------------------------ANALOG-------------------------------------------------------
+int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+
+	unsigned int analogValue = 0;
+	unsigned char responseByteOffset = 0;
+	unsigned char responseBitsRemaining = 8; 
+	unsigned char dataBitsRemaining = AiResolution;
+	fstream fs;	//AI File Handle
 	
-		unsigned int analogValue = 0;
-		unsigned char responseByteOffset = 0;
-		unsigned char responseBitsRemaining = 8; 
-		unsigned char dataBitsRemaining = AiResolution;
-		fstream fs;	//AI File Handle
+	values[responseByteOffset] = 0x00;    //Clear First	Response Byte   
+
+	//Loop Over All AI channels In Command Packet
+	for(int i=0; i<numChans; i++)
+	{
+		//Acquire AI Sample
+		fs.open(AiPaths[channels[i]], fstream::in);
+		fs >> analogValue;
+		fs.close();
 		
-		values[responseByteOffset] = 0x00;    //Clear First	Response Byte   
+		dataBitsRemaining = AiResolution;
 
-		//Loop Over All AI channels In Command Packet
-		for(int i=0; i<numChans; i++)
+		//Byte Packet AI Values In Response Packet
+		while(dataBitsRemaining > 0)
 		{
-			//Acquire AI Sample
-			
-			fs.open(AiPaths[channels[i]], fstream::in);
-			fs >> analogValue;
-			fs.close();
-			
-			
-			//TODO analogValue = AiHandles[i];
-			
-			dataBitsRemaining = AiResolution;
+			*(values+responseByteOffset) |= ( (analogValue>>(AiResolution - dataBitsRemaining)) << (8 - responseBitsRemaining) );
+			//*(values+responseByteOffset) = 69;
 
-			//Byte Packet AI Values In Response Packet
-			while(dataBitsRemaining > 0)
+			if(responseBitsRemaining > dataBitsRemaining)
 			{
-				*(values+responseByteOffset) |= ( (analogValue>>(AiResolution - dataBitsRemaining)) << (8 - responseBitsRemaining) );
-				//*(values+responseByteOffset) = 69;
-
-				if(responseBitsRemaining > dataBitsRemaining)
-				{
-					//Current Byte Still Has Empty Bits
-					responseBitsRemaining -= dataBitsRemaining;
-					dataBitsRemaining = 0;
-				}
-				else
-				{
-					//Current Byte Full
-					dataBitsRemaining = dataBitsRemaining - responseBitsRemaining;
-					responseByteOffset++;
-					responseBitsRemaining = 8;
-					values[responseByteOffset] = 0x00;    //Clear Next Response Byte     
-				}
+				//Current Byte Still Has Empty Bits
+				responseBitsRemaining -= dataBitsRemaining;
+				dataBitsRemaining = 0;
+			}
+			else
+			{
+				//Current Byte Full
+				dataBitsRemaining = dataBitsRemaining - responseBitsRemaining;
+				responseByteOffset++;
+				responseBitsRemaining = 8;
+				values[responseByteOffset] = 0x00;    //Clear Next Response Byte     
 			}
 		}
-		
-		return L_OK;
 	}
 	
-	int LinxBeagleBone::AnalogSetRef(unsigned char mode, unsigned long voltage)
-	{
-		return L_FUNCTION_NOT_SUPPORTED;
-	}
+	return L_OK;
+}
 
-	//--------------------------------------------------------DIGITAL-------------------------------------------------------
-	int LinxBeagleBone::DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values)
+int LinxBeagleBone::AnalogSetRef(unsigned char mode, unsigned long voltage)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+//--------------------------------------------------------DIGITAL-------------------------------------------------------
+int LinxBeagleBone::DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	if(digitalSmartOpen(numChans, channels) != L_OK)
 	{
-		if(digitalSmartOpen(numChans, channels) != L_OK)
-		{
-			DebugPrintln("Smart Open Failed");
-			return L_UNKNOWN_ERROR;			
-		}
+		DebugPrintln("Smart Open Failed");
+		return L_UNKNOWN_ERROR;			
+	}
+	
+	//Set Direction Only If Necessary
+	//Avoid Divide By Zero By Doing First Iteration
+	if( (values[0] & 0x01) == OUTPUT && DigitalDirs[channels[0]] != OUTPUT)
+	{
+		//Set As Output
+		fprintf(DigitalDirHandles[channels[0]], "out");		
+		fflush(DigitalDirHandles[channels[0]]);
+		DigitalDirs[channels[0]] = OUTPUT;		
+	}
+	else if((values[0] & 0x01) == INPUT && DigitalDirs[channels[0]] != INPUT)
+	{
+		//Set As Input
+		fprintf(DigitalDirHandles[channels[0]], "in");	
+		fflush(DigitalDirHandles[channels[0]]);
+		DigitalDirs[channels[0]] = INPUT;
+	}
 		
-		//Set Direction Only If Necessary
-		//Avoid Divide By Zero By Doing First Iteration
-		if( (values[0] & 0x01) == OUTPUT && DigitalDirs[channels[0]] != OUTPUT)
+	//Set Directions
+	for(int i=1; i<numChans; i++)
+	{		
+		if( ((values[i/8] >> i%8) & 0x01) == OUTPUT && DigitalDirs[channels[i]] != OUTPUT)
 		{
 			//Set As Output
-			fprintf(DigitalDirHandles[channels[0]], "out");		
-			fflush(DigitalDirHandles[channels[0]]);
-			DigitalDirs[channels[0]] = OUTPUT;		
+			fprintf(DigitalDirHandles[channels[i]], "out");		
+			fflush(DigitalDirHandles[channels[i]]);
+			DigitalDirs[channels[i]] = OUTPUT;				
 		}
-		else if((values[0] & 0x01) == INPUT && DigitalDirs[channels[0]] != INPUT)
+		else if( (values[i] & 0x01) == INPUT && DigitalDirs[channels[i]] != INPUT)
 		{
 			//Set As Input
-			fprintf(DigitalDirHandles[channels[0]], "in");	
-			fflush(DigitalDirHandles[channels[0]]);
-			DigitalDirs[channels[0]] = INPUT;
+			fprintf(DigitalDirHandles[channels[i]], "in");	
+			fflush(DigitalDirHandles[channels[i]]);
+			DigitalDirs[channels[i]] = INPUT;
 		}
-			
-		//Set Directions
-		for(int i=1; i<numChans; i++)
-		{		
-			if( ((values[i/8] >> i%8) & 0x01) == OUTPUT && DigitalDirs[channels[i]] != OUTPUT)
-			{
-				//Set As Output
-				fprintf(DigitalDirHandles[channels[i]], "out");		
-				fflush(DigitalDirHandles[channels[i]]);
-				DigitalDirs[channels[i]] = OUTPUT;				
-			}
-			else if( (values[i] & 0x01) == INPUT && DigitalDirs[channels[i]] != INPUT)
-			{
-				//Set As Input
-				fprintf(DigitalDirHandles[channels[i]], "in");	
-				fflush(DigitalDirHandles[channels[i]]);
-				DigitalDirs[channels[i]] = INPUT;
-			}
-		}
-		
-		return L_OK;
 	}
 	
-	int LinxBeagleBone::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
+	return L_OK;
+}
+
+int LinxBeagleBone::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	//Generate Bit Packed Output Direction Array
+	int numDirBytes = (int)ceil(numChans/8.0);		
+	unsigned char directions[numDirBytes];
+	for(int i=0; i< numDirBytes; i++)
 	{
-		//Generate Bit Packed Output Direction Array
-		int numDirBytes = (int)ceil(numChans/8.0);		
-		unsigned char directions[numDirBytes];
-		for(int i=0; i< numDirBytes; i++)
-		{
-			directions[i] = 0xFF;
-		}	
-		
-		if(DigitalSetDirection(numChans, channels, directions) != L_OK)
-		{
-			DebugPrintln("Digital Write Fail - Set Direction Failed");
-		}
-				
-		for(int i=0; i<numChans; i++)
-		{
-			//Set Value
-			if( ((values[i/8] >> i%8) & 0x01) == LOW)
-			{
-				fprintf(DigitalValueHandles[channels[i]], "0");
-				fflush(DigitalValueHandles[channels[i]]);
-			}
-			else
-			{
-				fprintf(DigitalValueHandles[channels[i]], "1");
-				fflush(DigitalValueHandles[channels[i]]);
-			}
-		}
-			
-		return L_OK;
-	}
+		directions[i] = 0xFF;
+	}	
 	
-	int LinxBeagleBone::DigitalWrite(unsigned char channel, unsigned char value)
+	if(DigitalSetDirection(numChans, channels, directions) != L_OK)
 	{
-		return DigitalWrite(1, &channel, &value);
+		DebugPrintln("Digital Write Fail - Set Direction Failed");
+	}
+			
+	for(int i=0; i<numChans; i++)
+	{
+		//Set Value
+		if( ((values[i/8] >> i%8) & 0x01) == LOW)
+		{
+			fprintf(DigitalValueHandles[channels[i]], "0");
+			fflush(DigitalValueHandles[channels[i]]);
+		}
+		else
+		{
+			fprintf(DigitalValueHandles[channels[i]], "1");
+			fflush(DigitalValueHandles[channels[i]]);
+		}
+	}
+		
+	return L_OK;
+}
+
+int LinxBeagleBone::DigitalWrite(unsigned char channel, unsigned char value)
+{
+	return DigitalWrite(1, &channel, &value);
+}
+
+int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	//Generate Bit Packed Input Direction Array
+	int numDirBytes = (int)ceil(numChans/8.0);		
+	unsigned char directions[numDirBytes];
+	for(int i=0; i< numDirBytes; i++)
+	{
+		directions[i] = 0x00;
 	}
 	
-	int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+	//Set Directions To Inputs		
+	if(DigitalSetDirection(numChans, channels, directions) != L_OK)
 	{
-		//Generate Bit Packed Input Direction Array
-		int numDirBytes = (int)ceil(numChans/8.0);		
-		unsigned char directions[numDirBytes];
-		for(int i=0; i< numDirBytes; i++)
+		DebugPrintln("Digital Write Fail - Set Direction Failed");
+	}
+	
+	unsigned char bitOffset = 8;
+	unsigned char byteOffset = 0;
+	unsigned char retVal = 0;
+	int diVal = 0;
+	
+	//Loop Over channels To Read
+	for(int i=0; i<numChans; i++)
+	{
+		
+		//If bitOffset Is 0 We Have To Start A New Byte, Store Old Byte And Increment OFfsets
+		if(bitOffset == 0)
 		{
-			directions[i] = 0x00;
+			//Insert retVal Into Response Buffer
+			values[byteOffset] = retVal;
+			retVal = 0x00;
+			byteOffset++;
+			bitOffset = 7;      
+		}
+		else
+		{
+			bitOffset--;
 		}
 		
-		//Set Directions To Inputs		
-		if(DigitalSetDirection(numChans, channels, directions) != L_OK)
+		//Reopen Value Handle
+		char valPath[64];
+		sprintf(valPath, "/sys/class/gpio/gpio%d/value", DigitalChannels[channels[i]]);
+		DigitalValueHandles[channels[i]] = freopen(valPath, "r+w+", DigitalValueHandles[channels[i]]);
+		
+		//Read From Next Pin
+		fscanf(DigitalValueHandles[channels[i]], "%u", &diVal);
+		
+		//DebugPrint("Value = ");
+		//DebugPrintln((unsigned char)diVal, DEC);
+		
+					
+		retVal = retVal | ((unsigned char)diVal << bitOffset);	//Read Pin And Insert Value Into retVal
+	}
+
+	//Store Last Byte
+	values[byteOffset] = retVal;
+		
+	return L_OK;
+}
+
+int LinxBeagleBone::DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxBeagleBone::DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+
+//--------------------------------------------------------PWM-------------------------------------------------------
+int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
+	unsigned long dutyCycle = 0;
+	
+	//Smart Open PWM Channels
+	pwmSmartOpen(numChans, channels);
+	
+	for(int i=0; i<numChans; i++)
+	{
+		if(values[i] == 0)
+		{				
+			dutyCycle = 0;
+		}
+		else if(values[i] == 255)
 		{
-			DebugPrintln("Digital Write Fail - Set Direction Failed");
+			dutyCycle = period;		
+		}
+		else
+		{
+			dutyCycle= period*(values[i] / 255.0);
 		}
 		
-		unsigned char bitOffset = 8;
-		unsigned char byteOffset = 0;
-		unsigned char retVal = 0;
-		int diVal = 0;
-		
-		//Loop Over channels To Read
-		for(int i=0; i<numChans; i++)
+		//Update Output
+		DebugPrint("Setting Duty Cycle = ");
+		DebugPrint(dutyCycle, DEC);
+		fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
+		DebugPrint(" ... Duty Cycle Set ... ");
+		fflush(PwmDutyCycleHandles[channels[i]]);
+		DebugPrintln("Flushing.");
+	}
+	
+	return L_OK;
+}
+
+int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values)
+{		
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+//--------------------------------------------------------SPI-------------------------------------------------------
+int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
+{
+	//Load SPI DTO If Necissary
+	if(!fileExists(SpiPaths[channel].c_str()))
+	{
+		if(!loadDto(SpiDtoNames[channel].c_str()))		
 		{
-			
-			//If bitOffset Is 0 We Have To Start A New Byte, Store Old Byte And Increment OFfsets
-			if(bitOffset == 0)
-			{
-				//Insert retVal Into Response Buffer
-				values[byteOffset] = retVal;
-				retVal = 0x00;
-				byteOffset++;
-				bitOffset = 7;      
-			}
-			else
-			{
-				bitOffset--;
-			}
-			
-			//Reopen Value Handle
-			char valPath[64];
-			sprintf(valPath, "/sys/class/gpio/gpio%d/value", DigitalChannels[channels[i]]);
-			DigitalValueHandles[channels[i]] = freopen(valPath, "r+w+", DigitalValueHandles[channels[i]]);
-			
-			//Read From Next Pin
-			fscanf(DigitalValueHandles[channels[i]], "%u", &diVal);
-			
-			//DebugPrint("Value = ");
-			//DebugPrintln((unsigned char)diVal, DEC);
-			
-						
-			retVal = retVal | ((unsigned char)diVal << bitOffset);	//Read Pin And Insert Value Into retVal
+			DebugPrint("SPI Fail - Failed To Load SPI DTO");
+			return  LSPI_OPEN_FAIL;
 		}
-	
-		//Store Last Byte
-		values[byteOffset] = retVal;
-			
-		return L_OK;
 	}
 	
-	int LinxBeagleBone::DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration)
+	SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
+	
+	if(SpiHandles[channel] == NULL)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		return LSPI_OPEN_FAIL;
 	}
-	
-	int LinxBeagleBone::DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width)
+	else
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
-	}
-	
-	
-	//--------------------------------------------------------PWM-------------------------------------------------------
-	int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
-	{
-		unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
-		unsigned long dutyCycle = 0;
-		
-		//Smart Open PWM Channels
-		pwmSmartOpen(numChans, channels);
-		
-		for(int i=0; i<numChans; i++)
+		//Default To Mode 0 With No CS (LINX Uses GPIO When Performing Write)
+		unsigned long spi_Mode = SPI_MODE_0;			
+		if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)					
 		{
-			if(values[i] == 0)
-			{				
-				dutyCycle = 0;
-			}
-			else if(values[i] == 255)
-			{
-				dutyCycle = period;		
-			}
-			else
-			{
-				dutyCycle= period*(values[i] / 255.0);
-			}
-			
-			//Update Output
-			DebugPrint("Setting Duty Cycle = ");
-			DebugPrint(dutyCycle, DEC);
-			fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
-			DebugPrint(" ... Duty Cycle Set ... ");
-			fflush(PwmDutyCycleHandles[channels[i]]);
-			DebugPrintln("Flushing.");
-		}
-		
-		return L_OK;
-	}
-	
-	int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values)
-	{		
-		return L_FUNCTION_NOT_SUPPORTED;
-	}
-	
-	//--------------------------------------------------------SPI-------------------------------------------------------
-	int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
-	{
-		//Load SPI DTO If Necissary
-		if(!fileExists(SpiPaths[channel].c_str()))
-		{
-			if(!loadDto(SpiDtoNames[channel].c_str()))		
-			{
-				DebugPrint("SPI Fail - Failed To Load SPI DTO");
-				return  LSPI_OPEN_FAIL;
-			}
-		}
-		
-		SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
-		
-		if(SpiHandles[channel] == NULL)
-		{
+			DebugPrint("SPI Fail - Failed To Set SPI Mode - ");
+			DebugPrintln(spi_Mode, BIN);
 			return LSPI_OPEN_FAIL;
 		}
-		else
-		{
-			//Default To Mode 0 With No CS (LINX Uses GPIO When Performing Write)
-			unsigned long spi_Mode = SPI_MODE_0;			
-			if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)					
+		
+		//Default Max Speed To 
+		unsigned long speed = 25000;			
+		if (ioctl(SpiHandles[channel], SPI_IOC_WR_MAX_SPEED_HZ, &speed) > 0)
+		{			
+			DebugPrint("SPI Fail - Failed To Set SPI Max Speed - ");
+			DebugPrintln(speed, DEC);
+			return LSPI_OPEN_FAIL;
+		}			
+		
+	}
+	return L_OK;
+}
+
+int LinxBeagleBone::SpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
+{
+	SpiBitOrders[channel] = bitOrder;
+	return L_OK;
+}
+
+int LinxBeagleBone::SpiSetMode(unsigned char channel, unsigned char mode)
+{
+	unsigned long spi_Mode = (unsigned long) mode;
+	if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)
+	{
+		DebugPrintln("Failed To Set SPI Mode");
+		return  L_UNKNOWN_ERROR;
+	}		
+	return L_OK;
+}
+
+int LinxBeagleBone::SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
+{	
+	int index = 0;
+	//Loop Over All Supported SPI Speeds
+	for(index=0; index < NumSpiSpeeds; index++)
+	{
+			
+			if(speed < *(SpiSupportedSpeeds+index))
 			{
-				DebugPrint("SPI Fail - Failed To Set SPI Mode - ");
-				DebugPrintln(spi_Mode, BIN);
-				return LSPI_OPEN_FAIL;
+				index = index - 1; //Use Fastest Speed Below Target Speed
+				break;
 			}
-			
-			//Default Max Speed To 
-			unsigned long speed = 25000;			
-			if (ioctl(SpiHandles[channel], SPI_IOC_WR_MAX_SPEED_HZ, &speed) > 0)
-			{			
-				DebugPrint("SPI Fail - Failed To Set SPI Max Speed - ");
-				DebugPrintln(speed, DEC);
-				return LSPI_OPEN_FAIL;
-			}			
-			
-		}
-		return L_OK;
+			//If Target Speed Is Higher Than Max Speed Use Max Speed			
 	}
+	SpiSetSpeeds[channel] = *(SpiSupportedSpeeds+index);
+	*actualSpeed = *(SpiSupportedSpeeds+index); 
 	
-	int LinxBeagleBone::SpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
+	return L_OK;
+}
+
+int LinxBeagleBone::SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)
+{
+	unsigned char nextByte = 0;	//First Byte Of Next SPI Frame	
+
+	//SPI Hardware Only Supports MSb First Transfer.  If  Configured for LSb First Reverse Bits In Software
+	if( SpiBitOrders[channel] == LSBFIRST )
 	{
-		SpiBitOrders[channel] = bitOrder;
-		return L_OK;
-	}
-	
-	int LinxBeagleBone::SpiSetMode(unsigned char channel, unsigned char mode)
-	{
-		unsigned long spi_Mode = (unsigned long) mode;
-		if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)
-		{
-			DebugPrintln("Failed To Set SPI Mode");
-			return  L_UNKNOWN_ERROR;
-		}		
-		return L_OK;
-	}
-	
-	int LinxBeagleBone::SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
-	{	
-		int index = 0;
-		//Loop Over All Supported SPI Speeds
-		for(index=0; index < NumSpiSpeeds; index++)
-		{
-				
-				if(speed < *(SpiSupportedSpeeds+index))
-				{
-					index = index - 1; //Use Fastest Speed Below Target Speed
-					break;
-				}
-				//If Target Speed Is Higher Than Max Speed Use Max Speed			
+		for(int i=0; i< frameSize*numFrames; i++)
+		{			
+			sendBuffer[i] = ReverseBits(sendBuffer[i]);
 		}
-		SpiSetSpeeds[channel] = *(SpiSupportedSpeeds+index);
-		*actualSpeed = *(SpiSupportedSpeeds+index); 
-		
-		return L_OK;
 	}
 	
-	int LinxBeagleBone::SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)
-	{
-		unsigned char nextByte = 0;	//First Byte Of Next SPI Frame	
+	struct spi_ioc_transfer transfer;
 	
-		//SPI Hardware Only Supports MSb First Transfer.  If  Configured for LSb First Reverse Bits In Software
-		if( SpiBitOrders[channel] == LSBFIRST )
-		{
-			for(int i=0; i< frameSize*numFrames; i++)
-			{			
-				sendBuffer[i] = ReverseBits(sendBuffer[i]);
-			}
-		}
+	//Set CS As Output And Make Sure CS Starts Idle	
+	DigitalWrite(csChan, (~csLL & 0x01) );
+	
+	for(int i=0; i< numFrames; i++)
+	{
+		//Setup Transfer
+		transfer.tx_buf = (unsigned long)(sendBuffer+nextByte);
+		transfer.rx_buf = (unsigned long)(recBuffer+nextByte);
+		transfer.len = frameSize;
+		transfer.delay_usecs = 0;
+		//transfer.speed_hz = SpiSetSpeeds[channel];
+		transfer.speed_hz = 25000;
+		transfer.bits_per_word = 8;
+	
+		//CS Active
+		DigitalWrite(csChan, csLL);			
 		
-		struct spi_ioc_transfer transfer;
+		//Transfer Data
+		int retVal = ioctl(SpiHandles[channel], SPI_IOC_MESSAGE(1), &transfer);
 		
-		//Set CS As Output And Make Sure CS Starts Idle	
+		//CS Idle
 		DigitalWrite(csChan, (~csLL & 0x01) );
 		
-		for(int i=0; i< numFrames; i++)
+		if (retVal < 0)
 		{
-			//Setup Transfer
-			transfer.tx_buf = (unsigned long)(sendBuffer+nextByte);
-			transfer.rx_buf = (unsigned long)(recBuffer+nextByte);
-			transfer.len = frameSize;
-			transfer.delay_usecs = 0;
-			//transfer.speed_hz = SpiSetSpeeds[channel];
-			transfer.speed_hz = 25000;
-			transfer.bits_per_word = 8;
-		
-			//CS Active
-			DigitalWrite(csChan, csLL);			
-			
-			//Transfer Data
-			int retVal = ioctl(SpiHandles[channel], SPI_IOC_MESSAGE(1), &transfer);
-			
-			//CS Idle
-			DigitalWrite(csChan, (~csLL & 0x01) );
-			
-			if (retVal < 0)
-			{
-				DebugPrintln("SPI Fail - Failed To Transfer Data");
-				return  LSPI_TRANSFER_FAIL;
-			}
-			
-			nextByte += frameSize;			
+			DebugPrintln("SPI Fail - Failed To Transfer Data");
+			return  LSPI_TRANSFER_FAIL;
 		}
-	
-		return L_OK;
+		
+		nextByte += frameSize;			
 	}
-	
-	
-	//--------------------------------------------------------I2C-------------------------------------------------------
-	int LinxBeagleBone::I2cOpenMaster(unsigned char channel)
-	{
-		//Export Dev Tree Overlay If Device DNE
-		if(!fileExists(I2cPaths[channel].c_str()))
-		{		
-			DebugPrint("I2C - Loading DTO ");
-			DebugPrintln(I2cDtoNames[channel].c_str());
-			if(!loadDto(I2cDtoNames[channel].c_str()))		
-			{
-				DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
-				return  LI2C_OPEN_FAIL;
-			}
-		}
-		
-		int handle = open(I2cPaths[channel].c_str(), O_RDWR);
-		if (handle < 0)
+
+	return L_OK;
+}
+
+
+//--------------------------------------------------------I2C-------------------------------------------------------
+int LinxBeagleBone::I2cOpenMaster(unsigned char channel)
+{
+	//Export Dev Tree Overlay If Device DNE
+	if(!fileExists(I2cPaths[channel].c_str()))
+	{		
+		DebugPrint("I2C - Loading DTO ");
+		DebugPrintln(I2cDtoNames[channel].c_str());
+		if(!loadDto(I2cDtoNames[channel].c_str()))		
 		{
-			DebugPrintln("I2C Fail - Failed To Open I2C Channel");
+			DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
 			return  LI2C_OPEN_FAIL;
 		}
-		else
-		{
-			I2cHandles[channel] = handle;
-		}
-		return L_OK;
 	}
 	
-	int LinxBeagleBone::I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
+	int handle = open(I2cPaths[channel].c_str(), O_RDWR);
+	if (handle < 0)
 	{
-		return L_FUNCTION_NOT_SUPPORTED;
+		DebugPrintln("I2C Fail - Failed To Open I2C Channel");
+		return  LI2C_OPEN_FAIL;
+	}
+	else
+	{
+		I2cHandles[channel] = handle;
+	}
+	return L_OK;
+}
+
+int LinxBeagleBone::I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxBeagleBone::I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
+{
+	//Check EOF - Currently Only Support 0x00
+	if(eofConfig != EOF_STOP)
+	{
+		DebugPrintln("I2C Fail - EOF Not Supported");
+		return LI2C_EOF;	
 	}
 	
-	int LinxBeagleBone::I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
-	{
-		//Check EOF - Currently Only Support 0x00
-		if(eofConfig != EOF_STOP)
-		{
-			DebugPrintln("I2C Fail - EOF Not Supported");
-			return LI2C_EOF;	
-		}
+	//Set Slave Address
+	if (int x = ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+	{			
+		//Failed To Set Slave Address
+		DebugPrintln("I2C Fail - Failed To Set Slave Address");
+		return LI2C_SADDR;
+	}
 		
-		//Set Slave Address
-		if (int x = ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
-		{			
-			//Failed To Set Slave Address
-			DebugPrintln("I2C Fail - Failed To Set Slave Address");
-			return LI2C_SADDR;
-		}
+	//Write Data
+	if(write(I2cHandles[channel], sendBuffer, numBytes) != numBytes)
+	{
+		DebugPrintln("I2C Fail - Failed To Write All Data");
+		return LI2C_WRITE_FAIL;
+	}
+	
+	return L_OK;
+}
+
+int LinxBeagleBone::I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
+{
+	//Check EOF - Currently Only Support 0x00
+	if(eofConfig != EOF_STOP)
+	{
+		return LI2C_EOF;	
+	}
+	
+	//Set Slave Address
+	if (ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+	{
+		//Failed To Set Slave Address
+		return LI2C_SADDR;
+	}
+	
+	if(read(I2cHandles[channel], recBuffer, numBytes) < numBytes)
+	{
+		return LI2C_READ_FAIL;	
+	}
+	
+	return L_OK;
+}
+
+int LinxBeagleBone::I2cClose(unsigned char channel)
+{
+	//Close I2C Channel
+	if(close(I2cHandles[channel]) < 0)
+	{
+		return LI2C_CLOSE_FAIL;
+	}
+	
+	return L_OK;
+}
+
+
+//--------------------------------------------------------UART-------------------------------------------------------
+int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+{
+	
+	DebugPrintln("UART Open");
+	
+	//Load DTO If Needed
+	if(!fileExists(UartPaths[channel].c_str()))
+	{
+		if(!loadDto(UartDtoNames[channel].c_str()))	
+		{
+			DebugPrint("UART Fail - Failed To Load ");
+			DebugPrint(UartDtoNames[channel].c_str());
+			DebugPrintln(" DTO");
+			return  LUART_OPEN_FAIL;
+		}			
+	}
+	
+	//Open UART	Handle If Not Already Open
+	
+if(UartHandles[channel] <= 0)
+	{
+		int handle = open(UartPaths[channel].c_str(),  O_RDWR);
 			
-		//Write Data
-		if(write(I2cHandles[channel], sendBuffer, numBytes) != numBytes)
+		if (handle <= 0)
 		{
-			DebugPrintln("I2C Fail - Failed To Write All Data");
-			return LI2C_WRITE_FAIL;
-		}
-		
-		return L_OK;
-	}
-	
-	int LinxBeagleBone::I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
-	{
-		//Check EOF - Currently Only Support 0x00
-		if(eofConfig != EOF_STOP)
-		{
-			return LI2C_EOF;	
-		}
-		
-		//Set Slave Address
-		if (ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
-		{
-			//Failed To Set Slave Address
-			return LI2C_SADDR;
-		}
-		
-		if(read(I2cHandles[channel], recBuffer, numBytes) < numBytes)
-		{
-			return LI2C_READ_FAIL;	
-		}
-		
-		return L_OK;
-	}
-	
-	int LinxBeagleBone::I2cClose(unsigned char channel)
-	{
-		//Close I2C Channel
-		if(close(I2cHandles[channel]) < 0)
-		{
-			return LI2C_CLOSE_FAIL;
-		}
-		
-		return L_OK;
-	}
-	
-	
-	//--------------------------------------------------------UART-------------------------------------------------------
-	int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
-	{
-		
-		DebugPrintln("UART Open");
-		
-		//Load DTO If Needed
-		if(!fileExists(UartPaths[channel].c_str()))
-		{
-			if(!loadDto(UartDtoNames[channel].c_str()))	
-			{
-				DebugPrint("UART Fail - Failed To Load ");
-				DebugPrint(UartDtoNames[channel].c_str());
-				DebugPrintln(" DTO");
-				return  LUART_OPEN_FAIL;
-			}			
-		}
-		
-		//Open UART	Handle If Not Already Open
-		
-	if(UartHandles[channel] <= 0)
-		{
-			int handle = open(UartPaths[channel].c_str(),  O_RDWR);
-				
-			if (handle <= 0)
-			{
-				DebugPrint("UART Fail - Failed To Open UART Handle -  ");
-				DebugPrintln(UartPaths[channel].c_str());
-				return  LUART_OPEN_FAIL;
-			}
-			else
-			{
-				UartHandles[channel] = handle;
-			}
-		}
-		/*else
-		{
-			DebugPrint("UART ");		
-			DebugPrint(channel, DEC);
-			DebugPrintln(" already Open.");		
-		}*/
-		
-		if(UartSetBaudRate(channel, baudRate, actualBaud) != L_OK)
-		{
-			DebugPrintln("Failed to set baud rate");
-		}
-		
-		return L_OK;
-	}
-	
-	int LinxBeagleBone::UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
-	{
-		//Get Closest Support Baud Rate Without Going Over
-	
-		//Loop Over All Supported SPI Speeds
-		int index = 0;
-		for(index=0; index < NumUartSpeeds; index++)
-		{				
-			if(baudRate < *(UartSupportedSpeeds+index))
-			{		
-				//Previous Index Was Closest Supported Baud Without Going Over, Index Will Be Decremented Accordingly Below.
-				break;
-			}	
-		}
-		
-		//Once Loop Completes Index Is One Higher Than The Correct Baud, But Could Be Zero So Check And Decrement Accordingly
-		//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud
-		if(index != 0)
-		{
-			index = index -1;
-		}
-		
-		//Store Actual Baud Used
-		*actualBaud = (unsigned long) *(UartSupportedSpeeds+index);
-		
-		//Set Baud Rate
-		struct termios options;	
-		tcgetattr(UartHandles[channel], &options);
-		
-		options.c_cflag = *(UartSupportedSpeedsCodes+index) | CS8 | CLOCAL | CREAD;
-		options.c_iflag = IGNPAR;
-		options.c_oflag = 0;
-		options.c_lflag = 0;
-		
-		tcflush(UartHandles[channel], TCIFLUSH);	
-		tcsetattr(UartHandles[channel], TCSANOW, &options);
-		
-		return  L_OK;
-	}
-	
-	int LinxBeagleBone::UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
-	{
-		int bytesAtPort = -1;
-		ioctl(UartHandles[channel], FIONREAD, &bytesAtPort);
-		
-		if(bytesAtPort < 0)
-		{
-			return LUART_AVAILABLE_FAIL;
+			DebugPrint("UART Fail - Failed To Open UART Handle -  ");
+			DebugPrintln(UartPaths[channel].c_str());
+			return  LUART_OPEN_FAIL;
 		}
 		else
 		{
-			*numBytes = (unsigned char) bytesAtPort;
+			UartHandles[channel] = handle;
 		}
-		return  L_OK;
+	}
+	/*else
+	{
+		DebugPrint("UART ");		
+		DebugPrint(channel, DEC);
+		DebugPrintln(" already Open.");		
+	}*/
+	
+	if(UartSetBaudRate(channel, baudRate, actualBaud) != L_OK)
+	{
+		DebugPrintln("Failed to set baud rate");
 	}
 	
-	int LinxBeagleBone::UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
+	return L_OK;
+}
+
+int LinxBeagleBone::UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+{
+	//Get Closest Support Baud Rate Without Going Over
+
+	//Loop Over All Supported SPI Speeds
+	int index = 0;
+	for(index=0; index < NumUartSpeeds; index++)
+	{				
+		if(baudRate < *(UartSupportedSpeeds+index))
+		{		
+			//Previous Index Was Closest Supported Baud Without Going Over, Index Will Be Decremented Accordingly Below.
+			break;
+		}	
+	}
+	
+	//Once Loop Completes Index Is One Higher Than The Correct Baud, But Could Be Zero So Check And Decrement Accordingly
+	//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud
+	if(index != 0)
 	{
-		//Check If Enough Bytes Are Available
-		unsigned char bytesAvailable = -1;
-		UartGetBytesAvailable(channel, &bytesAvailable);
+		index = index -1;
+	}
+	
+	//Store Actual Baud Used
+	*actualBaud = (unsigned long) *(UartSupportedSpeeds+index);
+	
+	//Set Baud Rate
+	struct termios options;	
+	tcgetattr(UartHandles[channel], &options);
+	
+	options.c_cflag = *(UartSupportedSpeedsCodes+index) | CS8 | CLOCAL | CREAD;
+	options.c_iflag = IGNPAR;
+	options.c_oflag = 0;
+	options.c_lflag = 0;
+	
+	tcflush(UartHandles[channel], TCIFLUSH);	
+	tcsetattr(UartHandles[channel], TCSANOW, &options);
+	
+	return  L_OK;
+}
+
+int LinxBeagleBone::UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
+{
+	int bytesAtPort = -1;
+	ioctl(UartHandles[channel], FIONREAD, &bytesAtPort);
+	
+	if(bytesAtPort < 0)
+	{
+		return LUART_AVAILABLE_FAIL;
+	}
+	else
+	{
+		*numBytes = (unsigned char) bytesAtPort;
+	}
+	return  L_OK;
+}
+
+int LinxBeagleBone::UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
+{
+	//Check If Enough Bytes Are Available
+	unsigned char bytesAvailable = -1;
+	UartGetBytesAvailable(channel, &bytesAvailable);
+	
+	if(bytesAvailable >= numBytes)
+	{
+		//Read Bytes From Input Buffer
+		int bytesRead = read(UartHandles[channel], recBuffer, numBytes);
+		*numBytesRead = (unsigned char) bytesRead;
 		
-		if(bytesAvailable >= numBytes)
+		if(bytesRead != numBytes)
 		{
-			//Read Bytes From Input Buffer
-			int bytesRead = read(UartHandles[channel], recBuffer, numBytes);
-			*numBytesRead = (unsigned char) bytesRead;
-			
-			if(bytesRead != numBytes)
-			{
-				return LUART_READ_FAIL;
-			}		
-		}
-		return  L_OK;
+			return LUART_READ_FAIL;
+		}		
 	}
-	
-	int LinxBeagleBone::UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
+	return  L_OK;
+}
+
+int LinxBeagleBone::UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
+{
+	int bytesSent = write(UartHandles[channel], sendBuffer, numBytes);	
+	if(bytesSent != numBytes)
 	{
-		int bytesSent = write(UartHandles[channel], sendBuffer, numBytes);	
-		if(bytesSent != numBytes)
-		{
-			return LUART_WRITE_FAIL;
-		}
-		return  L_OK;
+		return LUART_WRITE_FAIL;
 	}
-	
-	int LinxBeagleBone::UartClose(unsigned char channel)
+	return  L_OK;
+}
+
+int LinxBeagleBone::UartClose(unsigned char channel)
+{
+	//Close UART Channel, Return OK or Error
+	if (close(UartHandles[channel]) < 0)
 	{
-		//Close UART Channel, Return OK or Error
-		if (close(UartHandles[channel]) < 0)
-		{
-			return LUART_CLOSE_FAIL;
-		}
-		UartHandles[channel] = 0;
-		return  L_OK;
+		return LUART_CLOSE_FAIL;
 	}
+	UartHandles[channel] = 0;
+	return  L_OK;
+}
+
+
+//--------------------------------------------------------SERVO-------------------------------------------------------
+int LinxBeagleBone::ServoOpen(unsigned char numChans, unsigned char* chans)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxBeagleBone::ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxBeagleBone::ServoClose(unsigned char numChans, unsigned char* chans)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+
+//--------------------------------------------------------GENERAL-------------------------------------------------------
+unsigned long LinxBeagleBone::GetMilliSeconds()
+{
+	timespec mTime;
+	clock_gettime(CLOCK_MONOTONIC, &mTime);
+	//return (mTime.tv_nsec / 1000000);
+	return ( ((unsigned long) mTime.tv_sec * 1000) + mTime.tv_nsec / 1000000);
+}
+
+unsigned long LinxBeagleBone::GetSeconds()
+{
+	timespec mTime;
+	clock_gettime(CLOCK_MONOTONIC, &mTime);	
+	return mTime.tv_sec;
+}
+
+void LinxBeagleBone::DelayMs(unsigned long ms)
+{
+	usleep(ms * 1000);
+}
+
+void LinxBeagleBone::NonVolatileWrite(int address, unsigned char data)
+{
 	
-	
-	//--------------------------------------------------------SERVO-------------------------------------------------------
-	int LinxBeagleBone::ServoOpen(unsigned char numChans, unsigned char* chans)
-	{
-		return L_FUNCTION_NOT_SUPPORTED;
-	}
-	
-	int LinxBeagleBone::ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths)
-	{
-		return L_FUNCTION_NOT_SUPPORTED;
-	}
-	
-	int LinxBeagleBone::ServoClose(unsigned char numChans, unsigned char* chans)
-	{
-		return L_FUNCTION_NOT_SUPPORTED;
-	}
-	
-	
-	//--------------------------------------------------------GENERAL-------------------------------------------------------
-	unsigned long LinxBeagleBone::GetMilliSeconds()
-	{
-		timespec mTime;
-		clock_gettime(CLOCK_MONOTONIC, &mTime);
-		//return (mTime.tv_nsec / 1000000);
-		return ( ((unsigned long) mTime.tv_sec * 1000) + mTime.tv_nsec / 1000000);
-	}
-	
-	unsigned long LinxBeagleBone::GetSeconds()
-	{
-		timespec mTime;
-		clock_gettime(CLOCK_MONOTONIC, &mTime);	
-		return mTime.tv_sec;
-	}
-	
-	void LinxBeagleBone::DelayMs(unsigned long ms)
-	{
-		usleep(ms * 1000);
-	}
-	
-	void LinxBeagleBone::NonVolatileWrite(int address, unsigned char data)
-	{
-		
-	}
-	
-	unsigned char LinxBeagleBone::NonVolatileRead(int address)
-	{
-		return L_FUNCTION_NOT_SUPPORTED;
-	}
-	
-	
+}
+
+unsigned char LinxBeagleBone::NonVolatileRead(int address)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+

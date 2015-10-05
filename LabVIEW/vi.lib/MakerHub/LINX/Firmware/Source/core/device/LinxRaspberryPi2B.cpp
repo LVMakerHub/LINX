@@ -25,6 +25,7 @@
 const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
 
 //AI
+//None
 
 //AO
 //None
@@ -34,6 +35,7 @@ const unsigned char LinxRaspberryPi2B::m_DigitalChans[NUM_DIGITAL_CHANS] = {7, 1
 const unsigned char LinxRaspberryPi2B::m_gpioChan[NUM_DIGITAL_CHANS] =     {4, 17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 21};
 
 //PWM
+//None
 
 //QE
 //None
@@ -57,7 +59,7 @@ unsigned long LinxRaspberryPi2B::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {0, 50
 unsigned long LinxRaspberryPi2B::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200, B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200};
 
 //SERVO
-//Servo* LinxRaspberryPi2B::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};			//Initialize To Null Pointers
+//None
 
 /****************************************************************************************
 **  Constructors /  Destructor
@@ -71,7 +73,7 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 
 	//LINX API Version
 	LinxApiMajor = 2;
-	LinxApiMinor = 0;
+	LinxApiMinor = 1;
 	LinxApiSubminor = 0;
 	
 	//DIGITAL
@@ -105,8 +107,7 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 	//QE
 	NumQeChans = 0;
 	QeChans = 0;
-	
-	
+		
 	//UART
 	NumUartChans = NUM_UART_CHANS;
 	UartChans = m_UartChans;	
@@ -131,13 +132,7 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 	NumCanChans = 0;
 	CanChans = 0;
 	
-	/*
-	//SERVO	
-	NumServoChans = NUM_SERVO_CHANS;	
-	ServoChans = m_DigitalChans;
-	Servos = m_Servos;
-	*/
-		
+			
 	//------------------------------------- Digital -------------------------------------
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)

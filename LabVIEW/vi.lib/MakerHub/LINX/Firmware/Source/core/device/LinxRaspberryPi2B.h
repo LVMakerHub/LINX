@@ -56,6 +56,7 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		static const unsigned char m_DeviceName[DEVICE_NAME_LEN];
 		
 		//AI		
+		//None
 		
 		//AO
 		//None
@@ -65,6 +66,7 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		static const unsigned char m_gpioChan[NUM_DIGITAL_CHANS];
 		
 		//PWM
+		//None
 		
 		//SPI
 		static const unsigned char m_SpiChans[NUM_SPI_CHANS];
@@ -85,21 +87,18 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 
 		
 		//Servo		
-		//static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
-		//static Servo* m_Servos[NUM_SERVO_CHANS];
+		//None
 		
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
 		LinxRaspberryPi2B();
 		~LinxRaspberryPi2B();
-
 		
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		
-		
+				
 	private:
 		/****************************************************************************************
 		**  Variables
@@ -108,8 +107,7 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		
-		
+				
 };
 
 #endif //LINX_RASPBERRYPI2B

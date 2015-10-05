@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX Serial Listener For BeagleBone Black
+**
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** BSD2 License.
+****************************************************************************************/	
+
 #include <stdio.h>
 #include <iostream>
 
@@ -6,7 +17,7 @@
 #include "LinxBeagleBoneBlack.h"
 #include "LinxSerialListener.h"
 
-#define ListenerUartChan 4
+#define LISTENER_UART_PORT 0
 
 LinxBeagleBoneBlack* LinxDevice;
 
@@ -14,15 +25,16 @@ LinxBeagleBoneBlack* LinxDevice;
 int main()
 {
 	fprintf(stdout, "\n\n ..:: LINX ::..\n\n");
+	
 	//Instantiate The LINX Device
 	LinxDevice = new LinxBeagleBoneBlack();
 	
 	//The LINXT Listener Is Pre Instantiated, Call Start And Pass A Pointer To The LINX Device And The UART Channel To Listen On
-	LinxSerialConnection.Start(LinxDevice, ListenerUartChan);
+	LinxSerialConnection.Start(LinxDevice, LISTENER_UART_PORT);
+
+	fprintf(stdout, "Listening On UART %d.\n", LISTENER_UART_PORT);
 
 	//Check for and process commands
-	fprintf(stdout, "Listening On UART %d.\n", ListenerUartChan);
-
 	while(1)
 	{
 		LinxSerialConnection.CheckForCommands();

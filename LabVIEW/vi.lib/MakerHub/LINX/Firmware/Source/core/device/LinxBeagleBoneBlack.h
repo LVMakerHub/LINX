@@ -90,24 +90,20 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static unsigned long m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS];
 		static int m_UartHandles[NUM_UART_CHANS];
 		static string m_UartPaths[NUM_UART_CHANS];
-
 		
 		//Servo		
-		//static const unsigned char m_ServoChans[NUM_SERVO_CHANS];
-		//static Servo* m_Servos[NUM_SERVO_CHANS];
+		//none
 		
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
 		LinxBeagleBoneBlack();
 		~LinxBeagleBoneBlack();
-
 		
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		
-		
+				
 	private:
 		/****************************************************************************************
 		**  Variables
@@ -117,8 +113,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-		
-		
+				
 };
 
 #endif //LINX_BEAGLEBONEBLACK_H

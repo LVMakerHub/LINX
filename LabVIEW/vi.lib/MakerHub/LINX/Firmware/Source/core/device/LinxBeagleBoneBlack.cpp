@@ -52,6 +52,7 @@ const unsigned char LinxBeagleBoneBlack::m_PwmChans[NUM_PWM_CHANS] = {13, 19, 60
 const string LinxBeagleBoneBlack::m_PwmDirPaths[NUM_PWM_CHANS] = {"/sys/devices/ocp.3/pwm_test_P8_13.16/", "/sys/devices/ocp.3/pwm_test_P8_19.17/", "/sys/devices/ocp.3/pwm_test_P9_14.18/", "/sys/devices/ocp.3/pwm_test_P9_16.19/"};
 const string LinxBeagleBoneBlack::m_PwmDtoNames[NUM_PWM_CHANS] = {"bone_pwm_P8_13", "bone_pwm_P8_19", "bone_pwm_P9_14", "bone_pwm_P9_16"};
 unsigned long m_PwmDefaultFrequency = 3000;
+
 //QE
 //None
 
@@ -76,7 +77,7 @@ unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {0, 
 unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200, B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200};
 
 //SERVO
-//Servo* LinxBeagleBoneBlack::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};			//Initialize To Null Pointers
+//None
 
 /****************************************************************************************
 **  Constructors /  Destructor
@@ -90,7 +91,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
  
 	//LINX API Version
 	LinxApiMajor = 2;
-	LinxApiMinor = 0;
+	LinxApiMinor = 1;
 	LinxApiSubminor = 0; 
 	
 	//DIGITAL
@@ -153,9 +154,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	CanChans = 0;
 	
 	//SERVO
-	//NumServoChans = NUM_SERVO_CHANS;	
-	//ServoChans = m_DigitalChans;
-	//Servos = m_Servos;
+	//None
 	
 	//------------------------------------- ANALOG -------------------------------------
 	//Export Dev Tree Overlay For AI If It DNE And Open AI Handles

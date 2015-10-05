@@ -1,3 +1,14 @@
+/****************************************************************************************
+**  LINX Configurable Listener For Raspberry Pi 2 Model B
+**
+**  For more information see:           www.labviewmakerhub.com/linx
+**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
+**  
+**  Written By Sam Kristoff
+**
+** BSD2 License.
+****************************************************************************************/	
+
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -61,6 +72,8 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+
+//Helper function to parse input tokens and set variables or print output.
 int parseInputTokens(LinxDevice* linxDev, int argc, char* argv[])
 {
 	cout << "\n";
@@ -152,6 +165,7 @@ int parseInputTokens(LinxDevice* linxDev, int argc, char* argv[])
 	return 0;
 }
 
+//Helper function to print usage information.
 void printUsage(char* argv[], LinxDevice* linxDev)
 {
 	cout << "\nusage: " << argv[0] << " -serial [port]\n";
