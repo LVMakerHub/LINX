@@ -38,6 +38,11 @@
 		<Item Name="LINX - WS2812 Strip Controller.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - WS2812 Strip Controller.vi"/>
 		<Item Name="LINX - WS2812 Write N LEDs.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - WS2812 Write N LEDs.vi"/>
 		<Item Name="LINX - WS2812 Write One LED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - WS2812 Write One LED.vi"/>
+		<Item Name="LINX - PmodTMP3.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodTMP3.vi"/>
+		<Item Name="LINX - PmodBT2.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodBT2.vi"/>
+		<Item Name="LINX - PmodGPS.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodGPS.vi"/>
+		<Item Name="LINX - PmodJSTK.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodJSTK.vi"/>
+		<Item Name="LINX - PmodSONOR.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodSONOR.vi"/>
 	</Item>
 	<Item Name="Help" Type="Folder">
 		<Item Name="Forums.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Forums.vi"/>
@@ -295,6 +300,21 @@
 				</Item>
 				<Item Name="TC1" Type="Folder">
 					<Item Name="PmodTC1.lvlib" Type="Library" URL="../Public/Sensors/Pmods/TC1/PmodTC1.lvlib"/>
+				</Item>
+				<Item Name="BT2" Type="Folder">
+					<Item Name="PmodBT2.lvlib" Type="Library" URL="../Public/Sensors/Pmods/BT2/PmodBT2.lvlib"/>
+				</Item>
+				<Item Name="GPS" Type="Folder">
+					<Item Name="PmodGPS.lvlib" Type="Library" URL="../Public/Sensors/Pmods/GPS/PmodGPS.lvlib"/>
+				</Item>
+				<Item Name="JSTK" Type="Folder">
+					<Item Name="PmodJSTK.lvlib" Type="Library" URL="../Public/Sensors/Pmods/JSTK/PmodJSTK.lvlib"/>
+				</Item>
+				<Item Name="MAXSONAR" Type="Folder">
+					<Item Name="PmodMAXSONOR.lvlib" Type="Library" URL="../Public/Sensors/Pmods/MAXSONAR/PmodMAXSONOR.lvlib"/>
+				</Item>
+				<Item Name="TMP3" Type="Folder">
+					<Item Name="PmodTMP3.lvlib" Type="Library" URL="../Public/Sensors/Pmods/TMP3/PmodTMP3.lvlib"/>
 				</Item>
 			</Item>
 			<Item Name="Signal Generation" Type="Folder">
