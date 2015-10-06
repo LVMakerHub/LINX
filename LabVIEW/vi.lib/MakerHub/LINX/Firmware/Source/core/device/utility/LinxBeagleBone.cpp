@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX - Raspberry Pi code
+**  LINX - BeagleBone code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -17,7 +17,7 @@
 **  Includes
 ****************************************************************************************/	
 #include "LinxDevice.h"
-#include "LinxRaspberryPi.h"
+#include "LinxBeagleBone.h"
 
 #include <map>
 #include <fcntl.h>
@@ -32,18 +32,17 @@
 #include <linux/i2c-dev.h>
 #include <linux/spi/spidev.h>
 
-#include <cerrno>
-
 using namespace std;
 
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
+const char* overlaySlotsPath = "/sys/devices/bone_capemgr.9/slots";
 
 /****************************************************************************************
 **  Constructors / Destructors 
 ****************************************************************************************/
-LinxRaspberryPi::LinxRaspberryPi()
+LinxBeagleBone::LinxBeagleBone()
 {
 	//LINX API Version
 	LinxApiMajor = 2;
@@ -52,18 +51,18 @@ LinxRaspberryPi::LinxRaspberryPi()
 	
 	// TODO Load User Config Data From Non Volatile Storage
 	//userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
+}
+
+LinxBeagleBone::~LinxBeagleBone()
+{
 	
 }
-
-LinxRaspberryPi::~LinxRaspberryPi()
-{
-		
-}
-
 /****************************************************************************************
 **  Private Functions
 ****************************************************************************************/
-int LinxRaspberryPi::digitalSmartOpen(unsigned char numChans, unsigned char* channels)
+
+//Open Direction And Value Handles If They Are Not Already Open And Set Direction
+int LinxBeagleBone::digitalSmartOpen(unsigned char numChans, unsigned char* channels)
 {
 	for(int i=0; i<numChans; i++)
 	{		
@@ -104,19 +103,49 @@ int LinxRaspberryPi::digitalSmartOpen(unsigned char numChans, unsigned char* cha
 	}
 	return L_OK;
 }
-int LinxRaspberryPi::pwmSmartOpen(unsigned char numChans, unsigned char* channels)
+
+//Open Direction And Value Handles If They Are Not Already Open And Set Direction
+int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels)
 {
-	return L_FUNCTION_NOT_SUPPORTED;
-}	
+	for(int i=0; i<numChans; i++)
+	{		
+		//Open Period Handle If It Is Not Already		
+		if(PwmPeriodHandles[channels[i]] == NULL)
+		{
+			char periodPath[64];
+			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), "period");
+			DebugPrint("Opening ");
+			DebugPrintln(periodPath);
+			PwmPeriodHandles[channels[i]] = fopen(periodPath, "r+w+");
+			
+			//Initialize PWM Period
+			fprintf(PwmPeriodHandles[channels[i]], "%u", (unsigned long)(1000000000.0/PwmDefaultFrequency));	
+			DebugPrint("Setting Default Frequency = ");
+			DebugPrintln((unsigned long)(1000000000.0/PwmDefaultFrequency), DEC);
+			fflush(PwmPeriodHandles[channels[i]]);
+		}
+		
+		//Open Duty Cycle Handle If It Is Not Already		
+		if(PwmDutyCycleHandles[channels[i]] == NULL)
+		{
+			char dutyCyclePath[64];
+			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), "duty");
+			DebugPrint("Opening ");
+			DebugPrintln(dutyCyclePath);
+			PwmDutyCycleHandles[channels[i]] = fopen(dutyCyclePath, "r+w+");
+		}
+	}	
+	return L_OK;		
+}
 
 //Return True If File Specified By path Exists.
-bool LinxRaspberryPi::fileExists(const char* path)
+bool LinxBeagleBone::fileExists(const char* path)
 {
 	struct stat buffer;   
 	return (stat(path, &buffer) == 0); 
 }
 
-bool LinxRaspberryPi::fileExists(const char* directory, const char* fileName)
+bool LinxBeagleBone::fileExists(const char* directory, const char* fileName)
 {
 	char fullPath[128];
 	sprintf(fullPath, "%s%s", directory, fileName);				
@@ -124,7 +153,7 @@ bool LinxRaspberryPi::fileExists(const char* directory, const char* fileName)
 	return (stat(fullPath, &buffer) == 0);  
 }
 
-bool LinxRaspberryPi::fileExists(const char* directory, const char* fileName, unsigned long timeout)
+bool LinxBeagleBone::fileExists(const char* directory, const char* fileName, unsigned long timeout)
 {
 	char fullPath[128];
 	sprintf(fullPath, "%s%s", directory, fileName);				
@@ -144,24 +173,86 @@ bool LinxRaspberryPi::fileExists(const char* directory, const char* fileName, un
 	return false;
 }
 
+//Load Device Tree Overlay
+bool LinxBeagleBone::loadDto(const char* dtoName)
+{	
+	FILE* slotsHandle = fopen(overlaySlotsPath, "r+w+");
+	if(slotsHandle != NULL)
+	{
+		fprintf(slotsHandle, "%s", dtoName);
+		fclose(slotsHandle);
+		return true;
+	}
+	
+	return false;	
+}
+
+
 /****************************************************************************************
 **  Public Functions
 ****************************************************************************************/
-
-//------------------------------------- Analog -------------------------------------
-int LinxRaspberryPi::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+	
+//--------------------------------------------------------ANALOG-------------------------------------------------------
+int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
-	return L_FUNCTION_NOT_SUPPORTED;
-}
 
-int LinxRaspberryPi::AnalogSetRef(unsigned char mode, unsigned long voltage)
-{
-	return L_FUNCTION_NOT_SUPPORTED;
-}
+	//unsigned int analogValue = 0;
+	unsigned char responseByteOffset = 0;
+	unsigned char responseBitsRemaining = 8; 
+	unsigned char dataBitsRemaining = AiResolution;
+	fstream fs;	//AI File Handle
+	
+	values[responseByteOffset] = 0x00;    //Clear First	Response Byte   
 
+	//Loop Over All AI channels In Command Packet
+	for(int i=0; i<numChans; i++)
+	{
+		//Acquire AI Sample
+		int aiVal = 0;
+		AiValueHandles[channels[i]] = freopen(AiValuePaths[i].c_str(), "r+", AiValueHandles[channels[i]]);
+		fscanf(AiValueHandles[channels[i]], "%u", &aiVal);
 		
-//------------------------------------- Digital -------------------------------------
-int LinxRaspberryPi::DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values)
+		/*
+		fs.open(AiPaths[channels[i]], fstream::in);
+		fs >> analogValue;
+		fs.close();
+		*/
+		
+		dataBitsRemaining = AiResolution;
+
+		//Byte Packet AI Values In Response Packet
+		while(dataBitsRemaining > 0)
+		{
+			*(values+responseByteOffset) |= ( ((unsigned int)aiVal>>(AiResolution - dataBitsRemaining)) << (8 - responseBitsRemaining) );
+			//*(values+responseByteOffset) = 69;
+
+			if(responseBitsRemaining > dataBitsRemaining)
+			{
+				//Current Byte Still Has Empty Bits
+				responseBitsRemaining -= dataBitsRemaining;
+				dataBitsRemaining = 0;
+			}
+			else
+			{
+				//Current Byte Full
+				dataBitsRemaining = dataBitsRemaining - responseBitsRemaining;
+				responseByteOffset++;
+				responseBitsRemaining = 8;
+				values[responseByteOffset] = 0x00;    //Clear Next Response Byte     
+			}
+		}
+	}
+	
+	return L_OK;
+}
+
+int LinxBeagleBone::AnalogSetRef(unsigned char mode, unsigned long voltage)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+//--------------------------------------------------------DIGITAL-------------------------------------------------------
+int LinxBeagleBone::DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	if(digitalSmartOpen(numChans, channels) != L_OK)
 	{
@@ -208,7 +299,7 @@ int LinxRaspberryPi::DigitalSetDirection(unsigned char numChans, unsigned char* 
 	return L_OK;
 }
 
-int LinxRaspberryPi::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
+int LinxBeagleBone::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	//Generate Bit Packed Output Direction Array
 	int numDirBytes = (int)ceil(numChans/8.0);		
@@ -241,12 +332,12 @@ int LinxRaspberryPi::DigitalWrite(unsigned char numChans, unsigned char* channel
 	return L_OK;
 }
 
-int LinxRaspberryPi::DigitalWrite(unsigned char channel, unsigned char value)
+int LinxBeagleBone::DigitalWrite(unsigned char channel, unsigned char value)
 {
 	return DigitalWrite(1, &channel, &value);
 }
 
-int LinxRaspberryPi::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	//Generate Bit Packed Input Direction Array
 	int numDirBytes = (int)ceil(numChans/8.0);		
@@ -291,7 +382,11 @@ int LinxRaspberryPi::DigitalRead(unsigned char numChans, unsigned char* channels
 		DigitalValueHandles[channels[i]] = freopen(valPath, "r+w+", DigitalValueHandles[channels[i]]);
 		
 		//Read From Next Pin
-		fscanf(DigitalValueHandles[channels[i]], "%u", &diVal);		
+		fscanf(DigitalValueHandles[channels[i]], "%u", &diVal);
+		
+		//DebugPrint("Value = ");
+		//DebugPrintln((unsigned char)diVal, DEC);
+		
 					
 		retVal = retVal | ((unsigned char)diVal << bitOffset);	//Read Pin And Insert Value Into retVal
 	}
@@ -302,39 +397,76 @@ int LinxRaspberryPi::DigitalRead(unsigned char numChans, unsigned char* channels
 	return L_OK;
 }
 
-int LinxRaspberryPi::DigitalRead(unsigned char channel, unsigned char* value)
-{
-	return DigitalRead(1, &channel, value);
-}
-
-int LinxRaspberryPi::DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration)
+int LinxBeagleBone::DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
-int LinxRaspberryPi::DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width)
+int LinxBeagleBone::DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
+
+//--------------------------------------------------------PWM-------------------------------------------------------
+int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
+	unsigned long dutyCycle = 0;
+	
+	//Smart Open PWM Channels
+	pwmSmartOpen(numChans, channels);
+	
+	for(int i=0; i<numChans; i++)
+	{
+		if(values[i] == 0)
+		{				
+			dutyCycle = 0;
+		}
+		else if(values[i] == 255)
+		{
+			dutyCycle = period;		
+		}
+		else
+		{
+			dutyCycle= period*(values[i] / 255.0);
+		}
 		
-//------------------------------------- PWM -------------------------------------
-int LinxRaspberryPi::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
-{
+		//Update Output
+		DebugPrint("Setting Duty Cycle = ");
+		DebugPrint(dutyCycle, DEC);
+		fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
+		DebugPrint(" ... Duty Cycle Set ... ");
+		fflush(PwmDutyCycleHandles[channels[i]]);
+		DebugPrintln("Flushing.");
+	}
+	
+	return L_OK;
+}
+
+int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values)
+{		
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
-		
-//------------------------------------- SPI -------------------------------------
-int LinxRaspberryPi::SpiOpenMaster(unsigned char channel)
+//--------------------------------------------------------SPI-------------------------------------------------------
+int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
 {
-	fprintf(stdout, "SpiOpen(%d)\n", channel);
+	//Load SPI DTO If Necissary
+	if(!fileExists(SpiPaths[channel].c_str()))
+	{
+		if(!loadDto(SpiDtoNames[channel].c_str()))		
+		{
+			DebugPrint("SPI Fail - Failed To Load SPI DTO");
+			return  LSPI_OPEN_FAIL;
+		}
+	}
+	
 	SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
 	
 	if(SpiHandles[channel] == NULL)
 	{
-		fprintf(stdout, "SPI OPEN FAIL");
-		return LSPI_OPEN_FAIL;		
+		return LSPI_OPEN_FAIL;
 	}
 	else
 	{
@@ -344,54 +476,52 @@ int LinxRaspberryPi::SpiOpenMaster(unsigned char channel)
 		{
 			DebugPrint("SPI Fail - Failed To Set SPI Mode - ");
 			DebugPrintln(spi_Mode, BIN);
-			
-			fprintf(stdout, "SPI OPEN FAIL");
-			return LSPI_OPEN_FAIL;			
+			return LSPI_OPEN_FAIL;
 		}
 		
-		//Open With Default Clock Speed
-		if (ioctl(SpiHandles[channel], SPI_IOC_WR_MAX_SPEED_HZ, &SpiDefaultSpeed) < 0)
+		//Default Max Speed To 
+		unsigned long speed = 25000;			
+		if (ioctl(SpiHandles[channel], SPI_IOC_WR_MAX_SPEED_HZ, &speed) > 0)
 		{			
 			DebugPrint("SPI Fail - Failed To Set SPI Max Speed - ");
-			DebugPrintln(SpiDefaultSpeed, DEC);
-			
-			fprintf(stdout, "SPI OPEN FAIL");
-			return LSPI_OPEN_FAIL;			
-		}
+			DebugPrintln(speed, DEC);
+			return LSPI_OPEN_FAIL;
+		}			
+		
 	}
 	return L_OK;
 }
 
-int LinxRaspberryPi::SpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
+int LinxBeagleBone::SpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
 {
 	SpiBitOrders[channel] = bitOrder;
 	return L_OK;
 }
 
-int LinxRaspberryPi::SpiSetMode(unsigned char channel, unsigned char mode)
+int LinxBeagleBone::SpiSetMode(unsigned char channel, unsigned char mode)
 {
 	unsigned long spi_Mode = (unsigned long) mode;
 	if(ioctl(SpiHandles[channel], SPI_IOC_WR_MODE, &spi_Mode) < 0)
 	{
 		DebugPrintln("Failed To Set SPI Mode");
 		return  L_UNKNOWN_ERROR;
-	}
-		
+	}		
 	return L_OK;
 }
 
-int LinxRaspberryPi::SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
-{
+int LinxBeagleBone::SpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
+{	
 	int index = 0;
 	//Loop Over All Supported SPI Speeds
 	for(index=0; index < NumSpiSpeeds; index++)
-	{			
-		if(speed < *(SpiSupportedSpeeds+index))
-		{
-			index = index - 1; //Use Fastest Speed Below Target Speed
-			break;
-		}
-		//If Target Speed Is Higher Than Max Speed Use Max Speed			
+	{
+			
+			if(speed < *(SpiSupportedSpeeds+index))
+			{
+				index = index - 1; //Use Fastest Speed Below Target Speed
+				break;
+			}
+			//If Target Speed Is Higher Than Max Speed Use Max Speed			
 	}
 	SpiSetSpeeds[channel] = *(SpiSupportedSpeeds+index);
 	*actualSpeed = *(SpiSupportedSpeeds+index); 
@@ -399,60 +529,72 @@ int LinxRaspberryPi::SpiSetSpeed(unsigned char channel, unsigned long speed, uns
 	return L_OK;
 }
 
-int LinxRaspberryPi::SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)
+int LinxBeagleBone::SpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)
 {
-		unsigned char nextByte = 0;	//First Byte Of Next SPI Frame	
-	
-		//SPI Hardware Only Supports MSb First Transfer.  If  Configured for LSb First Reverse Bits In Software
-		if( SpiBitOrders[channel] == LSBFIRST )
-		{
-			for(int i=0; i< frameSize*numFrames; i++)
-			{			
-				sendBuffer[i] = ReverseBits(sendBuffer[i]);
-			}
+	unsigned char nextByte = 0;	//First Byte Of Next SPI Frame	
+
+	//SPI Hardware Only Supports MSb First Transfer.  If  Configured for LSb First Reverse Bits In Software
+	if( SpiBitOrders[channel] == LSBFIRST )
+	{
+		for(int i=0; i< frameSize*numFrames; i++)
+		{			
+			sendBuffer[i] = ReverseBits(sendBuffer[i]);
 		}
+	}
+	
+	struct spi_ioc_transfer transfer;
+	
+	//Set CS As Output And Make Sure CS Starts Idle	
+	DigitalWrite(csChan, (~csLL & 0x01) );
+	
+	for(int i=0; i< numFrames; i++)
+	{
+		//Setup Transfer
+		transfer.tx_buf = (unsigned long)(sendBuffer+nextByte);
+		transfer.rx_buf = (unsigned long)(recBuffer+nextByte);
+		transfer.len = frameSize;
+		transfer.delay_usecs = 0;
+		//transfer.speed_hz = SpiSetSpeeds[channel];
+		transfer.speed_hz = 25000;
+		transfer.bits_per_word = 8;
+	
+		//CS Active
+		DigitalWrite(csChan, csLL);			
 		
-		struct spi_ioc_transfer transfer;
+		//Transfer Data
+		int retVal = ioctl(SpiHandles[channel], SPI_IOC_MESSAGE(1), &transfer);
 		
-		//Set CS As Output And Make Sure CS Starts Idle	
+		//CS Idle
 		DigitalWrite(csChan, (~csLL & 0x01) );
 		
-		for(int i=0; i< numFrames; i++)
+		if (retVal < 0)
 		{
-			//Setup Transfer
-			transfer.tx_buf = (unsigned long)(sendBuffer+nextByte);
-			transfer.rx_buf = (unsigned long)(recBuffer+nextByte);
-			transfer.len = frameSize;
-			transfer.delay_usecs = 0;
-			transfer.speed_hz = SpiSetSpeeds[channel];
-			//transfer.speed_hz = 25000;
-			transfer.bits_per_word = 8;
-			transfer.pad = 0;
-		
-			//CS Active
-			DigitalWrite(csChan, csLL);			
-			
-			//Transfer Data
-			int retVal = ioctl(SpiHandles[channel], SPI_IOC_MESSAGE(1), &transfer);
-			
-			//CS Idle
-			DigitalWrite(csChan, (~csLL & 0x01) );
-			
-			if (retVal < 0)
-			{
-				DebugPrintln("SPI Fail - Failed To Transfer Data");
-				return  LSPI_TRANSFER_FAIL;
-			}
-			
-			nextByte += frameSize;			
+			DebugPrintln("SPI Fail - Failed To Transfer Data");
+			return  LSPI_TRANSFER_FAIL;
 		}
-	
-		return L_OK;
-	}
 		
-//------------------------------------- I2C -------------------------------------
-int LinxRaspberryPi::I2cOpenMaster(unsigned char channel)
-{	
+		nextByte += frameSize;			
+	}
+
+	return L_OK;
+}
+
+
+//--------------------------------------------------------I2C-------------------------------------------------------
+int LinxBeagleBone::I2cOpenMaster(unsigned char channel)
+{
+	//Export Dev Tree Overlay If Device DNE
+	if(!fileExists(I2cPaths[channel].c_str()))
+	{		
+		DebugPrint("I2C - Loading DTO ");
+		DebugPrintln(I2cDtoNames[channel].c_str());
+		if(!loadDto(I2cDtoNames[channel].c_str()))		
+		{
+			DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
+			return  LI2C_OPEN_FAIL;
+		}
+	}
+	
 	int handle = open(I2cPaths[channel].c_str(), O_RDWR);
 	if (handle < 0)
 	{
@@ -466,12 +608,12 @@ int LinxRaspberryPi::I2cOpenMaster(unsigned char channel)
 	return L_OK;
 }
 
-int LinxRaspberryPi::I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
+int LinxBeagleBone::I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
-int LinxRaspberryPi::I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
+int LinxBeagleBone::I2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
 {
 	//Check EOF - Currently Only Support 0x00
 	if(eofConfig != EOF_STOP)
@@ -498,7 +640,7 @@ int LinxRaspberryPi::I2cWrite(unsigned char channel, unsigned char slaveAddress,
 	return L_OK;
 }
 
-int LinxRaspberryPi::I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
+int LinxBeagleBone::I2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
 {
 	//Check EOF - Currently Only Support 0x00
 	if(eofConfig != EOF_STOP)
@@ -520,8 +662,8 @@ int LinxRaspberryPi::I2cRead(unsigned char channel, unsigned char slaveAddress, 
 	
 	return L_OK;
 }
-	
-int LinxRaspberryPi::I2cClose(unsigned char channel)
+
+int LinxBeagleBone::I2cClose(unsigned char channel)
 {
 	//Close I2C Channel
 	if(close(I2cHandles[channel]) < 0)
@@ -532,16 +674,32 @@ int LinxRaspberryPi::I2cClose(unsigned char channel)
 	return L_OK;
 }
 
-		
-//------------------------------------- UART -------------------------------------
-int LinxRaspberryPi::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+
+//--------------------------------------------------------UART-------------------------------------------------------
+int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 {
-	//Open UART	Handle If Not Already Open	
-	if(UartHandles[channel] <= 0)
+	
+	DebugPrintln("UART Open");
+	
+	//Load DTO If Needed
+	if(!fileExists(UartPaths[channel].c_str()))
+	{
+		if(!loadDto(UartDtoNames[channel].c_str()))	
+		{
+			DebugPrint("UART Fail - Failed To Load ");
+			DebugPrint(UartDtoNames[channel].c_str());
+			DebugPrintln(" DTO");
+			return  LUART_OPEN_FAIL;
+		}			
+	}
+	
+	//Open UART	Handle If Not Already Open
+	
+if(UartHandles[channel] <= 0)
 	{
 		int handle = open(UartPaths[channel].c_str(),  O_RDWR);
 			
-		if(handle <= 0)
+		if (handle <= 0)
 		{
 			DebugPrint("UART Fail - Failed To Open UART Handle -  ");
 			DebugPrintln(UartPaths[channel].c_str());
@@ -552,6 +710,12 @@ int LinxRaspberryPi::UartOpen(unsigned char channel, unsigned long baudRate, uns
 			UartHandles[channel] = handle;
 		}
 	}
+	/*else
+	{
+		DebugPrint("UART ");		
+		DebugPrint(channel, DEC);
+		DebugPrintln(" already Open.");		
+	}*/
 	
 	if(UartSetBaudRate(channel, baudRate, actualBaud) != L_OK)
 	{
@@ -561,7 +725,7 @@ int LinxRaspberryPi::UartOpen(unsigned char channel, unsigned long baudRate, uns
 	return L_OK;
 }
 
-int LinxRaspberryPi::UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+int LinxBeagleBone::UartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 {
 	//Get Closest Support Baud Rate Without Going Over
 
@@ -601,10 +765,10 @@ int LinxRaspberryPi::UartSetBaudRate(unsigned char channel, unsigned long baudRa
 	return  L_OK;
 }
 
-int LinxRaspberryPi::UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
+int LinxBeagleBone::UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
 {
 	int bytesAtPort = -1;
-	ioctl(UartHandles[channel], FIONREAD, &bytesAtPort);	
+	ioctl(UartHandles[channel], FIONREAD, &bytesAtPort);
 	
 	if(bytesAtPort < 0)
 	{
@@ -614,11 +778,10 @@ int LinxRaspberryPi::UartGetBytesAvailable(unsigned char channel, unsigned char 
 	{
 		*numBytes = (unsigned char) bytesAtPort;
 	}
-	
 	return  L_OK;
 }
 
-int LinxRaspberryPi::UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
+int LinxBeagleBone::UartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
 {
 	//Check If Enough Bytes Are Available
 	unsigned char bytesAvailable = -1;
@@ -635,22 +798,20 @@ int LinxRaspberryPi::UartRead(unsigned char channel, unsigned char numBytes, uns
 			return LUART_READ_FAIL;
 		}		
 	}
-	
 	return  L_OK;
 }
 
-int LinxRaspberryPi::UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
+int LinxBeagleBone::UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
 {
 	int bytesSent = write(UartHandles[channel], sendBuffer, numBytes);	
 	if(bytesSent != numBytes)
 	{
 		return LUART_WRITE_FAIL;
 	}
-	
 	return  L_OK;
 }
 
-int LinxRaspberryPi::UartClose(unsigned char channel)
+int LinxBeagleBone::UartClose(unsigned char channel)
 {
 	//Close UART Channel, Return OK or Error
 	if (close(UartHandles[channel]) < 0)
@@ -658,31 +819,29 @@ int LinxRaspberryPi::UartClose(unsigned char channel)
 		return LUART_CLOSE_FAIL;
 	}
 	UartHandles[channel] = 0;
-	
 	return  L_OK;
-	
 }
 
-		
-//------------------------------------- Servo -------------------------------------
-int LinxRaspberryPi::ServoOpen(unsigned char numChans, unsigned char* channels)
+
+//--------------------------------------------------------SERVO-------------------------------------------------------
+int LinxBeagleBone::ServoOpen(unsigned char numChans, unsigned char* chans)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
-int LinxRaspberryPi::ServoSetPulseWidth(unsigned char numChans, unsigned char* channels, unsigned short* pulseWidths)
+int LinxBeagleBone::ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
-int LinxRaspberryPi::ServoClose(unsigned char numChans, unsigned char* channels)
+int LinxBeagleBone::ServoClose(unsigned char numChans, unsigned char* chans)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
-				
-//------------------------------------- General -------------------------------------
-unsigned long LinxRaspberryPi::GetMilliSeconds()
+
+//--------------------------------------------------------GENERAL-------------------------------------------------------
+unsigned long LinxBeagleBone::GetMilliSeconds()
 {
 	timespec mTime;
 	clock_gettime(CLOCK_MONOTONIC, &mTime);
@@ -690,28 +849,25 @@ unsigned long LinxRaspberryPi::GetMilliSeconds()
 	return ( ((unsigned long) mTime.tv_sec * 1000) + mTime.tv_nsec / 1000000);
 }
 
-unsigned long LinxRaspberryPi::GetSeconds()
+unsigned long LinxBeagleBone::GetSeconds()
 {
 	timespec mTime;
 	clock_gettime(CLOCK_MONOTONIC, &mTime);	
 	return mTime.tv_sec;
 }
 
-void LinxRaspberryPi::DelayMs(unsigned long ms)
+void LinxBeagleBone::DelayMs(unsigned long ms)
 {
 	usleep(ms * 1000);
 }
 
-void LinxRaspberryPi::NonVolatileWrite(int address, unsigned char data)
+void LinxBeagleBone::NonVolatileWrite(int address, unsigned char data)
 {
 	
 }
 
-unsigned char LinxRaspberryPi::NonVolatileRead(int address)
+unsigned char LinxBeagleBone::NonVolatileRead(int address)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
 }
-
-
-
 

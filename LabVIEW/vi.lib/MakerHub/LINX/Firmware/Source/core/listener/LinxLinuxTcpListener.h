@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for TCP listener.
+**  LINX header for Linux TCP listener.
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -9,39 +9,61 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_TCP_LISTENER_H
-#define LINX_TCP_LISTENER_H
+#ifndef LINX_LINUX_TCP_LISTENER_H
+#define LINX_LINUX_TCP_LISTENER_H
+
+
+#ifndef MAX_PENDING_CONS
+	#define MAX_PENDING_CONS 2
+#endif
 
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-#include "utility\LinxListener.h"
-#include "..\device\utility\LinxDevice.h"
+#include "utility/LinxListener.h"
+#include "utility/LinxDevice.h"
 
-/****************************************************************************************
-**  Type Defs
-****************************************************************************************/		
+#include <stdio.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
 
 /****************************************************************************************
 **  Classes
 ****************************************************************************************/		
-class LinxTcpListener : public LinxListener
+class LinxLinuxTcpListener : public LinxListener
 {
 	public:
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
+		unsigned long TcpUpdateTime;
+		struct timeval TcpTimeout;
 		
+		unsigned short TcpPort;
+		int ServerSocket;
+		int ClientSocket;		
+	
+		struct sockaddr_in TcpServer;
+		struct sockaddr_in TcpClient;
 		
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
-		LinxTcpListener();		//Default Constructor
+		LinxLinuxTcpListener();		//Default Constructor
 		
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/		
-
+		int Start(LinxDevice* linxDev, unsigned short port);
+		int Listen();
+		int Connected();
+		int Close();
+		int Exit();
+		
+		virtual int CheckForCommands();
 		
 	private:
 		/****************************************************************************************
@@ -51,7 +73,9 @@ class LinxTcpListener : public LinxListener
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-	
+		int peek(unsigned char * recBuffer, int bufferSize);
 };
 
-#endif //LINX_TCP_LISTENER_H
+extern LinxLinuxTcpListener LinxTcpConnection;
+
+#endif //LINX_LINUX_TCP_LISTENER_H

@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX header for Raspberry Pi Family
+**  LINX header for BeagleBone family
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -9,12 +9,22 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_RASPBERRYPI_H
-#define LINX_RASPBERRYPI_H
+#ifndef LINX_BEAGLEBONE_H
+#define LINX_BEAGLEBONE_H
 
 /****************************************************************************************
 **  Defines
 ****************************************************************************************/		
+/*
+#define DIGITAL_PIN_LEN 3
+#define PWM_PATH_LEN 64
+#define PWM_DTO_NAME_LEN 32
+
+#define SPI_PATH_LEN 64
+#define I2C_PATH_LEN 64
+#define UART_PATH_LEN 64
+*/
+#define AI_PATH_LEN 64
 
 /****************************************************************************************
 **  Includes
@@ -29,7 +39,8 @@ using namespace std;
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
-class LinxRaspberryPi : public LinxDevice
+
+class LinxBeagleBone : public LinxDevice
 {
 	public:	
 		/****************************************************************************************
@@ -52,12 +63,14 @@ class LinxRaspberryPi : public LinxDevice
 		//const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		
 		//AI
+		map<unsigned char, FILE*> AiValueHandles;							//AI Value Handles
+		map<unsigned char, string> AiValuePaths;								//AI Value Paths
 		unsigned char NumAiRefIntVals;												//Number Of Internal AI Reference Voltages
 		const unsigned long* AiRefIntVals;											//Supported AI Reference Voltages (uV)
 		const int* AiRefCodes;															//AI Ref Values (AI Ref Macros In Wiring Case)		
 		unsigned long AiRefExtMin;														//Min External AI Ref Value (uV)
 		unsigned long AiRefExtMax;					   								 //Max External AI Ref Value (uV)		
-		int* AiHandles;																		//AI File Handles
+		//int* AiHandles;																		//AI File Handles
 		//const char (*AiPaths)[AI_PATH_LEN];										//AI Channel File Paths
 		
 		//UART		
@@ -77,7 +90,6 @@ class LinxRaspberryPi : public LinxDevice
 		int* SpiSpeedCodes;																//SPI Speed Values (Clock Divider Macros In Wiring Case)
 		map<unsigned char, unsigned char> SpiBitOrders;					//Stores Bit Orders For SPI Channels (LSBFIRST / MSBFIRST)
 		map<unsigned char, unsigned long> SpiSetSpeeds; 				//Stores The Set Clock Rate Of Each SPI Channel
-		unsigned long SpiDefaultSpeed; 												//Stores The Default Clock Rate Used When Opening An SPI Channel
 		
 		//I2C
 		map<unsigned char, string> I2cPaths;										//File Paths For I2C Master(s)
@@ -89,8 +101,8 @@ class LinxRaspberryPi : public LinxDevice
 		/****************************************************************************************
 		**  Constructors
 		****************************************************************************************/
-		LinxRaspberryPi();
-		~LinxRaspberryPi();
+		LinxBeagleBone();
+		~LinxBeagleBone();
 		
 			
 		/****************************************************************************************
@@ -105,7 +117,6 @@ class LinxRaspberryPi : public LinxDevice
 		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWrite(unsigned char channel, unsigned char value);
 		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
-		virtual int DigitalRead(unsigned char channel, unsigned char* value);
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
 		
@@ -159,6 +170,7 @@ class LinxRaspberryPi : public LinxDevice
 		bool fileExists(const char* path);
 		bool fileExists(const char* directory, const char* fileName);
 		bool fileExists(const char* directory, const char* fileName, unsigned long timout);
+		bool loadDto(const char* dtoName);
 };
-
-#endif //LINX_RASPBERRYPI_H
+		
+#endif //LINX_BEAGLEBONE_H

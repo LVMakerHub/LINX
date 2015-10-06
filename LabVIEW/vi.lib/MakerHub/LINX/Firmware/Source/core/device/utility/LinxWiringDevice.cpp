@@ -514,13 +514,13 @@ int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, un
 	{
 			if(baudRate < *(UartSupportedSpeeds+index))
 			{		
-				//Previous Index Was Closest Supported Baud Without Going Over
+				//Previous Index Was Closest Supported Baud Without Going Over, Index Will Be Decremented Accordingly Below.
 				break;
 			}			
 	}
 	
 	//Once Loop Complets Index Is One Higher Than The Correct Baud, But Could Be Zero So Check And Decrement Accordingly
-	//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud...Is This Specific To gcc-pic32?
+	//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud
 	if(index != 0)
 	{
 		index = index -1;
