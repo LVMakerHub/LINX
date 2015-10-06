@@ -288,7 +288,7 @@
 					<Item Name="PmodCMPS.lvlib" Type="Library" URL="../Public/Sensors/Pmods/CMPS/PmodCMPS.lvlib"/>
 				</Item>
 				<Item Name="GYRO" Type="Folder">
-					<Item Name="GYRO.lvlib" Type="Library" URL="../Public/Sensors/Pmods/GYRO/GYRO.lvlib"/>
+					<Item Name="PmodGYRO.lvlib" Type="Library" URL="../Public/Sensors/Pmods/GYRO/PmodGYRO.lvlib"/>
 				</Item>
 				<Item Name="MIC3" Type="Folder">
 					<Item Name="PmodMIC3.lvlib" Type="Library" URL="../Public/Sensors/Pmods/MIC3/PmodMIC3.lvlib"/>
