@@ -311,7 +311,7 @@
 					<Item Name="PmodJSTK.lvlib" Type="Library" URL="../Public/Sensors/Pmods/JSTK/PmodJSTK.lvlib"/>
 				</Item>
 				<Item Name="MAXSONAR" Type="Folder">
-					<Item Name="PmodMAXSONOR.lvlib" Type="Library" URL="../Public/Sensors/Pmods/MAXSONAR/PmodMAXSONOR.lvlib"/>
+					<Item Name="PmodMAXSONAR.lvlib" Type="Library" URL="../Public/Sensors/Pmods/MAXSONAR/PmodMAXSONAR.lvlib"/>
 				</Item>
 				<Item Name="TMP3" Type="Folder">
 					<Item Name="PmodTMP3.lvlib" Type="Library" URL="../Public/Sensors/Pmods/TMP3/PmodTMP3.lvlib"/>
