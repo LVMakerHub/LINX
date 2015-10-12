@@ -85,6 +85,7 @@ int LinxListener::CheckForCommands()
 			return LUNKNOWN_STATE;
 			break;
 	}
+	return L_OK;
 }
 
 
@@ -117,7 +118,6 @@ void LinxListener::StatusResponse(unsigned char* commandPacketBuffer, unsigned c
 int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
 	//Store Some Local Values For Convenience
-	unsigned char commandLength = commandPacketBuffer[1];
 	unsigned int command = commandPacketBuffer[4] << 8 | commandPacketBuffer[5];
 	
 	int status = L_OK;
@@ -402,7 +402,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			
 		case 0x0042: // Digital Read
 		{
-			unsigned char numRespBytes = ((commandPacketBuffer[1]-7)-1 >> 3) +1;
+			unsigned char numRespBytes = (((commandPacketBuffer[1]-7)-1) >> 3) +1;
 			status = LinxDev->DigitalRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[5]);
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numRespBytes, status); 
 			break;

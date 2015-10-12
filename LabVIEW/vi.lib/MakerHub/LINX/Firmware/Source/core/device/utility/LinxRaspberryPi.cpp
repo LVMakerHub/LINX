@@ -481,7 +481,7 @@ int LinxRaspberryPi::I2cWrite(unsigned char channel, unsigned char slaveAddress,
 	}
 	
 	//Set Slave Address
-	if (int x = ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+	if(ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
 	{			
 		//Failed To Set Slave Address
 		DebugPrintln("I2C Fail - Failed To Set Slave Address");
