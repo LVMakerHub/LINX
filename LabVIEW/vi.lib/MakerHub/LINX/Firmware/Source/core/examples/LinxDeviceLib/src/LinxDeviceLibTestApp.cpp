@@ -16,7 +16,7 @@ int main()
 	unsigned char pins[1] = {7};
 	unsigned char vals[1] = {0xFF};
 	
-	LinxDigitalWrite(1, &pins, &vals);
+	LinxDigitalWrite(1, pins, vals);
 	
 	LinxClose();
 }

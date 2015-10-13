@@ -64,7 +64,7 @@ Servo* LinxArduinoProMicro::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0,
 LinxArduinoProMicro::LinxArduinoProMicro()
 {
 	//Arduino Family Code Set At Family Level
-	DeviceID = 0x09;	//Pro Micro
+	DeviceId = 0x09;	//Pro Micro
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 

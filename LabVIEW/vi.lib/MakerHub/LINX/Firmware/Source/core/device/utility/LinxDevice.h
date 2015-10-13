@@ -139,9 +139,9 @@ class LinxDevice
 		
 		//Device ID
 		unsigned char DeviceFamily;
-		unsigned char DeviceID;
+		unsigned char DeviceId;
 		unsigned char DeviceNameLen;
-		const unsigned char* DeviceName;
+		const char* DeviceName;
 		
 		//LINX API Version
 		unsigned char LinxApiMajor;
@@ -213,9 +213,10 @@ class LinxDevice
 		unsigned long serialInterfaceMaxBaud;
 		
 		/****************************************************************************************
-		**  Constructors
+		**  Constructors/Destructor
 		****************************************************************************************/
 		LinxDevice();
+		virtual ~LinxDevice();
 			
 		/****************************************************************************************
 		**  Functions

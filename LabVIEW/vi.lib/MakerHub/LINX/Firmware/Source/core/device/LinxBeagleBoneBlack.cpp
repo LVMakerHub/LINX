@@ -85,7 +85,7 @@ unsigned long LinxBeagleBoneBlack::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] =
 LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 {
 	DeviceFamily = 0x06;	//Raspberry Pi Family Code
-	DeviceID = 0x01;			//Raspberry Pi 2 Model B
+	DeviceId = 0x01;			//Raspberry Pi 2 Model B
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
  
@@ -274,40 +274,66 @@ LinxBeagleBoneBlack::~LinxBeagleBoneBlack()
 	//Close AI Handles
 	for(int i=0; i<NUM_AI_CHANS; i++)
 	{
-		fclose(AiValueHandles[i]);
+		if(AiValueHandles[m_AiChans[i]] != 0)
+		{
+			close(AiValueHandles[m_AiChans[i]]);
+		}
 	}
 	
-	//Close GPIO Handles
+	//Close GPIO Handles If Open
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
-		fclose(DigitalDirHandles[i]);
-		fclose(DigitalValueHandles[i]);
+		if(DigitalDirHandles[m_DigitalChans[i]] != NULL)
+		{			
+			fclose(DigitalDirHandles[m_DigitalChans[i]]);
+		}
+		if(DigitalValueHandles[m_DigitalChans[i]] != NULL)
+		{			
+			fclose(DigitalValueHandles[m_DigitalChans[i]]);
+		}
 	}
 	
-	//Close I2C Handles
+	//Close I2C Handles If Open
 	for(int i=0; i<NUM_I2C_CHANS; i++)
 	{
-		close(I2cHandles[i]);
+		if(I2cHandles[m_I2cChans[i]] != 0)
+		{	
+			close(I2cHandles[m_I2cChans[i]]);
+		}
 	}
 	
-	//Close PWM Handles
+	//Close PWM Handles If Open
 	for(int i=0; i<NUM_PWM_CHANS; i++)
 	{
-		fclose(PwmPeriodHandles[i]);
-		fclose(PwmDutyCycleHandles[i]);
+		if(PwmPeriodHandles[m_PwmChans[i]] != NULL)
+		{
+			fclose(PwmPeriodHandles[m_PwmChans[i]]);
+		}
+		if(PwmPeriodHandles[m_PwmChans[i]] != NULL)
+		{
+			fclose(PwmDutyCycleHandles[m_PwmChans[i]);
+		}
 	}
 	
-	//Close SPI Handles
+	//Close SPI Handles If Open
 	for(int i=0; i<NUM_SPI_CHANS; i++)
 	{
-		close(SpiHandles[i]);
+		if(SpiHandles[m_SpiChans[i]] != 0)
+		{	
+			close(SpiHandles[m_SpiChans[i]]);
+		}
 	}
 	
-	//Close UART Handles
+	//Close UART Handles If Open
 	for(int i=0; i<NUM_UART_CHANS; i++)
 	{
-		close(UartHandles[i]);
+		if(UartHandles[m_UartChans[i]] != 0)
+		{	
+			close(UartHandles[m_UartChans[i]]);
+		}
 	}
+	
+
 }
 
 /****************************************************************************************

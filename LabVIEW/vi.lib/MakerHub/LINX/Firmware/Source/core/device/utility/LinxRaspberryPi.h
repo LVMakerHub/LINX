@@ -90,7 +90,7 @@ class LinxRaspberryPi : public LinxDevice
 		**  Constructors
 		****************************************************************************************/
 		LinxRaspberryPi();
-		~LinxRaspberryPi();
+		virtual ~LinxRaspberryPi();
 		
 			
 		/****************************************************************************************

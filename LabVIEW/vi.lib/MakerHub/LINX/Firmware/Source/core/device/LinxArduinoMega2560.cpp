@@ -63,7 +63,7 @@ Servo* LinxArduinoMega2560::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0,
 LinxArduinoMega2560::LinxArduinoMega2560()
 {
 	//Arduino Family Code Set At Family Level
-	DeviceID = 0x01;	//Mega 2560
+	DeviceId = 0x01;	//Mega 2560
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 

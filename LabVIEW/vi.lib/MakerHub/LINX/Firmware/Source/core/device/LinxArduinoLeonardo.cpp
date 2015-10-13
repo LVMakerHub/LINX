@@ -64,7 +64,7 @@ Servo* LinxArduinoLeonardo::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0,
 LinxArduinoLeonardo::LinxArduinoLeonardo()
 {
 	//Arduino Family Code Set At Family Level
-	DeviceID = 0x02;	//Leonardo
+	DeviceId = 0x02;	//Leonardo
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 

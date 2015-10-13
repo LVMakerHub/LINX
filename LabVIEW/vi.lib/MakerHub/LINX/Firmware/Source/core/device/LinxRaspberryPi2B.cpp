@@ -12,7 +12,8 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-#include <termios.h>		//UART Support
+#include <termios.h>
+#include <unistd.h>
 
 #include "utility/LinxDevice.h"
 #include "utility/LinxRaspberryPi.h"
@@ -22,7 +23,7 @@
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
+const char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
 
 //AI
 //None
@@ -67,7 +68,7 @@ unsigned long LinxRaspberryPi2B::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {
 LinxRaspberryPi2B::LinxRaspberryPi2B()
 {
 	DeviceFamily = 0x04;	//Raspberry Pi Family Code
-	DeviceID = 0x03;			//Raspberry Pi 2 Model B
+	DeviceId = 0x03;			//Raspberry Pi 2 Model B
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -179,33 +180,46 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 
 //Destructor
 LinxRaspberryPi2B::~LinxRaspberryPi2B()
-{
-	//Close GPIO Handles
+{	
+	//Close GPIO Handles If They Are Open
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
-		fclose(DigitalDirHandles[i]);
-		fclose(DigitalValueHandles[i]);
+		if(DigitalDirHandles[m_DigitalChans[i]] != NULL)
+		{			
+			fclose(DigitalDirHandles[m_DigitalChans[i]]);
+		}
+		if(DigitalValueHandles[m_DigitalChans[i]] != NULL)
+		{			
+			fclose(DigitalValueHandles[m_DigitalChans[i]]);
+		}
 	}
 	
 	//Close I2C Handles
 	for(int i=0; i<NUM_I2C_CHANS; i++)
 	{
-		close(I2cHandles[i]);
+		if(I2cHandles[m_I2cChans[i]] != 0)
+		{	
+			close(I2cHandles[m_I2cChans[i]]);
+		}
 	}
 	
 	//Close SPI Handles
 	for(int i=0; i<NUM_SPI_CHANS; i++)
 	{
-		close(SpiHandles[i]);
+		if(SpiHandles[m_SpiChans[i]] != 0)
+		{	
+			close(SpiHandles[m_SpiChans[i]]);
+		}
 	}
 	
 	//Close UART Handles
 	for(int i=0; i<NUM_UART_CHANS; i++)
 	{
-		close(UartHandles[i]);
-	}
-	
-	
+		if(UartHandles[m_UartChans[i]] != 0)
+		{	
+			close(UartHandles[m_UartChans[i]]);
+		}
+	}	
 }
 
 /****************************************************************************************

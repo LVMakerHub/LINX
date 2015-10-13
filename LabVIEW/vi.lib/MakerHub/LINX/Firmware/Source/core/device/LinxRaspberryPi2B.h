@@ -53,7 +53,7 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		**  Variables
 		****************************************************************************************/		
 		//System
-		static const unsigned char m_DeviceName[DEVICE_NAME_LEN];
+		static const char m_DeviceName[DEVICE_NAME_LEN];
 		
 		//AI		
 		//None
@@ -93,7 +93,7 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		**  Constructors /  Destructor
 		****************************************************************************************/
 		LinxRaspberryPi2B();
-		~LinxRaspberryPi2B();
+		virtual ~LinxRaspberryPi2B();
 		
 		/****************************************************************************************
 		**  Functions
