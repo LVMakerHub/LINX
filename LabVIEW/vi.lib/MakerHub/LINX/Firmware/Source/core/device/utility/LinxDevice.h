@@ -15,7 +15,7 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-//This Makes It Easy For IDE Users To Define Necissary Settings In One Place
+//This Makes It Easy For IDE Users To Define Necessary Settings In One Place
 //When Using Make Files Define LINXCONFIG To Ignore Config.h File
 #ifndef LINXCONFIG
 	#include "../config/LinxConfig.h"

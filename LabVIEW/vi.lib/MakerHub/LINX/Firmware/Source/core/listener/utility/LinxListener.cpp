@@ -88,8 +88,6 @@ int LinxListener::CheckForCommands()
 	return L_OK;
 }
 
-
-
 unsigned char LinxListener::ComputeChecksum(unsigned char* packetBuffer)
 {  
   unsigned char checksum = 0;
@@ -149,7 +147,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		 
 		case 0x0003: // Get Device ID     
 			responsePacketBuffer[5] = LinxDev->DeviceFamily;
-			responsePacketBuffer[6] = LinxDev->DeviceID;    
+			responsePacketBuffer[6] = LinxDev->DeviceId;    
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 2, L_OK); 
 			break;	
 			
@@ -381,7 +379,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		
 		case 0x0024: // Get Device Name
-			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
+			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, (unsigned char*)LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
 			break;
 		
 		case 0x0025: // Get Servo Channels

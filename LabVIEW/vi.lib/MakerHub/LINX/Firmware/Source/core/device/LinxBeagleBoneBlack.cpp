@@ -31,7 +31,7 @@ using namespace std;
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxBeagleBoneBlack::m_DeviceName[DEVICE_NAME_LEN] = "BeagleBone Black";
+const char LinxBeagleBoneBlack::m_DeviceName[DEVICE_NAME_LEN] = "BeagleBone Black";
 
 //AI
 const unsigned char LinxBeagleBoneBlack::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6, 7};
@@ -276,7 +276,7 @@ LinxBeagleBoneBlack::~LinxBeagleBoneBlack()
 	{
 		if(AiValueHandles[m_AiChans[i]] != 0)
 		{
-			close(AiValueHandles[m_AiChans[i]]);
+			fclose(AiValueHandles[m_AiChans[i]]);
 		}
 	}
 	
@@ -311,7 +311,7 @@ LinxBeagleBoneBlack::~LinxBeagleBoneBlack()
 		}
 		if(PwmPeriodHandles[m_PwmChans[i]] != NULL)
 		{
-			fclose(PwmDutyCycleHandles[m_PwmChans[i]);
+			fclose(PwmDutyCycleHandles[m_PwmChans[i]]);
 		}
 	}
 	

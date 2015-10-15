@@ -106,7 +106,7 @@ typedef enum DioStatus
 
 typedef enum SPIStatus
 {
-	LSPI_OPEN_FAIL=128,
+	LSPI_OPEN_FAIL = 128,
 	LSPI_TRANSFER_FAIL
 }SPIStatus;
 
@@ -139,9 +139,9 @@ class LinxDevice
 		
 		//Device ID
 		unsigned char DeviceFamily;
-		unsigned char DeviceID;
+		unsigned char DeviceId;
 		unsigned char DeviceNameLen;
-		const unsigned char* DeviceName;
+		const char* DeviceName;
 		
 		//LINX API Version
 		unsigned char LinxApiMajor;
@@ -213,9 +213,10 @@ class LinxDevice
 		unsigned long serialInterfaceMaxBaud;
 		
 		/****************************************************************************************
-		**  Constructors
+		**  Constructors/Destructor
 		****************************************************************************************/
 		LinxDevice();
+		virtual ~LinxDevice();
 			
 		/****************************************************************************************
 		**  Functions
@@ -304,6 +305,7 @@ class LinxDevice
 		virtual void DebugPrint(long n);
 		virtual void DebugPrint(unsigned long n);
 		virtual void DebugPrint(long n, int base);
+		
 		virtual void DebugPrintln();
 		virtual void DebugPrintln(char c);
 		virtual void DebugPrintln(const char s[]);
@@ -312,6 +314,7 @@ class LinxDevice
 		virtual void DebugPrintln(long n);
 		virtual void DebugPrintln(unsigned long n);
 		virtual void DebugPrintln(long n, int base);
+
 		
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
 				
