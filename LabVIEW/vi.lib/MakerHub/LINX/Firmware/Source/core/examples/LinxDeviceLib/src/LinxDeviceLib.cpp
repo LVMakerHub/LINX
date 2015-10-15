@@ -69,6 +69,47 @@ unsigned char LinxAoGetNumChans()
 	return LinxDev->NumAoChans;
 }
 
+int LinxAiGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumAiChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->AiChans, LinxDev->NumAiChans);
+		return LinxDev->NumAiChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->AiChans, numChans);
+		return numChans;
+	}
+}
+
+int LinxAoGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumAoChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->AoChans, LinxDev->NumAoChans);
+		return LinxDev->NumAoChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->AoChans, numChans);
+		return numChans;
+	}
+}
+
+void LinxAiGetChans(const unsigned char* channels)
+{
+	channels = LinxDev->AiChans;
+}
+
+void LinxAoGetChans(const unsigned char* channels)
+{
+	channels = LinxDev->AoChans;
+}
 
 int LinxAnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
@@ -87,6 +128,22 @@ unsigned char LinxDigitalGetNumChans()
 	return LinxDev->NumDigitalChans;
 }
 
+int LinxDigitalGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumDigitalChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->DigitalChans, LinxDev->NumDigitalChans);
+		return LinxDev->NumDigitalChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->DigitalChans, numChans);
+		return numChans;
+	}
+}
+
 int LinxDigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	return LinxDev->DigitalRead(numChans, channels, values);
@@ -97,6 +154,22 @@ int LinxDigitalRead(unsigned char numChans, unsigned char* channels, unsigned ch
 unsigned char LinxI2cGetNumChans()
 {
 	return LinxDev->NumI2cChans;
+}
+
+int LinxI2cGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumI2cChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->I2cChans, LinxDev->NumI2cChans);
+		return LinxDev->NumI2cChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->I2cChans, numChans);
+		return numChans;
+	}
 }
 
 int LinxI2cOpenMaster(unsigned char channel)
@@ -131,6 +204,22 @@ unsigned char LinxPwmGetNumChans()
 	return LinxDev->NumPwmChans;
 }
 
+int LinxPwmGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumPwmChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->PwmChans, LinxDev->NumPwmChans);
+		return LinxDev->NumPwmChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->PwmChans, numChans);
+		return numChans;
+	}
+}
+
 int LinxPwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	return LinxDev->PwmSetDutyCycle(numChans, channels, values);
@@ -141,6 +230,22 @@ int LinxPwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigne
 unsigned char LinxSpiGetNumChans()
 {
 	return LinxDev->NumSpiChans;
+}
+
+int LinxSpiGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumSpiChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->SpiChans, LinxDev->NumSpiChans);
+		return LinxDev->NumSpiChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->SpiChans, numChans);
+		return numChans;
+	}
 }
 
 int LinxSpiOpenMaster(unsigned char channel)
@@ -170,4 +275,52 @@ int LinxSpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned ch
 
 		
 //------------------------------------- UART -------------------------------------
-//Use VISA
+unsigned char LinxUartGetNumChans()
+{
+	return LinxDev->NumUartChans;
+}
+
+int LinxUartGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumUartChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->UartChans, LinxDev->NumUartChans);
+		return LinxDev->NumUartChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->UartChans, numChans);
+		return numChans;
+	}
+}
+
+int LinxUartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+{
+	return LinxDev->UartOpen(channel, baudRate, actualBaud);
+}
+int LinxUartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+{
+	return LinxDev->UartSetBaudRate(channel, baudRate, actualBaud);
+}
+
+int LinxUartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
+{
+	return LinxDev->UartGetBytesAvailable(channel, numBytes);
+}
+
+int LinxUartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
+{
+	return LinxDev->UartRead(channel, numBytes, recBuffer, numBytesRead);
+}
+
+int LinxUartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
+{
+	return LinxDev->UartWrite(channel, numBytes, sendBuffer);
+}
+
+int LinxUartClose(unsigned char channel)
+{
+	return LinxDev->UartClose(channel);
+}
