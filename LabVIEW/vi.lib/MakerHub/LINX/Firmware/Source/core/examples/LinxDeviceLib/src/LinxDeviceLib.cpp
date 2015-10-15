@@ -17,13 +17,26 @@
 #include "LinxRaspberryPi.h"
 #include "LinxRaspberryPi2B.h"
 
-LinxRaspberryPi2B* LinxDev;
+
+//------------------------------------- Raspberry Pi -------------------------------------
+#if LINX_DEVICE_FAMILY == 4 
+	#if LINX_DEVICE_ID == 3	//RPI 2 B
+			#define LINXDEVICETYPE LinxRaspberryPi2B
+	#endif
+//------------------------------------- Beagle Bone -------------------------------------
+#elif LINX_DEVICE_FAMILY == 6	
+	#if LINX_DEVICE_ID == 1
+			#define LINXDEVICETYPE LinxBeagleBoneBlack
+	#endif
+#endif
+
+LINXDEVICETYPE* LinxDev;
 
 //------------------------------------- Constructor / Destructor -------------------------------------
 int LinxOpen()
 {
 	//Instantiate The LINX Device
-	LinxDev = new LinxRaspberryPi2B();
+	LinxDev = new LINXDEVICETYPE();
 	fprintf(stdout, "Lib is working...\n");
 	return L_OK;
 }

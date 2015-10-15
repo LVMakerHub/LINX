@@ -464,7 +464,7 @@ int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
 	
 	SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
 	
-	if(SpiHandles[channel] == NULL)
+	if(SpiHandles[channel] == 0)
 	{
 		return LSPI_OPEN_FAIL;
 	}
