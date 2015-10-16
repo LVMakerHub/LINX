@@ -90,7 +90,14 @@
 /****************************************************************************************
 **  Typedefs
 ****************************************************************************************/		
-enum LinxStatus {L_OK, L_FUNCTION_NOT_SUPPORTED, L_REQUEST_RESEND, L_UNKNOWN_ERROR, L_DISCONNECT};
+typedef enum LinxStatus
+{
+	L_OK = 0,
+	L_FUNCTION_NOT_SUPPORTED,
+	L_REQUEST_RESEND,
+	L_UNKNOWN_ERROR, 
+	L_	DISCONNECT
+}LinxStatus;
 
 typedef enum AioStatus
 {

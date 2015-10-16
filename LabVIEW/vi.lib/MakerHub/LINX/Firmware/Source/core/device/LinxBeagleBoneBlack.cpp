@@ -103,7 +103,6 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
-	AiRefSet = AI_REFV;
 	
 	AiRefDefault = AI_REFV;
 	AiRefSet = AI_REFV;

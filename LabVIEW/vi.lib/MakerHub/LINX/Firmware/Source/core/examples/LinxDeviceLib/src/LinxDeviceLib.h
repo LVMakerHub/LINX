@@ -13,14 +13,14 @@
 #define LINX_DEVICELIB_H
 
 //------------------------------------- Constructor/Destructor -------------------------------------
-int LinxOpen();
-int LinxClose();
+extern "C" int LinxOpen();
+extern "C" int LinxClose();
 
 
 //------------------------------------- Enumeration -------------------------------------
-unsigned char LinxGetDeviceFamily();
-unsigned char LinxGetDeviceId();
-int LinxGetDeviceName(string* name);
+extern "C" unsigned char LinxGetDeviceFamily();
+extern "C" unsigned char LinxGetDeviceId();
+extern "C" int LinxGetDeviceName(string* name);
 
 
 
@@ -34,54 +34,69 @@ AO RES
 
 //------------------------------------- Analog -------------------------------------
 //------------------------------------- I2C -------------------------------------
-unsigned char LinxAiGetNumChans();
-unsigned char LinxAoGetNumChans();
-int LinxAiGetChans(unsigned char numChans, unsigned char* channels);
-int LinxAoGetChans(unsigned char numChans, unsigned char* channels);
-int LinxAnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
-int LinxAnalogSetRef(unsigned char mode, unsigned long voltage);
+extern "C" unsigned char LinxAiGetNumChans();
+extern "C" unsigned char LinxAoGetNumChans();
+extern "C" int LinxAiGetChans(unsigned char numChans, unsigned char* channels);
+extern "C" int LinxAoGetChans(unsigned char numChans, unsigned char* channels);
+extern "C" unsigned long LinxAiGetRefSetVoltage();
+extern "C" int LinxAnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
+extern "C" int LinxAnalogSetRef(unsigned char mode, unsigned long voltage);
+
+
+//------------------------------------- CAN -------------------------------------
+extern "C" unsigned char LinxCanGetNumChans();
+extern "C" int LinxCanGetChans(unsigned char numChans, unsigned char* channels);
 
 
 //------------------------------------- Digital -------------------------------------
-unsigned char LinxDigitalGetNumChans();
-int LinxDigitalGetChans(unsigned char numChans, unsigned char* channels);
-int LinxDigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
-int LinxDigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
+extern "C" unsigned char LinxDigitalGetNumChans();
+extern "C" int LinxDigitalGetChans(unsigned char numChans, unsigned char* channels);
+extern "C" int LinxDigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+extern "C" int LinxDigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 
 
 //------------------------------------- I2C -------------------------------------
-unsigned char LinxI2cGetNumChans();
-int LinxI2cGetChans(unsigned char numChans, unsigned char* channels);
-int LinxI2cOpenMaster(unsigned char channel);
-int LinxI2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed);
-int LinxI2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer);
-int LinxI2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer);		
-int LinxI2cClose(unsigned char channel);
+extern "C" unsigned char LinxI2cGetNumChans();
+extern "C" int LinxI2cGetChans(unsigned char numChans, unsigned char* channels);
+extern "C" int LinxI2cOpenMaster(unsigned char channel);
+extern "C" int LinxI2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed);
+extern "C" int LinxI2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer);
+extern "C" int LinxI2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer);		
+extern "C" int LinxI2cClose(unsigned char channel);
 		
 		
 //------------------------------------- PWM -------------------------------------
-unsigned char LinxPwmGetNumChans();
-int LinxPwmGetChans(unsigned char numChans, unsigned char* channels);
-int LinxPwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values);
+extern "C" unsigned char LinxPwmGetNumChans();
+extern "C" int LinxPwmGetChans(unsigned char numChans, unsigned char* channels);
+extern "C" int LinxPwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values);
+
+//------------------------------------- QE -------------------------------------
+extern "C" unsigned char LinxQeGetNumChans();
+extern "C" int LinxQeGetChans(unsigned char numChans, unsigned char* channels);
+
+
+//------------------------------------- Servo -------------------------------------
+extern "C" unsigned char LinxServoGetNumChans();
+extern "C" int LinxServoGetChans(unsigned char numChans, unsigned char* channels);
 
 
 //------------------------------------- SPI -------------------------------------
-unsigned char LinxSpiGetNumChans();
-int LinxSpiGetChans(unsigned char numChans, unsigned char* channels);
-int LinxSpiOpenMaster(unsigned char channel);
-int LinxSpiSetBitOrder(unsigned char channel, unsigned char bitOrder);
-int LinxSpiSetMode(unsigned char channel, unsigned char mode);
-int LinxSpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed);
-int LinxSpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer);
+extern "C" unsigned char LinxSpiGetNumChans();
+extern "C" int LinxSpiGetChans(unsigned char numChans, unsigned char* channels);
+extern "C" int LinxSpiOpenMaster(unsigned char channel);
+extern "C" int LinxSpiSetBitOrder(unsigned char channel, unsigned char bitOrder);
+extern "C" int LinxSpiSetMode(unsigned char channel, unsigned char mode);
+extern "C" int LinxSpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed);
+extern "C" int LinxSpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer);
 		
 //------------------------------------- UART -------------------------------------
-unsigned char LinxUartGetNumChans();
-int LinxUartGetChans(unsigned char numChans, unsigned char* channels);
-int LinxUartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud);
-int LinxUartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud);
-int LinxUartGetBytesAvailable(unsigned char channel, unsigned char *numBytes);
-int LinxUartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead);
-int LinxUartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer);
-int LinxUartClose(unsigned char channel);
+extern "C" unsigned char LinxUartGetNumChans();
+extern "C" int LinxUartGetChans(unsigned char numChans, unsigned char* channels);
+extern "C" int LinxUartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud);
+extern "C" int LinxUartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud);
+extern "C" int LinxUartGetBytesAvailable(unsigned char channel, unsigned char *numBytes);
+extern "C" int LinxUartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead);
+extern "C" int LinxUartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer);
+extern "C" int LinxUartClose(unsigned char channel);
 
 #endif //LINX_DEVICELIB_H

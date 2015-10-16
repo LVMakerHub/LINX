@@ -14,26 +14,27 @@
 #include <string.h>
 
 #include "LinxDevice.h"
-#include "LinxRaspberryPi.h"
-#include "LinxRaspberryPi2B.h"
-
 
 //------------------------------------- Raspberry Pi -------------------------------------
 #if LINX_DEVICE_FAMILY == 4 
 	#if LINX_DEVICE_ID == 3	//RPI 2 B
 			#define LINXDEVICETYPE LinxRaspberryPi2B
+			#include "LinxRaspberryPi.h"
+			#include "LinxRaspberryPi2B.h"
 	#endif
 //------------------------------------- Beagle Bone -------------------------------------
 #elif LINX_DEVICE_FAMILY == 6	
 	#if LINX_DEVICE_ID == 1
 			#define LINXDEVICETYPE LinxBeagleBoneBlack
+			#include "LinxBeagleBone.h"
+			#include "LinxBeagleBoneBlack.h"
 	#endif
 #endif
 
 LINXDEVICETYPE* LinxDev;
 
 //------------------------------------- Constructor / Destructor -------------------------------------
-int LinxOpen()
+extern "C" int LinxOpen()
 {
 	//Instantiate The LINX Device
 	LinxDev = new LINXDEVICETYPE();
@@ -41,30 +42,30 @@ int LinxOpen()
 	return L_OK;
 }
 
-int LinxClose()
+extern "C" int LinxClose()
 {
 	delete LinxDev;
 	return L_OK;
 }
 
-int LinxDigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
+extern "C" int LinxDigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	return LinxDev->DigitalWrite(numChans, channels, values);
 }
 
 
 //------------------------------------- Enumeration -------------------------------------
-int LinxGetDeviceFamily()
+extern "C" int LinxGetDeviceFamily()
 {
 	return LinxDev->DeviceFamily;
 }
 
-int LinxGetDeviceId()
+extern "C" int LinxGetDeviceId()
 {
 	return LinxDev->DeviceId;
 }
 
-int LinxGetDeviceName(string* name)
+extern "C" int LinxGetDeviceName(string* name)
 {
 	memcpy(name, LinxDev->DeviceName, LinxDev->DeviceNameLen);
 	return L_OK;
@@ -72,17 +73,17 @@ int LinxGetDeviceName(string* name)
 
 
 //------------------------------------- Analog -------------------------------------
-unsigned char LinxAiGetNumChans()
+extern "C" unsigned char LinxAiGetNumChans()
 {
 	return LinxDev->NumAiChans;
 }
 
-unsigned char LinxAoGetNumChans()
+extern "C" unsigned char LinxAoGetNumChans()
 {
 	return LinxDev->NumAoChans;
 }
 
-int LinxAiGetChans(unsigned char numChans, unsigned char* channels)
+extern "C" int LinxAiGetChans(unsigned char numChans, unsigned char* channels)
 {
 	if(numChans >= LinxDev->NumAiChans)
 	{
@@ -98,7 +99,7 @@ int LinxAiGetChans(unsigned char numChans, unsigned char* channels)
 	}
 }
 
-int LinxAoGetChans(unsigned char numChans, unsigned char* channels)
+extern "C" int LinxAoGetChans(unsigned char numChans, unsigned char* channels)
 {
 	if(numChans >= LinxDev->NumAoChans)
 	{
@@ -124,24 +125,51 @@ void LinxAoGetChans(const unsigned char* channels)
 	channels = LinxDev->AoChans;
 }
 
-int LinxAnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+extern "C" unsigned char LinxAiGetRefSetVoltage()
+{
+	return LinxDev->AiRefSet;
+}
+
+extern "C" int LinxAnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	return LinxDev->AnalogRead(numChans, channels, values);
 }
 	
-int LinxAnalogSetRef(unsigned char mode, unsigned long voltage)
+extern "C" int LinxAnalogSetRef(unsigned char mode, unsigned long voltage)
 {
 	return LinxDev->AnalogSetRef(mode, voltage);
 }
 
 
+//------------------------------------- CAN -------------------------------------
+extern "C" unsigned char LinxCanGetNumChans()
+{
+	return LinxDev->NumCanChans;
+}
+extern "C" int LinxCanGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumCanChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->CanChans, LinxDev->NumCanChans);
+		return LinxDev->NumCanChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->CanChans, numChans);
+		return numChans;
+	}
+}
+
+
 //------------------------------------- Digital -------------------------------------
-unsigned char LinxDigitalGetNumChans()
+extern "C" unsigned char LinxDigitalGetNumChans()
 {
 	return LinxDev->NumDigitalChans;
 }
 
-int LinxDigitalGetChans(unsigned char numChans, unsigned char* channels)
+extern "C" int LinxDigitalGetChans(unsigned char numChans, unsigned char* channels)
 {
 	if(numChans >= LinxDev->NumDigitalChans)
 	{
@@ -157,19 +185,19 @@ int LinxDigitalGetChans(unsigned char numChans, unsigned char* channels)
 	}
 }
 
-int LinxDigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
+extern "C" int LinxDigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	return LinxDev->DigitalRead(numChans, channels, values);
 }
 
 
 //------------------------------------- I2C -------------------------------------
-unsigned char LinxI2cGetNumChans()
+extern "C" unsigned char LinxI2cGetNumChans()
 {
 	return LinxDev->NumI2cChans;
 }
 
-int LinxI2cGetChans(unsigned char numChans, unsigned char* channels)
+extern "C" int LinxI2cGetChans(unsigned char numChans, unsigned char* channels)
 {
 	if(numChans >= LinxDev->NumI2cChans)
 	{
@@ -185,39 +213,39 @@ int LinxI2cGetChans(unsigned char numChans, unsigned char* channels)
 	}
 }
 
-int LinxI2cOpenMaster(unsigned char channel)
+extern "C" int LinxI2cOpenMaster(unsigned char channel)
 {
 	return LinxDev->I2cOpenMaster(channel);
 }
 
-int LinxI2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
+extern "C" int LinxI2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
 {
 	return LinxDev->I2cSetSpeed(channel, speed, actualSpeed);
 }
 
-int LinxI2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
+extern "C" int LinxI2cWrite(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned char* sendBuffer)
 {
 	return LinxDev->I2cWrite(channel, slaveAddress, eofConfig, numBytes, sendBuffer);
 }
 
-int LinxI2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
+extern "C" int LinxI2cRead(unsigned char channel, unsigned char slaveAddress, unsigned char eofConfig, unsigned char numBytes, unsigned int timeout, unsigned char* recBuffer)
 {
 	return LinxDev->I2cRead(channel, slaveAddress, eofConfig, numBytes, timeout, recBuffer);
 }
 
-int LinxI2cClose(unsigned char channel)
+extern "C" int LinxI2cClose(unsigned char channel)
 {
 	return LinxDev->I2cClose(channel);
 }
 
 		
 //------------------------------------- PWM -------------------------------------
-unsigned char LinxPwmGetNumChans()
+extern "C" unsigned char LinxPwmGetNumChans()
 {
 	return LinxDev->NumPwmChans;
 }
 
-int LinxPwmGetChans(unsigned char numChans, unsigned char* channels)
+extern "C" int LinxPwmGetChans(unsigned char numChans, unsigned char* channels)
 {
 	if(numChans >= LinxDev->NumPwmChans)
 	{
@@ -233,19 +261,63 @@ int LinxPwmGetChans(unsigned char numChans, unsigned char* channels)
 	}
 }
 
-int LinxPwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
+extern "C" int LinxPwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	return LinxDev->PwmSetDutyCycle(numChans, channels, values);
 }
 
 
+//------------------------------------- QE -------------------------------------
+extern "C" unsigned char LinxQeGetNumChans()
+{
+	return LinxDev->NumQeChans;
+}
+extern "C" int LinxQeGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumQeChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->QeChans, LinxDev->NumQeChans);
+		return LinxDev->NumQeChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->QeChans, numChans);
+		return numChans;
+	}
+}
+
+//------------------------------------- Servo -------------------------------------
+extern "C" unsigned char LinxServoGetNumChans()
+{
+	return LinxDev->NumServoChans;
+}
+
+extern "C" int LinxServoGetChans(unsigned char numChans, unsigned char* channels)
+{
+	if(numChans >= LinxDev->NumServoChans)
+	{
+		//Copy All Channels
+		memcpy(channels, LinxDev->ServoChans, LinxDev->NumServoChans);
+		return LinxDev->NumServoChans;
+	}
+	else
+	{
+		//Copy As Many Channels As Possible With Given Space
+		memcpy(channels, LinxDev->ServoChans, numChans);
+		return numChans;
+	}
+}
+
+
 //------------------------------------- SPI -------------------------------------
-unsigned char LinxSpiGetNumChans()
+extern "C" unsigned char LinxSpiGetNumChans()
 {
 	return LinxDev->NumSpiChans;
 }
 
-int LinxSpiGetChans(unsigned char numChans, unsigned char* channels)
+extern "C" int LinxSpiGetChans(unsigned char numChans, unsigned char* channels)
 {
 	if(numChans >= LinxDev->NumSpiChans)
 	{
@@ -261,39 +333,39 @@ int LinxSpiGetChans(unsigned char numChans, unsigned char* channels)
 	}
 }
 
-int LinxSpiOpenMaster(unsigned char channel)
+extern "C" int LinxSpiOpenMaster(unsigned char channel)
 {
 	return LinxDev->SpiOpenMaster(channel);
 }
 
-int LinxSpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
+extern "C" int LinxSpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
 {
 	return LinxDev->SpiSetBitOrder(channel, bitOrder);
 }
 
-int LinxSpiSetMode(unsigned char channel, unsigned char mode)
+extern "C" int LinxSpiSetMode(unsigned char channel, unsigned char mode)
 {
 	return LinxDev->SpiSetMode(channel, mode);
 }
 
-int LinxSpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
+extern "C" int LinxSpiSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
 {
 	return LinxDev->SpiSetSpeed(channel, speed, actualSpeed);
 }
 
-int LinxSpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)
+extern "C" int LinxSpiWriteRead(unsigned char channel, unsigned char frameSize, unsigned char numFrames, unsigned char csChan, unsigned char csLL, unsigned char* sendBuffer, unsigned char* recBuffer)
 {
 	return LinxDev->SpiWriteRead(channel, frameSize, numFrames, csChan, csLL, sendBuffer, recBuffer);
 }
 
 		
 //------------------------------------- UART -------------------------------------
-unsigned char LinxUartGetNumChans()
+extern "C" unsigned char LinxUartGetNumChans()
 {
 	return LinxDev->NumUartChans;
 }
 
-int LinxUartGetChans(unsigned char numChans, unsigned char* channels)
+extern "C" int LinxUartGetChans(unsigned char numChans, unsigned char* channels)
 {
 	if(numChans >= LinxDev->NumUartChans)
 	{
@@ -309,31 +381,31 @@ int LinxUartGetChans(unsigned char numChans, unsigned char* channels)
 	}
 }
 
-int LinxUartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+extern "C" int LinxUartOpen(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 {
 	return LinxDev->UartOpen(channel, baudRate, actualBaud);
 }
-int LinxUartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
+extern "C" int LinxUartSetBaudRate(unsigned char channel, unsigned long baudRate, unsigned long* actualBaud)
 {
 	return LinxDev->UartSetBaudRate(channel, baudRate, actualBaud);
 }
 
-int LinxUartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
+extern "C" int LinxUartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
 {
 	return LinxDev->UartGetBytesAvailable(channel, numBytes);
 }
 
-int LinxUartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
+extern "C" int LinxUartRead(unsigned char channel, unsigned char numBytes, unsigned char* recBuffer, unsigned char* numBytesRead)
 {
 	return LinxDev->UartRead(channel, numBytes, recBuffer, numBytesRead);
 }
 
-int LinxUartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
+extern "C" int LinxUartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
 {
 	return LinxDev->UartWrite(channel, numBytes, sendBuffer);
 }
 
-int LinxUartClose(unsigned char channel)
+extern "C" int LinxUartClose(unsigned char channel)
 {
 	return LinxDev->UartClose(channel);
 }
