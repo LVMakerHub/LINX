@@ -331,7 +331,7 @@ int LinxRaspberryPi::SpiOpenMaster(unsigned char channel)
 	fprintf(stdout, "SpiOpen(%d)\n", channel);
 	SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
 	
-	if(SpiHandles[channel] == NULL)
+	if(SpiHandles[channel] == 0)
 	{
 		fprintf(stdout, "SPI OPEN FAIL");
 		return LSPI_OPEN_FAIL;		
@@ -481,7 +481,7 @@ int LinxRaspberryPi::I2cWrite(unsigned char channel, unsigned char slaveAddress,
 	}
 	
 	//Set Slave Address
-	if (int x = ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+	if(ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
 	{			
 		//Failed To Set Slave Address
 		DebugPrintln("I2C Fail - Failed To Set Slave Address");

@@ -64,7 +64,7 @@ Servo* LinxChipkitUno32::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0,
 LinxChipkitUno32::LinxChipkitUno32()
 {
 	//Digilent Family Code Set At Family Level
-	DeviceID = 0x00;	//Uno32
+	DeviceId = 0x00;	//Uno32
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 

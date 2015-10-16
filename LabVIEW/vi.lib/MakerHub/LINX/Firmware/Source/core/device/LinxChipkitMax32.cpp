@@ -64,7 +64,7 @@ Servo* LinxChipkitMax32::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0,
 LinxChipkitMax32::LinxChipkitMax32()
 {
 	//Digilent Family Code Set At Family Level, Device ID set to 0x02 for Max32
-	DeviceID = 0x02;
+	DeviceId = 0x02;
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 

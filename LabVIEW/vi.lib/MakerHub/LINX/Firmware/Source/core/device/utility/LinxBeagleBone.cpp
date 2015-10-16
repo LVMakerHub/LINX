@@ -119,7 +119,7 @@ int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels
 			PwmPeriodHandles[channels[i]] = fopen(periodPath, "r+w+");
 			
 			//Initialize PWM Period
-			fprintf(PwmPeriodHandles[channels[i]], "%u", (unsigned long)(1000000000.0/PwmDefaultFrequency));	
+			fprintf(PwmPeriodHandles[channels[i]], "%lu", (unsigned long)(1000000000.0/PwmDefaultFrequency));	
 			DebugPrint("Setting Default Frequency = ");
 			DebugPrintln((unsigned long)(1000000000.0/PwmDefaultFrequency), DEC);
 			fflush(PwmPeriodHandles[channels[i]]);
@@ -435,7 +435,7 @@ int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* chann
 		//Update Output
 		DebugPrint("Setting Duty Cycle = ");
 		DebugPrint(dutyCycle, DEC);
-		fprintf(PwmDutyCycleHandles[channels[i]], "%u", dutyCycle);	
+		fprintf(PwmDutyCycleHandles[channels[i]], "%lu", dutyCycle);	
 		DebugPrint(" ... Duty Cycle Set ... ");
 		fflush(PwmDutyCycleHandles[channels[i]]);
 		DebugPrintln("Flushing.");
@@ -464,7 +464,7 @@ int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
 	
 	SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
 	
-	if(SpiHandles[channel] == NULL)
+	if(SpiHandles[channel] == 0)
 	{
 		return LSPI_OPEN_FAIL;
 	}
@@ -623,7 +623,7 @@ int LinxBeagleBone::I2cWrite(unsigned char channel, unsigned char slaveAddress, 
 	}
 	
 	//Set Slave Address
-	if (int x = ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
+	if (ioctl(I2cHandles[channel], I2C_SLAVE, slaveAddress) < 0) 
 	{			
 		//Failed To Set Slave Address
 		DebugPrintln("I2C Fail - Failed To Set Slave Address");
