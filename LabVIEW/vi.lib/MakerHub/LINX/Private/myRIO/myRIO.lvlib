@@ -23,5 +23,7 @@
 		<Item Name="Get PWM Channel Name.vi" Type="VI" URL="../Utilities/Get PWM Channel Name.vi"/>
 		<Item Name="Get SPI Channel Name.vi" Type="VI" URL="../Utilities/Get SPI Channel Name.vi"/>
 		<Item Name="Get UART Channel Name.vi" Type="VI" URL="../Utilities/Get UART Channel Name.vi"/>
+		<Item Name="Load Device Channels.vi" Type="VI" URL="../Utilities/Load Device Channels.vi"/>
+		<Item Name="Load Device Info.vi" Type="VI" URL="../Utilities/Load Device Info.vi"/>
 	</Item>
 </Library>

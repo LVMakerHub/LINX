@@ -112,6 +112,7 @@
 			<Item Name="Device Data.ctl" Type="VI" URL="../Private/Type Defs/Device Data.ctl"/>
 			<Item Name="Device Firmware.ctl" Type="VI" URL="../Private/Type Defs/Device Firmware.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
+			<Item Name="FGV Operation.ctl" Type="VI" URL="../Private/Type Defs/FGV Operation.ctl"/>
 			<Item Name="Firmware Interface.ctl" Type="VI" URL="../Private/Device/Type Defs/Firmware Interface.ctl"/>
 			<Item Name="Firmware Library Component.ctl" Type="VI" URL="../Private/Type Defs/Firmware Library Component.ctl"/>
 			<Item Name="Firmware Program Interface.ctl" Type="VI" URL="../Private/Type Defs/Firmware Program Interface.ctl"/>
@@ -173,6 +174,7 @@
 			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
+		<Item Name="Local IO.lvlib" Type="Library" URL="../Private/Local IO/Local IO.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
 	</Item>
 	<Item Name="Public" Type="Folder">

@@ -73,6 +73,7 @@
 		<Item Name="Check Firmware Version.vi" Type="VI" URL="../Utilities/Check Firmware Version.vi"/>
 		<Item Name="Load Device Config.vi" Type="VI" URL="../Utilities/Load Device Config.vi"/>
 		<Item Name="LINX VI API Version.vi" Type="VI" URL="../Utilities/LINX VI API Version.vi"/>
+		<Item Name="Bit Pack.vi" Type="VI" URL="../Utilities/Bit Pack.vi"/>
 	</Item>
 	<Item Name="Peripheral" Type="Folder">
 		<Item Name="Analog" Type="Folder">
@@ -139,4 +140,5 @@
 	</Item>
 	<Item Name="Initialize Device.vi" Type="VI" URL="../Initialize Device.vi"/>
 	<Item Name="Close Device.vi" Type="VI" URL="../Close Device.vi"/>
+	<Item Name="Bit Unpack.vi" Type="VI" URL="../Utilities/Bit Unpack.vi"/>
 </Library>
