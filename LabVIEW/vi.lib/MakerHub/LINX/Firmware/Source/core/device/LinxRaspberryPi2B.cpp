@@ -100,6 +100,9 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 	//AO
 	NumAoChans = 0;
 	AoChans = 0;
+	AoResolution = 0;
+    AoRefDefault = 0;
+	AoRefSet = 0;
 	
 	//PWM
 	NumPwmChans = NUM_PWM_CHANS;

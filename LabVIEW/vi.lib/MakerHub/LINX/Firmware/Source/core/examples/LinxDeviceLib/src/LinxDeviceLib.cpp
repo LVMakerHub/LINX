@@ -48,11 +48,6 @@ extern "C" int LinxClose()
 	return L_OK;
 }
 
-extern "C" int LinxDigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
-{
-	return LinxDev->DigitalWrite(numChans, channels, values);
-}
-
 
 //------------------------------------- Enumeration -------------------------------------
 extern "C" int LinxGetDeviceFamily()
@@ -72,7 +67,34 @@ extern "C" int LinxGetDeviceName(string* name)
 }
 
 
+//------------------------------------- General -------------------------------------
+extern "C" unsigned long LinxGetMilliSeconds()
+{
+	return LinxDev->GetMilliSeconds();
+}
+
+
 //------------------------------------- Analog -------------------------------------
+extern "C" unsigned long LinxAiGetRefSetVoltage()
+{
+	return LinxDev->AiRefSet;
+}
+
+extern "C" unsigned long LinxAoGetRefSetVoltage()
+{
+	return LinxDev->AoRefSet;
+}
+
+extern "C" unsigned char LinxAiGetResolution()
+{
+	return LinxDev->AiResolution;
+}
+
+extern "C" unsigned char LinxAoGetResolution()
+{
+	return LinxDev->AoResolution;
+}
+
 extern "C" unsigned char LinxAiGetNumChans()
 {
 	return LinxDev->NumAiChans;
@@ -115,30 +137,15 @@ extern "C" int LinxAoGetChans(unsigned char numChans, unsigned char* channels)
 	}
 }
 
-void LinxAiGetChans(const unsigned char* channels)
-{
-	channels = LinxDev->AiChans;
-}
-
-void LinxAoGetChans(const unsigned char* channels)
-{
-	channels = LinxDev->AoChans;
-}
-
-extern "C" unsigned char LinxAiGetRefSetVoltage()
-{
-	return LinxDev->AiRefSet;
-}
-
 extern "C" int LinxAnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	return LinxDev->AnalogRead(numChans, channels, values);
 }
-	
-extern "C" int LinxAnalogSetRef(unsigned char mode, unsigned long voltage)
+
+extern "C" int LinxAnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values)
 {
-	return LinxDev->AnalogSetRef(mode, voltage);
-}
+	return LinxDev->AnalogReadNoPacking(numChans, channels, values);
+}	
 
 
 //------------------------------------- CAN -------------------------------------
@@ -189,6 +196,22 @@ extern "C" int LinxDigitalRead(unsigned char numChans, unsigned char* channels, 
 {
 	return LinxDev->DigitalRead(numChans, channels, values);
 }
+
+extern "C" int LinxDigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	return LinxDev->DigitalReadNoPacking(numChans, channels, values);
+}
+
+extern "C" int LinxDigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	return LinxDev->DigitalWrite(numChans, channels, values);
+}
+
+extern "C" int LinxDigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	return LinxDev->DigitalWriteNoPacking(numChans, channels, values);
+}
+
 
 
 //------------------------------------- I2C -------------------------------------

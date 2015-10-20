@@ -246,6 +246,18 @@ int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, 
 	return L_OK;
 }
 
+int LinxBeagleBone::AnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values)
+{
+	//Loop Over All AI channels In Command Packet
+	for(int i=0; i<numChans; i++)
+	{
+		AiValueHandles[channels[i]] = freopen(AiValuePaths[i].c_str(), "r+", AiValueHandles[channels[i]]);
+		fscanf(AiValueHandles[channels[i]], "%lu", values+i);
+	}
+	
+	return L_OK;
+}
+
 int LinxBeagleBone::AnalogSetRef(unsigned char mode, unsigned long voltage)
 {
 	return L_FUNCTION_NOT_SUPPORTED;
@@ -337,6 +349,39 @@ int LinxBeagleBone::DigitalWrite(unsigned char channel, unsigned char value)
 	return DigitalWrite(1, &channel, &value);
 }
 
+int LinxBeagleBone::DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	//Generate Directions Array (waste some memory, save some CPU)
+	unsigned char directions[numChans];
+	
+	for(int i=0; i< numChans; i++)
+	{
+		directions[i] = 0xFF;
+	}
+	
+	if(DigitalSetDirection(numChans, channels, directions) != L_OK)
+	{
+		DebugPrintln("Digital Write Fail - Set Direction Failed");
+	}
+			
+	for(int i=0; i<numChans; i++)
+	{
+		//Set Value
+		if(values[i] == LOW)
+		{
+			fprintf(DigitalValueHandles[channels[i]], "0");
+			fflush(DigitalValueHandles[channels[i]]);
+		}
+		else
+		{
+			fprintf(DigitalValueHandles[channels[i]], "1");
+			fflush(DigitalValueHandles[channels[i]]);
+		}
+	}
+		
+	return L_OK;
+}
+
 int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	//Generate Bit Packed Input Direction Array
@@ -394,6 +439,36 @@ int LinxBeagleBone::DigitalRead(unsigned char numChans, unsigned char* channels,
 	//Store Last Byte
 	values[byteOffset] = retVal;
 		
+	return L_OK;
+}
+
+int LinxBeagleBone::DigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	//Generate Directions Array (waste some memory, save some CPU)
+	unsigned char directions[numChans];
+	
+	for(int i=0; i< numChans; i++)
+	{
+		directions[i] = 0x00;
+	}
+	
+	//Set Directions To Inputs		
+	if(DigitalSetDirection(numChans, channels, directions) != L_OK)
+	{
+		DebugPrintln("Digital Write Fail - Set Direction Failed");
+	}
+	
+	//Loop Over channels To Read
+	for(int i=0; i<numChans; i++)
+	{
+		//Reopen Value Handle
+		char valPath[64];
+		sprintf(valPath, "/sys/class/gpio/gpio%d/value", DigitalChannels[channels[i]]);
+		DigitalValueHandles[channels[i]] = freopen(valPath, "r+w+", DigitalValueHandles[channels[i]]);
+		
+		//Read From Next Pin
+		fscanf(DigitalValueHandles[channels[i]], "%hhu", values+i);
+	}
 	return L_OK;
 }
 

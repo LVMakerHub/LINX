@@ -12,6 +12,9 @@
 #ifndef LINX_DEVICELIB_H
 #define LINX_DEVICELIB_H
 
+#include <string>
+
+using namespace std;
 //------------------------------------- Constructor/Destructor -------------------------------------
 extern "C" int LinxOpen();
 extern "C" int LinxClose();
@@ -23,24 +26,22 @@ extern "C" unsigned char LinxGetDeviceId();
 extern "C" int LinxGetDeviceName(string* name);
 
 
-
-/*
-Channels - DI, DO, AI, AO, PWM, QE, UART, I2C, SPI, CAN, Servo
-AI Ref
-AO Reg Volt
-AO RES
-*/
+//------------------------------------- General -------------------------------------
+extern "C" unsigned long LinxGetMilliSeconds();
 
 
 //------------------------------------- Analog -------------------------------------
-//------------------------------------- I2C -------------------------------------
+
+extern "C" unsigned long LinxAiGetRefSetVoltage();
+extern "C" unsigned long LinxAoGetRefSetVoltage();
+extern "C" unsigned long LinxAiGetResolution();
+extern "C" unsigned long LinxAoGetResolution();
 extern "C" unsigned char LinxAiGetNumChans();
 extern "C" unsigned char LinxAoGetNumChans();
 extern "C" int LinxAiGetChans(unsigned char numChans, unsigned char* channels);
 extern "C" int LinxAoGetChans(unsigned char numChans, unsigned char* channels);
-extern "C" unsigned long LinxAiGetRefSetVoltage();
 extern "C" int LinxAnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
-extern "C" int LinxAnalogSetRef(unsigned char mode, unsigned long voltage);
+extern "C" int LinxAnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values);
 
 
 //------------------------------------- CAN -------------------------------------
@@ -52,7 +53,9 @@ extern "C" int LinxCanGetChans(unsigned char numChans, unsigned char* channels);
 extern "C" unsigned char LinxDigitalGetNumChans();
 extern "C" int LinxDigitalGetChans(unsigned char numChans, unsigned char* channels);
 extern "C" int LinxDigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+extern "C" int LinxDigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);
 extern "C" int LinxDigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
+extern "C" int LinxDigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);
 
 
 //------------------------------------- I2C -------------------------------------

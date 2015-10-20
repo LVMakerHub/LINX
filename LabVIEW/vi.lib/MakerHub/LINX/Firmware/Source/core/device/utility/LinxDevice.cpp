@@ -86,6 +86,24 @@ void LinxDevice::DebugPrintPacket(unsigned char direction, const unsigned char* 
 }
 
 
+//--------------------------------------------------------Analog-------------------------------------------------------
+int LinxDevice::AnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+
+//--------------------------------------------------------Digital-------------------------------------------------------
+int LinxDevice::DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
+int LinxDevice::DigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
 // ---------------- PWM Functions ------------------ 
 int LinxDevice::PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values)
 {
