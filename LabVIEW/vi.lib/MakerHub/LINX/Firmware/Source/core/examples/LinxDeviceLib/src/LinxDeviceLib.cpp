@@ -323,11 +323,7 @@ extern "C" int LinxServoGetChans(unsigned char numChans, unsigned char* channels
 	if(numChans >= LinxDev->NumServoChans)
 	{
 		//Copy All Channels
-		//memcpy(channels, LinxDev->ServoChans, LinxDev->NumServoChans);    /*THIS CRASHED LV OCCASIONALLY...*/
-		for(int i=0; i<numChans; i++)
-		{
-			channels[i] = LinxDev->ServoChans[i];
-		}
+		memcpy(channels, LinxDev->ServoChans, LinxDev->NumServoChans); 
 		return LinxDev->NumServoChans;
 	}
 	else
