@@ -136,6 +136,9 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 	NumCanChans = 0;
 	CanChans = 0;
 	
+	//Servo 
+	NumServoChans = 0;
+	
 			
 	//------------------------------------- Digital -------------------------------------
 	//Export GPIO - Set All Digital Handles To NULL

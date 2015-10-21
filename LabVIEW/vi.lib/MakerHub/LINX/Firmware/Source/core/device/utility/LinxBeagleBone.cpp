@@ -55,7 +55,7 @@ LinxBeagleBone::LinxBeagleBone()
 
 LinxBeagleBone::~LinxBeagleBone()
 {
-	
+
 }
 /****************************************************************************************
 **  Private Functions
@@ -113,28 +113,27 @@ int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels
 		if(PwmPeriodHandles[channels[i]] == NULL)
 		{
 			char periodPath[64];
-			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), "period");
+			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), "period_ns");
 			DebugPrint("Opening ");
 			DebugPrintln(periodPath);
 			PwmPeriodHandles[channels[i]] = fopen(periodPath, "r+w+");
 			
 			//Initialize PWM Period
-			fprintf(PwmPeriodHandles[channels[i]], "%lu", (unsigned long)(1000000000.0/PwmDefaultFrequency));	
-			DebugPrint("Setting Default Frequency = ");
-			DebugPrintln((unsigned long)(1000000000.0/PwmDefaultFrequency), DEC);
+			fprintf(PwmPeriodHandles[channels[i]], "%lu", PwmDefaultPeriod);
+			PwmPeriods[channels[i]] = PwmDefaultPeriod;
 			fflush(PwmPeriodHandles[channels[i]]);
-		}
+		}		
 		
 		//Open Duty Cycle Handle If It Is Not Already		
 		if(PwmDutyCycleHandles[channels[i]] == NULL)
 		{
 			char dutyCyclePath[64];
-			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), "duty");
+			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), "duty_ns");
 			DebugPrint("Opening ");
 			DebugPrintln(dutyCyclePath);
 			PwmDutyCycleHandles[channels[i]] = fopen(dutyCyclePath, "r+w+");
 		}
-	}	
+	}
 	return L_OK;		
 }
 
@@ -486,7 +485,7 @@ int LinxBeagleBone::DigitalReadPulseWidth(unsigned char stimChan, unsigned char 
 //--------------------------------------------------------PWM-------------------------------------------------------
 int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
-	unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
+	//unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
 	unsigned long dutyCycle = 0;
 	
 	//Smart Open PWM Channels
@@ -500,11 +499,11 @@ int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* chann
 		}
 		else if(values[i] == 255)
 		{
-			dutyCycle = period;		
+			dutyCycle = PwmPeriods[channels[i]];		
 		}
 		else
 		{
-			dutyCycle= period*(values[i] / 255.0);
+			dutyCycle= PwmPeriods[channels[i]]*(values[i] / 255.0);
 		}
 		
 		//Update Output

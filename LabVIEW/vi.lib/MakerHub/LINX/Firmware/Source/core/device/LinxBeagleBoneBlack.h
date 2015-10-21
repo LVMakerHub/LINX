@@ -29,7 +29,7 @@
 #define NUM_SPI_CHANS 1
 #define NUM_SPI_SPEEDS 13
 
-#define NUM_I2C_CHANS 2
+#define NUM_I2C_CHANS 1
 
 #define NUM_UART_CHANS 3
 #define NUM_UART_SPEEDS 18
@@ -73,6 +73,9 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static const unsigned char m_PwmChans[NUM_PWM_CHANS];
 		static const string m_PwmDirPaths[NUM_PWM_CHANS];
 		static const string m_PwmDtoNames[NUM_PWM_CHANS];
+		static const string m_PwmExportPath;
+		static const unsigned char m_PwmChips[NUM_PWM_CHANS];
+		unsigned char m_PwmPeriods[NUM_PWM_CHANS];
 		
 		//SPI
 		static unsigned char m_SpiChans[NUM_SPI_CHANS];

@@ -36,9 +36,10 @@ LINXDEVICETYPE* LinxDev;
 //------------------------------------- Constructor / Destructor -------------------------------------
 extern "C" int LinxOpen()
 {
+	
 	//Instantiate The LINX Device
 	LinxDev = new LINXDEVICETYPE();
-	fprintf(stdout, "Lib is working...\n");
+	fprintf(stdout, "Lib Working...\n");
 	return L_OK;
 }
 
@@ -322,7 +323,11 @@ extern "C" int LinxServoGetChans(unsigned char numChans, unsigned char* channels
 	if(numChans >= LinxDev->NumServoChans)
 	{
 		//Copy All Channels
-		memcpy(channels, LinxDev->ServoChans, LinxDev->NumServoChans);
+		//memcpy(channels, LinxDev->ServoChans, LinxDev->NumServoChans);    /*THIS CRASHED LV OCCASIONALLY...*/
+		for(int i=0; i<numChans; i++)
+		{
+			channels[i] = LinxDev->ServoChans[i];
+		}
 		return LinxDev->NumServoChans;
 	}
 	else
