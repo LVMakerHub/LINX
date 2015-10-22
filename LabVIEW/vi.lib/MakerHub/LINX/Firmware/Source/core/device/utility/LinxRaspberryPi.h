@@ -104,8 +104,10 @@ class LinxRaspberryPi : public LinxDevice
 		virtual int DigitalSetDirection(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalWrite(unsigned char channel, unsigned char value);
+		virtual int DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);											//Values Not Bit Packed
 		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalRead(unsigned char channel, unsigned char* value);
+		virtual int DigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);											//Response Not Bit Packed
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration);
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width);
 		
