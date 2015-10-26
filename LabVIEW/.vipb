@@ -1,10 +1,10 @@
-<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-10-06 16:10:22" Creator="lvadmin" Comments="" ID="d1ebe8f3036bbb45c87b491f2d2bdd91">
+<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-10-26 13:04:42" Creator="lvadmin" Comments="" ID="13ba0acc3fcf869a34d68c97ecf6cab7">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>2.1.0.105</Library_Version>
+    <Library_Version>2.2.0.107</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
-    <Library_Output_Folder>..\..\..\..\..\..\github\makerhub\Builds\LINX\Installers</Library_Output_Folder>
+    <Library_Output_Folder>..\..\..\..\github\makerhub\Builds\LINX\Installers</Library_Output_Folder>
     <Company_Name>MakerHub</Company_Name>
     <Library_Summary/>
     <Library_License>BSD2</Library_License>
@@ -34,11 +34,11 @@
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
       <URL>www.labviewmakerhub.com/linx</URL>
-      <Release_Notes>LINX 2.1 Beta
+      <Release_Notes>LINX 2.1 Alpha
 
 Added Device Support For:
-BeagleBone Black (UART/TCP)
-Raspberry Pi 2 (UART / TCP)
+BeagleBone Black (UART/TCP/Deploy)
+Raspberry Pi 2 (UART / TCP/Deploy)
 
 Added sensors support for:
 PmodBT2
@@ -154,6 +154,12 @@ Added online help at labviewmakerhub.com/linx-reference
         <Additional_Destination>true</Additional_Destination>
         <Additional_Destination_Index>0</Additional_Destination_Index>
       </Destination_Overrides>
+      <Destination_Overrides>
+        <Path>resource</Path>
+        <Destination>0</Destination>
+        <Additional_Destination>true</Additional_Destination>
+        <Additional_Destination_Index>0</Additional_Destination_Index>
+      </Destination_Overrides>
       <Password_Overrides>
         <Path>.</Path>
         <Password/>
@@ -168,7 +174,7 @@ Added online help at labviewmakerhub.com/linx-reference
         <Path>project/MakerHub/LINX/LINX Firmware Wizard Config.ini</Path>
       </Exclusions>
     </Source_Files>
-    <License_Agreement_Filepath>..\EULA.txt</License_Agreement_Filepath>
+    <License_Agreement_Filepath>..\..\..\..\github\makerhub\LINX\EULA.txt</License_Agreement_Filepath>
     <Licensing_and_Activation>
       <License_LF_file_path/>
       <Licensed_library_file_path/>

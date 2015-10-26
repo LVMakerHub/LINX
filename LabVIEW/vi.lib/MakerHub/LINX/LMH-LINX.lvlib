@@ -43,6 +43,16 @@
 		<Item Name="LINX - PmodGPS.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodGPS.vi"/>
 		<Item Name="LINX - PmodJSTK.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodJSTK.vi"/>
 		<Item Name="LINX - PmodSONOR.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodSONOR.vi"/>
+		<Item Name="LINX Analog Read Benchmark.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/LINX Analog Read Benchmark.vi"/>
+		<Item Name="LINX Digital Read Benchmark.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/LINX Digital Read Benchmark.vi"/>
+		<Item Name="LINX Digital Write Benchmark.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/LINX Digital Write Benchmark.vi"/>
+		<Item Name="LINX I2C Write Benchmark.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/LINX I2C Write Benchmark.vi"/>
+		<Item Name="LINX PWM Set Duty Cycle Benchmark.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/LINX PWM Set Duty Cycle Benchmark.vi"/>
+		<Item Name="LINX SPI Loopback Benchmark.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/LINX SPI Loopback Benchmark.vi"/>
+		<Item Name="LINX UART Loopback Benchmark.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/LINX UART Loopback Benchmark.vi"/>
+		<Item Name="Local IO Benchmarks.aliases" Type="Document" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/Local IO Benchmarks.aliases"/>
+		<Item Name="Local IO Benchmarks.lvlps" Type="Document" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/Local IO Benchmarks.lvlps"/>
+		<Item Name="Local IO Benchmarks.lvproj" Type="Document" URL="../../../../examples/MakerHub/LINX/Local IO Benchmarks/Local IO Benchmarks.lvproj"/>
 	</Item>
 	<Item Name="Help" Type="Folder">
 		<Item Name="Forums.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Forums.vi"/>

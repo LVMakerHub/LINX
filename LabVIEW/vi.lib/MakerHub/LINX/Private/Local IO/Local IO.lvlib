@@ -57,6 +57,7 @@
 	<Item Name="LinxSpiGetChans.vi" Type="VI" URL="../LinxSpiGetChans.vi"/>
 	<Item Name="LinxSpiGetNumChans.vi" Type="VI" URL="../LinxSpiGetNumChans.vi"/>
 	<Item Name="LinxSpiOpenMaster.vi" Type="VI" URL="../LinxSpiOpenMaster.vi"/>
+	<Item Name="LinxSpiSetBitOrder.vi" Type="VI" URL="../LinxSpiSetBitOrder.vi"/>
 	<Item Name="LinxSpiWriteRead.vi" Type="VI" URL="../LinxSpiWriteRead.vi"/>
 	<Item Name="LinxUartGetChans.vi" Type="VI" URL="../LinxUartGetChans.vi"/>
 	<Item Name="LinxUartGetNumChans.vi" Type="VI" URL="../LinxUartGetNumChans.vi"/>
