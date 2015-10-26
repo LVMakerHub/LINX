@@ -246,6 +246,39 @@ int LinxRaspberryPi::DigitalWrite(unsigned char channel, unsigned char value)
 	return DigitalWrite(1, &channel, &value);
 }
 
+int LinxRaspberryPi::DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	//Generate Directions Array (waste some memory, save some CPU)
+	unsigned char directions[numChans];
+	
+	for(int i=0; i< numChans; i++)
+	{
+		directions[i] = 0xFF;
+	}
+	
+	if(DigitalSetDirection(numChans, channels, directions) != L_OK)
+	{
+		DebugPrintln("Digital Write Fail - Set Direction Failed");
+	}
+			
+	for(int i=0; i<numChans; i++)
+	{
+		//Set Value
+		if(values[i] == LOW)
+		{
+			fprintf(DigitalValueHandles[channels[i]], "0");
+			fflush(DigitalValueHandles[channels[i]]);
+		}
+		else
+		{
+			fprintf(DigitalValueHandles[channels[i]], "1");
+			fflush(DigitalValueHandles[channels[i]]);
+		}
+	}
+		
+	return L_OK;
+}
+
 int LinxRaspberryPi::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	//Generate Bit Packed Input Direction Array
@@ -305,6 +338,36 @@ int LinxRaspberryPi::DigitalRead(unsigned char numChans, unsigned char* channels
 int LinxRaspberryPi::DigitalRead(unsigned char channel, unsigned char* value)
 {
 	return DigitalRead(1, &channel, value);
+}
+
+int LinxRaspberryPi::DigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	//Generate Directions Array (waste some memory, save some CPU)
+	unsigned char directions[numChans];
+	
+	for(int i=0; i< numChans; i++)
+	{
+		directions[i] = 0x00;
+	}
+	
+	//Set Directions To Inputs		
+	if(DigitalSetDirection(numChans, channels, directions) != L_OK)
+	{
+		DebugPrintln("Digital Write Fail - Set Direction Failed");
+	}
+	
+	//Loop Over channels To Read
+	for(int i=0; i<numChans; i++)
+	{
+		//Reopen Value Handle
+		char valPath[64];
+		sprintf(valPath, "/sys/class/gpio/gpio%d/value", DigitalChannels[channels[i]]);
+		DigitalValueHandles[channels[i]] = freopen(valPath, "r+w+", DigitalValueHandles[channels[i]]);
+		
+		//Read From Next Pin
+		fscanf(DigitalValueHandles[channels[i]], "%hhu", values+i);
+	}
+	return L_OK;
 }
 
 int LinxRaspberryPi::DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration)

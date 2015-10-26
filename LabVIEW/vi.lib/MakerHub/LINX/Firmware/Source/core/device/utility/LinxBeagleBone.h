@@ -57,8 +57,8 @@ class LinxBeagleBone : public LinxDevice
 		map<unsigned char, string> PwmDtoNames;							//PWM Device Tree Overlay Names	
 		map<unsigned char, FILE*> PwmPeriodHandles;						//File Handles For PWM Period Values
 		map<unsigned char, FILE*> PwmDutyCycleHandles;				//File Handles For PWM Duty Cycle Values		
-		map<unsigned char, unsigned long> PwmFrequencies;				//Current PWM Period Values
-		unsigned long PwmDefaultFrequency;										//Default Frequency For PWM Channels (Hz)
+		map<unsigned char, unsigned long> PwmPeriods;					//Current PWM  Values
+		unsigned long PwmDefaultPeriod;											//Default Period For PWM Channels (nS)
 		//const char (*PwmDirPaths)[PWM_PATH_LEN];						//Path To PWM Directories
 		//const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
 		
@@ -153,7 +153,7 @@ class LinxBeagleBone : public LinxDevice
 		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths);
 		virtual int ServoClose(unsigned char numChans, unsigned char* chans);		
 		
-		//General - 
+		//General
 		virtual unsigned long GetMilliSeconds();
 		virtual unsigned long GetSeconds();
 		virtual void DelayMs(unsigned long ms);

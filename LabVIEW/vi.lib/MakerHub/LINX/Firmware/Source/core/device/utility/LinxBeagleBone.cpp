@@ -55,7 +55,7 @@ LinxBeagleBone::LinxBeagleBone()
 
 LinxBeagleBone::~LinxBeagleBone()
 {
-	
+
 }
 /****************************************************************************************
 **  Private Functions
@@ -113,28 +113,27 @@ int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels
 		if(PwmPeriodHandles[channels[i]] == NULL)
 		{
 			char periodPath[64];
-			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), "period");
+			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), "period_ns");
 			DebugPrint("Opening ");
 			DebugPrintln(periodPath);
 			PwmPeriodHandles[channels[i]] = fopen(periodPath, "r+w+");
 			
 			//Initialize PWM Period
-			fprintf(PwmPeriodHandles[channels[i]], "%lu", (unsigned long)(1000000000.0/PwmDefaultFrequency));	
-			DebugPrint("Setting Default Frequency = ");
-			DebugPrintln((unsigned long)(1000000000.0/PwmDefaultFrequency), DEC);
+			fprintf(PwmPeriodHandles[channels[i]], "%lu", PwmDefaultPeriod);
+			PwmPeriods[channels[i]] = PwmDefaultPeriod;
 			fflush(PwmPeriodHandles[channels[i]]);
-		}
+		}		
 		
 		//Open Duty Cycle Handle If It Is Not Already		
 		if(PwmDutyCycleHandles[channels[i]] == NULL)
 		{
 			char dutyCyclePath[64];
-			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), "duty");
+			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), "duty_ns");
 			DebugPrint("Opening ");
 			DebugPrintln(dutyCyclePath);
 			PwmDutyCycleHandles[channels[i]] = fopen(dutyCyclePath, "r+w+");
 		}
-	}	
+	}
 	return L_OK;		
 }
 
@@ -486,7 +485,7 @@ int LinxBeagleBone::DigitalReadPulseWidth(unsigned char stimChan, unsigned char 
 //--------------------------------------------------------PWM-------------------------------------------------------
 int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
-	unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
+	//unsigned long period = 500000;		//Period Defaults To 500,000 nS.  To Do Update This When Support For Changing Period / Frequency Is Added
 	unsigned long dutyCycle = 0;
 	
 	//Smart Open PWM Channels
@@ -500,11 +499,11 @@ int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* chann
 		}
 		else if(values[i] == 255)
 		{
-			dutyCycle = period;		
+			dutyCycle = PwmPeriods[channels[i]];		
 		}
 		else
 		{
-			dutyCycle= period*(values[i] / 255.0);
+			dutyCycle= PwmPeriods[channels[i]]*(values[i] / 255.0);
 		}
 		
 		//Update Output
@@ -757,7 +756,7 @@ int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsi
 	DebugPrintln("UART Open");
 	
 	//Load DTO If Needed
-	if(!fileExists(UartPaths[channel].c_str()))
+	if(!fileExists(UartPaths[UartChans[channel]].c_str()))
 	{
 		if(!loadDto(UartDtoNames[channel].c_str()))	
 		{
@@ -770,19 +769,19 @@ int LinxBeagleBone::UartOpen(unsigned char channel, unsigned long baudRate, unsi
 	
 	//Open UART	Handle If Not Already Open
 	
-if(UartHandles[channel] <= 0)
+if(UartHandles[UartChans[channel]] <= 0)
 	{
-		int handle = open(UartPaths[channel].c_str(),  O_RDWR);
+		int handle = open(UartPaths[UartChans[channel]].c_str(),  O_RDWR);
 			
 		if (handle <= 0)
 		{
 			DebugPrint("UART Fail - Failed To Open UART Handle -  ");
-			DebugPrintln(UartPaths[channel].c_str());
+			DebugPrintln(UartPaths[UartChans[channel]].c_str());
 			return  LUART_OPEN_FAIL;
 		}
 		else
 		{
-			UartHandles[channel] = handle;
+			UartHandles[UartChans[channel]] = handle;
 		}
 	}
 	/*else
@@ -827,15 +826,15 @@ int LinxBeagleBone::UartSetBaudRate(unsigned char channel, unsigned long baudRat
 	
 	//Set Baud Rate
 	struct termios options;	
-	tcgetattr(UartHandles[channel], &options);
+	tcgetattr(UartHandles[UartChans[channel]], &options);
 	
 	options.c_cflag = *(UartSupportedSpeedsCodes+index) | CS8 | CLOCAL | CREAD;
 	options.c_iflag = IGNPAR;
 	options.c_oflag = 0;
 	options.c_lflag = 0;
 	
-	tcflush(UartHandles[channel], TCIFLUSH);	
-	tcsetattr(UartHandles[channel], TCSANOW, &options);
+	tcflush(UartHandles[UartChans[channel]], TCIFLUSH);	
+	tcsetattr(UartHandles[UartChans[channel]], TCSANOW, &options);
 	
 	return  L_OK;
 }
@@ -843,7 +842,7 @@ int LinxBeagleBone::UartSetBaudRate(unsigned char channel, unsigned long baudRat
 int LinxBeagleBone::UartGetBytesAvailable(unsigned char channel, unsigned char *numBytes)
 {
 	int bytesAtPort = -1;
-	ioctl(UartHandles[channel], FIONREAD, &bytesAtPort);
+	ioctl(UartHandles[UartChans[channel]], FIONREAD, &bytesAtPort);
 	
 	if(bytesAtPort < 0)
 	{
@@ -865,7 +864,7 @@ int LinxBeagleBone::UartRead(unsigned char channel, unsigned char numBytes, unsi
 	if(bytesAvailable >= numBytes)
 	{
 		//Read Bytes From Input Buffer
-		int bytesRead = read(UartHandles[channel], recBuffer, numBytes);
+		int bytesRead = read(UartHandles[UartChans[channel]], recBuffer, numBytes);
 		*numBytesRead = (unsigned char) bytesRead;
 		
 		if(bytesRead != numBytes)
@@ -878,7 +877,7 @@ int LinxBeagleBone::UartRead(unsigned char channel, unsigned char numBytes, unsi
 
 int LinxBeagleBone::UartWrite(unsigned char channel, unsigned char numBytes, unsigned char* sendBuffer)
 {
-	int bytesSent = write(UartHandles[channel], sendBuffer, numBytes);	
+	int bytesSent = write(UartHandles[UartChans[channel]], sendBuffer, numBytes);	
 	if(bytesSent != numBytes)
 	{
 		return LUART_WRITE_FAIL;
@@ -889,11 +888,11 @@ int LinxBeagleBone::UartWrite(unsigned char channel, unsigned char numBytes, uns
 int LinxBeagleBone::UartClose(unsigned char channel)
 {
 	//Close UART Channel, Return OK or Error
-	if (close(UartHandles[channel]) < 0)
+	if (close(UartHandles[UartChans[channel]]) < 0)
 	{
 		return LUART_CLOSE_FAIL;
 	}
-	UartHandles[channel] = 0;
+	UartHandles[UartChans[channel]] = 0;
 	return  L_OK;
 }
 
