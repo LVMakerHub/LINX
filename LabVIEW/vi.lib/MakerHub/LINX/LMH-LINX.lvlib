@@ -293,6 +293,9 @@
 				<Item Name="Servo" Type="Folder">
 					<Item Name="Servo.lvlib" Type="Library" URL="../Public/Sensors/Motion/Servo/Servo.lvlib"/>
 				</Item>
+				<Item Name="PCA9685" Type="Folder">
+					<Item Name="PCA9685.lvlib" Type="Library" URL="../Public/Sensors/Motion/PCA9685/PCA9685.lvlib"/>
+				</Item>
 			</Item>
 			<Item Name="Pmods" Type="Folder">
 				<Item Name="ACL" Type="Folder">
