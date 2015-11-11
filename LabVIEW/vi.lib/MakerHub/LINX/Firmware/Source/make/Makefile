@@ -89,6 +89,8 @@ pwmSetDutyCycle:
 uartLoopback:
 	g++ $(INC) ../utils/src/uartLoopback.cpp $(CORE_BBB) -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../utils/bin/uartLoopback.out 
 	
+clean:
+
 cleanUtils: 
 	rm -rf ../utils/bin/*
 
@@ -96,3 +98,5 @@ cleanall:
 	rm -rf *.o
 	rm -rf *.out
 	rm -rf ../bin/*
+	
+
