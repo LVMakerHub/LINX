@@ -13,7 +13,7 @@ HW_RPI2B = -DLINX_DEVICE_FAMILY=4 -DLINX_DEVICE_ID=3
 HW_BBB = -DLINX_DEVICE_FAMILY=6 -DLINX_DEVICE_ID=1
 
 
-all: release debug main
+libs: raspberryPi2BLib beagleBoneBlackLib
 
 beagleBoneBlackAll: beagleBoneBlackSerial beagleBoneBlackTcp beagleBoneBlackConfigurable
 
@@ -21,10 +21,10 @@ raspberryPi2BAll: raspberryPi2BSerial raspberryPi2BTcp raspberryPi2BConfigurable
 	
 #----------------------- Shared Objects -----------------------
 raspberryPi2BLib:
-	g++ $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_RPI2) $(HW_RPI2B) -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
+	g++ $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice_rpi2.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_RPI2) $(HW_RPI2B) -DLINXCONFIG -DDEBUG_ENABLED=-1
 
 beagleBoneBlackLib:
-	g++ $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_BBB) $(HW_BBB) -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
+	g++ $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice_bbb.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_BBB) $(HW_BBB) -DLINXCONFIG -DDEBUG_ENABLED=-1
 #----------------------- Listeners -----------------------
 	
 beagleBoneBlackSerial:
