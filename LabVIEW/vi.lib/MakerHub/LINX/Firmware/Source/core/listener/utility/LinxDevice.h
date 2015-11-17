@@ -17,9 +17,7 @@
 ****************************************************************************************/		
 //This Makes It Easy For IDE Users To Define Necessary Settings In One Place
 //When Using Make Files Define LINXCONFIG To Ignore Config.h File
-#ifndef LINXCONFIG
-	#include "../config/LinxConfig.h"
-#endif
+
 
 /****************************************************************************************
 **  Defines
@@ -90,13 +88,14 @@
 /****************************************************************************************
 **  Typedefs
 ****************************************************************************************/		
+
 typedef enum LinxStatus
 {
-	L_OK = 0,
+	L_OK=0,
 	L_FUNCTION_NOT_SUPPORTED,
 	L_REQUEST_RESEND,
-	L_UNKNOWN_ERROR, 
-	L_	DISCONNECT
+	L_UNKNOWN_ERROR,
+	L_DISCONNECT
 }LinxStatus;
 
 typedef enum AioStatus
