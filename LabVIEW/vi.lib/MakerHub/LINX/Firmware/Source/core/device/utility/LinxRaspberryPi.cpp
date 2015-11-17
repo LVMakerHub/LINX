@@ -391,12 +391,12 @@ int LinxRaspberryPi::PwmSetDutyCycle(unsigned char numChans, unsigned char* chan
 //------------------------------------- SPI -------------------------------------
 int LinxRaspberryPi::SpiOpenMaster(unsigned char channel)
 {
-	fprintf(stdout, "SpiOpen(%d)\n", channel);
+	//fprintf(stdout, "SpiOpen(%d)\n", channel);
 	SpiHandles[channel]= open(SpiPaths[channel].c_str(), O_RDWR);
 	
 	if(SpiHandles[channel] == 0)
 	{
-		fprintf(stdout, "SPI OPEN FAIL");
+		//fprintf(stdout, "SPI OPEN FAIL");
 		return LSPI_OPEN_FAIL;		
 	}
 	else
@@ -408,7 +408,7 @@ int LinxRaspberryPi::SpiOpenMaster(unsigned char channel)
 			DebugPrint("SPI Fail - Failed To Set SPI Mode - ");
 			DebugPrintln(spi_Mode, BIN);
 			
-			fprintf(stdout, "SPI OPEN FAIL");
+			//fprintf(stdout, "SPI OPEN FAIL");
 			return LSPI_OPEN_FAIL;			
 		}
 		
@@ -418,7 +418,7 @@ int LinxRaspberryPi::SpiOpenMaster(unsigned char channel)
 			DebugPrint("SPI Fail - Failed To Set SPI Max Speed - ");
 			DebugPrintln(SpiDefaultSpeed, DEC);
 			
-			fprintf(stdout, "SPI OPEN FAIL");
+			//fprintf(stdout, "SPI OPEN FAIL");
 			return LSPI_OPEN_FAIL;			
 		}
 	}

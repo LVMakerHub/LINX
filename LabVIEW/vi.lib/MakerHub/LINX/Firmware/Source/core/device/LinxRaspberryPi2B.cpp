@@ -133,12 +133,12 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 	SpiSpeedCodes = m_SpiSpeedCodes;
 		
 	//CAN
-	NumCanChans = 0;
+	NumCanChans = NUM_CAN_CHANS;
 	CanChans = 0;
 	
 	//Servo 
-	NumServoChans = 0;
-	
+	NumServoChans = NUM_SERVO_CHANS;
+	ServoChans = 0;
 			
 	//------------------------------------- Digital -------------------------------------
 	//Export GPIO - Set All Digital Handles To NULL

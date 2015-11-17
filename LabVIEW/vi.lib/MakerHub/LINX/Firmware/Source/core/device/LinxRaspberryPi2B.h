@@ -22,6 +22,8 @@
 #define AI_REFV 0
 #define NUM_AI_INT_REFS 0
 
+#define NUM_CAN_CHANS 0
+
 #define NUM_DIGITAL_CHANS 17
 
 #define NUM_PWM_CHANS 0
@@ -59,6 +61,9 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		//None
 		
 		//AO
+		//None
+		
+		//CAN
 		//None
 		
 		//DIGITAL
