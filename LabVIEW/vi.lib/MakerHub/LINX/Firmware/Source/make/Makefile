@@ -1,3 +1,5 @@
+CXX ?= g++
+
 INC=-I../core/device/utility -I../core/device/ -I../core/listener
 
 CORE_LINX=../core/device/utility/LinxDevice.cpp
@@ -13,7 +15,7 @@ HW_RPI2B = -DLINX_DEVICE_FAMILY=4 -DLINX_DEVICE_ID=3
 HW_BBB = -DLINX_DEVICE_FAMILY=6 -DLINX_DEVICE_ID=1
 
 
-all: release debug main
+libs: raspberryPi2BLib beagleBoneBlackLib
 
 beagleBoneBlackAll: beagleBoneBlackSerial beagleBoneBlackTcp beagleBoneBlackConfigurable
 
@@ -21,12 +23,10 @@ raspberryPi2BAll: raspberryPi2BSerial raspberryPi2BTcp raspberryPi2BConfigurable
 	
 #----------------------- Shared Objects -----------------------
 raspberryPi2BLib:
-	g++ $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_RPI2) $(HW_RPI2B) -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
-	g++ $(INC) ../core/examples/LinxDeviceLib/src/LinxDeviceLibTestApp.cpp -lrt -o ../core/examples/LinxDeviceLib/bin/LinxDeviceLibTetsApp.out -L~/git/LINX/LabVIEW/vi.lib/MakerHub/LINX/Firmware/Source/LinxDeviceLib/bin -llinxdevice -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
-	
+	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice_rpi2.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_RPI2) $(HW_RPI2B) -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
+
 beagleBoneBlackLib:
-	g++ $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_BBB) $(HW_BBB) -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
-	g++ $(INC) ../core/examples/LinxDeviceLib/src/LinxDeviceLibTestApp.cpp -lrt -o ../core/examples/LinxDeviceLib/bin/LinxDeviceLibTetsApp.out -L~/git/LINX/LabVIEW/vi.lib/MakerHub/LINX/Firmware/Source/LinxDeviceLib/bin -llinxdevice -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
+	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) -Wall -shared -fPIC -lrt -o ../core/examples/LinxDeviceLib/bin/liblinxdevice_bbb.so ../core/examples/LinxDeviceLib/src/LinxDeviceLib.cpp $(CORE_BBB) $(HW_BBB) -DLINXCONFIG -DDEBUG_ENABLED=-1 -g
 #----------------------- Listeners -----------------------
 	
 beagleBoneBlackSerial:
@@ -89,6 +89,8 @@ pwmSetDutyCycle:
 uartLoopback:
 	g++ $(INC) ../utils/src/uartLoopback.cpp $(CORE_BBB) -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../utils/bin/uartLoopback.out 
 	
+clean:
+
 cleanUtils: 
 	rm -rf ../utils/bin/*
 
@@ -96,3 +98,5 @@ cleanall:
 	rm -rf *.o
 	rm -rf *.out
 	rm -rf ../bin/*
+	
+

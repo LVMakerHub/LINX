@@ -17,9 +17,7 @@
 ****************************************************************************************/		
 //This Makes It Easy For IDE Users To Define Necessary Settings In One Place
 //When Using Make Files Define LINXCONFIG To Ignore Config.h File
-#ifndef LINXCONFIG
-	#include "../config/LinxConfig.h"
-#endif
+
 
 /****************************************************************************************
 **  Defines
@@ -96,7 +94,7 @@ typedef enum LinxStatus
 	L_FUNCTION_NOT_SUPPORTED,
 	L_REQUEST_RESEND,
 	L_UNKNOWN_ERROR, 
-	L_	DISCONNECT
+	L_DISCONNECT
 }LinxStatus;
 
 typedef enum AioStatus
@@ -171,6 +169,9 @@ class LinxDevice
 		//AO
 		unsigned char NumAoChans;
 		const unsigned char* AoChans;
+		unsigned char AoResolution;
+		unsigned long AoRefDefault;
+		unsigned long AoRefSet;
 		
 		//PWM
 		unsigned char NumPwmChans;
@@ -231,11 +232,14 @@ class LinxDevice
 		
 		//Analog
 		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int AnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values);		//Values Are ADC Ticks And Not Bit Packed
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage) = 0;
 		
 		//DIGITAL
-		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;				//Values Are Bit Packed
+		virtual int DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);		//Values Are Not Bit Packed
 		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int DigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);		//Response Not Bit Packed
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration) = 0;
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width) = 0;
 		
