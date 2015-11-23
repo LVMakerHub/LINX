@@ -1,10 +1,10 @@
-<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-10-26 13:04:42" Creator="lvadmin" Comments="" ID="13ba0acc3fcf869a34d68c97ecf6cab7">
+<VI_Package_Builder_Settings Version="0.6" Created_Date="2013-10-30 14:19:05" Modified_Date="2015-11-16 14:54:29" Creator="lvadmin" Comments="" ID="8886c0dbc8ae7f8e77458ffa8b40b217">
   <Library_General_Settings>
     <Package_File_Name>lvh_linx</Package_File_Name>
-    <Library_Version>2.2.0.107</Library_Version>
+    <Library_Version>2.2.0.115</Library_Version>
     <Auto_Increment_Version>false</Auto_Increment_Version>
     <Library_Source_Folder>.</Library_Source_Folder>
-    <Library_Output_Folder>..\..\..\..\github\makerhub\Builds\LINX\Installers</Library_Output_Folder>
+    <Library_Output_Folder>..\..\..\..\..\..\github\makerhub\Builds\LINX\Installers</Library_Output_Folder>
     <Company_Name>MakerHub</Company_Name>
     <Library_Summary/>
     <Library_License>BSD2</Library_License>
@@ -29,7 +29,7 @@
     </Custom_Action_VIs>
     <VI_Package_Configuration_File>.vipc</VI_Package_Configuration_File>
     <Description>
-      <One_Line_Description_Summary>Interact with the world using LabVIEW to control embedded platforms like Arduino and chipKIT and myRIO.</One_Line_Description_Summary>
+      <One_Line_Description_Summary>Interact with the world using LabVIEW to control embedded platforms like Arduino, chipKIT, myRIO, BeagleBone Black, and Raspberry Pi 2.</One_Line_Description_Summary>
       <Description>LINX provides easy to use VIs for interacting with common embeddded platforms like Arduino, chipKIT and myRIO. Use the built in sensor VIs to start getting data to your PC in seconds or use the peripheral VIs to access your devices digital I/O, analog I/O, SPI, I2C, UART, PWM and more.</Description>
       <Copyright/>
       <Packager>Sam Kristoff</Packager>
@@ -154,12 +154,6 @@ Added online help at labviewmakerhub.com/linx-reference
         <Additional_Destination>true</Additional_Destination>
         <Additional_Destination_Index>0</Additional_Destination_Index>
       </Destination_Overrides>
-      <Destination_Overrides>
-        <Path>resource</Path>
-        <Destination>0</Destination>
-        <Additional_Destination>true</Additional_Destination>
-        <Additional_Destination_Index>0</Additional_Destination_Index>
-      </Destination_Overrides>
       <Password_Overrides>
         <Path>.</Path>
         <Password/>
@@ -174,7 +168,7 @@ Added online help at labviewmakerhub.com/linx-reference
         <Path>project/MakerHub/LINX/LINX Firmware Wizard Config.ini</Path>
       </Exclusions>
     </Source_Files>
-    <License_Agreement_Filepath>..\..\..\..\github\makerhub\LINX\EULA.txt</License_Agreement_Filepath>
+    <License_Agreement_Filepath>..\EULA.txt</License_Agreement_Filepath>
     <Licensing_and_Activation>
       <License_LF_file_path/>
       <Licensed_library_file_path/>

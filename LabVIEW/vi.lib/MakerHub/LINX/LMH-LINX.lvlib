@@ -179,10 +179,12 @@
 			<Item Name="Open TCP.vi" Type="VI" URL="../Public/Utilities/Open TCP.vi"/>
 			<Item Name="Open Serial.vi" Type="VI" URL="../Public/Utilities/Open Serial.vi"/>
 			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
+			<Item Name="Install LabVIEW Support.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Install LabVIEW Support.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="Local IO.lvlib" Type="Library" URL="../Private/Local IO/Local IO.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
+		<Item Name="Renci.SshNet.dll" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Renci.SshNet.dll"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">
