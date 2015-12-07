@@ -767,4 +767,9 @@ void LinxListener::AttachCustomCommand(unsigned short commandNumber, int (*funct
 	customCommands[commandNumber] = function;
 }
 
+void LinxListener::AttachPeriodicTask(int (*function)(unsigned char*, unsigned char*))
+{
+	periodicTasks[0] = function;
+}
+
 #endif //LINXLISTENER_H

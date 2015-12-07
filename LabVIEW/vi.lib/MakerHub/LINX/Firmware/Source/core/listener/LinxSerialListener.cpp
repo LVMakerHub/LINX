@@ -125,7 +125,16 @@ int LinxSerialListener::Connected()
 	else
 	{
 		//No New Packet
-		LinxDev->DelayMs(30);
+		if (periodicTasks[0] != NULL)
+		{
+			periodicTasks[0](0,0);
+		}
+		else
+		{
+			#ifdef LINX_DEVICE_FAMILY=4 | LINX_DEVICE_FAMILY=6
+			LinxDev->DelayMs(30);
+			#endif
+		}
 	}
 	
 	return 0;

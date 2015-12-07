@@ -2,7 +2,7 @@
 BeagleBone Black = "192.168.7.2"
 
 [My Computer]
-My Computer = "172.22.11.1"
+My Computer = "192.168.56.1"
 
 [Raspberry Pi 2 B]
 Raspberry Pi 2 B = "0.0.0.0"

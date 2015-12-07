@@ -64,6 +64,7 @@ class LinxListener
 		unsigned char sendBuffer[LISTENER_BUFFER_SIZE];
 		
 		int (*customCommands[16])(unsigned char, unsigned char*, unsigned char*, unsigned char*);
+		int (*periodicTasks[1])(unsigned char*, unsigned char*);
 		
 		
 		/****************************************************************************************
@@ -83,16 +84,16 @@ class LinxListener
 		virtual int Exit();			//Stop Listening, Close And Exit
 		
 		void AttachCustomCommand(unsigned short commandNumber, int (*function)(unsigned char, unsigned char*, unsigned char*, unsigned char*) );
-		virtual int CheckForCommands();		//Execute Listener State Machine
+		void AttachPeriodicTask(int (*function)(unsigned char*, unsigned char*));
+		
+		virtual int CheckForCommands();		//Execute Listener State Machine		
 				
 		int ProcessCommand(unsigned char* recBuffer, unsigned char* sendBuffer);
 		void PacketizeAndSend(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, unsigned int dataSize, int status);
 		void StatusResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, int status);
 		void DataBufferResponse(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer, const unsigned char* dataBuffer, unsigned char dataSize, int status);
 		unsigned char ComputeChecksum(unsigned char* packetBuffer);
-		bool ChecksumPassed(unsigned char* packetBuffer);
-		
+		bool ChecksumPassed(unsigned char* packetBuffer);		
 };
-
 
 #endif //LINX_LISTENER_H
