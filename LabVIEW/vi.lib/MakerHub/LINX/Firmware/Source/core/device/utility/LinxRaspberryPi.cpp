@@ -475,7 +475,7 @@ int LinxRaspberryPi::SpiWriteRead(unsigned char channel, unsigned char frameSize
 			}
 		}
 		
-		struct spi_ioc_transfer transfer;
+		struct spi_ioc_transfer transfer = {};
 		
 		//Set CS As Output And Make Sure CS Starts Idle	
 		DigitalWrite(csChan, (~csLL & 0x01) );
