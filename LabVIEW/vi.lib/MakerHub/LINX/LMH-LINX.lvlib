@@ -14,7 +14,7 @@
 		<Item Name="LINX - Analog Set Voltage Reference.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Analog Set Voltage Reference.vi"/>
 		<Item Name="LINX - Blink (Advanced).vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Blink (Advanced).vi"/>
 		<Item Name="LINX - Blink (Simple) (TCP).vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Blink (Simple) (TCP).vi"/>
-		<Item Name="Blink Local.vi" Type="VI" URL="../../../../../../../Users/samkristoff/Desktop/Blink Local.vi"/>
+		<Item Name="LINX - Blink (Simple).vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Blink (Simple).vi"/>
 		<Item Name="LINX - BlinkM Smart LED.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - BlinkM Smart LED.vi"/>
 		<Item Name="LINX - chipKIT Basic IO Shield.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - chipKIT Basic IO Shield.vi"/>
 		<Item Name="LINX - Digital Read 1 Channel.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Digital Read 1 Channel.vi"/>

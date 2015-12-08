@@ -15,7 +15,7 @@
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="VIPM" Type="Folder">
-			<Item Name="Clear INI Settings.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Clear INI Settings.vi"/>
+			<Item Name="Clear INI Settings.vi" Type="VI" URL="../Private/Utilties/Clear INI Settings.vi"/>
 		</Item>
 		<Item Name="LMH-LINX.lvlib" Type="Library" URL="../LMH-LINX.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
@@ -238,14 +238,6 @@
 				<Item Name="myRIO v1.0 Reserve AO.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/common/Instrument Driver Framework/myRIO v1.0/AO/vis/myRIO v1.0 Reserve AO.vi"/>
 				<Item Name="myRIO v1.0 Build MUX Configuration AO.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/common/Instrument Driver Framework/myRIO v1.0/AO/vis/myRIO v1.0 Build MUX Configuration AO.vi"/>
 				<Item Name="myRIO v1.0 Get Scaling Constants AO.vi" Type="VI" URL="/&lt;vilib&gt;/myRIO/common/Instrument Driver Framework/myRIO v1.0/AO/vis/myRIO v1.0 Get Scaling Constants AO.vi"/>
-				<Item Name="NI_Unzip.lvlib" Type="Library" URL="/&lt;vilib&gt;/zip/NI_Unzip.lvlib"/>
-				<Item Name="Create Directory Recursive.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/libraryn.llb/Create Directory Recursive.vi"/>
-				<Item Name="Path To Command Line String.vi" Type="VI" URL="/&lt;vilib&gt;/AdvancedString/Path To Command Line String.vi"/>
-				<Item Name="PathToUNIXPathString.vi" Type="VI" URL="/&lt;vilib&gt;/Platform/CFURL.llb/PathToUNIXPathString.vi"/>
-				<Item Name="Device.lvlib" Type="Library" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Device/Device.lvlib"/>
-				<Item Name="Local IO.lvlib" Type="Library" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/Local IO.lvlib"/>
-				<Item Name="myRIO.lvlib" Type="Library" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/myRIO/myRIO.lvlib"/>
-				<Item Name="LMH-LINX.lvlib" Type="Library" URL="/&lt;vilib&gt;/MakerHub/LINX/LMH-LINX.lvlib"/>
 				<Item Name="RGB to Color.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/colorconv.llb/RGB to Color.vi"/>
 				<Item Name="subSigGeneratorBlock.vi" Type="VI" URL="/&lt;vilib&gt;/express/express input/SimulateSignalBlock.llb/subSigGeneratorBlock.vi"/>
 				<Item Name="ex_GenAddAttribs.vi" Type="VI" URL="/&lt;vilib&gt;/express/express input/SimulateSignalBlock.llb/ex_GenAddAttribs.vi"/>
@@ -285,6 +277,33 @@
 				<Item Name="closeJoystick.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/inputDevices.llb/closeJoystick.vi"/>
 				<Item Name="closeKeyboard.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/inputDevices.llb/closeKeyboard.vi"/>
 				<Item Name="closeMouse.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/inputDevices.llb/closeMouse.vi"/>
+				<Item Name="LinxUartGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxUartGetNumChans.vi"/>
+				<Item Name="LinxSpiGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxSpiGetNumChans.vi"/>
+				<Item Name="LinxServoGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxServoGetNumChans.vi"/>
+				<Item Name="LinxQeGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxQeGetNumChans.vi"/>
+				<Item Name="LinxPwmGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxPwmGetNumChans.vi"/>
+				<Item Name="LinxI2cGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxI2cGetNumChans.vi"/>
+				<Item Name="LinxDigitalGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxDigitalGetNumChans.vi"/>
+				<Item Name="LinxCanGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxCanGetNumChans.vi"/>
+				<Item Name="LinxAoGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxAoGetNumChans.vi"/>
+				<Item Name="LinxAiGetNumChans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/LinxAiGetNumChans.vi"/>
+				<Item Name="Handle Errors.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Local IO/Handle Errors.vi"/>
+				<Item Name="Get AI Channel Name.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/myRIO/Utilities/Get AI Channel Name.vi"/>
+				<Item Name="Device Family.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Device Family.ctl"/>
+				<Item Name="Devices - NI.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices - NI.ctl"/>
+				<Item Name="Set Device Name.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Set Device Name.vi"/>
+				<Item Name="I2C Channels.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Channel FGVs/I2C Channels.vi"/>
+				<Item Name="Channel FGV States.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Channel FGV States.ctl"/>
+				<Item Name="Get I2C Channel Name.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/myRIO/Utilities/Get I2C Channel Name.vi"/>
+				<Item Name="Get PWM Channel Name.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/myRIO/Utilities/Get PWM Channel Name.vi"/>
+				<Item Name="SPI Channels.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Channel FGVs/SPI Channels.vi"/>
+				<Item Name="Get SPI Channel Name.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/myRIO/Utilities/Get SPI Channel Name.vi"/>
+				<Item Name="Get UART Channel Name.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/myRIO/Utilities/Get UART Channel Name.vi"/>
+				<Item Name="UART Channels.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Channel FGVs/UART Channels.vi"/>
+				<Item Name="Path To Command Line String.vi" Type="VI" URL="/&lt;vilib&gt;/AdvancedString/Path To Command Line String.vi"/>
+				<Item Name="NI_Unzip.lvlib" Type="Library" URL="/&lt;vilib&gt;/zip/NI_Unzip.lvlib"/>
+				<Item Name="Create Directory Recursive.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/libraryn.llb/Create Directory Recursive.vi"/>
+				<Item Name="PathToUNIXPathString.vi" Type="VI" URL="/&lt;vilib&gt;/Platform/CFURL.llb/PathToUNIXPathString.vi"/>
 			</Item>
 			<Item Name="liblinxdevice.dll" Type="Document" URL="liblinxdevice.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
