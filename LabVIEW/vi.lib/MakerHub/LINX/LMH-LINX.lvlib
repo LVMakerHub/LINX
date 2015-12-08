@@ -346,6 +346,9 @@
 				</Item>
 				<Item Name="Thermistor.vi" Type="VI" URL="../Public/Sensors/Temperature/Thermistor.vi"/>
 			</Item>
+			<Item Name="Interaction Parts Kit" Type="Folder">
+				<Item Name="Interaction Parts Kit.lvlib" Type="Library" URL="../Public/Sensors/Interaction Parts Kit/Interaction Parts Kit.lvlib"/>
+			</Item>
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>

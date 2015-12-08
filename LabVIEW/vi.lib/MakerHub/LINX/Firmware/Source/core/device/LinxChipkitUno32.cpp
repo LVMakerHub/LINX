@@ -70,7 +70,7 @@ LinxChipkitUno32::LinxChipkitUno32()
 
 	//LINX API Version
 	LinxApiMajor = 2;
-	LinxApiMinor = 0;
+	LinxApiMinor = 2;
 	LinxApiSubminor = 0;
 	
 	//DIGITAL

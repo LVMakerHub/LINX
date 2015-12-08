@@ -74,7 +74,7 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 
 	//LINX API Version
 	LinxApiMajor = 2;
-	LinxApiMinor = 1;
+	LinxApiMinor = 2;
 	LinxApiSubminor = 0;
 	
 	//DIGITAL
