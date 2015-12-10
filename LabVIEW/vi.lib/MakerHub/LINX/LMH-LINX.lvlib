@@ -144,6 +144,15 @@
 			<Item Name="Target Management" Type="Folder">
 				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
 			</Item>
+			<Item Name="SSH" Type="Folder">
+				<Item Name="SCP Open.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Open.vi"/>
+				<Item Name="SSH Execute Command.vi" Type="VI" URL="../Private/Utilties/SSH/SSH Execute Command.vi"/>
+				<Item Name="E14 BBB Test.vi" Type="VI" URL="../Private/Utilties/E14 BBB Test.vi"/>
+				<Item Name="SSH Close.vi" Type="VI" URL="../Private/Utilties/SSH/SSH Close.vi"/>
+				<Item Name="SSH Open.vi" Type="VI" URL="../Private/Utilties/SSH/SSH Open.vi"/>
+				<Item Name="SCP Upload File.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Upload File.vi"/>
+				<Item Name="SCP Close.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Close.vi"/>
+			</Item>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
 			<Item Name="Get Device Config_OLD.vi" Type="VI" URL="../Private/Utilties/Get Device Config_OLD.vi"/>
