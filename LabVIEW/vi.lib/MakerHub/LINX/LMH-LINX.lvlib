@@ -143,8 +143,16 @@
 			</Item>
 			<Item Name="Target Management" Type="Folder">
 				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
+				<Item Name="Target Info.ctl" Type="VI" URL="../Private/Utilties/Target Management/Target Info.ctl"/>
+				<Item Name="Install LV Events.ctl" Type="VI" URL="../Private/Utilties/Install LV Events.ctl"/>
+				<Item Name="Update Package List.vi" Type="VI" URL="../Private/Utilties/Target Management/Update Package List.vi"/>
+				<Item Name="Install LV Support.vi" Type="VI" URL="../Private/Utilties/Target Management/Install LV Support.vi"/>
+				<Item Name="Start LabVIEW.vi" Type="VI" URL="../Private/Utilties/Target Management/Start LabVIEW.vi"/>
+				<Item Name="Add MakerHub Feed.vi" Type="VI" URL="../Private/Utilties/Target Management/Add MakerHub Feed.vi"/>
+				<Item Name="Install LV Data.ctl" Type="VI" URL="../Private/Utilties/Target Management/Install LV Data.ctl"/>
 			</Item>
 			<Item Name="SSH" Type="Folder">
+				<Item Name="Interrogate Target.vi" Type="VI" URL="../Private/Utilties/Target Management/Interrogate Target.vi"/>
 				<Item Name="SCP Open.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Open.vi"/>
 				<Item Name="SSH Execute Command.vi" Type="VI" URL="../Private/Utilties/SSH/SSH Execute Command.vi"/>
 				<Item Name="E14 BBB Test.vi" Type="VI" URL="../Private/Utilties/E14 BBB Test.vi"/>
@@ -153,6 +161,7 @@
 				<Item Name="SCP Upload File.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Upload File.vi"/>
 				<Item Name="SCP Close.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Close.vi"/>
 			</Item>
+			<Item Name="Get Unique Directory.vi" Type="VI" URL="../Private/Utilties/Get Unique Directory.vi"/>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
 			<Item Name="Get Device Config_OLD.vi" Type="VI" URL="../Private/Utilties/Get Device Config_OLD.vi"/>
@@ -189,11 +198,12 @@
 			<Item Name="Open Serial.vi" Type="VI" URL="../Public/Utilities/Open Serial.vi"/>
 			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 			<Item Name="Install LabVIEW Support.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Install LabVIEW Support.vi"/>
+			<Item Name="Renci.SshNet.dll" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Resources/Renci.SshNet.dll"/>
+			<Item Name="Script Example Project.vi" Type="VI" URL="../Private/Utilties/Script Example Project.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="Local IO.lvlib" Type="Library" URL="../Private/Local IO/Local IO.lvlib"/>
 		<Item Name="myRIO.lvlib" Type="Library" URL="../Private/myRIO/myRIO.lvlib"/>
-		<Item Name="Renci.SshNet.dll" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Renci.SshNet.dll"/>
 	</Item>
 	<Item Name="Public" Type="Folder">
 		<Item Name="Peripherals" Type="Folder">

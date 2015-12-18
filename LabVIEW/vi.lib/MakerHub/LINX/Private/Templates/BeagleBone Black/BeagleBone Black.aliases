@@ -1,0 +1,9 @@
+[afsd]
+afsd = "0.0.0.0"
+
+[BeagleBone Black]
+BeagleBone Black = "0.0.0.0"
+
+[My Computer]
+My Computer = "192.168.56.1"
+
