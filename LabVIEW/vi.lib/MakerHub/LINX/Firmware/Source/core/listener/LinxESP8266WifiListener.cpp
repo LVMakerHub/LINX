@@ -78,14 +78,17 @@ int LinxESP8266WifiListener::Start(LinxDevice* linxDev)
 		LinxWifiSsid[i] = LinxDev->NonVolatileRead(NVS_WIFI_SSID + i);
 	}
 	
-	int pwSize =LinxDev->NonVolatileRead(NVS_WIFI_PW_SIZE);
+	int pwSize = LinxDev->NonVolatileRead(NVS_WIFI_PW_SIZE);
 	for(int i=0; i<pwSize; i++)
 	{
 		LinxWifiPw[i] = LinxDev->NonVolatileRead(NVS_WIFI_PW + i);
 	}
 	
 	LinxWifiSecurity = (SecurityType)LinxDev->NonVolatileRead(NVS_WIFI_SECURITY_TYPE);
-		
+
+	LinxWifiIp = LinxDev->NonVolatileRead(NVS_WIFI_IP)<<24 | LinxDev->NonVolatileRead(NVS_WIFI_IP+1)<<16 | LinxDev->NonVolatileRead(NVS_WIFI_IP+2)<<8 | LinxDev->NonVolatileRead(NVS_WIFI_IP+3);
+	LinxWifiPort = (LinxDev->NonVolatileRead(NVS_WIFI_PORT) << 8) +  (LinxDev->NonVolatileRead(NVS_WIFI_PORT+1)) ;
+
 	State = START;
 	
 	return L_OK;
@@ -96,7 +99,8 @@ int LinxESP8266WifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsig
 	LinxDev = linxDev;
 	
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With Fixed IP Address");
-			
+
+	LinxWifiIp = ip3<<24 | ip2<<16 | ip1<< 8 | ip0;
 	LinxWifiPort = port;
 	
 	State = START;
@@ -187,6 +191,12 @@ int LinxESP8266WifiListener::Init()
 	for(int i=0; i<64; i++)
 	{
 		key[i] = LinxWifiPw[i];
+	}
+
+	if (LinxWifiIp) {
+		// if IP == 0.0.0.0 then use DHCP
+		IPAddress ip(LinxWifiIp>>24 & 0xFF, LinxWifiIp>>16 & 0xFF, LinxWifiIp>>8 & 0xFF, LinxWifiIp & 0xFF);
+		WiFi.config(ip, IPAddress(0,0,0,0), IPAddress(255,255,255,255));
 	}
 		
 	switch(LinxWifiSecurity)
