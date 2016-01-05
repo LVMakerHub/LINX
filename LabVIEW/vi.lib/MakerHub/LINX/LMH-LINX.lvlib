@@ -59,52 +59,52 @@
 		<Item Name="Type Defs" Type="Folder">
 			<Item Name="Devices" Type="Folder">
 				<Item Name="Arduino" Type="Folder">
-					<Item Name="Arduino Due.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Due.vi"/>
-					<Item Name="Arduino Fio.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Fio.vi"/>
-					<Item Name="Arduino Leonardo.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Leonardo.vi"/>
-					<Item Name="Arduino Mega 1280.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Mega 1280.vi"/>
-					<Item Name="Arduino Mega 2560.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Mega 2560.vi"/>
-					<Item Name="Arduino Nano.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Nano.vi"/>
-					<Item Name="Arduino Pro Mini.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Pro Mini.vi"/>
-					<Item Name="Arduino Pro.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Pro.vi"/>
-					<Item Name="Arduino Uno.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Uno.vi"/>
-					<Item Name="Arduino Yun.vi" Type="VI" URL="../Private/Type Defs/Devices/Arduino/Arduino Yun.vi"/>
-					<Item Name="Devices - Arduino.ctl" Type="VI" URL="../Private/Type Defs/Devices - Arduino.ctl"/>
+					<Item Name="Arduino Due.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Due.vi"/>
+					<Item Name="Arduino Fio.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Fio.vi"/>
+					<Item Name="Arduino Leonardo.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Leonardo.vi"/>
+					<Item Name="Arduino Mega 1280.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Mega 1280.vi"/>
+					<Item Name="Arduino Mega 2560.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Mega 2560.vi"/>
+					<Item Name="Arduino Nano.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Nano.vi"/>
+					<Item Name="Arduino Pro Mini.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Pro Mini.vi"/>
+					<Item Name="Arduino Pro.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Pro.vi"/>
+					<Item Name="Arduino Uno.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Uno.vi"/>
+					<Item Name="Arduino Yun.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Arduino/Arduino Yun.vi"/>
+					<Item Name="Devices - Arduino.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices - Arduino.ctl"/>
 				</Item>
 				<Item Name="Digilent" Type="Folder">
-					<Item Name="chipKIT DP32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT DP32.vi"/>
-					<Item Name="chipKIT Max32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Max32.vi"/>
-					<Item Name="chipKIT uC32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT uC32.vi"/>
-					<Item Name="chipKIT Uno32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT Uno32.vi"/>
-					<Item Name="chipKIT WF32.vi" Type="VI" URL="../Private/Type Defs/Devices/Digilent/chipKIT WF32.vi"/>
-					<Item Name="Devices - Digilent.ctl" Type="VI" URL="../Private/Type Defs/Devices - Digilent.ctl"/>
+					<Item Name="chipKIT DP32.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Digilent/chipKIT DP32.vi"/>
+					<Item Name="chipKIT Max32.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Digilent/chipKIT Max32.vi"/>
+					<Item Name="chipKIT uC32.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Digilent/chipKIT uC32.vi"/>
+					<Item Name="chipKIT Uno32.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Digilent/chipKIT Uno32.vi"/>
+					<Item Name="chipKIT WF32.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Digilent/chipKIT WF32.vi"/>
+					<Item Name="Devices - Digilent.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices - Digilent.ctl"/>
 				</Item>
 				<Item Name="NI" Type="Folder">
-					<Item Name="Devices - NI.ctl" Type="VI" URL="../Private/Type Defs/Devices - NI.ctl"/>
-					<Item Name="myRI0-1900.vi" Type="VI" URL="../Private/Type Defs/Devices/NI/myRI0-1900.vi"/>
-					<Item Name="myRI0-1950.vi" Type="VI" URL="../Private/Type Defs/Devices/NI/myRI0-1950.vi"/>
+					<Item Name="Devices - NI.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices - NI.ctl"/>
+					<Item Name="myRI0-1900.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/NI/myRI0-1900.vi"/>
+					<Item Name="myRI0-1950.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/NI/myRI0-1950.vi"/>
 				</Item>
 				<Item Name="Device Family.ctl" Type="VI" URL="../Private/Type Defs/Device Family.ctl"/>
 				<Item Name="Device Type.ctl" Type="VI" URL="../Private/Type Defs/Devices/Device Type.ctl"/>
-				<Item Name="Generic Device.ctl" Type="VI" URL="../Private/Type Defs/Devices/Generic Device.ctl"/>
+				<Item Name="Generic Device.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Devices/Generic Device.ctl"/>
 			</Item>
 			<Item Name="Peripherals" Type="Folder">
 				<Item Name="Analog" Type="Folder"/>
 				<Item Name="Digital" Type="Folder">
-					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
-					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
-					<Item Name="Digital Write Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
+					<Item Name="Digital Pin Configuration.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Peripherals/Digital/Digital Pin Configuration.ctl"/>
+					<Item Name="Digital Pin Mode.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Peripherals/Digital/Digital Pin Mode.ctl"/>
+					<Item Name="Digital Write Control.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Peripherals/Digital/Digital Write Control.ctl"/>
 				</Item>
 				<Item Name="I2C" Type="Folder">
 					<Item Name="EOF.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/I2C/EOF.ctl"/>
 				</Item>
 				<Item Name="PWM" Type="Folder">
-					<Item Name="PWM Duty Cycle Control.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/PWM/PWM Duty Cycle Control.ctl"/>
+					<Item Name="PWM Duty Cycle Control.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Peripherals/PWM/PWM Duty Cycle Control.ctl"/>
 				</Item>
 				<Item Name="SPI" Type="Folder">
 					<Item Name="SPI Bit Order.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Bit Order.ctl"/>
-					<Item Name="SPI Clock Phase.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Phase.ctl"/>
-					<Item Name="SPI Clock Polarity.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Clock Polarity.ctl"/>
+					<Item Name="SPI Clock Phase.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Peripherals/SPI/SPI Clock Phase.ctl"/>
+					<Item Name="SPI Clock Polarity.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Peripherals/SPI/SPI Clock Polarity.ctl"/>
 					<Item Name="SPI Configuration.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI Configuration.ctl"/>
 					<Item Name="SPI CS Config.ctl" Type="VI" URL="../Public/Peripherals/SPI/SPI CS Config.ctl"/>
 					<Item Name="SPI CS Logic Level.ctl" Type="VI" URL="../Private/Type Defs/Peripherals/SPI/SPI CS Logic Level.ctl"/>
@@ -112,18 +112,18 @@
 				</Item>
 			</Item>
 			<Item Name="All Firmware Data FGV States.ctl" Type="VI" URL="../Private/Type Defs/All Firmware Data FGV States.ctl"/>
-			<Item Name="Baud Rate.ctl" Type="VI" URL="../Private/Type Defs/Baud Rate.ctl"/>
-			<Item Name="Channel FGV States.ctl" Type="VI" URL="../Private/Type Defs/Channel FGV States.ctl"/>
+			<Item Name="Baud Rate.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Baud Rate.ctl"/>
+			<Item Name="Channel FGV States.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Channel FGV States.ctl"/>
 			<Item Name="Channels.ctl" Type="VI" URL="../Private/Device/Type Defs/Channels.ctl"/>
 			<Item Name="Deploy Firmware State.ctl" Type="VI" URL="../Private/Type Defs/Deploy Firmware State.ctl"/>
 			<Item Name="Device Data.ctl" Type="VI" URL="../Private/Type Defs/Device Data.ctl"/>
 			<Item Name="Device Firmware.ctl" Type="VI" URL="../Private/Type Defs/Device Firmware.ctl"/>
 			<Item Name="Error Type.ctl" Type="VI" URL="../Private/Type Defs/Error Type.ctl"/>
-			<Item Name="FGV Operation.ctl" Type="VI" URL="../Private/Type Defs/FGV Operation.ctl"/>
+			<Item Name="FGV Operation.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/FGV Operation.ctl"/>
 			<Item Name="Firmware Interface.ctl" Type="VI" URL="../Private/Device/Type Defs/Firmware Interface.ctl"/>
 			<Item Name="Firmware Library Component.ctl" Type="VI" URL="../Private/Type Defs/Firmware Library Component.ctl"/>
-			<Item Name="Firmware Program Interface.ctl" Type="VI" URL="../Private/Type Defs/Firmware Program Interface.ctl"/>
-			<Item Name="Firmware Version.ctl" Type="VI" URL="../Private/Type Defs/Firmware Version.ctl"/>
+			<Item Name="Firmware Program Interface.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Firmware Program Interface.ctl"/>
+			<Item Name="Firmware Version.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Type Defs/Firmware Version.ctl"/>
 			<Item Name="Interface.ctl" Type="VI" URL="../Private/Type Defs/Interface.ctl"/>
 			<Item Name="LINX Ref.ctl" Type="VI" URL="../Private/Type Defs/LINX Ref.ctl"/>
 			<Item Name="Peripheral.ctl" Type="VI" URL="../Private/Type Defs/Peripheral.ctl"/>
@@ -137,34 +137,46 @@
 		<Item Name="Utilities" Type="Folder">
 			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Channel FGVs" Type="Folder">
-				<Item Name="I2C Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/I2C Channels.vi"/>
-				<Item Name="SPI Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/SPI Channels.vi"/>
-				<Item Name="UART Channels.vi" Type="VI" URL="../Private/Utilties/Channel FGVs/UART Channels.vi"/>
+				<Item Name="I2C Channels.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Channel FGVs/I2C Channels.vi"/>
+				<Item Name="SPI Channels.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Channel FGVs/SPI Channels.vi"/>
+				<Item Name="UART Channels.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Channel FGVs/UART Channels.vi"/>
 			</Item>
 			<Item Name="Target Management" Type="Folder">
 				<Item Name="Get Platform.vi" Type="VI" URL="../Private/Utilties/Target Management/Get Platform.vi"/>
-				<Item Name="Target Info.ctl" Type="VI" URL="../Private/Utilties/Target Management/Target Info.ctl"/>
-				<Item Name="Install LV Events.ctl" Type="VI" URL="../Private/Utilties/Install LV Events.ctl"/>
-				<Item Name="Update Package List.vi" Type="VI" URL="../Private/Utilties/Target Management/Update Package List.vi"/>
-				<Item Name="Install LV Support.vi" Type="VI" URL="../Private/Utilties/Target Management/Install LV Support.vi"/>
-				<Item Name="Start LabVIEW.vi" Type="VI" URL="../Private/Utilties/Target Management/Start LabVIEW.vi"/>
-				<Item Name="Add MakerHub Feed.vi" Type="VI" URL="../Private/Utilties/Target Management/Add MakerHub Feed.vi"/>
-				<Item Name="Install LV Data.ctl" Type="VI" URL="../Private/Utilties/Target Management/Install LV Data.ctl"/>
+				<Item Name="Target Info.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Target Info.ctl"/>
+				<Item Name="Install LV Events.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Install LV Events.ctl"/>
+				<Item Name="Update Package List.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Update Package List.vi"/>
+				<Item Name="Install LV Support.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Install LV Support.vi"/>
+				<Item Name="Start LabVIEW.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Start LabVIEW.vi"/>
+				<Item Name="Add MakerHub Feed.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Add MakerHub Feed.vi"/>
+				<Item Name="Install LV Data.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Install LV Data.ctl"/>
+				<Item Name="Status FGV.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Status FGV.vi"/>
+				<Item Name="Check SSH Connection Status.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Check SSH Connection Status.vi"/>
+				<Item Name="Status FGV States.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Status FGV States.ctl"/>
+				<Item Name="SSH Smart Close Session.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/SSH Smart Close Session.vi"/>
+				<Item Name="Get Debian Version.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Get Debian Version.vi"/>
+				<Item Name="Get Device Type.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Get Device Type.vi"/>
+				<Item Name="SSH Smart Open Session.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/SSH Smart Open Session.vi"/>
+				<Item Name="Target Compatibility Warnings.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Target Compatibility Warnings.ctl"/>
+				<Item Name="Check Target Internet Connection.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Check Target Internet Connection.vi"/>
+				<Item Name="Generate Target Compatibility Report.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Generate Target Compatibility Report.vi"/>
+				<Item Name="Show Compatibility Warnings.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Show Compatibility Warnings.vi"/>
+				<Item Name="User Warning.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/User Warning.ctl"/>
 			</Item>
 			<Item Name="SSH" Type="Folder">
-				<Item Name="Interrogate Target.vi" Type="VI" URL="../Private/Utilties/Target Management/Interrogate Target.vi"/>
-				<Item Name="SCP Open.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Open.vi"/>
-				<Item Name="SSH Execute Command.vi" Type="VI" URL="../Private/Utilties/SSH/SSH Execute Command.vi"/>
-				<Item Name="E14 BBB Test.vi" Type="VI" URL="../Private/Utilties/E14 BBB Test.vi"/>
-				<Item Name="SSH Close.vi" Type="VI" URL="../Private/Utilties/SSH/SSH Close.vi"/>
-				<Item Name="SSH Open.vi" Type="VI" URL="../Private/Utilties/SSH/SSH Open.vi"/>
-				<Item Name="SCP Upload File.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Upload File.vi"/>
-				<Item Name="SCP Close.vi" Type="VI" URL="../Private/Utilties/SSH/SCP Close.vi"/>
+				<Item Name="Interrogate Target.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Interrogate Target.vi"/>
+				<Item Name="SCP Open.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Open.vi"/>
+				<Item Name="SSH Execute Command.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Execute Command.vi"/>
+				<Item Name="E14 BBB Test.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/E14 BBB Test.vi"/>
+				<Item Name="SSH Close.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Close.vi"/>
+				<Item Name="SSH Open.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Open.vi"/>
+				<Item Name="SCP Upload File.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Upload File.vi"/>
+				<Item Name="SCP Close.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Close.vi"/>
 			</Item>
-			<Item Name="Get Unique Directory.vi" Type="VI" URL="../Private/Utilties/Get Unique Directory.vi"/>
+			<Item Name="Get Unique Directory.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Get Unique Directory.vi"/>
 			<Item Name="Generate Error.vi" Type="VI" URL="../Private/Utilties/Generate Error.vi"/>
 			<Item Name="Device ID to Name.vi" Type="VI" URL="../Private/Utilties/Device ID to Name.vi"/>
-			<Item Name="Get Device Config_OLD.vi" Type="VI" URL="../Private/Utilties/Get Device Config_OLD.vi"/>
+			<Item Name="Get Device Config_OLD.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Get Device Config_OLD.vi"/>
 			<Item Name="Firmware Wizard.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Firmware Wizard.vi"/>
 			<Item Name="Get Firmware Program Interfaces.vi" Type="VI" URL="../Private/Utilties/Get Firmware Program Interfaces.vi"/>
 			<Item Name="Get Firmware Pogram Interface Index.vi" Type="VI" URL="../Private/Utilties/Get Firmware Pogram Interface Index.vi"/>
@@ -178,10 +190,10 @@
 			<Item Name="Firmware Wizard Config.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Config.vi"/>
 			<Item Name="Firmware Wizard Check INI.vi" Type="VI" URL="../Private/Utilties/Firmware Wizard Check INI.vi"/>
 			<Item Name="Loop Frequency.vi" Type="VI" URL="../Private/Device/Utilities/Loop Frequency.vi"/>
-			<Item Name="Baud Rate To Value.vi" Type="VI" URL="../Private/Utilties/Baud Rate To Value.vi"/>
+			<Item Name="Baud Rate To Value.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Baud Rate To Value.vi"/>
 			<Item Name="myRIO Support.vi" Type="VI" URL="../../../../project/MakerHub/LINX/myRIO Support.vi"/>
 			<Item Name="Get Devices In Family.vi" Type="VI" URL="../Private/Utilties/Get Devices In Family.vi"/>
-			<Item Name="Check myRIO Status.vi" Type="VI" URL="../Private/Utilties/Check myRIO Status.vi"/>
+			<Item Name="Check myRIO Status.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Check myRIO Status.vi"/>
 			<Item Name="Clean Error Call Chain.vi" Type="VI" URL="../Private/Utilties/Clean Error Call Chain.vi"/>
 			<Item Name="Enter Leonardo Bootloader.vi" Type="VI" URL="../Private/Utilties/Enter Leonardo Bootloader.vi"/>
 			<Item Name="Set Device Name.vi" Type="VI" URL="../Private/Utilties/Set Device Name.vi"/>
@@ -191,7 +203,7 @@
 			<Item Name="All Firmware Data FGV.vi" Type="VI" URL="../Private/Utilties/All Firmware Data FGV.vi"/>
 			<Item Name="Copy Firmware Libraries.vi" Type="VI" URL="../Private/Utilties/Copy Firmware Libraries.vi"/>
 			<Item Name="Generate Firmware Libraries.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Generate Firmware Libraries.vi"/>
-			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="../Private/Utilties/Post-Install Custom Action.vi"/>
+			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Post-Install Custom Action.vi"/>
 			<Item Name="Fast Find COM Ports.vi" Type="VI" URL="../Private/Device/Utilities/Fast Find COM Ports.vi"/>
 			<Item Name="Open Local.vi" Type="VI" URL="../Public/Utilities/Open Local.vi"/>
 			<Item Name="Open TCP.vi" Type="VI" URL="../Public/Utilities/Open TCP.vi"/>
@@ -199,7 +211,7 @@
 			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 			<Item Name="Install LabVIEW Support.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Install LabVIEW Support.vi"/>
 			<Item Name="Renci.SshNet.dll" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Resources/Renci.SshNet.dll"/>
-			<Item Name="Script Example Project.vi" Type="VI" URL="../Private/Utilties/Script Example Project.vi"/>
+			<Item Name="Script Example Project.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Script Example Project.vi"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="Local IO.lvlib" Type="Library" URL="../Private/Local IO/Local IO.lvlib"/>
@@ -212,12 +224,12 @@
 				<Item Name="Analog Read N Chans.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read N Chans.vi"/>
 				<Item Name="Analog Read.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Read.vi"/>
 				<Item Name="Analog Set Reference Voltage.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Set Reference Voltage.vi"/>
-				<Item Name="Analog Write 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Write 1 Chan.vi"/>
-				<Item Name="Analog Write N Chans.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Write N Chans.vi"/>
-				<Item Name="Analog Write.vi" Type="VI" URL="../Public/Peripherals/Analog/Analog Write.vi"/>
+				<Item Name="Analog Write 1 Chan.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Peripherals/Analog/Analog Write 1 Chan.vi"/>
+				<Item Name="Analog Write N Chans.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Peripherals/Analog/Analog Write N Chans.vi"/>
+				<Item Name="Analog Write.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Peripherals/Analog/Analog Write.vi"/>
 			</Item>
 			<Item Name="Digital" Type="Folder">
-				<Item Name="Digital Close.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Close.vi"/>
+				<Item Name="Digital Close.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Peripherals/Digital/Digital Close.vi"/>
 				<Item Name="Digital Read 1 Chan.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read 1 Chan.vi"/>
 				<Item Name="Digital Read N Chans.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read N Chans.vi"/>
 				<Item Name="Digital Read Pulse Width.vi" Type="VI" URL="../Public/Peripherals/Digital/Digital Read Pulse Width.vi"/>
@@ -252,7 +264,7 @@
 				<Item Name="UART Read Byte Array.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read Byte Array.vi"/>
 				<Item Name="UART Read String.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read String.vi"/>
 				<Item Name="UART Read.vi" Type="VI" URL="../Public/Peripherals/UART/UART Read.vi"/>
-				<Item Name="UART Set Baud Rate.vi" Type="VI" URL="../Public/Peripherals/UART/UART Set Baud Rate.vi"/>
+				<Item Name="UART Set Baud Rate.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Peripherals/UART/UART Set Baud Rate.vi"/>
 				<Item Name="UART Write Byte Array.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write Byte Array.vi"/>
 				<Item Name="UART Write String.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write String.vi"/>
 				<Item Name="UART Write.vi" Type="VI" URL="../Public/Peripherals/UART/UART Write.vi"/>
@@ -371,9 +383,9 @@
 		</Item>
 		<Item Name="Utilities" Type="Folder">
 			<Item Name="Check Channel.vi" Type="VI" URL="../Public/Utilities/Check Channel.vi"/>
-			<Item Name="Custom Command.vi" Type="VI" URL="../Public/Utilities/Custom Command.vi"/>
-			<Item Name="Get Device User ID.vi" Type="VI" URL="../Public/Utilities/Get Device User ID.vi"/>
-			<Item Name="Set Device User ID.vi" Type="VI" URL="../Public/Utilities/Set Device User ID.vi"/>
+			<Item Name="Custom Command.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Utilities/Custom Command.vi"/>
+			<Item Name="Get Device User ID.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Utilities/Get Device User ID.vi"/>
+			<Item Name="Set Device User ID.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Utilities/Set Device User ID.vi"/>
 		</Item>
 		<Item Name="Close.vi" Type="VI" URL="../Public/Close.vi"/>
 		<Item Name="Initialize.vi" Type="VI" URL="../Public/Initialize.vi"/>
