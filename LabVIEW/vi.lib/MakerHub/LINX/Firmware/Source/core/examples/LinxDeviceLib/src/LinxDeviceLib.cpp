@@ -39,7 +39,6 @@ extern "C" int LinxOpen()
 	
 	//Instantiate The LINX Device
 	LinxDev = new LINXDEVICETYPE();
-	fprintf(stdout, "Lib Working...\n");
 	return L_OK;
 }
 

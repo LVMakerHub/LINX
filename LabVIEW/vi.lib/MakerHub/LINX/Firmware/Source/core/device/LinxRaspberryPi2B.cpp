@@ -23,10 +23,10 @@
 **  Member Variables
 ****************************************************************************************/
 //System
-const char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
+const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
 
 //AI
-//None
+//None 
 
 //AO
 //None

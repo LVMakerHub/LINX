@@ -55,7 +55,7 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		**  Variables
 		****************************************************************************************/		
 		//System
-		static const char m_DeviceName[DEVICE_NAME_LEN];
+		static const unsigned char m_DeviceName[DEVICE_NAME_LEN];
 		
 		//AI		
 		//None
