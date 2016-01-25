@@ -53,7 +53,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		**  Variables
 		****************************************************************************************/		
 		//System
-		static const char m_DeviceName[DEVICE_NAME_LEN];
+		static const unsigned char m_DeviceName[DEVICE_NAME_LEN];
 		
 		//AI
 		static const unsigned char m_AiChans[NUM_AI_CHANS];
