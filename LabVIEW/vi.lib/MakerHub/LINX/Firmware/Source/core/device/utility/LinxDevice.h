@@ -149,6 +149,7 @@ class LinxDevice
 		unsigned char DeviceId;
 		unsigned char DeviceNameLen;
 		const unsigned char* DeviceName;
+		unsigned char ListenerBufferSize;
 		
 		//LINX API Version
 		unsigned char LinxApiMajor;

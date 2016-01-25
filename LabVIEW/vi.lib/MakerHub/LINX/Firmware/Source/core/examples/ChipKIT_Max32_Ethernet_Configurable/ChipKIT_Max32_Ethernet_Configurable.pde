@@ -19,7 +19,7 @@
 #include <WS2812.h>
 
 #include <NetworkShield.h> 
-#include <DEIPcK.h>
+#include <DNETcK.h>
 
 //Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)

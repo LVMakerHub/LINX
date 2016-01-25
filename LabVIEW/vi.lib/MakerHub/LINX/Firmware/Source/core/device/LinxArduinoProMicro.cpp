@@ -69,8 +69,8 @@ LinxArduinoProMicro::LinxArduinoProMicro()
 	DeviceName =  m_DeviceName;
 
 	//LINX API Version
-	LinxApiMajor = 2;
-	LinxApiMinor = 2;
+	LinxApiMajor = 3;
+	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	
 	//DIGITAL

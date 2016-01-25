@@ -67,10 +67,11 @@ LinxArduinoLeonardo::LinxArduinoLeonardo()
 	DeviceId = 0x02;	//Leonardo
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
+	ListenerBufferSize = 64;
 
 	//LINX API Version
-	LinxApiMajor = 2;
-	LinxApiMinor = 2;
+	LinxApiMajor = 3;
+	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	
 	//DIGITAL

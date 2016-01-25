@@ -24,7 +24,6 @@
 LinxListener::LinxListener()
 {
 	State = START;
-	bufferSize = LISTENER_BUFFER_SIZE;
 }
 
 /****************************************************************************************

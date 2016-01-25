@@ -37,6 +37,9 @@ int LinxSerialListener::Start(LinxDevice* linxDev, unsigned char uartChan)
 {	
 	LinxDev = linxDev;
 	
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	
 	LinxDev->DebugPrintln("Starting Listener...\n");
 	
 	ListenerChan = uartChan;

@@ -23,7 +23,7 @@
 #include "LinxSerialListener.h"
 #include "utility\LinxListener.h"
 #include "utility\LinxDevice.h"
-#include "utility\LinxDEIPcKListener.h"
+#include "utility\LinxDnetckListener.h"
 
 /****************************************************************************************
 **  Type Defs
@@ -32,13 +32,13 @@
 /****************************************************************************************
 **  Classes
 ****************************************************************************************/		
-class LinxChipkitNetworkShieldListener : public LinxDEIPcKListener
+class LinxChipkitNetworkShieldListener : public LinxDnetckListener
 {
 	public:
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-		//LinxListenerState State;
+		LinxListenerState State;
 		
 		
 		/****************************************************************************************

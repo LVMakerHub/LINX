@@ -18,7 +18,7 @@
 
 #include "utility\LinxDevice.h"
 #include "utility\LinxListener.h"
-#include "utility\LinxDnetckListener.h"
+#include "utility\LinxDEIPcKListener.h"
 #include "LinxChipkitWifiListener.h"
 
 #include <DEIPcK.h> 
@@ -71,6 +71,10 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev)
 {
 		
 	LinxDev = linxDev;
+	
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With NVS Data");
 	
 	//Load Stored WIFI Values
@@ -102,6 +106,9 @@ int LinxChipkitWifiListener::Start(LinxDevice* linxDev)
 int LinxChipkitWifiListener::Start(LinxDevice* linxDev, unsigned char ip3, unsigned char ip2, unsigned char ip1, unsigned char ip0, unsigned short port)
 {
 	LinxDev = linxDev;
+	
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
 	
 	LinxDev->DebugPrintln("Network Wifi Stack :: Starting With Fixed IP Address");
 		

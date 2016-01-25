@@ -1,8 +1,8 @@
 /****************************************************************************************
-**  LINX DEIPcK listener code.
+**  LINX DNETcK listener code.
 **
-**  For more information see:           www.labviewmakerhub.com/linx
-**  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
+**  For more information see:           www.labviewhacker.com/linx
+**  For support visit the forums at:    www.labviewhacker.com/forums/linx
 **  
 **  Written By Sam Kristoff
 **
@@ -20,12 +20,12 @@
 #include "LinxListener.h"
 
 #include "LinxDnetckListener.h"
-#include <DEIPcK.h> 
+#include <DNETcK.h> 
 
 /****************************************************************************************
 **  Constructors
 ****************************************************************************************/
-LinxDEIPcKListener::LinxDEIPcKListener()
+LinxDnetckListener::LinxDnetckListener()
 {
 	State = START;
 	Interface = TCP;
@@ -33,55 +33,49 @@ LinxDEIPcKListener::LinxDEIPcKListener()
 	LinxTcpClientCount = 0;
 	LinxTcpStartTime = 0;
 	LinxTcpTimeout = 5000;
-	
-	
-	LinxListenerState State;		
-	
-	TCPServer LinxTcpServer;
-	TCPSocket LinxTcpClient;
-	TCPSocket * LinxTcpClientPtr = NULL;		
+		
 }
 
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
-int LinxDEIPcKListener::Start(LinxDevice* linxDev)
+int LinxDnetckListener::Start(LinxDevice* linxDev)
 {
 	LinxDev = linxDev;
 }
 
-int LinxDEIPcKListener::Listen()
+int LinxDnetckListener::Listen()
 {
 	return -1;
 }
 		
-int LinxDEIPcKListener::Available()
+int LinxDnetckListener::Available()
 {
 	return -1;
 }
 
-int LinxDEIPcKListener::Accept()
+int LinxDnetckListener::Accept()
 {
 	return -1;
 }
 
 
-int LinxDEIPcKListener::Connected()
+int LinxDnetckListener::Connected()
 {
 	return -1;
 }
 
-int LinxDEIPcKListener::Close()
+int LinxDnetckListener::Close()
 {
 	return -1;
 }
 
-int LinxDEIPcKListener::Exit()
+int LinxDnetckListener::Exit()
 {
 	return -1;
 }
 
-int LinxDEIPcKListener::CheckForCommands()
+int LinxDnetckListener::CheckForCommands()
 {
 	return -1;
 }

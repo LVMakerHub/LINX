@@ -48,7 +48,7 @@
 LinxWiringDevice::LinxWiringDevice()
 {
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	
@@ -123,7 +123,6 @@ int LinxWiringDevice::AnalogRead(unsigned char numChans, unsigned char* channels
 
 int LinxWiringDevice::AnalogSetRef(unsigned char mode, unsigned long voltage)
 {
-	#if NUM_AI_INT_REFS > 0
 	switch(mode)
 	{
 		case 0: //Default
@@ -170,10 +169,6 @@ int LinxWiringDevice::AnalogSetRef(unsigned char mode, unsigned long voltage)
 			break;	
 	}
 	return L_OK;
-	
-	#endif //NUM_AI_INT_REFS > 0
-	
-	return L_FUNCTION_NOT_SUPPORTED;
 }
 
 //--------------------------------------------------------DIGITAL-------------------------------------------------------

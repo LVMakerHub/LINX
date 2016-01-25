@@ -15,7 +15,6 @@
 /****************************************************************************************
 ** Defines
 ****************************************************************************************/
-#define LISTENER_BUFFER_SIZE 128
 
 /****************************************************************************************
 ** Includes
@@ -59,9 +58,8 @@ class LinxListener
 		LinxListenerInterface Interface;
 		unsigned char ListenerChan;
 		
-		unsigned char bufferSize;
-		unsigned char recBuffer[LISTENER_BUFFER_SIZE];
-		unsigned char sendBuffer[LISTENER_BUFFER_SIZE];
+		unsigned char* recBuffer;
+		unsigned char* sendBuffer;
 		
 		int (*customCommands[16])(unsigned char, unsigned char*, unsigned char*, unsigned char*);
 		int (*periodicTasks[1])(unsigned char*, unsigned char*);
