@@ -1,3 +1,6 @@
+[BeagleBone Black]
+BeagleBone Black = "0.0.0.0"
+
 [My Computer]
 My Computer = "192.168.7.1"
 
