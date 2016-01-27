@@ -55,6 +55,11 @@
 		<Item Name="LINX - Interactions Seven Segement Display.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Interactions Seven Segement Display.vi"/>
 		<Item Name="LINX - Interactions DHT11.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Interactions DHT11.vi"/>
 		<Item Name="LINX - Interactions LED Matrix.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - Interactions LED Matrix.vi"/>
+		<Item Name="LINX - PmodALS.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodALS.vi"/>
+		<Item Name="LINX - PmodCMPS.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodCMPS.vi"/>
+		<Item Name="LINX - PmodGYRO.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodGYRO.vi"/>
+		<Item Name="LINX - PmodMIC3.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodMIC3.vi"/>
+		<Item Name="LINX - PmodTC1.vi" Type="VI" URL="../../../../examples/MakerHub/LINX/LINX - PmodTC1.vi"/>
 	</Item>
 	<Item Name="Help" Type="Folder">
 		<Item Name="Forums.vi" Type="VI" URL="../../../../help/MakerHub/LINX/Forums.vi"/>
