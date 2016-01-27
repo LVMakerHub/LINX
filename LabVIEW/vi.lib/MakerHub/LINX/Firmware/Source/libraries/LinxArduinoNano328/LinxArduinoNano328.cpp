@@ -64,12 +64,13 @@ Servo* LinxArduinoNano328::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 
 LinxArduinoNano328::LinxArduinoNano328()
 {
 	//Arduino Family Code Set At Family Level
-	DeviceID = 0x05;	//Nano
+	DeviceId = 0x05;	//Nano
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
+	ListenerBufferSize = 64;
 
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	

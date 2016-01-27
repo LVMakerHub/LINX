@@ -24,7 +24,6 @@
 LinxListener::LinxListener()
 {
 	State = START;
-	bufferSize = LISTENER_BUFFER_SIZE;
 }
 
 /****************************************************************************************
@@ -69,25 +68,24 @@ int LinxListener::CheckForCommands()
 {
 	switch(State)
 	{
-		case START:    
+		case START: 			
 			Start();
 			break;
-		case CONNECTED:    
+		case CONNECTED:
 			Connected();
 			break;
-		case CLOSE:    			
+		case CLOSE:
 			Close();
 			break;	
-		case EXIT:
+		case EXIT:		
 			Exit();
 			break;
 		default:
 			return LUNKNOWN_STATE;
 			break;
 	}
+	return L_OK;
 }
-
-
 
 unsigned char LinxListener::ComputeChecksum(unsigned char* packetBuffer)
 {  
@@ -117,7 +115,6 @@ void LinxListener::StatusResponse(unsigned char* commandPacketBuffer, unsigned c
 int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned char* responsePacketBuffer)
 {
 	//Store Some Local Values For Convenience
-	unsigned char commandLength = commandPacketBuffer[1];
 	unsigned int command = commandPacketBuffer[4] << 8 | commandPacketBuffer[5];
 	
 	int status = L_OK;
@@ -149,7 +146,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		 
 		case 0x0003: // Get Device ID     
 			responsePacketBuffer[5] = LinxDev->DeviceFamily;
-			responsePacketBuffer[6] = LinxDev->DeviceID;    
+			responsePacketBuffer[6] = LinxDev->DeviceId;    
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, 2, L_OK); 
 			break;	
 			
@@ -218,8 +215,6 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			
 		case 0x0011: // Disconnect
 			LinxDev->DebugPrintln("Close Command");
-			LinxDev->DebugPrintln("");
-			State = CLOSE;
 			status = L_DISCONNECT;
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
@@ -383,7 +378,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		
 		case 0x0024: // Get Device Name
-			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
+			DataBufferResponse(commandPacketBuffer, responsePacketBuffer, (unsigned char*)LinxDev->DeviceName, LinxDev->DeviceNameLen, L_OK);
 			break;
 		
 		case 0x0025: // Get Servo Channels
@@ -404,7 +399,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			
 		case 0x0042: // Digital Read
 		{
-			unsigned char numRespBytes = ((commandPacketBuffer[1]-7)-1 >> 3) +1;
+			unsigned char numRespBytes = (((commandPacketBuffer[1]-7)-1) >> 3) +1;
 			status = LinxDev->DigitalRead((commandPacketBuffer[1]-7), &commandPacketBuffer[6], &responsePacketBuffer[5]);
 			PacketizeAndSend(commandPacketBuffer, responsePacketBuffer, numRespBytes, status); 
 			break;
@@ -603,7 +598,7 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		** SPI
 		****************************************************************************************/	
 		case 0x0100: // SPI Open Master
-			LinxDev->SpiOpenMaster(commandPacketBuffer[6]);
+			status = LinxDev->SpiOpenMaster(commandPacketBuffer[6]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, L_OK);
 			break;
 		case 0x0101: // SPI Set Bit Order
@@ -700,23 +695,23 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 		** WS2812
 		****************************************************************************************/	
 		case 0x0160: // WS2812 Open
-			status = LinxDev->WS2812Open((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), commandPacketBuffer[8]);
+			status = LinxDev->Ws2812Open((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), commandPacketBuffer[8]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
 		case 0x0161: // WS2812 Write One Pixel
-			status = LinxDev->WS2812WriteOnePixel((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), commandPacketBuffer[8], commandPacketBuffer[9], commandPacketBuffer[10], commandPacketBuffer[11]);
+			status = LinxDev->Ws2812WriteOnePixel((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), commandPacketBuffer[8], commandPacketBuffer[9], commandPacketBuffer[10], commandPacketBuffer[11]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
 		case 0x0162: // WS2812 Write N Pixels
-			status = LinxDev->WS2812WriteNPixels((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), (commandPacketBuffer[8]<<8 | commandPacketBuffer[9]), &commandPacketBuffer[11], commandPacketBuffer[10]);
+			status = LinxDev->Ws2812WriteNPixels((commandPacketBuffer[6]<<8 | commandPacketBuffer[7]), (commandPacketBuffer[8]<<8 | commandPacketBuffer[9]), &commandPacketBuffer[11], commandPacketBuffer[10]);
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
 		case 0x0163: // WS2812 Refresh
-			status = LinxDev->WS2812Refresh();
+			status = LinxDev->Ws2812Refresh();
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
 		case 0x0164: // WS2812 Close
-			status = LinxDev->WS2812Close();
+			status = LinxDev->Ws2812Close();
 			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
 			break;
 		
@@ -769,6 +764,11 @@ void LinxListener::DataBufferResponse(unsigned char* commandPacketBuffer, unsign
 void LinxListener::AttachCustomCommand(unsigned short commandNumber, int (*function)(unsigned char, unsigned char*, unsigned char*, unsigned char*) )
 {
 	customCommands[commandNumber] = function;
+}
+
+void LinxListener::AttachPeriodicTask(int (*function)(unsigned char*, unsigned char*))
+{
+	periodicTasks[0] = function;
 }
 
 #endif //LINXLISTENER_H

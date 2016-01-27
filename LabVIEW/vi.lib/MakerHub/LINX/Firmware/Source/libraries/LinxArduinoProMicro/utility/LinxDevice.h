@@ -15,7 +15,7 @@
 /****************************************************************************************
 **  Includes
 ****************************************************************************************/		
-//This Makes It Easy For IDE Users To Define Necissary Settings In One Place
+//This Makes It Easy For IDE Users To Define Necessary Settings In One Place
 //When Using Make Files Define LINXCONFIG To Ignore Config.h File
 #ifndef LINXCONFIG
 	#include "../config/LinxConfig.h"
@@ -90,7 +90,14 @@
 /****************************************************************************************
 **  Typedefs
 ****************************************************************************************/		
-enum LinxStatus {L_OK, L_FUNCTION_NOT_SUPPORTED, L_REQUEST_RESEND, L_UNKNOWN_ERROR, L_DISCONNECT};
+typedef enum LinxStatus
+{
+	L_OK = 0,
+	L_FUNCTION_NOT_SUPPORTED,
+	L_REQUEST_RESEND,
+	L_UNKNOWN_ERROR, 
+	L_DISCONNECT
+}LinxStatus;
 
 typedef enum AioStatus
 {
@@ -106,7 +113,8 @@ typedef enum DioStatus
 
 typedef enum SPIStatus
 {
-	
+	LSPI_OPEN_FAIL = 128,
+	LSPI_TRANSFER_FAIL
 }SPIStatus;
 
 typedef enum I2CStatus
@@ -138,9 +146,10 @@ class LinxDevice
 		
 		//Device ID
 		unsigned char DeviceFamily;
-		unsigned char DeviceID;
+		unsigned char DeviceId;
 		unsigned char DeviceNameLen;
 		const unsigned char* DeviceName;
+		unsigned char ListenerBufferSize;
 		
 		//LINX API Version
 		unsigned char LinxApiMajor;
@@ -163,6 +172,9 @@ class LinxDevice
 		//AO
 		unsigned char NumAoChans;
 		const unsigned char* AoChans;
+		unsigned char AoResolution;
+		unsigned long AoRefDefault;
+		unsigned long AoRefSet;
 		
 		//PWM
 		unsigned char NumPwmChans;
@@ -212,26 +224,31 @@ class LinxDevice
 		unsigned long serialInterfaceMaxBaud;
 		
 		/****************************************************************************************
-		**  Constructors
+		**  Constructors/Destructor
 		****************************************************************************************/
 		LinxDevice();
+		virtual ~LinxDevice();
 			
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
 		
 		//Analog
-		virtual int AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int AnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values);		//Values Are ADC Ticks And Not Bit Packed
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage) = 0;
 		
 		//DIGITAL
-		virtual int DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
-		virtual int DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;				//Values Are Bit Packed
+		virtual int DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);		//Values Are Not Bit Packed
+		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int DigitalReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);		//Response Not Bit Packed
 		virtual int DigitalWriteSquareWave(unsigned char channel, unsigned long freq, unsigned long duration) = 0;
 		virtual int DigitalReadPulseWidth(unsigned char stimChan, unsigned char stimType, unsigned char respChan, unsigned char respType, unsigned long timeout, unsigned long* width) = 0;
 		
 		//PWM
-		virtual int PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values) = 0;
+		virtual int PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
+		virtual int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned long* values);
 		
 		//SPI
 		virtual int SpiOpenMaster(unsigned char channel) = 0;
@@ -272,16 +289,16 @@ class LinxDevice
 		virtual int UartClose(unsigned char channel) = 0;
 		
 		//Servo
-		virtual int ServoOpen(unsigned char numChans, unsigned char* chans) = 0;
-		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* chans, unsigned short* pulseWidths) = 0;
-		virtual int ServoClose(unsigned char numChans, unsigned char* chans) = 0;
+		virtual int ServoOpen(unsigned char numChans, unsigned char* channels) = 0;
+		virtual int ServoSetPulseWidth(unsigned char numChans, unsigned char* channels, unsigned short* pulseWidths) = 0;
+		virtual int ServoClose(unsigned char numChans, unsigned char* channels) = 0;
 		
 		//WS2812
-		virtual int WS2812Open(unsigned short numLeds, unsigned char dataChan);
-		virtual int WS2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh);
-		virtual int WS2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh);
-		virtual int WS2812Refresh();
-		virtual int WS2812Close();
+		virtual int Ws2812Open(unsigned short numLeds, unsigned char dataChan);
+		virtual int Ws2812WriteOnePixel(unsigned short pixelIndex, unsigned char red, unsigned char green, unsigned char blue, unsigned char refresh);
+		virtual int Ws2812WriteNPixels(unsigned short startPixel, unsigned short numPixels, unsigned char* data, unsigned char refresh);
+		virtual int Ws2812Refresh();
+		virtual int Ws2812Close();
 				
 		//General
 		unsigned char ReverseBits(unsigned char b);
@@ -302,6 +319,7 @@ class LinxDevice
 		virtual void DebugPrint(long n);
 		virtual void DebugPrint(unsigned long n);
 		virtual void DebugPrint(long n, int base);
+		
 		virtual void DebugPrintln();
 		virtual void DebugPrintln(char c);
 		virtual void DebugPrintln(const char s[]);
@@ -310,6 +328,7 @@ class LinxDevice
 		virtual void DebugPrintln(long n);
 		virtual void DebugPrintln(unsigned long n);
 		virtual void DebugPrintln(long n, int base);
+
 		
 		virtual void DebugPrintPacket(unsigned char direction, const unsigned char* packetBuffer);
 				

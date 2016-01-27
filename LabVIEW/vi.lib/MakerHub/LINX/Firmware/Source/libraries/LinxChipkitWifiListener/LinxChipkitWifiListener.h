@@ -9,8 +9,8 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_CHIPKITNETWORKSHIELD_LISTENER_H
-#define LINX_CHIPKITNETWORKSHIELD_LISTENER_H
+#ifndef LINX_CHIPKITWIFI_LISTENER_H
+#define LINX_CHIPKITWIFI_LISTENER_H
 
 /****************************************************************************************
 **  Defines
@@ -23,7 +23,7 @@
 #include "LinxSerialListener.h"
 #include "utility\LinxListener.h"
 #include "utility\LinxDevice.h"
-#include "utility\LinxDnetckListener.h"
+#include "utility\LinxDEIPcKListener.h"
 
 /****************************************************************************************
 **  Type Defs

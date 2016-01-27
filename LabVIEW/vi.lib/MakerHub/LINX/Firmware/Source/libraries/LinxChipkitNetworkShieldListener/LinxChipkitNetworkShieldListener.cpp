@@ -18,10 +18,10 @@
 
 #include "utility\LinxDevice.h"
 #include "utility\LinxListener.h"
-#include "utility\LinxDEIPcKListener.h"
+#include "utility\LinxDnetckListener.h"
 #include "LinxChipkitNetworkShieldListener.h"
 
-#include <DEIPcK.h> 
+#include <DNETcK.h> 
 
 /****************************************************************************************
 **  Constructors
@@ -42,7 +42,11 @@ LinxChipkitNetworkShieldListener::LinxChipkitNetworkShieldListener()
 int LinxChipkitNetworkShieldListener::Start(LinxDevice* linxDev)
 {
 	LinxDev = linxDev;
-	LinxDev->DebugPrintln("Network Ethernet Stack :: Starting With NVS Data");
+	
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	
+	//LinxDev->DebugPrintln("Network Ethernet Stack :: Starting With NVS Data");
 	
 	//Load Stored Ethernet Config Values	
 	IPv4 deviceIpAddress = {LinxDev->NonVolatileRead(NVS_ETHERNET_IP), LinxDev->NonVolatileRead(NVS_ETHERNET_IP+1), LinxDev->NonVolatileRead(NVS_ETHERNET_IP+2), LinxDev->NonVolatileRead(NVS_ETHERNET_IP+3)};
@@ -56,7 +60,10 @@ int LinxChipkitNetworkShieldListener::Start(LinxDevice* linxDev, unsigned char i
 {	
 	LinxDev = linxDev;
 	
-	LinxDev->DebugPrintln("Network Ethernet Stack :: Starting With Static Configuration");		
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	
+	//LinxDev->DebugPrintln("Network Ethernet Stack :: Starting With Static Configuration");		
 	
 	unsigned long ethernetIP = (ip3<<24) | (ip2<<16) | (ip1<<8) | ip0;	
 	IPv4 m_IpAddress = {((ethernetIP>>24)&0xFF), ((ethernetIP>>16)&0xFF), ((ethernetIP>>8)&0xFF), (ethernetIP&0xFF)};
@@ -71,27 +78,27 @@ int LinxChipkitNetworkShieldListener::Start(LinxDevice* linxDev, unsigned char i
 int LinxChipkitNetworkShieldListener::StartStage2(IPv4 deviceIpAddress, unsigned short port)
 {
 	//Ethernet Config Debug Info
-	LinxDev->DebugPrintln("");
-	LinxDev->DebugPrintln("");
-	LinxDev->DebugPrintln(".: LINX ETHERNET SETTINNGS :.");
+	//LinxDev->DebugPrintln("");
+	//LinxDev->DebugPrintln("");
+	//LinxDev->DebugPrintln(".: LINX ETHERNET SETTINNGS :.");
 	
-	LinxDev->DebugPrint("IP Address : ");
-	LinxDev->DebugPrint(deviceIpAddress.rgbIP[0], DEC);
-	LinxDev->DebugPrint(".");
-	LinxDev->DebugPrint(deviceIpAddress.rgbIP[1], DEC);
-	LinxDev->DebugPrint(".");
-	LinxDev->DebugPrint(deviceIpAddress.rgbIP[2], DEC);
-	LinxDev->DebugPrint(".");
-	LinxDev->DebugPrintln(deviceIpAddress.rgbIP[3], DEC);
+	//LinxDev->DebugPrint("IP Address : ");
+	//LinxDev->DebugPrint(deviceIpAddress.rgbIP[0], DEC);
+	//LinxDev->DebugPrint(".");
+	//LinxDev->DebugPrint(deviceIpAddress.rgbIP[1], DEC);
+	//LinxDev->DebugPrint(".");
+	//LinxDev->DebugPrint(deviceIpAddress.rgbIP[2], DEC);
+	//LinxDev->DebugPrint(".");
+	//LinxDev->DebugPrintln(deviceIpAddress.rgbIP[3], DEC);
 	
-	LinxDev->DebugPrint("Port       : ");
-	LinxDev->DebugPrintln(port, DEC);
+	//LinxDev->DebugPrint("Port       : ");
+	//LinxDev->DebugPrintln(port, DEC);
 	
-	LinxDev->DebugPrintln("");
-	LinxDev->DebugPrintln("");
+	//LinxDev->DebugPrintln("");
+	//LinxDev->DebugPrintln("");
 	
 	//Start Ethernet Stack
-	DEIPcK::begin(deviceIpAddress);
+	DNETcK::begin(deviceIpAddress);
 	 
 	//Listen For Connection On Specified Port
 	if(LinxTcpServer.startListening(port))
@@ -120,7 +127,7 @@ int LinxChipkitNetworkShieldListener::Listen()
 		State = AVAILABLE;
 		
 	}
-	else if(DEIPcK::isStatusAnError(LinxTcpStatus))
+	else if(DNETcK::isStatusAnError(LinxTcpStatus))
 	{
 		State = EXIT;
 	}
@@ -147,7 +154,7 @@ int LinxChipkitNetworkShieldListener::Available()
 
 int LinxChipkitNetworkShieldListener::Accept()
 {
-	//LinxDev->DebugPrintln("Network Stack :: Accept");
+	////LinxDev->DebugPrintln("Network Stack :: Accept");
 
 	//Close Any Previous Connections Just In Case
 	LinxTcpClient.close();
@@ -157,12 +164,12 @@ int LinxChipkitNetworkShieldListener::Accept()
 	{
 		State = CONNECTED;
 		LinxTcpStartTime = (unsigned) millis();
-		LinxDev->DebugPrint("Network Stack :: Client Connected");
+		//LinxDev->DebugPrint("Network Stack :: Client Connected");
 	}
 	else
 	{
 		State = CLOSE;
-		LinxDev->DebugPrintln("Network Stack :: Failed To Connect Client");
+		//LinxDev->DebugPrintln("Network Stack :: Failed To Connect Client");
 	}
 	return 0;
 }
@@ -240,7 +247,7 @@ int LinxChipkitNetworkShieldListener::Connected()
 	else if( ((unsigned)millis() - LinxTcpStartTime) > LinxTcpTimeout)
 	{
 		State = CLOSE;
-		LinxDev->DebugPrintln("Network Stack :: Ethernet Timeout");             
+		//LinxDev->DebugPrintln("Network Stack :: Ethernet Timeout");             
 	}
 	else
 	{
@@ -248,8 +255,8 @@ int LinxChipkitNetworkShieldListener::Connected()
 		State = CONNECTED;
 		//LinxTcpStartTime = (unsigned) millis();
 		
-		LinxDev->DebugPrintln(((unsigned)millis() - LinxTcpStartTime), DEC);  
-		LinxDev->DebugPrintln(" mS With No Data");      
+		//LinxDev->DebugPrint(((unsigned)millis() - LinxTcpStartTime), DEC);  
+		//LinxDev->DebugPrintln(" mS With No Data");      
 	} 
 	
 	return 0;
@@ -258,7 +265,7 @@ int LinxChipkitNetworkShieldListener::Connected()
 int LinxChipkitNetworkShieldListener::Close()
 {
 	//Close TCP Connection, Return To Listening State
-	LinxDev->DebugPrintln("Network Stack :: Close");             
+	//LinxDev->DebugPrintln("Network Stack :: Close");             
 	LinxTcpClient.close();
 	State = LISTENING;
 	return 0;
@@ -266,7 +273,7 @@ int LinxChipkitNetworkShieldListener::Close()
 
 int LinxChipkitNetworkShieldListener::Exit()
 {
-	LinxDev->DebugPrintln("Network Stack :: Exit And Restart");   
+	//LinxDev->DebugPrintln("Network Stack :: Exit And Restart");   
 	LinxTcpServer.close();
 	LinxTcpClient.close();
 	State = START;
@@ -294,7 +301,7 @@ int LinxChipkitNetworkShieldListener::CheckForCommands()
 			break;
 		case CLOSE:    			
 			Close();
-			State = START;
+			//State = START;
 			break;	
 		case EXIT:
 			Exit();
@@ -302,7 +309,7 @@ int LinxChipkitNetworkShieldListener::CheckForCommands()
 	}
 	
 	//Every Iteration Run Periodic Network Tasks
-	 DEIPcK::periodicTasks(); 
+	 DNETcK::periodicTasks(); 
 	
 	return 0;
 }

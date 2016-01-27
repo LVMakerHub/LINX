@@ -63,12 +63,12 @@ Servo* LinxRedboard::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 LinxRedboard::LinxRedboard()
 {
 	DeviceFamily = 0x05;	//Sparkfun Family Code
-	DeviceID = 0x00;			//RedBoard
+	DeviceId = 0x00;			//RedBoard
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	

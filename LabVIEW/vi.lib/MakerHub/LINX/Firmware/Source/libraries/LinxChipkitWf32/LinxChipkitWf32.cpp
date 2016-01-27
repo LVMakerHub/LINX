@@ -64,12 +64,12 @@ Servo* LinxChipkitWf32::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 
 LinxChipkitWf32::LinxChipkitWf32()
 {
 	//Digilent Family Code Set At Family Level
-	DeviceID = 0x03;		//WF32
+	DeviceId = 0x03;		//WF32
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	

@@ -16,9 +16,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "utility\LinxDevice.h"
+#include "utility/LinxDevice.h"
 
-#include "utility\LinxListener.h"
+#include "utility/LinxListener.h"
 #include "LinxSerialListener.h"
 
 /****************************************************************************************
@@ -34,8 +34,14 @@ LinxSerialListener::LinxSerialListener()
 **  Functions
 ****************************************************************************************/
 int LinxSerialListener::Start(LinxDevice* linxDev, unsigned char uartChan)
-{
+{	
 	LinxDev = linxDev;
+	
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	
+	LinxDev->DebugPrintln("Starting Listener...\n");
+	
 	ListenerChan = uartChan;
 	unsigned long acutalBaud = 0;
 	ListenerChan = uartChan;
@@ -50,9 +56,13 @@ int LinxSerialListener::Connected()
 	
 	//Check How Many Bytes Received, Need At Least 2 To Get SoF And Packet Size
 	LinxDev->UartGetBytesAvailable(ListenerChan, &bytesAvailable);
-		
+	
+	//LinxDev->DebugPrint("Received ");
+	//LinxDev->DebugPrint(bytesAvailable, DEC);
+	//LinxDev->DebugPrintln(" bytes");
+	
 	if(bytesAvailable >= 2)
-	{	
+	{
 		//Check for valid SoF
 		unsigned char bytesRead = 0;
 		LinxDev->UartRead(ListenerChan, 2, recBuffer, &bytesRead);	
@@ -89,8 +99,13 @@ int LinxSerialListener::Connected()
 			if(ChecksumPassed(recBuffer))
 			{		
 				LinxDev->DebugPrintPacket(RX, recBuffer);
+				
 				//Process Packet
-				ProcessCommand(recBuffer, sendBuffer);				
+				int status = ProcessCommand(recBuffer, sendBuffer);
+				if(status == L_DISCONNECT)
+				{
+					State = CLOSE;
+				}
 			
 				//Send Response Packet 
 				LinxDev->DebugPrintPacket(TX, sendBuffer);
@@ -110,13 +125,29 @@ int LinxSerialListener::Connected()
 			LinxDev->UartRead(ListenerChan, bytesAvailable, recBuffer, &bytesRead); 
 		}
 	}
+	else
+	{
+		//No New Packet
+		if (periodicTasks[0] != NULL)
+		{
+			periodicTasks[0](0,0);
+		}
+		else
+		{
+			#ifdef LINX_DEVICE_FAMILY=4 | LINX_DEVICE_FAMILY=6
+			LinxDev->DelayMs(30);
+			#endif
+		}
+	}
 	
 	return 0;
 }
 
 int LinxSerialListener::Close()
 {
-	return -1;
+	LinxDev->UartClose(ListenerChan);
+	State = START;
+	return 0;
 }
 
 int LinxSerialListener::Exit()
@@ -128,16 +159,20 @@ int LinxSerialListener::CheckForCommands()
 {
 	switch(State)
 	{				
-		case CONNECTED:    
+		case START:  
+			Start(LinxDev, ListenerChan);
+			break;
+		case CONNECTED:  
+			//LinxDev->DebugPrintln("State - Connected");
 			Connected();
 			break;
 		case CLOSE:    			
+			LinxDev->DebugPrintln("State - Close");
 			Close();
-			State = START;
 			break;	
 		case EXIT:
+			LinxDev->DebugPrintln("State - Exit");
 			Exit();
-			exit(-1);
 			break;				
 	}
 }

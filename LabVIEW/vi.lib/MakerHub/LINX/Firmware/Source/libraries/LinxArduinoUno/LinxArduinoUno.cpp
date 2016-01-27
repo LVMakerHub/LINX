@@ -64,12 +64,13 @@ Servo* LinxArduinoUno::m_Servos[NUM_SERVO_CHANS] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 LinxArduinoUno::LinxArduinoUno()
 {
 	//Arduino Family Code Set At Family Level, Device ID set to 0x00 for Uno
-	DeviceID = 0x00;	//Uno
+	DeviceId = 0x00;	//Uno
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
+	ListenerBufferSize = 64;
 
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	

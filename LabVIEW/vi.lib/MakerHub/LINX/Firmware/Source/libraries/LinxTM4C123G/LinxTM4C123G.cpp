@@ -68,7 +68,7 @@ TM4C123G::TM4C123G()
 	DeviceName =  m_DeviceName;
 
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	

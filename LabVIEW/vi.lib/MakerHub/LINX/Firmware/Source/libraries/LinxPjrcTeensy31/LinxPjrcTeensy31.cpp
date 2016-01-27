@@ -64,12 +64,12 @@ Servo* LinxPjrcTeensy31::m_Servos[NUM_SERVO_CHANS] =	{0, 0, 0, 0, 0, 0, 0, 0, 0,
 LinxPjrcTeensy31::LinxPjrcTeensy31()
 {
 	//Family ID Set At Family Level
-	DeviceID = 0x03;	//Teensy 3.1
+	DeviceId = 0x03;	//Teensy 3.1
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	

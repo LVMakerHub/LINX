@@ -48,7 +48,7 @@
 LinxWiringDevice::LinxWiringDevice()
 {
 	//LINX API Version
-	LinxApiMajor = 2;
+	LinxApiMajor = 3;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
 	
@@ -79,7 +79,7 @@ unsigned long LinxWiringDevice::GetSeconds()
 
 //--------------------------------------------------------ANALOG-------------------------------------------------------
 
-int LinxWiringDevice::AnalogRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
+int LinxWiringDevice::AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	unsigned int analogValue = 0;
 	unsigned char responseByteOffset = 0;
@@ -88,10 +88,10 @@ int LinxWiringDevice::AnalogRead(unsigned char numPins, unsigned char* pins, uns
   
 	values[responseByteOffset] = 0x00;    //Clear First	Response Byte   
 
-	//Loop Over All AI Pins In Command Packet
-	for(int i=0; i<numPins; i++)
+	//Loop Over All AI channels In Command Packet
+	for(int i=0; i<numChans; i++)
 	{
-		analogValue = analogRead(pins[i]);	
+		analogValue = analogRead(channels[i]);	
 		
 		dataBitsRemaining = AiResolution;
 
@@ -173,25 +173,25 @@ int LinxWiringDevice::AnalogSetRef(unsigned char mode, unsigned long voltage)
 
 //--------------------------------------------------------DIGITAL-------------------------------------------------------
 
-int LinxWiringDevice::DigitalWrite(unsigned char numPins, unsigned char* pins, unsigned char* values)
+int LinxWiringDevice::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
-	for(int i=0; i<numPins; i++)
+	for(int i=0; i<numChans; i++)
 	{		
-		pinMode(pins[i], OUTPUT);
-		digitalWrite( pins[i], (values[i/8] >> i%8) & 0x01);
+		pinMode(channels[i], OUTPUT);
+		digitalWrite( channels[i], (values[i/8] >> i%8) & 0x01);
 	}
 	
 	return L_OK;
 }
 
-int LinxWiringDevice::DigitalRead(unsigned char numPins, unsigned char* pins, unsigned char* values)
+int LinxWiringDevice::DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
 	unsigned char bitOffset = 8;
 	unsigned char byteOffset = 0;
 	unsigned char retVal = 0;
  
-	//Loop Over Pins To Read
-	for(int i=0; i<numPins; i++)
+	//Loop Over channels To Read
+	for(int i=0; i<numChans; i++)
 	{
 		//If bitOffset Is 0 We Have To Start A New Byte, Store Old Byte And Increment OFfsets
 		if(bitOffset == 0)
@@ -208,7 +208,7 @@ int LinxWiringDevice::DigitalRead(unsigned char numPins, unsigned char* pins, un
 		}
 		
 		//Read From Next Pin
-		unsigned char pinNumber = pins[i];
+		unsigned char pinNumber = channels[i];
 			
 		pinMode(pinNumber, INPUT);											//Set Pin As Input (Might Make This Configurable)    		
 		retVal = retVal | (digitalRead(pinNumber) << bitOffset);	//Read Pin And Insert Value Into retVal
@@ -286,12 +286,12 @@ int LinxWiringDevice::DigitalReadPulseWidth(unsigned char stimChan, unsigned cha
 
 //--------------------------------------------------------PWM-----------------------------------------------------------
 
-int LinxWiringDevice::PwmSetDutyCycle(unsigned char numPins, unsigned char* pins, unsigned char* values)
+int LinxWiringDevice::PwmSetDutyCycle(unsigned char numChans, unsigned char* channels, unsigned char* values)
 {
-	for(int i=0; i<numPins; i++)
+	for(int i=0; i<numChans; i++)
 	{		
-		pinMode(pins[i], OUTPUT);
-		analogWrite(pins[i], values[i]);
+		pinMode(channels[i], OUTPUT);
+		analogWrite(channels[i], values[i]);
 	}
 	
 	return L_OK;
@@ -514,13 +514,13 @@ int LinxWiringDevice::UartOpen(unsigned char channel, unsigned long baudRate, un
 	{
 			if(baudRate < *(UartSupportedSpeeds+index))
 			{		
-				//Previous Index Was Closest Supported Baud Without Going Over
+				//Previous Index Was Closest Supported Baud Without Going Over, Index Will Be Decremented Accordingly Below.
 				break;
 			}			
 	}
 	
 	//Once Loop Complets Index Is One Higher Than The Correct Baud, But Could Be Zero So Check And Decrement Accordingly
-	//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud...Is This Specific To gcc-pic32?
+	//If The Entire Loop Runs Then index == NumUartSpeeds So Decrement It To Get Max Baud
 	if(index != 0)
 	{
 		index = index -1;
