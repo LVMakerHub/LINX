@@ -236,6 +236,7 @@
 			<Item Name="Install LabVIEW Support.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Install LabVIEW Support.vi"/>
 			<Item Name="Renci.SshNet.dll" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Resources/Renci.SshNet.dll"/>
 			<Item Name="Script Example Project.vi" Type="VI" URL="../Private/Utilties/Script Example Project.vi"/>
+			<Item Name="liblinxdevice.dll" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Resources/liblinxdevice.dll"/>
 		</Item>
 		<Item Name="Device.lvlib" Type="Library" URL="../Private/Device/Device.lvlib"/>
 		<Item Name="Local IO.lvlib" Type="Library" URL="../Private/Local IO/Local IO.lvlib"/>
