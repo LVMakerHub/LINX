@@ -32,6 +32,7 @@ using namespace std;
 ****************************************************************************************/
 //System
 const unsigned char LinxBeagleBoneBlack::m_DeviceName[DEVICE_NAME_LEN] = "BeagleBone Black";
+// TODO REMOVE string LinxBeagleBoneBlack::m_DtoSlotsPath = "";	//This is s
 
 //AI
 const unsigned char LinxBeagleBoneBlack::m_AiChans[NUM_AI_CHANS] = {0, 1, 2, 3, 4, 5, 6};
@@ -95,7 +96,23 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//LINX API Version
 	LinxApiMajor = 2;
 	LinxApiMinor = 2;
-	LinxApiSubminor = 0; 
+	LinxApiSubminor = 0;
+	
+	//Check file system layout
+	if(fileExists("/sys/devices/bone_capemgr.9/slots"))
+	{
+		//7.x Layout
+		DtoSlotsPath = "/sys/devices/bone_capemgr.9/slots";
+	}
+	else if(fileExists("/sys/devices/platform/bone_capemgr/slots"))
+	{
+		//8.x Layout
+		DtoSlotsPath = "/sys/devices/platform/bone_capemgr/slots";
+	}
+	else
+	{
+		//Unknown Layout		
+	}
 	
 	//DIGITAL
 	NumDigitalChans = NUM_DIGITAL_CHANS;			
@@ -193,18 +210,18 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 				DebugPrintln("AI Fail - Failed Open AI Channel Handle");
 			}			
 		}
-	}
-	
-	
-	
+	}	
 	
 	//------------------------------------- DIGITAL -------------------------------------
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
 		FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
-		fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
-		fclose(digitalExportHandle);
+		if(digitalExportHandle != NULL)
+		{
+			fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
+			fclose(digitalExportHandle);
+		}
 		
 		DigitalDirHandles[m_DigitalChans[i]] = NULL;
 		DigitalValueHandles[m_DigitalChans[i]] = NULL;
@@ -228,8 +245,15 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			if(!fileExists(m_PwmDirPaths[i].c_str(), "period_ns"))
 			{
 				FILE* pwmExportHandle = fopen(m_PwmExportPath.c_str(), "w");
-				fprintf(pwmExportHandle, "%u", m_PwmChips[i]);
-				fclose(pwmExportHandle);
+				if(pwmExportHandle != NULL)
+				{
+					fprintf(pwmExportHandle, "%u", m_PwmChips[i]);
+					fclose(pwmExportHandle);
+				}
+				else
+				{
+					DebugPrintln("PWM Fail - Unable to open pwmExportHandle");
+				}
 
 				//Set Default Period Only First Time
 				char periodPath[64];
@@ -238,8 +262,15 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 				fprintf(stdout, "About to open %s\n", periodPath);
 				
 				FILE* pwmPeriodleHandle = fopen(periodPath, "r+w+");
-				fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
-				fclose(pwmPeriodleHandle);							
+				if(pwmPeriodleHandle != NULL)
+				{
+					fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
+					fclose(pwmPeriodleHandle);							
+				}
+				else
+				{
+					DebugPrintln("PWM Fail - Unable to open pwmPeriodHandle");
+				}
 			}
 		}
 	}
@@ -268,24 +299,46 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		sprintf(polarityPath, "%s%s", PwmDirPaths[m_PwmChans[i]].c_str(), "polarity");
 		
 		FILE* pwmPolarityHandle = fopen(polarityPath, "w");
-		fprintf(pwmPolarityHandle, "0");
-		fclose(pwmPolarityHandle);
+		if(pwmPolarityHandle != NULL)
+		{
+			fprintf(pwmPolarityHandle, "0");
+			fclose(pwmPolarityHandle);
+		}
+		else
+		{
+			DebugPrint("PWM Fail - Unable to open pwmPolarityHandle");				
+		}
 			
 		//Set Default Duty Cycle To 0	
 		char dutyCyclePath[64];
 		sprintf(dutyCyclePath, "%s%s", PwmDirPaths[m_PwmChans[i]].c_str(), "duty_ns");			
 		
 		FILE* pwmDutyCycleHandle = fopen(dutyCyclePath, "r+w+");
-		fprintf(pwmDutyCycleHandle, "0");
-		fclose(pwmDutyCycleHandle);
+		if(pwmDutyCycleHandle != NULL)
+		{
+			fprintf(pwmDutyCycleHandle, "0");
+			fclose(pwmDutyCycleHandle);
+		}
+		else
+		{
+			DebugPrint("PWM Fail - Unable to open pwmDutyCycleHandle");				
+		}		
 		
 		//Turn On PWM		
 		char runPath[64];
 		sprintf(runPath, "%s%s", PwmDirPaths[m_PwmChans[i]].c_str(), "run");			
 		FILE* pwmRunHandle = fopen(runPath, "r+w+");
-		fprintf(pwmRunHandle, "1");
-		fclose(pwmRunHandle);		
+		if(pwmRunHandle != NULL)
+		{
+			fprintf(pwmRunHandle, "1");
+			fclose(pwmRunHandle);		
+		}
+		else
+		{
+			DebugPrint("PWM Fail - Unable to open pwmRunHandle");				
+		}	
 	}
+	
 	
 		//------------------------------------- I2C -------------------------------------
 	//Store I2C Master Paths In Map
@@ -373,9 +426,17 @@ LinxBeagleBoneBlack::~LinxBeagleBoneBlack()
 		char runPath[64];
 		sprintf(runPath, "%s%s", m_PwmDirPaths[i].c_str(), "run");
 		FILE* pwmRunHandle = fopen(runPath, "r+w+");
-		fprintf(pwmRunHandle, "0");
-		fclose(pwmRunHandle);		
+		if(pwmRunHandle != NULL)
+		{
+			fprintf(pwmRunHandle, "0");
+			fclose(pwmRunHandle);
+		}
+		else
+		{
+			DebugPrint("PWM Fail - Unable to open pwmRunHandle");
+		}
 	}
+	
 	
 	//Close SPI Handles If Open
 	for(int i=0; i<NUM_SPI_CHANS; i++)

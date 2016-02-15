@@ -54,6 +54,7 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		****************************************************************************************/		
 		//System
 		static const unsigned char m_DeviceName[DEVICE_NAME_LEN];
+		static string m_DtoSlotsPath;
 		
 		//AI
 		static const unsigned char m_AiChans[NUM_AI_CHANS];

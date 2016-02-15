@@ -46,6 +46,9 @@ class LinxBeagleBone : public LinxDevice
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/
+		//System
+		string DtoSlotsPath;																//Path to device tree overlay slots file.  Varies by OS version. 
+		
 		//DIO
 		map<unsigned char, unsigned char> DigitalChannels;				//Maps LINX DIO Channel Numbers To BB GPIO Channels
 		map<unsigned char, unsigned char> DigitalDirs;						//Current DIO Direction Values

@@ -37,7 +37,7 @@ using namespace std;
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
-const char* overlaySlotsPath = "/sys/devices/bone_capemgr.9/slots";
+//const char* overlaySlotsPath = "/sys/devices/bone_capemgr.9/slots";
 
 /****************************************************************************************
 **  Constructors / Destructors 
@@ -175,7 +175,7 @@ bool LinxBeagleBone::fileExists(const char* directory, const char* fileName, uns
 //Load Device Tree Overlay
 bool LinxBeagleBone::loadDto(const char* dtoName)
 {	
-	FILE* slotsHandle = fopen(overlaySlotsPath, "r+w+");
+	FILE* slotsHandle = fopen(DtoSlotsPath.c_str(), "r+w+");
 	if(slotsHandle != NULL)
 	{
 		fprintf(slotsHandle, "%s", dtoName);
