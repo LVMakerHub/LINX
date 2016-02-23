@@ -54,7 +54,6 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		****************************************************************************************/		
 		//System
 		static const unsigned char m_DeviceName[DEVICE_NAME_LEN];
-		static string m_DtoSlotsPath;
 		
 		//AI
 		static const unsigned char m_AiChans[NUM_AI_CHANS];
@@ -71,11 +70,11 @@ class LinxBeagleBoneBlack : public LinxBeagleBone
 		static const unsigned char m_gpioChan[NUM_DIGITAL_CHANS];
 		
 		//PWM
-		static const unsigned char m_PwmChans[NUM_PWM_CHANS];
-		static const string m_PwmDirPaths[NUM_PWM_CHANS];
-		static const string m_PwmDtoNames[NUM_PWM_CHANS];
-		static const string m_PwmExportPath;
-		static const unsigned char m_PwmChips[NUM_PWM_CHANS];
+		static unsigned char m_PwmChans[NUM_PWM_CHANS];
+		string m_PwmDirPaths[NUM_PWM_CHANS];
+		static string m_PwmDtoNames[NUM_PWM_CHANS];
+		static string m_PwmMuxPaths[NUM_PWM_CHANS];
+		string m_EnableFileName;
 		unsigned char m_PwmPeriods[NUM_PWM_CHANS];
 		
 		//SPI

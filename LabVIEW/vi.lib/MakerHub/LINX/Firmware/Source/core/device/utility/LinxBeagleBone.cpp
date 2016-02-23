@@ -37,7 +37,8 @@ using namespace std;
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
-//const char* overlaySlotsPath = "/sys/devices/bone_capemgr.9/slots";
+//string DtoSlotsPath = "/sys/devices/bone_capemgr.9/slots";
+//char* overlaySlotsPath = "/sys/devices/bone_capemgr.9/slots";
 
 /****************************************************************************************
 **  Constructors / Destructors 
@@ -48,6 +49,25 @@ LinxBeagleBone::LinxBeagleBone()
 	LinxApiMajor = 2;
 	LinxApiMinor = 0;
 	LinxApiSubminor = 0;
+	
+	//Check file system layout
+	if(fileExists("/sys/devices/bone_capemgr.9/slots"))
+	{
+		//7.x Layout
+		FilePathLayout = 7;
+		DtoSlotsPath = "/sys/devices/bone_capemgr.9/slots";
+	}
+	else if(fileExists("/sys/devices/platform/bone_capemgr/slots"))
+	{
+		//8.x Layout
+		FilePathLayout = 8;
+		DtoSlotsPath = "/sys/devices/platform/bone_capemgr/slots";
+	}
+	else
+	{
+		//Unknown Layout		
+		FilePathLayout = 0;
+	}
 	
 	// TODO Load User Config Data From Non Volatile Storage
 	//userId = NonVolatileRead(NVS_USERID) << 8 | NonVolatileRead(NVS_USERID + 1);
@@ -113,7 +133,7 @@ int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels
 		if(PwmPeriodHandles[channels[i]] == NULL)
 		{
 			char periodPath[64];
-			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), "period_ns");
+			sprintf(periodPath, "%s%s", PwmDirPaths[channels[i]].c_str(), PwmPeriodFileName.c_str());
 			DebugPrint("Opening ");
 			DebugPrintln(periodPath);
 			PwmPeriodHandles[channels[i]] = fopen(periodPath, "r+w+");
@@ -128,7 +148,7 @@ int LinxBeagleBone::pwmSmartOpen(unsigned char numChans, unsigned char* channels
 		if(PwmDutyCycleHandles[channels[i]] == NULL)
 		{
 			char dutyCyclePath[64];
-			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), "duty_ns");
+			sprintf(dutyCyclePath, "%s%s", PwmDirPaths[channels[i]].c_str(), PwmDutyCycleFileName.c_str());
 			DebugPrint("Opening ");
 			DebugPrintln(dutyCyclePath);
 			PwmDutyCycleHandles[channels[i]] = fopen(dutyCyclePath, "r+w+");
@@ -181,6 +201,10 @@ bool LinxBeagleBone::loadDto(const char* dtoName)
 		fprintf(slotsHandle, "%s", dtoName);
 		fclose(slotsHandle);
 		return true;
+	}
+	else
+	{
+		DebugPrintln("Unable To Open slotsHandle");
 	}
 	
 	return false;	
@@ -503,7 +527,7 @@ int LinxBeagleBone::PwmSetDutyCycle(unsigned char numChans, unsigned char* chann
 		}
 		else
 		{
-			dutyCycle= PwmPeriods[channels[i]]*(values[i] / 255.0);
+			dutyCycle = PwmPeriods[channels[i]]*(values[i] / 255.0);
 		}
 		
 		//Update Output
