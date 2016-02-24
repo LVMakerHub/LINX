@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <math.h>
+#include <errno.h>
 #include <iostream>
 #include <unistd.h>
 #include <fstream>
@@ -686,10 +687,13 @@ int LinxBeagleBone::I2cOpenMaster(unsigned char channel)
 	{		
 		DebugPrint("I2C - Loading DTO ");
 		DebugPrintln(I2cDtoNames[channel].c_str());
-		if(!loadDto(I2cDtoNames[channel].c_str()))		
+		if(FilePathLayout == 7)
 		{
-			DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
-			return  LI2C_OPEN_FAIL;
+			if(!loadDto(I2cDtoNames[channel].c_str()))		
+			{
+				DebugPrintln("I2C Fail - Failed To Load BB-I2C DTO");
+				return  LI2C_OPEN_FAIL;
+			}
 		}
 	}
 	
@@ -729,10 +733,12 @@ int LinxBeagleBone::I2cWrite(unsigned char channel, unsigned char slaveAddress, 
 	}
 		
 	//Write Data
-	if(write(I2cHandles[channel], sendBuffer, numBytes) != numBytes)
+	int retVal = write(I2cHandles[channel], sendBuffer, numBytes);
+	if(retVal != numBytes)
 	{
 		DebugPrintln("I2C Fail - Failed To Write All Data");
-		return LI2C_WRITE_FAIL;
+		//return LI2C_WRITE_FAIL;
+		return errno;
 	}
 	
 	return L_OK;

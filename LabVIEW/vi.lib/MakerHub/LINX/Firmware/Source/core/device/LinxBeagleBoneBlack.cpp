@@ -70,8 +70,8 @@ int LinxBeagleBoneBlack::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 
 //I2C
 unsigned char LinxBeagleBoneBlack::m_I2cChans[NUM_I2C_CHANS] = {2};
 unsigned char LinxBeagleBoneBlack::m_I2cRefCount[NUM_I2C_CHANS];
-string m_I2cPaths[NUM_I2C_CHANS] = {"/dev/i2c-1" };		//Out of order numbering is correct for BBB!!
-string m_I2cDtoNames[NUM_I2C_CHANS] = {"BB-I2C2" };
+string m_I2cPaths[NUM_I2C_CHANS] = {"/dev/i2c-1" };		//Out of order numbering is correct for BBB 7.x!!
+string m_I2cDtoNames[NUM_I2C_CHANS] = {"BB-I2C2"};
 
 //UART
 string m_UartDtoNames[NUM_UART_CHANS] = {"BB-UART0", "BB-UART1", "BB-UART4"};
@@ -220,6 +220,9 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		m_DutyCycleFileName = "duty_cycle";
 		m_PeriodFileName = "period";
 		m_EnableFileName = "enable";
+		
+		//Update I2C Path
+		m_I2cPaths[0] = "/dev/i2c-2";
 	}
 	
 	PwmDutyCycleFileName = m_DutyCycleFileName;
