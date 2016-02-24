@@ -324,6 +324,40 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			{
 				DebugPrintln("PWM Fail - Failed To Load am33xx_pwm DTO");
 			}
+			
+			//Export PWM Channels Before Loading Channel Specific DTOs Below
+			for(int i=0; i< NUM_PWM_CHANS; i++)
+			{
+				//Export PWM Channels
+				if(!fileExists(m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str()))
+				{
+					FILE* pwmExportHandle = fopen(m_PwmExportPaths[i].c_str(), "w");
+					if(pwmExportHandle != NULL)
+					{
+						fprintf(pwmExportHandle, "%u", m_PwmExportVal[i]);
+						fclose(pwmExportHandle);
+					}
+					else
+					{
+						DebugPrintln("PWM Fail - Unable to open pwmExportHandle");
+					}
+
+					//Set Default Period Only First Time
+					char periodPath[64];
+					sprintf(periodPath, "%s%s", m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str());			
+					
+					FILE* pwmPeriodleHandle = fopen(periodPath, "r+w+");
+					if(pwmPeriodleHandle != NULL)
+					{
+						fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
+						fclose(pwmPeriodleHandle);							
+					}
+					else
+					{
+						DebugPrintln("PWM Fail - Unable to open pwmPeriodHandle");
+					}
+				}
+			}
 		}
 	}
 	else if(FilePathLayout == 8)
@@ -364,35 +398,37 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 				DebugPrintln(m_PwmDirPaths[i].c_str());				
 			}		
 		}
-		
-		
-		//Export PWM Channels
-		if(!fileExists(m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str()))
+		//Export PWM Chans.  If 7.x layout this is done above.  This should probably be moved.
+		if(FilePathLayout == 8)
 		{
-			FILE* pwmExportHandle = fopen(m_PwmExportPaths[i].c_str(), "w");
-			if(pwmExportHandle != NULL)
+			//Export PWM Channels
+			if(!fileExists(m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str()))
 			{
-				fprintf(pwmExportHandle, "%u", m_PwmExportVal[i]);
-				fclose(pwmExportHandle);
-			}
-			else
-			{
-				DebugPrintln("PWM Fail - Unable to open pwmExportHandle");
-			}
+				FILE* pwmExportHandle = fopen(m_PwmExportPaths[i].c_str(), "w");
+				if(pwmExportHandle != NULL)
+				{
+					fprintf(pwmExportHandle, "%u", m_PwmExportVal[i]);
+					fclose(pwmExportHandle);
+				}
+				else
+				{
+					DebugPrintln("PWM Fail - Unable to open pwmExportHandle");
+				}
 
-			//Set Default Period Only First Time
-			char periodPath[64];
-			sprintf(periodPath, "%s%s", m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str());
-			
-			FILE* pwmPeriodleHandle = fopen(periodPath, "r+w+");
-			if(pwmPeriodleHandle != NULL)
-			{
-				fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
-				fclose(pwmPeriodleHandle);							
-			}
-			else
-			{
-				DebugPrintln("PWM Fail - Unable to open pwmPeriodHandle");
+				//Set Default Period Only First Time
+				char periodPath[64];
+				sprintf(periodPath, "%s%s", m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str());
+				
+				FILE* pwmPeriodleHandle = fopen(periodPath, "r+w+");
+				if(pwmPeriodleHandle != NULL)
+				{
+					fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
+					fclose(pwmPeriodleHandle);							
+				}
+				else
+				{
+					DebugPrintln("PWM Fail - Unable to open pwmPeriodHandle");
+				}
 			}
 		}
 		
