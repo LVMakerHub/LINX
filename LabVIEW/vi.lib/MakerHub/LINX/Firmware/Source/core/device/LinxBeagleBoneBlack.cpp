@@ -326,38 +326,12 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			}
 			
 			//Export PWM Channels Before Loading Channel Specific DTOs Below
+			/*
 			for(int i=0; i< NUM_PWM_CHANS; i++)
 			{
-				//Export PWM Channels
-				if(!fileExists(m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str()))
-				{
-					FILE* pwmExportHandle = fopen(m_PwmExportPaths[i].c_str(), "w");
-					if(pwmExportHandle != NULL)
-					{
-						fprintf(pwmExportHandle, "%u", m_PwmExportVal[i]);
-						fclose(pwmExportHandle);
-					}
-					else
-					{
-						DebugPrintln("PWM Fail - Unable to open pwmExportHandle");
-					}
-
-					//Set Default Period Only First Time
-					char periodPath[64];
-					sprintf(periodPath, "%s%s", m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str());			
-					
-					FILE* pwmPeriodleHandle = fopen(periodPath, "r+w+");
-					if(pwmPeriodleHandle != NULL)
-					{
-						fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
-						fclose(pwmPeriodleHandle);							
-					}
-					else
-					{
-						DebugPrintln("PWM Fail - Unable to open pwmPeriodHandle");
-					}
-				}
+				
 			}
+			*/
 		}
 	}
 	else if(FilePathLayout == 8)
@@ -374,16 +348,46 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		}
 	}
 	
-	//For Each Pin Init
+	//Per Pin Initialization
 	for(int i=0; i<NUM_PWM_CHANS; i++)
 	{
 		//Store Default Values
 		PwmDirPaths[m_PwmChans[i]] = m_PwmDirPaths[i];
 		PwmPeriods[m_PwmChans[i]] = m_PwmDefaultPeriod;
 		
+		//Export PWM Channels - This Must Happend Before 7.x Loads Channel Specific DTOs
+		if(!fileExists(m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str()))
+		{
+			FILE* pwmExportHandle = fopen(m_PwmExportPaths[i].c_str(), "w");
+			if(pwmExportHandle != NULL)
+			{
+				fprintf(pwmExportHandle, "%u", m_PwmExportVal[i]);
+				fclose(pwmExportHandle);
+			}
+			else
+			{
+				DebugPrintln("PWM Fail - Unable to open pwmExportHandle");
+			}
+
+			//Set Default Period Only First Time
+			char periodPath[64];
+			sprintf(periodPath, "%s%s", m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str());
+			
+			FILE* pwmPeriodleHandle = fopen(periodPath, "r+w+");
+			if(pwmPeriodleHandle != NULL)
+			{
+				fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
+				fclose(pwmPeriodleHandle);							
+			}
+			else
+			{
+				DebugPrintln("PWM Fail - Unable to open pwmPeriodHandle");
+			}
+		}
+		
 		//7.x Per Pin Init
 		if(FilePathLayout == 7)
-		{
+		{	
 			//Load Chip Specific PWM DTO If Not Already Loaded
 			if(!loadDto(m_PwmDtoNames[i].c_str()))
 			{
@@ -401,35 +405,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		//Export PWM Chans.  If 7.x layout this is done above.  This should probably be moved.
 		if(FilePathLayout == 8)
 		{
-			//Export PWM Channels
-			if(!fileExists(m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str()))
-			{
-				FILE* pwmExportHandle = fopen(m_PwmExportPaths[i].c_str(), "w");
-				if(pwmExportHandle != NULL)
-				{
-					fprintf(pwmExportHandle, "%u", m_PwmExportVal[i]);
-					fclose(pwmExportHandle);
-				}
-				else
-				{
-					DebugPrintln("PWM Fail - Unable to open pwmExportHandle");
-				}
-
-				//Set Default Period Only First Time
-				char periodPath[64];
-				sprintf(periodPath, "%s%s", m_PwmDirPaths[i].c_str(), m_PeriodFileName.c_str());
-				
-				FILE* pwmPeriodleHandle = fopen(periodPath, "r+w+");
-				if(pwmPeriodleHandle != NULL)
-				{
-					fprintf(pwmPeriodleHandle, "%lu", m_PwmDefaultPeriod);
-					fclose(pwmPeriodleHandle);							
-				}
-				else
-				{
-					DebugPrintln("PWM Fail - Unable to open pwmPeriodHandle");
-				}
-			}
+			//Nothing 8.x Specific For Now
 		}
 		
 		//Set Polarity To 0 So PWM Value Corresponds To 'Percent On' Rather Than 'Percent Off'
