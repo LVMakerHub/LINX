@@ -136,6 +136,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		
 	//8.x Only
 	string m_PwmMuxPaths[NUM_PWM_CHANS] = {"/sys/devices/platform/ocp/ocp:P8_13_pinmux/state", "/sys/devices/platform/ocp/ocp:P8_19_pinmux/state", "/sys/devices/platform/ocp/ocp:P9_14_pinmux/state", "/sys/devices/platform/ocp/ocp:P9_16_pinmux/state"};
+	string m_SpiMuxPaths[3] = {"/sys/devices/platform/ocp/ocp:P9_18_pinmux/state", "/sys/devices/platform/ocp/ocp:P9_21_pinmux/state", "/sys/devices/platform/ocp/ocp:P9_22_pinmux/state"};
 	
 	//Shared, Varying Components - Default To 7.x
 	string m_PwmExportPaths[NUM_PWM_CHANS] = {"/sys/class/pwm/export", "/sys/class/pwm/export", "/sys/class/pwm/export", "/sys/class/pwm/export"};
@@ -474,6 +475,19 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	
 	
 	//------------------------------------- SPI ------------------------------------
+	if(FilePathLayout == 8)
+	{
+		//Set Mux to SPI
+		for(int i=0; i<3; i++)
+		{
+			FILE* spiMuxHandle = fopen(m_SpiMuxPaths[i].c_str(), "r+w+");
+			if(spiMuxHandle != NULL)
+			{
+				fprintf(spiMuxHandle, "spi");
+				fclose(spiMuxHandle);							
+			}
+		}
+	}
 	
 	//Load SPI Paths and DTO Names, Configure SPI Master Default Values	
 	for(int i=0; i<NUM_SPI_CHANS; i++)
@@ -484,6 +498,8 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		SpiSetSpeeds[SpiChans[i]] = 4000000;
 		SpiPaths[SpiChans[i]] = m_SpiPaths[i];
 	}
+	
+	
 	
 	//If Debugging Is Enabled Call EnableDebug()
 	#if DEBUG_ENABLED >= 0
