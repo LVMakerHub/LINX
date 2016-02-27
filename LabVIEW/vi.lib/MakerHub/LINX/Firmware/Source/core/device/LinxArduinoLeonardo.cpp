@@ -34,7 +34,7 @@ const int LinxArduinoLeonardo::m_AiRefCodes[NUM_AI_INT_REFS] = {INTERNAL};
 //None
 
 //DIGITAL
-const unsigned char LinxArduinoLeonardo::m_DigitalChans[NUM_DIGITAL_CHANS] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+const unsigned char LinxArduinoLeonardo::m_DigitalChans[NUM_DIGITAL_CHANS] ={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 23};
 
 //PWM
 const unsigned char LinxArduinoLeonardo::m_PwmChans[NUM_PWM_CHANS] = {3, 5, 6, 9, 10, 11, 13};
