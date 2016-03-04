@@ -316,7 +316,7 @@ int LinxBeagleBone::DigitalSetDirection(unsigned char numChans, unsigned char* c
 	//Set Directions
 	for(int i=1; i<numChans; i++)
 	{		
-		if( ((values[i/8] >> i%8) & 0x01) == OUTPUT && DigitalDirs[channels[i]] != OUTPUT)
+		if( (values[i] & 0x01) == OUTPUT && DigitalDirs[channels[i]] != OUTPUT)
 		{
 			//Set As Output
 			fprintf(DigitalDirHandles[channels[i]], "out");		
