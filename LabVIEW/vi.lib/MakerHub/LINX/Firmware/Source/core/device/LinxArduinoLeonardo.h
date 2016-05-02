@@ -22,7 +22,7 @@
 #define AI_REFV 5000000
 #define NUM_AI_INT_REFS 1
 
-#define NUM_DIGITAL_CHANS 14
+#define NUM_DIGITAL_CHANS 20
 
 #define NUM_PWM_CHANS 7
 
