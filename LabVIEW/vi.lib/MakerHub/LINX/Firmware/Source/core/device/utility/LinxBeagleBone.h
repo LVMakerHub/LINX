@@ -46,6 +46,10 @@ class LinxBeagleBone : public LinxDevice
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/
+		//System
+		string DtoSlotsPath;																//Path to device tree overlay slots file.  Varies by OS version. 
+		int FilePathLayout;																	//Used to indicate the file path layout 7 for 7.x and 8 for 8.x
+		
 		//DIO
 		map<unsigned char, unsigned char> DigitalChannels;				//Maps LINX DIO Channel Numbers To BB GPIO Channels
 		map<unsigned char, unsigned char> DigitalDirs;						//Current DIO Direction Values
@@ -53,15 +57,15 @@ class LinxBeagleBone : public LinxDevice
 		map<unsigned char, FILE*> DigitalValueHandles;						//File Handles For Digital Pin Values
 		
 		//PWM
-		map<unsigned char, string> PwmDirPaths;								//PWM Device Tree Overlay Names	
-		map<unsigned char, string> PwmDtoNames;							//PWM Device Tree Overlay Names	
+		map<unsigned char, string> PwmDirPaths;								//PWM Device Tree Overlay Names			
 		map<unsigned char, FILE*> PwmPeriodHandles;						//File Handles For PWM Period Values
 		map<unsigned char, FILE*> PwmDutyCycleHandles;				//File Handles For PWM Duty Cycle Values		
 		map<unsigned char, unsigned long> PwmPeriods;					//Current PWM  Values
 		unsigned long PwmDefaultPeriod;											//Default Period For PWM Channels (nS)
-		//const char (*PwmDirPaths)[PWM_PATH_LEN];						//Path To PWM Directories
-		//const char (*PwmDtoNames)[PWM_DTO_NAME_LEN];				//PWM Device Tree Overlay Names
-		
+		string PwmDutyCycleFileName;
+		string PwmPeriodFileName;
+		string PwmEnableFileName;
+				
 		//AI
 		map<unsigned char, FILE*> AiValueHandles;							//AI Value Handles
 		map<unsigned char, string> AiValuePaths;								//AI Value Paths
@@ -69,9 +73,9 @@ class LinxBeagleBone : public LinxDevice
 		const unsigned long* AiRefIntVals;											//Supported AI Reference Voltages (uV)
 		const int* AiRefCodes;															//AI Ref Values (AI Ref Macros In Wiring Case)		
 		unsigned long AiRefExtMin;														//Min External AI Ref Value (uV)
-		unsigned long AiRefExtMax;					   								 //Max External AI Ref Value (uV)		
-		//int* AiHandles;																		//AI File Handles
-		//const char (*AiPaths)[AI_PATH_LEN];										//AI Channel File Paths
+		unsigned long AiRefExtMax;					   								//Max External AI Ref Value (uV)		
+		//int* AiHandles;																	//AI File Handles
+		//const char (*AiPaths)[AI_PATH_LEN];									//AI Channel File Paths
 		
 		//UART		
 		map<unsigned char, string> UartPaths;									//UART Channel File Paths
