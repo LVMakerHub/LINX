@@ -306,13 +306,16 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
-		FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
-		if(digitalExportHandle != NULL)
-		{
-			fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
-			fclose(digitalExportHandle);
+		char gpioPath[64];
+		sprintf(gpioPath, "/sys/class/gpio/gpio%d", m_gpioChan[i]);
+		if (!fileExists(gpioPath)) {
+			FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
+			if(digitalExportHandle != NULL)
+			{
+				fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
+				fclose(digitalExportHandle);
+			}
 		}
-		
 		DigitalDirHandles[m_DigitalChans[i]] = NULL;
 		DigitalValueHandles[m_DigitalChans[i]] = NULL;
 		DigitalChannels[m_DigitalChans[i]] = m_gpioChan[i];
