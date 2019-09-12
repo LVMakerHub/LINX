@@ -391,15 +391,17 @@ int LinxBeagleBone::DigitalWriteNoPacking(unsigned char numChans, unsigned char*
 	for(int i=0; i<numChans; i++)
 	{
 		//Set Value
-		if(values[i] == LOW)
-		{
-			fprintf(DigitalValueHandles[channels[i]], "0");
-			fflush(DigitalValueHandles[channels[i]]);
-		}
-		else
-		{
-			fprintf(DigitalValueHandles[channels[i]], "1");
-			fflush(DigitalValueHandles[channels[i]]);
+		if (DigitalValueHandles[channels[i]]) {
+			if(values[i] == LOW)
+			{
+				fprintf(DigitalValueHandles[channels[i]], "0");
+				fflush(DigitalValueHandles[channels[i]]);
+			}
+			else
+			{
+				fprintf(DigitalValueHandles[channels[i]], "1");
+				fflush(DigitalValueHandles[channels[i]]);
+			}
 		}
 	}
 		
