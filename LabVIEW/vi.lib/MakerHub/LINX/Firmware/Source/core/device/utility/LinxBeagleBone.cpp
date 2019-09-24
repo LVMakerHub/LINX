@@ -233,7 +233,7 @@ int LinxBeagleBone::AnalogRead(unsigned char numChans, unsigned char* channels, 
 	{
 		//Acquire AI Sample
 		int aiVal = 0;
-		AiValueHandles[channels[i]] = freopen(AiValuePaths[i].c_str(), "r+", AiValueHandles[channels[i]]);
+		AiValueHandles[channels[i]] = freopen(AiValuePaths[channels[i]].c_str(), "r+", AiValueHandles[channels[i]]);
 		fscanf(AiValueHandles[channels[i]], "%u", &aiVal);
 		
 		/*
@@ -275,7 +275,7 @@ int LinxBeagleBone::AnalogReadNoPacking(unsigned char numChans, unsigned char* c
 	//Loop Over All AI channels In Command Packet
 	for(int i=0; i<numChans; i++)
 	{
-		AiValueHandles[channels[i]] = freopen(AiValuePaths[i].c_str(), "r+", AiValueHandles[channels[i]]);
+		AiValueHandles[channels[i]] = freopen(AiValuePaths[channels[i]].c_str(), "r+", AiValueHandles[channels[i]]);
 		fscanf(AiValueHandles[channels[i]], "%lu", values+i);
 	}
 	
