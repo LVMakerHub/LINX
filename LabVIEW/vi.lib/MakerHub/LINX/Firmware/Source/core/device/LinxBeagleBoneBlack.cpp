@@ -154,8 +154,8 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	{
 		string pwmBasePath = "/sys/class/pwm/";
 		
-		string PwmP8ChipDir = "";	
-		string PwmP9ChipDir = "";
+		string PwmP8ChipDir = "", PwmP9ChipDir = "";
+		bool sawPwmChanLinks = false;
 		
 		DIR* pwmDirHandle = opendir(pwmBasePath.c_str());
 
@@ -170,8 +170,12 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 				if((strcmp(dp->d_name, ".") != 0) && (strcmp(dp->d_name, "..") != 0))
 				{
 					//PWM Chip Dir, Check Where Symlink Points
-					char pwmChipSymlink[128] ;
-					char pwmChipSymlinkTarget[128] ;
+					char pwmChipSymlink[256];
+					char pwmChipSymlinkTarget[256];
+					bool isPwmChanLink = (strchr(dp->d_name, ':') != NULL);
+					// Debian 9/stretch has direct links to PWM chans (e.g. "pwm7:0"); the chip dir does not have pwm0/pwm1 subdirs
+					if (isPwmChanLink)
+						sawPwmChanLinks = true;
 					
 					sprintf(pwmChipSymlink, "%s%s", pwmBasePath.c_str(), dp->d_name);
 					readlink(pwmChipSymlink, pwmChipSymlinkTarget, 128);
@@ -187,11 +191,29 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 						//printf("%u\n", val);
 						if(val == 48304200)
 						{
-							PwmP8ChipDir = pwmChipSymlink;
+							if (isPwmChanLink) {
+								string pwmLink = pwmChipSymlink;
+								pwmLink += "/";
+					 			if (strchr(dp->d_name, '1') != NULL)
+									m_PwmDirPaths[0] = pwmLink;
+								else
+									m_PwmDirPaths[1] = pwmLink;
+							} else {
+								PwmP8ChipDir = pwmChipSymlink;
+							}
 						}
 						else if(val == 48302200)
 						{
-							PwmP9ChipDir = pwmChipSymlink;
+							if (isPwmChanLink) {
+								string pwmLink = pwmChipSymlink;
+								pwmLink += "/";
+					 			if (strchr(dp->d_name, '0') != NULL)
+									m_PwmDirPaths[2] = pwmLink;
+								else
+									m_PwmDirPaths[3] = pwmLink;
+							} else {
+								PwmP9ChipDir = pwmChipSymlink;
+							}
 						}
 						token = strtok(NULL, "\\/");
 					}
@@ -210,10 +232,12 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		m_PwmExportVal[2] = 0;
 		m_PwmExportVal[3] = 1;
 		
-		m_PwmDirPaths[0] = PwmP8ChipDir + "/pwm1/";
-		m_PwmDirPaths[1] = PwmP8ChipDir + "/pwm0/";
-		m_PwmDirPaths[2] = PwmP9ChipDir + "/pwm0/";
-		m_PwmDirPaths[3] = PwmP9ChipDir + "/pwm1/";
+		if (!sawPwmChanLinks) {
+			m_PwmDirPaths[0] = PwmP8ChipDir + "/pwm1/";
+			m_PwmDirPaths[1] = PwmP8ChipDir + "/pwm0/";
+			m_PwmDirPaths[2] = PwmP9ChipDir + "/pwm0/";
+			m_PwmDirPaths[3] = PwmP9ChipDir + "/pwm1/";
+		}
 		
 		m_PwmExportPaths[0] = PwmP8ChipDir + "/export";
 		m_PwmExportPaths[1] = PwmP8ChipDir + "/export";
