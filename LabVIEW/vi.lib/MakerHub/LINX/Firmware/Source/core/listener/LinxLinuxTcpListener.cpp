@@ -256,6 +256,7 @@ int LinxLinuxTcpListener::peek(unsigned char * recBuffer, int bufferSize)
 		//Client Disconnected
 		LinxDev->DebugPrintln("Client Disconnected");			
 		State = LISTENING;		
+		return peekReceived;		
 	}
 	else
 	{
@@ -290,6 +291,7 @@ int LinxLinuxTcpListener::CheckForCommands()
 			exit(-1);
 			break;				
 	}
+	return L_OK;
 }
 
 // Pre Instantiate Object

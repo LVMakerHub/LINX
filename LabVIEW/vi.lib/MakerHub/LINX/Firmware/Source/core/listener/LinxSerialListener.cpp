@@ -48,6 +48,7 @@ int LinxSerialListener::Start(LinxDevice* linxDev, unsigned char uartChan)
 	LinxDev->UartOpen(ListenerChan, 9600, &acutalBaud);
 	
 	State = CONNECTED;
+	return 0;
 }
 
 int LinxSerialListener::Connected()
@@ -175,6 +176,7 @@ int LinxSerialListener::CheckForCommands()
 			Exit();
 			break;				
 	}
+	return L_OK;
 }
 
 // Pre Instantiate Object
