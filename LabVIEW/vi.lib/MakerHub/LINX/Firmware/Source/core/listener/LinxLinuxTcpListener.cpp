@@ -43,6 +43,10 @@ LinxLinuxTcpListener::LinxLinuxTcpListener()
 int LinxLinuxTcpListener::Start(LinxDevice* linxDev, unsigned short port)
 {
 	LinxDev = linxDev;
+
+	recBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+	sendBuffer = (unsigned char*) malloc(LinxDev->ListenerBufferSize);
+
 	LinxDev->DebugPrintln("Starting Linux TCP Listener...");
 	
 	//Create the TCP socket
@@ -132,7 +136,7 @@ int LinxLinuxTcpListener::Connected()
 	recBuffer[0] = 0;
 	
 	//Watch For New Packet
-	received = peek(recBuffer, LISTENER_BUFFER_SIZE);
+	received = peek(recBuffer, LinxDev->ListenerBufferSize);
 	
 	//Wait For At Least First Two Bytes Of Packet
 	if(received >= 2)
@@ -145,7 +149,7 @@ int LinxLinuxTcpListener::Connected()
 			if(packetSize < received )
 			{
 				//Partial Packet, Make Sure Packet Size Will Fit In Buffer, If It Will Loop To Wait For Remainder Of Packet
-				if(packetSize > LISTENER_BUFFER_SIZE)
+				if(packetSize > LinxDev->ListenerBufferSize)
 				{
 					LinxDev->DebugPrintln("Packet Size Too Large For Buffer");
 					State = EXIT;
@@ -195,7 +199,7 @@ int LinxLinuxTcpListener::Connected()
 					{
 						//Checksum Failed
 						LinxDev->DebugPrintln("Checksum Failed");
-						recv(ClientSocket, recBuffer, LISTENER_BUFFER_SIZE, MSG_DONTWAIT);	
+						recv(ClientSocket, recBuffer, LinxDev->ListenerBufferSize, MSG_DONTWAIT);
 					}
 				}
 			}
@@ -204,7 +208,7 @@ int LinxLinuxTcpListener::Connected()
 		{
 			//Bad SoF, Flush Socket
 			LinxDev->DebugPrintln("Bad SoF");
-			recv(ClientSocket, recBuffer, LISTENER_BUFFER_SIZE, MSG_DONTWAIT);
+			recv(ClientSocket, recBuffer, LinxDev->ListenerBufferSize, MSG_DONTWAIT);
 			printf("Got %s\n", recBuffer);
 		}
 	}
