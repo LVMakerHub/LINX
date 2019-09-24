@@ -17,9 +17,11 @@ HW_BBB = -DLINX_DEVICE_FAMILY=6 -DLINX_DEVICE_ID=1
 
 libs: raspberryPi2BLib beagleBoneBlackLib
 
+allio: beagleBoneBlackAll raspberryPi2BAll
+
 beagleBoneBlackAll: beagleBoneBlackSerial beagleBoneBlackTcp beagleBoneBlackConfigurable
 
-raspberryPi2BAll: raspberryPi2BSerial raspberryPi2BTcp raspberryPi2BConfigurable raspberryPi2BLib
+raspberryPi2BAll: raspberryPi2BSerial raspberryPi2BTcp raspberryPi2BConfigurable
 	
 #----------------------- Shared Objects -----------------------
 raspberryPi2BLib:
