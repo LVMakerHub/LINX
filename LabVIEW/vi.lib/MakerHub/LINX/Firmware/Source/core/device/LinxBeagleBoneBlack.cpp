@@ -150,7 +150,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 
 
 	//Update to 8.x layout if necessary
-	if(FilePathLayout == 8)
+	if(FilePathLayout >= 8)
 	{
 		string pwmBasePath = "/sys/class/pwm/";
 		
@@ -367,7 +367,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			*/
 		}
 	}
-	else if(FilePathLayout == 8)
+	else if(FilePathLayout >= 8)
 	{
 		//Set Mux to PWM
 		for(int i=0; i<NUM_PWM_CHANS; i++)
@@ -436,7 +436,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			}		
 		}
 		//Export PWM Chans.  If 7.x layout this is done above.  This should probably be moved.
-		if(FilePathLayout == 8)
+		if(FilePathLayout >= 8)
 		{
 			//Nothing 8.x Specific For Now
 		}
@@ -495,7 +495,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	}
 	
 	//------------------------------------- UART ------------------------------------
-	if(FilePathLayout == 8)
+	if(FilePathLayout >= 8)
 	{
 		//Set Mux to UART
 		for(int i=0; i<4; i++)
@@ -518,7 +518,7 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 	
 	
 	//------------------------------------- SPI ------------------------------------
-	if(FilePathLayout == 8)
+	if(FilePathLayout >= 8)
 	{
 		//Set Mux to SPI
 		for(int i=0; i<3; i++)
