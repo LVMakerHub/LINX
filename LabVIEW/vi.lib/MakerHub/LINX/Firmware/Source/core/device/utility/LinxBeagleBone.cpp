@@ -35,11 +35,6 @@
 
 using namespace std;
 
-/****************************************************************************************
-**  Variables
-****************************************************************************************/		
-//string DtoSlotsPath = "/sys/devices/bone_capemgr.9/slots";
-//char* overlaySlotsPath = "/sys/devices/bone_capemgr.9/slots";
 
 /****************************************************************************************
 **  Constructors / Destructors 
@@ -66,8 +61,9 @@ LinxBeagleBone::LinxBeagleBone()
 	}
 	else
 	{
-		//Unknown Layout		
-		FilePathLayout = 0;
+		//Assume 9.x Layout
+		DtoSlotsPath = "";
+		FilePathLayout = 9;
 	}
 	
 	// TODO Load User Config Data From Non Volatile Storage
@@ -196,6 +192,8 @@ bool LinxBeagleBone::fileExists(const char* directory, const char* fileName, uns
 //Load Device Tree Overlay
 bool LinxBeagleBone::loadDto(const char* dtoName)
 {	
+	if (DtoSlotsPath == "")
+		return true;
 	FILE* slotsHandle = fopen(DtoSlotsPath.c_str(), "r+w+");
 	if(slotsHandle != NULL)
 	{
@@ -353,15 +351,17 @@ int LinxBeagleBone::DigitalWrite(unsigned char numChans, unsigned char* channels
 	for(int i=0; i<numChans; i++)
 	{
 		//Set Value
-		if( ((values[i/8] >> i%8) & 0x01) == LOW)
-		{
-			fprintf(DigitalValueHandles[channels[i]], "0");
-			fflush(DigitalValueHandles[channels[i]]);
-		}
-		else
-		{
-			fprintf(DigitalValueHandles[channels[i]], "1");
-			fflush(DigitalValueHandles[channels[i]]);
+		if (DigitalValueHandles[channels[i]]) {
+			if( ((values[i/8] >> i%8) & 0x01) == LOW)
+			{
+				fprintf(DigitalValueHandles[channels[i]], "0");
+				fflush(DigitalValueHandles[channels[i]]);
+			}
+			else
+			{
+				fprintf(DigitalValueHandles[channels[i]], "1");
+				fflush(DigitalValueHandles[channels[i]]);
+			}
 		}
 	}
 		
@@ -553,7 +553,7 @@ int PwmSetFrequency(unsigned char numChans, unsigned char* channels, unsigned lo
 //--------------------------------------------------------SPI-------------------------------------------------------
 int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
 {
-	//Load SPI DTO If Necissary
+	//Load SPI DTO If Necessary
 	if(!fileExists(SpiPaths[channel].c_str()))
 	{
 		if(!loadDto(SpiDtoNames[channel].c_str()))		
