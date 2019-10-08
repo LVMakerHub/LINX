@@ -165,18 +165,28 @@
 				<Item Name="Parse ifconfig data.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Parse ifconfig data.vi"/>
 				<Item Name="Reset NIC.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Reset NIC.vi"/>
 				<Item Name="Filter NICs.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Filter NICs.vi"/>
+				<Item Name="Sudo Wrapper.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Sudo Wrapper.vi"/>
 			</Item>
 			<Item Name="SSH" Type="Folder">
 				<Item Name="Interrogate Target.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Interrogate Target.vi"/>
-				<Item Name="SCP Open.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Open.vi"/>
 				<Item Name="SSH Execute Command Wrapper.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Execute Command Wrapper.vi"/>
 				<Item Name="SSH Execute Command.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Execute Command.vi"/>
 				<Item Name="E14 BBB Test.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/E14 BBB Test.vi"/>
 				<Item Name="SSH Close.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Close.vi"/>
 				<Item Name="SSH Open.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Open.vi"/>
+				<Item Name="SCP Wrapper.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Wrapper.vi"/>
+				<Item Name="SCP Open.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Open.vi"/>
 				<Item Name="SCP Upload File.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Upload File.vi"/>
 				<Item Name="SCP Close.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SCP Close.vi"/>
 				<Item Name="SSH Async Execute Command.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Async Execute Command.vi"/>
+				<Item Name="SSH Get .NET Refnum.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Get .NET Refnum.vi"/>
+				<Item Name="SSH Set .NET Refnum.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Set .NET Refnum.vi"/>
+				<Item Name="SSH Get Pipe Descriptor.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Get Pipe Descriptor.vi"/>
+				<Item Name="SSH Set Pipe Descriptor.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Set Pipe Descriptor.vi"/>
+				<Item Name="SSH Unix Make Temp Pwd File.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Unix Make Temp Pwd File.vi"/>
+				<Item Name="SSH Unix Session FGV.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Unix Session FGV.vi"/>
+				<Item Name="SSH Unix Session Op.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Unix Session Op.ctl"/>
+				<Item Name="SSH Unix Session Info.ctl" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/SSH/SSH Unix Session Info.ctl"/>
 			</Item>
 			<Item Name="Get Unique Directory.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Get Unique Directory.vi"/>
 			<Item Name="Generate Error.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Generate Error.vi"/>
