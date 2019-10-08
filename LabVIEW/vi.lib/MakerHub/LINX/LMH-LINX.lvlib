@@ -195,8 +195,8 @@
 			<Item Name="Firmware Wizard Config.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Firmware Wizard Config.vi"/>
 			<Item Name="Firmware Wizard Check INI.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Firmware Wizard Check INI.vi"/>
 			<Item Name="Loop Frequency.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Device/Utilities/Loop Frequency.vi"/>
+			<Item Name="Make Versioned Name.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Make Versioned Name.vi"/>
 			<Item Name="Baud Rate To Value.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Baud Rate To Value.vi"/>
-			<Item Name="myRIO Support.vi" Type="VI" URL="../../../../project/MakerHub/LINX/myRIO Support.vi"/>
 			<Item Name="Get Devices In Family.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Get Devices In Family.vi"/>
 			<Item Name="Check myRIO Status.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Check myRIO Status.vi"/>
 			<Item Name="Clean Error Call Chain.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Clean Error Call Chain.vi"/>
@@ -207,13 +207,13 @@
 			<Item Name="Read DEV INI.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Read DEV INI.vi"/>
 			<Item Name="All Firmware Data FGV.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/All Firmware Data FGV.vi"/>
 			<Item Name="Copy Firmware Libraries.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Copy Firmware Libraries.vi"/>
-			<Item Name="Generate Firmware Libraries.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Generate Firmware Libraries.vi"/>
 			<Item Name="Post-Install Custom Action.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Post-Install Custom Action.vi"/>
 			<Item Name="Fast Find COM Ports.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Device/Utilities/Fast Find COM Ports.vi"/>
 			<Item Name="Open Local.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Utilities/Open Local.vi"/>
 			<Item Name="Open TCP.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Utilities/Open TCP.vi"/>
 			<Item Name="Verify Arduino Libraries.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Verify Arduino Libraries.vi"/>
 			<Item Name="Check For Empty Path.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Check For Empty Path.vi"/>
+			<Item Name="Breakup Version String.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Breakup Version String.vi"/>
 			<Item Name="Update Button Text.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Target Management/Update Button Text.vi"/>
 			<Item Name="Get Arduino Base Path.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Get Arduino Base Path.vi"/>
 			<Item Name="CommandLineUploadWizardInt.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/CommandLineUploadWizardInt.vi"/>
