@@ -454,8 +454,12 @@ int LinxRaspberryPi::SpiSetSpeed(unsigned char channel, unsigned long speed, uns
 			index = index - 1; //Use Fastest Speed Below Target Speed
 			break;
 		}
-		//If Target Speed Is Higher Than Max Speed Use Max Speed			
+		//If Target Speed Is Higher Than Max Speed Use Max Speed
 	}
+	if (index < 0)
+		index = 0;
+	else if (index >= NumSpiSpeeds)
+		index = NumSpiSpeeds-1;
 	SpiSetSpeeds[channel] = *(SpiSupportedSpeeds+index);
 	*actualSpeed = *(SpiSupportedSpeeds+index); 
 	
