@@ -415,6 +415,8 @@ int LinxWiringDevice::I2cOpenMaster(unsigned char channel)
 
 int LinxWiringDevice::I2cSetSpeed(unsigned char channel, unsigned long speed, unsigned long* actualSpeed)
 {
+	if (actualSpeed)
+		*actualSpeed = 100000;  // we only support standard speed
 	return L_OK;
 }
 
