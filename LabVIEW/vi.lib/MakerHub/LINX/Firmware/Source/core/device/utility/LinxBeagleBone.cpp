@@ -616,14 +616,17 @@ int LinxBeagleBone::SpiSetSpeed(unsigned char channel, unsigned long speed, unsi
 	//Loop Over All Supported SPI Speeds
 	for(index=0; index < NumSpiSpeeds; index++)
 	{
-			
 			if(speed < *(SpiSupportedSpeeds+index))
 			{
 				index = index - 1; //Use Fastest Speed Below Target Speed
 				break;
 			}
-			//If Target Speed Is Higher Than Max Speed Use Max Speed			
+			//If Target Speed Is Higher Than Max Speed Use Max Speed
 	}
+	if (index < 0)
+		index = 0;
+	else if (index >= NumSpiSpeeds)
+		index = NumSpiSpeeds-1;
 	SpiSetSpeeds[channel] = *(SpiSupportedSpeeds+index);
 	*actualSpeed = *(SpiSupportedSpeeds+index); 
 	
