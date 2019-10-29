@@ -251,6 +251,11 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 		//Update I2C Path
 		m_I2cPaths[0] = "/dev/i2c-2";
 	}
+
+	// Updates to 9.x layout
+	if (FilePathLayout >= 9) {
+		m_SpiPaths[0] = "/dev/spidev0.0";
+	}
 	
 	PwmDutyCycleFileName = m_DutyCycleFileName;
 	PwmPeriodFileName = m_PeriodFileName;
@@ -526,8 +531,16 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 			FILE* spiMuxHandle = fopen(m_SpiMuxPaths[i].c_str(), "r+w+");
 			if(spiMuxHandle != NULL)
 			{
-				fprintf(spiMuxHandle, "spi");
-				fclose(spiMuxHandle);							
+				// in later debian versions the state value for the clk line changed
+				if (FilePathLayout == 8)
+					fprintf(spiMuxHandle, "spi");
+				else if (FilePathLayout >= 9 && (i%3) < 2)
+					fprintf(spiMuxHandle, "spi");
+				else if (FilePathLayout >= 9 && (i%3) == 2)
+					fprintf(spiMuxHandle, "spi_sclk");  // assume last mux path is the sclk
+				else
+					DebugPrint("SPI Fail - Unexpected SpiMuxPath");
+				fclose(spiMuxHandle);
 			}
 		}
 	}
