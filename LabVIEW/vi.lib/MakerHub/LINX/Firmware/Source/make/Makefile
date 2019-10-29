@@ -91,6 +91,38 @@ pwmSetDutyCycle:
 uartLoopback:
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../utils/src/uartLoopback.cpp $(CORE_BBB) -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../utils/bin/uartLoopback.out
 	
+#----------------------- Ardunio ---------------------
+ARDCLI = ARDUINO_SKETCHBOOK_DIR=.. arduino-cli
+ARDDEPS = ../libraries/Servo/library.properties
+ARDTARGETS = Uno Leonardo Mega2560 Nano328 ProMicro
+ARDBOARDS = uno leonardo megaADK nano micro
+
+restoflist = $(wordlist 2,$(words $1),$1)
+mappair = $(and $(strip $2),$(strip $3),$(eval $(call \
+    $1,$(firstword $2),$(firstword $3))$(call \
+    mappair,$1,$(call restoflist,$2),$(call restoflist,$3))))
+
+../libraries/Servo/library.properties: 
+	$(ARDCLI) lib install Servo
+
+define ArduinoAVRTargetRule
+../../Builds/Arduino/$1/Arduino_$1_Serial.ino.hex: $(ARDDEPS) ../libraries/LINX/examples/Arduino_$1_Serial/Arduino_$1_Serial.ino
+	$(ARDCLI) compile -b arduino:avr:$2 ../libraries/LINX/examples/Arduino_$1_Serial/Arduino_$1_Serial.ino -o $$@
+	@rm -f $$(basename $$@).elf
+endef
+
+$(call mappair,ArduinoAVRTargetRule,$(ARDTARGETS),$(ARDBOARDS))
+
+.PHONY:	ardclipre arduino-avr
+
+ardclipre:
+	@$(ARDCLI) version >/dev/null 2>&1 || (echo && echo "Missing arduino-cli utility!" && echo "Please install arduino-cli from https://github.com/arduino/arduino-cli" && echo " and add it to your path." && echo && false)
+	@$(ARDCLI) core update-index
+	@$(ARDCLI) core install arduino:avr
+
+arduino-avr:	ardclipre $(foreach T, $(ARDTARGETS), ../../Builds/Arduino/$T/Arduino_$T_Serial.ino.hex)
+
+#----------------------- Clean -----------------------
 clean:
 
 cleanUtils: 
