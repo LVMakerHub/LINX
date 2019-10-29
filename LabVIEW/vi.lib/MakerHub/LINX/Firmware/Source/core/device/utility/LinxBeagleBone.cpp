@@ -581,11 +581,10 @@ int LinxBeagleBone::SpiOpenMaster(unsigned char channel)
 		}
 		
 		//Default Max Speed To 
-		unsigned long speed = 25000;			
-		if (ioctl(SpiHandles[channel], SPI_IOC_WR_MAX_SPEED_HZ, &speed) > 0)
+		if (ioctl(SpiHandles[channel], SPI_IOC_WR_MAX_SPEED_HZ, &SpiDefaultSpeed) < 0)
 		{			
 			DebugPrint("SPI Fail - Failed To Set SPI Max Speed - ");
-			DebugPrintln(speed, DEC);
+			DebugPrintln(SpiDefaultSpeed, DEC);
 			return LSPI_OPEN_FAIL;
 		}			
 		
@@ -658,8 +657,8 @@ int LinxBeagleBone::SpiWriteRead(unsigned char channel, unsigned char frameSize,
 		transfer.rx_buf = (unsigned long)(recBuffer+nextByte);
 		transfer.len = frameSize;
 		transfer.delay_usecs = 0;
-		//transfer.speed_hz = SpiSetSpeeds[channel];
-		transfer.speed_hz = 25000;
+		transfer.speed_hz = SpiSetSpeeds[channel];
+		//transfer.speed_hz = 25000;
 		transfer.bits_per_word = 8;
 	
 		//CS Active

@@ -94,6 +94,7 @@ class LinxBeagleBone : public LinxDevice
 		int* SpiSpeedCodes;																//SPI Speed Values (Clock Divider Macros In Wiring Case)
 		map<unsigned char, unsigned char> SpiBitOrders;					//Stores Bit Orders For SPI Channels (LSBFIRST / MSBFIRST)
 		map<unsigned char, unsigned long> SpiSetSpeeds; 				//Stores The Set Clock Rate Of Each SPI Channel
+		unsigned long SpiDefaultSpeed;
 		
 		//I2C
 		map<unsigned char, string> I2cPaths;										//File Paths For I2C Master(s)
