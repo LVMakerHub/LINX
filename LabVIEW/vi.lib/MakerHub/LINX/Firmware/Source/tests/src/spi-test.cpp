@@ -35,14 +35,17 @@ int main()
 	unsigned char csLL = 0;	//Active Low
 	unsigned char sendBuffer[8] = {0xAA, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 	unsigned char receiveBuffer[32]; 
-	
-	LinxDev->SpiOpenMaster(spiChannel);
+	int retval;
+
+	retval = LinxDev->SpiOpenMaster(spiChannel);
+	fprintf(stdout, "SpiOpenMaster() returned %d\n", retval);
 	fprintf(stdout, "SPI %d open.\n", spiChannel);
 	
 	//Transfer Data
-	LinxDev->SpiWriteRead(spiChannel, frameSize, numFrames, csChan, csLL, sendBuffer, receiveBuffer);
+	retval = LinxDev->SpiWriteRead(spiChannel, frameSize, numFrames, csChan, csLL, sendBuffer, receiveBuffer);
+	fprintf(stdout, "SpiWriteRead() returned %d\n", retval);
 	receiveBuffer[frameSize*numFrames] = 0;
-	fprintf(stdout, "Write/Read Complete: %s\n", receiveBuffer);
+	fprintf(stdout, "Write/Read Complete: %x %x %x %x %x %x %x %x\n", receiveBuffer[0], receiveBuffer[1],receiveBuffer[2],receiveBuffer[3],receiveBuffer[4],receiveBuffer[5],receiveBuffer[6],receiveBuffer[7]);
 	
 	for(int i=0; i< frameSize*numFrames; i++)
 	{
