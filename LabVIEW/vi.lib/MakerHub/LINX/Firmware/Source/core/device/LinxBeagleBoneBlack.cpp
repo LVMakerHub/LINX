@@ -547,12 +547,13 @@ LinxBeagleBoneBlack::LinxBeagleBoneBlack()
 
 	
 	//Load SPI Paths and DTO Names, Configure SPI Master Default Values	
+	SpiDefaultSpeed = 3900000;
 	for(int i=0; i<NUM_SPI_CHANS; i++)
 	{
 		SpiDtoNames[SpiChans[i]] = m_SpiDtoNames[i];
 				
 		SpiBitOrders[SpiChans[i]] = MSBFIRST;		//MSB First
-		SpiSetSpeeds[SpiChans[i]] = 4000000;
+		SpiSetSpeeds[SpiChans[i]] = SpiDefaultSpeed;
 		SpiPaths[SpiChans[i]] = m_SpiPaths[i];
 	}
 	
