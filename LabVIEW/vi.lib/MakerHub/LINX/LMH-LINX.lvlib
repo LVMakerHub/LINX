@@ -229,6 +229,7 @@
 			<Item Name="Get Arduino Base Path.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Get Arduino Base Path.vi"/>
 			<Item Name="CommandLineUploadWizardInt.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/CommandLineUploadWizardInt.vi"/>
 			<Item Name="Open Serial.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Public/Utilities/Open Serial.vi"/>
+			<Item Name="LINX Firmware Wizard Config.ini" Type="Document" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/LINX Firmware Wizard Config.ini"/>
 			<Item Name="Install LabVIEW Support Legacy.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Install LabVIEW Support Legacy.vi"/>
 			<Item Name="Target Configuration.vi" Type="VI" URL="../../../../project/MakerHub/LINX/Target Configuration.vi"/>
 			<Item Name="Script Example Project.vi" Type="VI" URL="/&lt;vilib&gt;/MakerHub/LINX/Private/Utilties/Script Example Project.vi"/>
