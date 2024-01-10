@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX Raspberry Pi 2 Model B Code
+**  LINX Raspberry Pi 5 Code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Ken Sharp
 **
 ** BSD2 License.
 ****************************************************************************************/	

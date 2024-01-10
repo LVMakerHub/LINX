@@ -9,8 +9,8 @@
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_RASPBERRYPI2B_H
-#define LINX_RASPBERRYPI2B_H
+#ifndef LINX_RASPBERRYPI5_H
+#define LINX_RASPBERRYPI5_H
 
 /****************************************************************************************
 **  Defines
@@ -115,4 +115,4 @@ class LinxRaspberryPi5 : public LinxRaspberryPi
 				
 };
 
-#endif //LINX_RASPBERRYPI2B
+#endif //LINX_RASPBERRYPI5
