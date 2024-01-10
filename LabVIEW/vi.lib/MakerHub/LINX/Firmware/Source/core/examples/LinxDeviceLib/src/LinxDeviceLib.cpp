@@ -21,6 +21,10 @@
 			#define LINXDEVICETYPE LinxRaspberryPi2B
 			#include "LinxRaspberryPi.h"
 			#include "LinxRaspberryPi2B.h"
+	#elif LINX_DEVICE_ID == 5	//RPI 5
+			#define LINXDEVICETYPE LinxRaspberryPi5
+			#include "LinxRaspberryPi.h"
+			#include "LinxRaspberryPi5.h"
 	#endif
 //------------------------------------- Beagle Bone -------------------------------------
 #elif LINX_DEVICE_FAMILY == 6	
