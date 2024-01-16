@@ -212,6 +212,7 @@ int LinxLinuxTcpListener::Connected()
 			printf("Got %s\n", recBuffer);
 		}
 	}
+    return 0;
 }
  
  
@@ -258,11 +259,8 @@ int LinxLinuxTcpListener::peek(unsigned char * recBuffer, int bufferSize)
 		State = LISTENING;		
 		return peekReceived;		
 	}
-	else
-	{
-		//Data Received
-		return peekReceived;		
-	}
+	//Data Received
+	return peekReceived;		
 }
 
 int LinxLinuxTcpListener::CheckForCommands()

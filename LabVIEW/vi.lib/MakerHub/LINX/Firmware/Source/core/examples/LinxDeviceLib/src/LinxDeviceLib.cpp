@@ -64,9 +64,13 @@ extern "C" int LinxGetDeviceId()
 	return LinxDev->DeviceId;
 }
 
-extern "C" int LinxGetDeviceName(string* name)
+extern "C" int LinxGetDeviceName(char* name)
 {
-	memcpy(name, LinxDev->DeviceName, LinxDev->DeviceNameLen);
+    int len = LinxDev->DeviceNameLen;
+	if (len > 62) // buffer passed is max 64 bytes
+		len = 62;
+	memcpy(name, LinxDev->DeviceName, len);
+    name[len+1] = '\0';
 	return L_OK;
 }
 
