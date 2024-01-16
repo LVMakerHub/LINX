@@ -39,30 +39,39 @@ beagleBoneBlackLib:
 #----------------------- Listeners -----------------------
 	
 beagleBoneBlackSerial:
+	@mkdir -p ../core/examples/Beagle_Bone_Black_Serial/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/Beagle_Bone_Black_Serial/src/Beagle_Bone_Black_Serial.cpp $(CORE_BBB) $(LISTENER_SERIAL) -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../core/examples/Beagle_Bone_Black_Serial/bin/beagleBoneBlackSerial.out
 
 beagleBoneBlackTcp:
+	@mkdir -p ../core/examples/Beagle_Bone_Black_Tcp/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/Beagle_Bone_Black_Tcp/src/Beagle_Bone_Black_Tcp.cpp $(CORE_BBB) $(LISTENER_TCP) -lrt -DLINXCONFIG -DDEBUG_ENABLED=0 -o ../core/examples/Beagle_Bone_Black_Tcp/bin/beagleBoneBlackTcp.out
 	
 beagleBoneBlackConfigurable:
+	@mkdir -p ../core/examples/Beagle_Bone_Black_Configurable/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/Beagle_Bone_Black_Configurable/src/Beagle_Bone_Black_Configurable.cpp $(CORE_BBB) $(LISTENER_CONFIG) -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/Beagle_Bone_Black_Configurable/bin/beagleBoneBlackConfigurable.out
 	
 raspberryPi2BSerial:
+	@mkdir -p ../core/examples/RaspberryPi_2_B_Serial/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/RaspberryPi_2_B_Serial/src/RaspberryPi_2_B_Serial.cpp $(CORE_RPI2) $(LISTENER_SERIAL) -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_2_B_Serial/bin/raspberryPi2BSerial.out
 	
 raspberryPi2BTcp:
+	@mkdir -p ../core/examples/RaspberryPi_2_B_Tcp/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/RaspberryPi_2_B_Tcp/src/RaspberryPi_2_B_Tcp.cpp $(CORE_RPI2) $(LISTENER_TCP) -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_2_B_Tcp/bin/raspberryPi2BTcp.out
 
 raspberryPi2BConfigurable:
+	@mkdir -p ../core/examples/RaspberryPi_2_B_Configurable/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/RaspberryPi_2_B_Configurable/src/RaspberryPi_2_B_Configurable.cpp $(CORE_RPI2) $(LISTENER_CONFIG) -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_2_B_Configurable/bin/raspberryPi2BConfigurable.out
 
 raspberryPi5Serial:
+	@mkdir -p ../core/examples/RaspberryPi_5_Serial/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/RaspberryPi_5_Serial/src/RaspberryPi_5_Serial.cpp $(CORE_RPI5) $(LISTENER_SERIAL) -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_5_Serial/bin/raspberryPi5Serial.out
 	
 raspberryPi5Tcp:
+	@mkdir -p ../core/examples/RaspberryPi_5_Tcp/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/RaspberryPi_5_Tcp/src/RaspberryPi_5_Tcp.cpp $(CORE_RPI5) $(LISTENER_TCP) -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_5_Tcp/bin/raspberryPi5Tcp.out
 
 raspberryPi5Configurable:
+	@mkdir -p ../core/examples/RaspberryPi_5_Configurable/bin
 	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CFLAGS) $(INC) ../core/examples/RaspberryPi_5_Configurable/src/RaspberryPi_5_Configurable.cpp $(CORE_RPI5) $(LISTENER_CONFIG) -lrt -DLINXCONFIG -DDEBUG_ENABLED=-1 -o ../core/examples/RaspberryPi_5_Configurable/bin/raspberryPi5Configurable.out
 
 #----------------------- Tests -----------------------
