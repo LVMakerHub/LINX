@@ -36,7 +36,7 @@ class LinxRaspberryPi : public LinxDevice
 		**  Variables
 		****************************************************************************************/
 		//DIO
-		map<unsigned char, unsigned char> DigitalChannels;				//Maps LINX DIO Channel Numbers To BB GPIO Channels
+		map<unsigned char, unsigned int> DigitalChannels;				//Maps LINX DIO Channel Numbers To BB GPIO Channels
 		map<unsigned char, unsigned char> DigitalDirs;						//Current DIO Direction Values
 		map<unsigned char, FILE*> DigitalDirHandles;							//File Handles For Digital Pin Directions
 		map<unsigned char, FILE*> DigitalValueHandles;						//File Handles For Digital Pin Values

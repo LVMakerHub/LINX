@@ -68,7 +68,7 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		
 		//DIGITAL
 		static const unsigned char m_DigitalChans[NUM_DIGITAL_CHANS];
-		static const unsigned char m_gpioChan[NUM_DIGITAL_CHANS];
+		static const unsigned int m_gpioChan[NUM_DIGITAL_CHANS];
 		
 		//PWM
 		//None
