@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX Raspberry Pi 2 Model B Code
+**  LINX Raspberry Pi 5 Code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Ken Sharp
 **
 ** BSD2 License.
 ****************************************************************************************/	
@@ -17,13 +17,13 @@
 
 #include "utility/LinxDevice.h"
 #include "utility/LinxRaspberryPi.h"
-#include "LinxRaspberryPi2B.h"
+#include "LinxRaspberryPi5.h"
 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
+const unsigned char LinxRaspberryPi5::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 5";
 
 //AI
 //None 
@@ -32,8 +32,8 @@ const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberr
 //None
 
 //DIGITAL
-const unsigned char LinxRaspberryPi2B::m_DigitalChans[NUM_DIGITAL_CHANS] = {7, 11, 12, 13, 15, 16, 18, 22, 29, 31, 32, 33, 35, 36, 37, 38, 40};
-const unsigned int LinxRaspberryPi2B::m_gpioChan[NUM_DIGITAL_CHANS] =     {4, 17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 21};
+const unsigned char LinxRaspberryPi5::m_DigitalChans[NUM_DIGITAL_CHANS] = {7, 11, 12, 13, 15, 16, 18, 22, 29, 31, 32, 33, 35, 36, 37, 38, 40};
+const unsigned int LinxRaspberryPi5::m_gpioChan[NUM_DIGITAL_CHANS] =     {403, 416, 417, 426, 421, 422, 423, 424, 404, 405, 411, 412, 418, 415, 425, 419, 420};
 
 //PWM
 //None
@@ -42,22 +42,22 @@ const unsigned int LinxRaspberryPi2B::m_gpioChan[NUM_DIGITAL_CHANS] =     {4, 17
 //None
 
 //SPI
-const unsigned char LinxRaspberryPi2B::m_SpiChans[NUM_SPI_CHANS] = {0};
+const unsigned char LinxRaspberryPi5::m_SpiChans[NUM_SPI_CHANS] = {0};
 string m_SpiPaths[NUM_SPI_CHANS] = { "/dev/spidev0.1"};
-unsigned long LinxRaspberryPi2B::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
-int LinxRaspberryPi2B::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
+unsigned long LinxRaspberryPi5::m_SpiSupportedSpeeds[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
+int LinxRaspberryPi5::m_SpiSpeedCodes[NUM_SPI_SPEEDS] = {7629, 15200, 30500, 61000, 122000, 244000, 488000, 976000, 1953000, 3900000, 7800000, 15600000, 31200000};
 
 //I2C
-unsigned char LinxRaspberryPi2B::m_I2cChans[NUM_I2C_CHANS] = {1};
+unsigned char LinxRaspberryPi5::m_I2cChans[NUM_I2C_CHANS] = {1};
 string m_I2cPaths[NUM_I2C_CHANS] = {"/dev/i2c-1"};
-unsigned char LinxRaspberryPi2B::m_I2cRefCount[NUM_I2C_CHANS];
+unsigned char LinxRaspberryPi5::m_I2cRefCount[NUM_I2C_CHANS];
 
 //UART
-unsigned char LinxRaspberryPi2B::m_UartChans[NUM_UART_CHANS] = {0};
-int LinxRaspberryPi2B::m_UartHandles[NUM_UART_CHANS];
-string LinxRaspberryPi2B::m_UartPaths[NUM_UART_CHANS] = {"/dev/serial0"};
-unsigned long LinxRaspberryPi2B::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {0, 50, 75, 110, 134, 150, 200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 38400, 57600, 115200};
-unsigned long LinxRaspberryPi2B::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200, B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200};
+unsigned char LinxRaspberryPi5::m_UartChans[NUM_UART_CHANS] = {0};
+int LinxRaspberryPi5::m_UartHandles[NUM_UART_CHANS];
+string LinxRaspberryPi5::m_UartPaths[NUM_UART_CHANS] = {"/dev/serial0"};
+unsigned long LinxRaspberryPi5::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {0, 50, 75, 110, 134, 150, 200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 38400, 57600, 115200};
+unsigned long LinxRaspberryPi5::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200, B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200};
 
 //SERVO
 //None
@@ -65,10 +65,10 @@ unsigned long LinxRaspberryPi2B::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {
 /****************************************************************************************
 **  Constructors /  Destructor
 ****************************************************************************************/
-LinxRaspberryPi2B::LinxRaspberryPi2B()
+LinxRaspberryPi5::LinxRaspberryPi5()
 {
 	DeviceFamily = 0x04;	//Raspberry Pi Family Code
-	DeviceId = 0x03;			//Raspberry Pi 2 Model B
+	DeviceId = 0x05;			//Raspberry Pi 5
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -185,7 +185,7 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 }
 
 //Destructor
-LinxRaspberryPi2B::~LinxRaspberryPi2B()
+LinxRaspberryPi5::~LinxRaspberryPi5()
 {	
 	//Close GPIO Handles If They Are Open
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)

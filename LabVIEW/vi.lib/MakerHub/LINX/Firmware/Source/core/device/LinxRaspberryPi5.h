@@ -1,16 +1,16 @@
 /****************************************************************************************
-**  LINX header for Raspberry Pi 2 Model B
+**  LINX header for Raspberry Pi 5
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Ken Sharp
 **
 ** BSD2 License.
 ****************************************************************************************/	
 
-#ifndef LINX_RASPBERRYPI2B_H
-#define LINX_RASPBERRYPI2B_H
+#ifndef LINX_RASPBERRYPI5_H
+#define LINX_RASPBERRYPI5_H
 
 /****************************************************************************************
 **  Defines
@@ -48,7 +48,7 @@
 
 using namespace std;
 	
-class LinxRaspberryPi2B : public LinxRaspberryPi
+class LinxRaspberryPi5 : public LinxRaspberryPi
 {
 	public:	
 		/****************************************************************************************
@@ -97,8 +97,8 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		/****************************************************************************************
 		**  Constructors /  Destructor
 		****************************************************************************************/
-		LinxRaspberryPi2B();
-		virtual ~LinxRaspberryPi2B();
+		LinxRaspberryPi5();
+		virtual ~LinxRaspberryPi5();
 		
 		/****************************************************************************************
 		**  Functions
@@ -115,4 +115,4 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 				
 };
 
-#endif //LINX_RASPBERRYPI2B
+#endif //LINX_RASPBERRYPI5
