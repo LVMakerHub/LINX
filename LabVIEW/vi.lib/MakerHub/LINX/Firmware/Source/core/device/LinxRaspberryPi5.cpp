@@ -141,16 +141,18 @@ LinxRaspberryPi5::LinxRaspberryPi5()
 	ServoChans = 0;
 			
 	//------------------------------------- Digital -------------------------------------
+	// GPIO Base PI OS 6.6.31+rpt-rpi-v8 
+	m_gpioBase = 571; 
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
 		FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
-		fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
+		fprintf(digitalExportHandle, "%d", m_gpioBase + m_gpioChan[i]);
 		fclose(digitalExportHandle);
 		
 		DigitalDirHandles[m_DigitalChans[i]] = NULL;
 		DigitalValueHandles[m_DigitalChans[i]] = NULL;
-		DigitalChannels[m_DigitalChans[i]] = m_gpioChan[i];
+		DigitalChannels[m_DigitalChans[i]] = m_gpioBase + m_gpioChan[i];
 		DigitalDirs[m_DigitalChans[i]] = INPUT;
 	}
 	
