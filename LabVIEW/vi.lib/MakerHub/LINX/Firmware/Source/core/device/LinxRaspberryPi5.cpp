@@ -153,7 +153,7 @@ LinxRaspberryPi5::LinxRaspberryPi5()
 		DigitalDirHandles[m_DigitalChans[i]] = NULL;
 		DigitalValueHandles[m_DigitalChans[i]] = NULL;
 		DigitalChannels[m_DigitalChans[i]] = m_gpioBase + m_gpioChan[i];
-		DigitalDirs[m_DigitalChans[i]] = INPUT;
+		DigitalDirs[m_DigitalChans[i]] = PI_OS_GPIO_SETTING;
 	}
 	
 	//------------------------------------- I2C -------------------------------------
