@@ -273,7 +273,6 @@ int LinxRaspberryPi5::getGpioBase()
 							FILE *baseHandle = fopen(gpioBasePath, "r");
 							fscanf(baseHandle, "%d", &baseValue);
 							fclose(baseHandle);
-							printf(" %s ----- %s   BASE: %d\n", gpioLabelPath, labelName, baseValue);
 						}
 					}
 				}
