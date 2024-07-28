@@ -18,7 +18,8 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxRaspberryPi.h"
 #include "LinxRaspberryPi5.h"
-
+#include <dirent.h>
+#include <string.h> 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
@@ -142,7 +143,7 @@ LinxRaspberryPi5::LinxRaspberryPi5()
 			
 	//------------------------------------- Digital -------------------------------------
 	// GPIO Base PI OS 6.6.31+rpt-rpi-v8 
-	m_gpioBase = 571; 
+	m_gpioBase = getGpioBase();
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
@@ -233,4 +234,57 @@ LinxRaspberryPi5::~LinxRaspberryPi5()
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
+int LinxRaspberryPi5::getGpioBase()
+{
+	const char gpioPath[] = "/sys/class/gpio/";
+	const char gpioChipPrefix[] = "gpiochip";
+	const char pinctrlPrefix[] = "pinctrl";
 
+	char gpioLabelPath[128];
+	char gpioBasePath[128];
+	char labelName[128];
+	int baseValue = 0;
+
+	DIR *gpioDirHandle = opendir(gpioPath);
+	dirent *dp;
+
+	// Loop for each entry in the GPIO directory
+	while (gpioDirHandle)
+	{
+		if ((dp = readdir(gpioDirHandle)) != NULL)
+		{
+			// Check if the directory entry is a gpiochip
+			if (strncmp(dp->d_name, gpioChipPrefix, strlen(gpioChipPrefix)) == 0)
+			{
+				// Read the contents of the label file in the gpiochip directory
+				sprintf(gpioLabelPath, "%s%s%s", gpioPath, dp->d_name, "/label");
+				if (fileExists(gpioLabelPath))
+				{
+					FILE *labelHandle = fopen(gpioLabelPath, "r");
+					fscanf(labelHandle, "%s", labelName);
+					fclose(labelHandle);
+					// Check if the gpiochip controls the GPIO pins on the 40 way connector
+					if (strncmp(labelName, pinctrlPrefix, strlen(pinctrlPrefix)) == 0)
+					{
+						// Read the gpiochip base value
+						sprintf(gpioBasePath, "%s%s%s", gpioPath, dp->d_name, "/base");
+						if (fileExists(gpioBasePath))
+						{
+							FILE *baseHandle = fopen(gpioBasePath, "r");
+							fscanf(baseHandle, "%d", &baseValue);
+							fclose(baseHandle);
+							printf(" %s ----- %s   BASE: %d\n", gpioLabelPath, labelName, baseValue);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			closedir(gpioDirHandle);
+			gpioDirHandle = NULL;
+			break;
+		}
+	}
+	return baseValue;
+}
