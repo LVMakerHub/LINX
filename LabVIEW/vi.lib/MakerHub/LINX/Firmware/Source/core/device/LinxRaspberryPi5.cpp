@@ -142,8 +142,13 @@ LinxRaspberryPi5::LinxRaspberryPi5()
 	ServoChans = 0;
 			
 	//------------------------------------- Digital -------------------------------------
-	// GPIO Base PI OS 6.6.31+rpt-rpi-v8 
+	
 	m_gpioBase = getGpioBase();
+	if (m_gpioBase < 0)
+	{
+		//Failed to read the GPIO base
+		m_gpioBase = 0; //Default for older PI OS versions
+	}
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
@@ -154,7 +159,7 @@ LinxRaspberryPi5::LinxRaspberryPi5()
 		DigitalDirHandles[m_DigitalChans[i]] = NULL;
 		DigitalValueHandles[m_DigitalChans[i]] = NULL;
 		DigitalChannels[m_DigitalChans[i]] = m_gpioBase + m_gpioChan[i];
-		DigitalDirs[m_DigitalChans[i]] = PI_OS_GPIO_SETTING;
+		DigitalDirs[m_DigitalChans[i]] = PI_OS_GPIO_DIRECTION;
 	}
 	
 	//------------------------------------- I2C -------------------------------------
@@ -243,36 +248,43 @@ int LinxRaspberryPi5::getGpioBase()
 	char gpioLabelPath[128];
 	char gpioBasePath[128];
 	char labelName[128];
-	int baseValue = 0;
+	int baseValue = -1; // Default return value = error
 
 	DIR *gpioDirHandle = opendir(gpioPath);
 	dirent *dp;
 
-	// Loop for each entry in the GPIO directory
+	//Loop for each entry in the GPIO directory
 	while (gpioDirHandle)
 	{
 		if ((dp = readdir(gpioDirHandle)) != NULL)
 		{
-			// Check if the directory entry is a gpiochip
+			//Check if the directory entry is a gpiochip
 			if (strncmp(dp->d_name, gpioChipPrefix, strlen(gpioChipPrefix)) == 0)
 			{
-				// Read the contents of the label file in the gpiochip directory
+				//Read the contents of the label file in the gpiochip directory
 				sprintf(gpioLabelPath, "%s%s%s", gpioPath, dp->d_name, "/label");
 				if (fileExists(gpioLabelPath))
 				{
 					FILE *labelHandle = fopen(gpioLabelPath, "r");
-					fscanf(labelHandle, "%s", labelName);
-					fclose(labelHandle);
-					// Check if the gpiochip controls the GPIO pins on the 40 way connector
-					if (strncmp(labelName, pinctrlPrefix, strlen(pinctrlPrefix)) == 0)
+					if (labelHandle != NULL)
 					{
-						// Read the gpiochip base value
-						sprintf(gpioBasePath, "%s%s%s", gpioPath, dp->d_name, "/base");
-						if (fileExists(gpioBasePath))
+						fscanf(labelHandle, "%s", labelName);
+						fclose(labelHandle);
+					
+						//Check if the gpiochip controls the GPIO pins on the 40 way connector
+						if (strncmp(labelName, pinctrlPrefix, strlen(pinctrlPrefix)) == 0)
 						{
-							FILE *baseHandle = fopen(gpioBasePath, "r");
-							fscanf(baseHandle, "%d", &baseValue);
-							fclose(baseHandle);
+							//Read the gpiochip base value
+							sprintf(gpioBasePath, "%s%s%s", gpioPath, dp->d_name, "/base");
+							if (fileExists(gpioBasePath))
+							{
+								FILE *baseHandle = fopen(gpioBasePath, "r");
+								if (baseHandle != NULL)
+								{
+									fscanf(baseHandle, "%d", &baseValue);
+									fclose(baseHandle);
+								}
+							}
 						}
 					}
 				}
