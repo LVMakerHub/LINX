@@ -18,7 +18,8 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxRaspberryPi.h"
 #include "LinxRaspberryPi5.h"
-
+#include <dirent.h>
+#include <string.h> 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
@@ -33,7 +34,7 @@ const unsigned char LinxRaspberryPi5::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry
 
 //DIGITAL
 const unsigned char LinxRaspberryPi5::m_DigitalChans[NUM_DIGITAL_CHANS] = {7, 11, 12, 13, 15, 16, 18, 22, 29, 31, 32, 33, 35, 36, 37, 38, 40};
-const unsigned int LinxRaspberryPi5::m_gpioChan[NUM_DIGITAL_CHANS] =     {403, 416, 417, 426, 421, 422, 423, 424, 404, 405, 411, 412, 418, 415, 425, 419, 420};
+const unsigned int LinxRaspberryPi5::m_gpioChan[NUM_DIGITAL_CHANS] =     {4, 17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 21};
 
 //PWM
 //None
@@ -141,17 +142,24 @@ LinxRaspberryPi5::LinxRaspberryPi5()
 	ServoChans = 0;
 			
 	//------------------------------------- Digital -------------------------------------
+	
+	m_gpioBase = getGpioBase();
+	if (m_gpioBase < 0)
+	{
+		//Failed to read the GPIO base
+		m_gpioBase = 0; //Default for older PI OS versions
+	}
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
 		FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
-		fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
+		fprintf(digitalExportHandle, "%d", m_gpioBase + m_gpioChan[i]);
 		fclose(digitalExportHandle);
 		
 		DigitalDirHandles[m_DigitalChans[i]] = NULL;
 		DigitalValueHandles[m_DigitalChans[i]] = NULL;
-		DigitalChannels[m_DigitalChans[i]] = m_gpioChan[i];
-		DigitalDirs[m_DigitalChans[i]] = INPUT;
+		DigitalChannels[m_DigitalChans[i]] = m_gpioBase + m_gpioChan[i];
+		DigitalDirs[m_DigitalChans[i]] = PI_OS_GPIO_DIRECTION;
 	}
 	
 	//------------------------------------- I2C -------------------------------------
@@ -231,4 +239,63 @@ LinxRaspberryPi5::~LinxRaspberryPi5()
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
+int LinxRaspberryPi5::getGpioBase()
+{
+	const char gpioPath[] = "/sys/class/gpio/";
+	const char gpioChipPrefix[] = "gpiochip";
+	const char pinctrlPrefix[] = "pinctrl";
 
+	char gpioLabelPath[128];
+	char gpioBasePath[128];
+	char labelName[128];
+	int baseValue = -1; // Default return value = error
+
+	DIR *gpioDirHandle = opendir(gpioPath);
+	dirent *dp;
+
+	//Loop for each entry in the GPIO directory
+	while (gpioDirHandle)
+	{
+		if ((dp = readdir(gpioDirHandle)) != NULL)
+		{
+			//Check if the directory entry is a gpiochip
+			if (strncmp(dp->d_name, gpioChipPrefix, strlen(gpioChipPrefix)) == 0)
+			{
+				//Read the contents of the label file in the gpiochip directory
+				sprintf(gpioLabelPath, "%s%s%s", gpioPath, dp->d_name, "/label");
+				if (fileExists(gpioLabelPath))
+				{
+					FILE *labelHandle = fopen(gpioLabelPath, "r");
+					if (labelHandle != NULL)
+					{
+						fscanf(labelHandle, "%s", labelName);
+						fclose(labelHandle);
+					
+						//Check if the gpiochip controls the GPIO pins on the 40 way connector
+						if (strncmp(labelName, pinctrlPrefix, strlen(pinctrlPrefix)) == 0)
+						{
+							//Read the gpiochip base value
+							sprintf(gpioBasePath, "%s%s%s", gpioPath, dp->d_name, "/base");
+							if (fileExists(gpioBasePath))
+							{
+								FILE *baseHandle = fopen(gpioBasePath, "r");
+								if (baseHandle != NULL)
+								{
+									fscanf(baseHandle, "%d", &baseValue);
+									fclose(baseHandle);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			closedir(gpioDirHandle);
+			gpioDirHandle = NULL;
+			break;
+		}
+	}
+	return baseValue;
+}
