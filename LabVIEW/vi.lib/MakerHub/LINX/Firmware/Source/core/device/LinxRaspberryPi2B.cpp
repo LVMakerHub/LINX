@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX Raspberry Pi 2B Code
+**  LINX Raspberry Pi 2 Model B Code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Ken Sharp
+**  Written By Sam Kristoff
 **
 ** BSD2 License.
 ****************************************************************************************/	
@@ -24,7 +24,7 @@
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2B";
+const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
 
 //AI
 //None 
