@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX Raspberry Pi 2 Model B Code
+**  LINX Raspberry Pi 2B Code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Ken Sharp
 **
 ** BSD2 License.
 ****************************************************************************************/	
@@ -18,12 +18,13 @@
 #include "utility/LinxDevice.h"
 #include "utility/LinxRaspberryPi.h"
 #include "LinxRaspberryPi2B.h"
-
+#include <dirent.h>
+#include <string.h> 
 /****************************************************************************************
 **  Member Variables
 ****************************************************************************************/
 //System
-const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2 Model B";
+const unsigned char LinxRaspberryPi2B::m_DeviceName[DEVICE_NAME_LEN] = "Raspberry Pi 2B";
 
 //AI
 //None 
@@ -68,7 +69,7 @@ unsigned long LinxRaspberryPi2B::m_UartSupportedSpeedsCodes[NUM_UART_SPEEDS] = {
 LinxRaspberryPi2B::LinxRaspberryPi2B()
 {
 	DeviceFamily = 0x04;	//Raspberry Pi Family Code
-	DeviceId = 0x03;			//Raspberry Pi 2 Model B
+	DeviceId = 0x03;			//Raspberry Pi 2B
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -141,17 +142,24 @@ LinxRaspberryPi2B::LinxRaspberryPi2B()
 	ServoChans = 0;
 			
 	//------------------------------------- Digital -------------------------------------
+	
+	m_gpioBase = getGpioBase();
+	if (m_gpioBase < 0)
+	{
+		//Failed to read the GPIO base
+		m_gpioBase = 0; //Default for older PI OS versions
+	}
 	//Export GPIO - Set All Digital Handles To NULL
 	for(int i=0; i<NUM_DIGITAL_CHANS; i++)
 	{
 		FILE* digitalExportHandle = fopen("/sys/class/gpio/export", "w");
-		fprintf(digitalExportHandle, "%d", m_gpioChan[i]);
+		fprintf(digitalExportHandle, "%d", m_gpioBase + m_gpioChan[i]);
 		fclose(digitalExportHandle);
 		
 		DigitalDirHandles[m_DigitalChans[i]] = NULL;
 		DigitalValueHandles[m_DigitalChans[i]] = NULL;
-		DigitalChannels[m_DigitalChans[i]] = m_gpioChan[i];
-		DigitalDirs[m_DigitalChans[i]] = INPUT;
+		DigitalChannels[m_DigitalChans[i]] = m_gpioBase + m_gpioChan[i];
+		DigitalDirs[m_DigitalChans[i]] = PI_OS_GPIO_DIRECTION;
 	}
 	
 	//------------------------------------- I2C -------------------------------------
@@ -231,4 +239,63 @@ LinxRaspberryPi2B::~LinxRaspberryPi2B()
 /****************************************************************************************
 **  Functions
 ****************************************************************************************/
+int LinxRaspberryPi2B::getGpioBase()
+{
+	const char gpioPath[] = "/sys/class/gpio/";
+	const char gpioChipPrefix[] = "gpiochip";
+	const char pinctrlPrefix[] = "pinctrl";
 
+	char gpioLabelPath[128];
+	char gpioBasePath[128];
+	char labelName[128];
+	int baseValue = -1; // Default return value = error
+
+	DIR *gpioDirHandle = opendir(gpioPath);
+	dirent *dp;
+
+	//Loop for each entry in the GPIO directory
+	while (gpioDirHandle)
+	{
+		if ((dp = readdir(gpioDirHandle)) != NULL)
+		{
+			//Check if the directory entry is a gpiochip
+			if (strncmp(dp->d_name, gpioChipPrefix, strlen(gpioChipPrefix)) == 0)
+			{
+				//Read the contents of the label file in the gpiochip directory
+				sprintf(gpioLabelPath, "%s%s%s", gpioPath, dp->d_name, "/label");
+				if (fileExists(gpioLabelPath))
+				{
+					FILE *labelHandle = fopen(gpioLabelPath, "r");
+					if (labelHandle != NULL)
+					{
+						fscanf(labelHandle, "%s", labelName);
+						fclose(labelHandle);
+					
+						//Check if the gpiochip controls the GPIO pins on the 40 way connector
+						if (strncmp(labelName, pinctrlPrefix, strlen(pinctrlPrefix)) == 0)
+						{
+							//Read the gpiochip base value
+							sprintf(gpioBasePath, "%s%s%s", gpioPath, dp->d_name, "/base");
+							if (fileExists(gpioBasePath))
+							{
+								FILE *baseHandle = fopen(gpioBasePath, "r");
+								if (baseHandle != NULL)
+								{
+									fscanf(baseHandle, "%d", &baseValue);
+									fclose(baseHandle);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			closedir(gpioDirHandle);
+			gpioDirHandle = NULL;
+			break;
+		}
+	}
+	return baseValue;
+}

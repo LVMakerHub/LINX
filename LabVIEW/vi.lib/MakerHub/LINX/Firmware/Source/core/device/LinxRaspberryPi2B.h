@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX header for Raspberry Pi 2 Model B
+**  LINX header for Raspberry Pi 2B
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Ken Sharp
 **
 ** BSD2 License.
 ****************************************************************************************/	
@@ -37,6 +37,8 @@
 #define NUM_UART_SPEEDS 18
 
 #define NUM_SERVO_CHANS 0
+
+#define PI_OS_GPIO_DIRECTION 3
 
 /****************************************************************************************
 **  Includes
@@ -108,11 +110,12 @@ class LinxRaspberryPi2B : public LinxRaspberryPi
 		/****************************************************************************************
 		**  Variables
 		****************************************************************************************/		
-				
+		int m_gpioBase;
+
 		/****************************************************************************************
 		**  Functions
 		****************************************************************************************/
-				
+		int getGpioBase();		
 };
 
-#endif //LINX_RASPBERRYPI2B
+#endif //LINX_RASPBERRYPI5
