@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX header for Raspberry Pi 2B
+**  LINX header for Raspberry Pi 2 Model B
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Ken Sharp
+**  Written By Sam Kristoff
 **
 ** BSD2 License.
 ****************************************************************************************/	
